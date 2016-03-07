@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/WEB-INF/templates/Layout.xhtml"
+ xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+	
+	<ui:define name="titulo">Cadastro de Fornecedor</ui:define>
+	
+	<ui:define name="conteudo">
+	<h:form id="frmCadastroFornecedor">
+	
+	<p:fieldset legend="Cadastro de Fornecedor" id="cadProdutos">
+	<p:panelGrid columns="2">
+	
+	<p:outputLabel value="Cod. Fornecedor: " for="codFornecedor"/>
+	<p:inputText id="codFornecedor"/>
+	</p:panelGrid>
+	<p:panelGrid columns="4">
+	<p:outputLabel value="Razão Social: " for="razaoSocial"/>
+	<p:inputText id="razaoSocial"/>
+	
+	<p:outputLabel value="CNPJ/CPF: " for="cnpjCpf"/>
+	<p:inputText id="cnpjCpf"/>
+	</p:panelGrid>
+	<p:panelGrid columns="10">
+	<p:outputLabel value="Rua: " for="rua"/>
+	<p:inputText id="rua"/>
+	
+	<p:outputLabel value="Complemento: " for="complemento"/>
+	<p:inputText id="complemento"/>
+	
+	<p:outputLabel value="Bairro: " for="bairro"/>
+	<p:inputText id="bairro"/>
+	
+	<p:outputLabel value="Cidade: " for="cidade"/>
+	<p:inputText id="cidade"/>
+	
+	<p:outputLabel value="UF: " for="uf"/>
+	<p:inputText id="uf"/>
+	</p:panelGrid>
+	</p:fieldset>
+	
+	</h:form>
+	</ui:define>
+</ui:composition>
