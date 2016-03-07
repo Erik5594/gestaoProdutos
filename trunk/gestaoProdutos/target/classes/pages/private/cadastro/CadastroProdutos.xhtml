@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/WEB-INF/templates/Layout.xhtml"
+ xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+	
+	<ui:define name="titulo">Cadastro de Produtos</ui:define>
+	
+	<ui:define name="conteudo">
+	<h:form id="frmCadastroProdutos">
+	
+	<p:fieldset legend="Cadastro de Produtos" id="cadProdutos">
+	<p:panelGrid columns="4">
+	
+	<p:outputLabel value="Cod. Interno" for="codInterno"/>
+	<p:inputText id="codInterno"/>
+	
+	<p:outputLabel value="Cod. Barras" for="codEAN"/>
+	<p:inputText id="codEAN"/>
+	
+	<p:outputLabel value="Descrição" for="descricao"/>
+	<p:inputText id="descricao"/>
+	
+	<p:outputLabel value="Valor(R$)" for="valor"/>
+	<p:inputText id="valor"/>
+	</p:panelGrid>
+	</p:fieldset>
+	
+	</h:form>
+	</ui:define>
+</ui:composition>
