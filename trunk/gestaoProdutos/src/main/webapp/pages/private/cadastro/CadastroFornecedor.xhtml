@@ -14,73 +14,118 @@
 	
 	<p:fieldset legend="Cadastro de Fornecedor" id="cadProdutos">
 	
-	<p:panelGrid columns="2">
-	
+	<h:panelGrid columns="2" id="panelCodForn">
 	<p:outputLabel value="Cod. Fornecedor: " for="codFornecedor"/>
-	<p:inputText id="codFornecedor"/>
+	<p:inputText id="codFornecedor" disabled="true" style="width: 60px"/>
+	</h:panelGrid>
 	
-	</p:panelGrid>
-	
-	<p:panelGrid columns="6">
-	
+	<h:panelGrid columns="2" id="panelGridDadosFornecedor">
 	<p:outputLabel value="Razão Social: " for="razaoSocial"/>
-	<p:inputText id="razaoSocial"/>
+	<p:inputText id="razaoSocial" required="true" style="width: 300px"/>
 	
-	<p:outputLabel value="CNPJ/CPF: " for="cnpjCpf"/>
-	<p:inputText id="cnpjCpf"/>
+	<p:outputLabel value="CNPJ/CPF: " for="cnpj"/>
+	<p:inputMask id="cnpj" mask="99.999.999/9999-99" required="true" style="width: 120px"/>
 	
-	<p:outputLabel value="IE: " for="inscricaoEstadual"/>
+	<p:outputLabel value="Insc. Etadual: " for="inscricaoEstadual"/>
 	<p:inputText id="inscricaoEstadual"/>
+	</h:panelGrid>
 	
-	</p:panelGrid>
-	<p:panelGrid columns="4">
-	<f:facet name="header">
-	Endereço
-	</f:facet>
+	<h:panelGrid columns="2" id="panelGridEndereco">
 	<p:outputLabel value="CEP:" for="cep"/>
-	<p:inputText id="cep"/>
-	
-	<p:outputLabel value=""/>
-	<p:outputLabel value=""/>
+	<p:inputMask id="cep" mask="99.999-999" required="true" style="width: 70px"/>
 	
 	<p:outputLabel value="Logradouro: " for="rua"/>
-	<p:inputText id="rua"/>
+	<p:inputText id="rua" required="true"/>
 	
 	<p:outputLabel value="Complemento: " for="complemento"/>
-	<p:inputText id="complemento"/>
+	<p:inputText id="complemento" required="true"/>
 	
 	<p:outputLabel value="Bairro: " for="bairro"/>
-	<p:inputText id="bairro"/>
+	<p:inputText id="bairro" required="true"/>
 	
 	<p:outputLabel value="Numero: " for="numero"/>
-	<p:inputText id="numero"/>
-	
-	<p:outputLabel value="Cidade: " for="cidade"/>
-	<p:selectOneMenu id="cidade">
-	<f:selectItem itemLabel="Goiânia"/>
-	<f:selectItem itemLabel="Itaberai"/>
-	<f:selectItem itemLabel="Ap. Goiânia"/>
-	</p:selectOneMenu>
+	<p:inputText id="numero" style="width: 45px"/>
 	
 	<p:outputLabel value="UF: " for="uf"/>
-	<p:selectOneMenu id="uf">
+	<p:selectOneMenu id="uf" required="true">
+	<f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
 	<f:selectItem itemLabel="GO"/>
 	<f:selectItem itemLabel="MG"/>
 	<f:selectItem itemLabel="SP"/>
 	</p:selectOneMenu>
-	</p:panelGrid>
-	<p:panelGrid columns="2">
-	<p:panelGrid columns="3">
+	
+	<p:outputLabel value="Cidade: " for="cidade"/>
+	<p:selectOneMenu id="cidade" required="true">
+	<f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true"/>
+	<f:selectItem itemLabel="Goiânia"/>
+	<f:selectItem itemLabel="Itaberai"/>
+	<f:selectItem itemLabel="Ap. Goiânia"/>
+	</p:selectOneMenu>
+	</h:panelGrid>
+	
+	<div id="divTelefone" style="float: left">
+	<h:panelGrid columns="3" id="gridTelefone">
 	<p:outputLabel value="Telefone: " for="telefone"/>
-	<p:inputText id="telefone"/>
+	<p:inputMask id="telefone" mask="(99) 99999999?9" style="width: 100px"/>
 	<p:commandButton value="+"/>
-	</p:panelGrid>
+	</h:panelGrid>
+	
 	<p:panelGrid columns="3">
+	<f:facet name="header">Telefones</f:facet>
+	<p:outputLabel value="Cod. Forn."/>
+	<p:outputLabel value="Número"/>
+	<p:outputLabel value=""/>
+	
+	<p:inputText/>
+	<p:inputText/>
+	<p:outputLabel value="excluir"/>
+	
+	<p:inputText/>
+	<p:inputText/>
+	<p:outputLabel value="excluir"/>
+	
+	<p:inputText/>
+	<p:inputText/>
+	<p:outputLabel value="excluir"/>
+	
+	<p:inputText/>
+	<p:inputText/>
+	<p:outputLabel value="excluir"/>
+	</p:panelGrid>
+	</div>
+	
+	<div id="divEmail" style="float: left; margin-left: 60px">
+	<h:panelGrid columns="3" id="gridEmail">
 	<p:outputLabel value="E-mail: " for="email"/>
 	<p:inputText id="email"/>
 	<p:commandButton value="+"/>
+	</h:panelGrid>
+	
+	<p:panelGrid columns="3">
+	<f:facet name="header">E-mails</f:facet>
+	<p:outputLabel value="Cod. Forn."/>
+	<p:outputLabel value="E-mail"/>
+	<p:outputLabel value=""/>
+	
+	<p:inputText/>
+	<p:inputText/>
+	<p:outputLabel value="excluir"/>
+	
+	<p:inputText/>
+	<p:inputText/>
+	<p:outputLabel value="excluir"/>
+	
+	<p:inputText/>
+	<p:inputText/>
+	<p:outputLabel value="excluir"/>
+	
+	<p:inputText/>
+	<p:inputText/>
+	<p:outputLabel value="excluir"/>
 	</p:panelGrid>
-	</p:panelGrid>
+	
+	
+	</div>
 	</p:fieldset>
 	
 	</h:form>
