@@ -7,7 +7,7 @@ public class Pessoa {
 	private Long idPessoa;
 	private String nome;
 	private String cgcCpf;
-	private int fisicaJuridica;//0fisica; 1juridica
+	private String fisicaJuridica;//0fisica; 1juridica
 	private Endereco endereco;
 	private List<Telefone> telefones;
 	private List<Emails> emails;
@@ -45,11 +45,22 @@ public class Pessoa {
 	public Long getIdPessoa() {
 		return idPessoa;
 	}
-	public int getFisicaJuridica() {
+	public String getFisicaJuridica() {
 		return fisicaJuridica;
 	}
-	public void setFisicaJuridica(int fisicaJuridica) {
+	public void setFisicaJuridica(String fisicaJuridica) {
 		this.fisicaJuridica = fisicaJuridica;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj != null){
+		Pessoa pessoa = (Pessoa) obj;
+		if(pessoa.getIdPessoa() == this.idPessoa){
+			return true;
+		}
+		}
+		return false;
 	}
 	
 }
