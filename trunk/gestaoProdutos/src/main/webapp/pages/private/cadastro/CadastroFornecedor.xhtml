@@ -1,133 +1,172 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition template="/WEB-INF/templates/Layout.xhtml"
- xmlns="http://www.w3.org/1999/xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core">
-	
+
 	<ui:define name="titulo">Cadastro de Fornecedor</ui:define>
-	
+
 	<ui:define name="conteudo">
-	<h:form id="frmCadastroFornecedor">
-	
-	<p:fieldset legend="Cadastro de Fornecedor" id="cadProdutos">
-	
-	<h:panelGrid columns="2" id="panelCodForn">
-	<p:outputLabel value="Cod. Fornecedor: " for="codFornecedor"/>
-	<p:inputText id="codFornecedor" disabled="true" style="width: 60px"/>
-	</h:panelGrid>
-	
-	<h:panelGrid columns="2" id="panelGridDadosFornecedor">
-	<p:outputLabel value="Razão Social: " for="razaoSocial"/>
-	<p:inputText id="razaoSocial" required="true" style="width: 300px"/>
-	
-	<p:outputLabel value="CNPJ/CPF: " for="cnpj"/>
-	<p:inputMask id="cnpj" mask="99.999.999/9999-99" required="true" style="width: 120px"/>
-	
-	<p:outputLabel value="Insc. Etadual: " for="inscricaoEstadual"/>
-	<p:inputText id="inscricaoEstadual"/>
-	</h:panelGrid>
-	
-	<h:panelGrid columns="2" id="panelGridEndereco">
-	<p:outputLabel value="CEP:" for="cep"/>
-	<p:inputMask id="cep" mask="99.999-999" required="true" style="width: 70px"/>
-	
-	<p:outputLabel value="Logradouro: " for="rua"/>
-	<p:inputText id="rua" required="true"/>
-	
-	<p:outputLabel value="Complemento: " for="complemento"/>
-	<p:inputText id="complemento" required="true"/>
-	
-	<p:outputLabel value="Bairro: " for="bairro"/>
-	<p:inputText id="bairro" required="true"/>
-	
-	<p:outputLabel value="Numero: " for="numero"/>
-	<p:inputText id="numero" style="width: 45px"/>
-	
-	<p:outputLabel value="UF: " for="uf"/>
-	<p:selectOneMenu id="uf" required="true">
-	<f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
-	<f:selectItem itemLabel="GO"/>
-	<f:selectItem itemLabel="MG"/>
-	<f:selectItem itemLabel="SP"/>
-	</p:selectOneMenu>
-	
-	<p:outputLabel value="Cidade: " for="cidade"/>
-	<p:selectOneMenu id="cidade" required="true">
-	<f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true"/>
-	<f:selectItem itemLabel="Goiânia"/>
-	<f:selectItem itemLabel="Itaberai"/>
-	<f:selectItem itemLabel="Ap. Goiânia"/>
-	</p:selectOneMenu>
-	</h:panelGrid>
-	
-	<div id="divTelefone" style="float: left">
-	<h:panelGrid columns="3" id="gridTelefone">
-	<p:outputLabel value="Telefone: " for="telefone"/>
-	<p:inputMask id="telefone" mask="(99) 99999999?9" style="width: 100px"/>
-	<p:commandButton value="+"/>
-	</h:panelGrid>
-	
-	<p:panelGrid columns="3">
-	<f:facet name="header">Telefones</f:facet>
-	<p:outputLabel value="Cod. Forn."/>
-	<p:outputLabel value="Número"/>
-	<p:outputLabel value=""/>
-	
-	<p:inputText/>
-	<p:inputText/>
-	<p:outputLabel value="excluir"/>
-	
-	<p:inputText/>
-	<p:inputText/>
-	<p:outputLabel value="excluir"/>
-	
-	<p:inputText/>
-	<p:inputText/>
-	<p:outputLabel value="excluir"/>
-	
-	<p:inputText/>
-	<p:inputText/>
-	<p:outputLabel value="excluir"/>
-	</p:panelGrid>
-	</div>
-	
-	<div id="divEmail" style="float: left; margin-left: 60px">
-	<h:panelGrid columns="3" id="gridEmail">
-	<p:outputLabel value="E-mail: " for="email"/>
-	<p:inputText id="email"/>
-	<p:commandButton value="+"/>
-	</h:panelGrid>
-	
-	<p:panelGrid columns="3">
-	<f:facet name="header">E-mails</f:facet>
-	<p:outputLabel value="Cod. Forn."/>
-	<p:outputLabel value="E-mail"/>
-	<p:outputLabel value=""/>
-	
-	<p:inputText/>
-	<p:inputText/>
-	<p:outputLabel value="excluir"/>
-	
-	<p:inputText/>
-	<p:inputText/>
-	<p:outputLabel value="excluir"/>
-	
-	<p:inputText/>
-	<p:inputText/>
-	<p:outputLabel value="excluir"/>
-	
-	<p:inputText/>
-	<p:inputText/>
-	<p:outputLabel value="excluir"/>
-	</p:panelGrid>
-	
-	
-	</div>
-	</p:fieldset>
-	
-	</h:form>
+		<h:form id="frmCadastroFornecedor">
+			<p:messages id="mensagens" autoUpdate="true"/>
+			<br />
+			<h1>Cadastro de fornecedor</h1>
+			<br />
+			<!-- Inicio Barra de opoces -->
+			<p:toolbar style="margin-bottom: 20px">
+				<!-- Inicio de grupo de Barra de opces a esquerda -->
+				<p:toolbarGroup>
+					<p:commandButton value="Salvar" />
+					<p:button value="Novo"
+						outcome="/pages/private/cadastro/CadastroFornecedor.xhtml" />
+				</p:toolbarGroup>
+				<!-- Fim de grupo de Barra de opces a esquerda -->
+				
+				<!-- Inicio de grupo de Barra de opces a Direita -->
+				<p:toolbarGroup align="right">
+					<p:commandButton value="Pesquisar" />
+				</p:toolbarGroup>
+				<!-- Fim de grupo de Barra de opces a Direita -->
+			</p:toolbar>
+			<!-- Fim Barra de opcoes -->
+			
+			<!-- Inicio Codigo Fornecedor -->
+			<h:panelGrid columns="2" id="panelCodForn">
+				<p:outputLabel value="Cod. Fornecedor: " for="codFornecedor" />
+				<p:inputText id="codFornecedor" disabled="true" style="width: 60px" />
+			</h:panelGrid>
+			<!-- Fim Codigo Fornecedor -->
+
+			<!-- Inicio TabView -->
+			<p:tabView>
+				<!--Inicio Tab Principal -->
+				<p:tab title="Dados Principais" id="principalTab">
+					<h:panelGrid columns="2" id="panelGridDadosFornecedor">
+						<p:outputLabel value="Razão Social: " for="razaoSocial" />
+						<p:inputText id="razaoSocial" required="true" style="width: 300px" />
+
+						<p:outputLabel value="CNPJ/CPF: " for="cnpj" />
+						<p:inputMask id="cnpj" mask="99.999.999/9999-99" required="true"
+							style="width: 120px" />
+
+						<p:outputLabel value="Insc. Etadual: " for="inscricaoEstadual" />
+						<p:inputText id="inscricaoEstadual" />
+					</h:panelGrid>
+				</p:tab>
+				<!--Fim Tab Principal -->
+				
+				<!--Inicio Tab endereco -->
+				<p:tab title="Endereço" id="enderecoTab">
+					<h:panelGrid columns="2" id="panelGridEndereco">
+						<p:outputLabel value="CEP:" for="cep" />
+						<p:inputMask id="cep" mask="99.999-999" required="true"
+							style="width: 70px" />
+
+						<p:outputLabel value="Logradouro: " for="rua" />
+						<p:inputText id="rua" required="true" />
+
+						<p:outputLabel value="Complemento: " for="complemento" />
+						<p:inputText id="complemento" required="true" />
+
+						<p:outputLabel value="Bairro: " for="bairro" />
+						<p:inputText id="bairro" required="true" />
+
+						<p:outputLabel value="Numero: " for="numero" />
+						<p:inputText id="numero" style="width: 45px" />
+
+						<p:outputLabel value="UF: " for="uf" />
+						<p:selectOneMenu id="uf" required="true">
+							<f:selectItem itemLabel="Selecione..." itemValue=""
+								noSelectionOption="true" />
+							<f:selectItem itemLabel="GO" />
+							<f:selectItem itemLabel="MG" />
+							<f:selectItem itemLabel="SP" />
+						</p:selectOneMenu>
+
+						<p:outputLabel value="Cidade: " for="cidade" />
+						<p:selectOneMenu id="cidade" required="true">
+							<f:selectItem itemLabel="Selecione..." itemValue=""
+								noSelectionOption="true" />
+							<f:selectItem itemLabel="Goiânia" />
+							<f:selectItem itemLabel="Itaberai" />
+							<f:selectItem itemLabel="Ap. Goiânia" />
+						</p:selectOneMenu>
+					</h:panelGrid>
+				</p:tab>
+				<!--Fim Tab endereco -->
+				
+				<!--Inicio Tab telefones -->
+				<p:tab title="Telefones" id="telefonesTab">
+					<h:panelGrid columns="3" id="gridTelefone">
+						<p:outputLabel value="Telefone: " for="telefone" />
+						<p:inputMask id="telefone" mask="(99) 99999999?9"
+							style="width: 100px" />
+						<p:commandButton icon="ui-icon-plus"/>
+					</h:panelGrid>
+					
+					<p:panelGrid columns="3">
+						<f:facet name="header">Telefones</f:facet>
+						<p:outputLabel value="Cod. Forn." />
+						<p:outputLabel value="Número" />
+						<p:outputLabel value="" />
+
+						<p:inputText />
+						<p:inputText />
+						<p:commandButton icon="ui-icon-trash" />
+
+						<p:inputText />
+						<p:inputText />
+						<p:commandButton icon="ui-icon-trash" />
+
+						<p:inputText />
+						<p:inputText />
+						<p:commandButton icon="ui-icon-trash" />
+
+						<p:inputText />
+						<p:inputText />
+						<p:commandButton icon="ui-icon-trash" />
+					</p:panelGrid>
+				</p:tab>
+				<!--Fim Tab telefones -->
+				
+				<!--Inicio Tab emails -->
+				<p:tab title="E-mails" id="emailTab">
+					<h:panelGrid columns="3" id="gridEmail">
+						<p:outputLabel value="E-mail: " for="email" />
+						<p:inputText id="email" />
+						<p:commandButton icon="ui-icon-plus"/>
+					</h:panelGrid>
+
+					<p:panelGrid columns="3">
+						<f:facet name="header">E-mails</f:facet>
+						<p:outputLabel value="Cod. Forn." />
+						<p:outputLabel value="E-mail" />
+						<p:outputLabel value="" />
+
+						<p:inputText />
+						<p:inputText />
+						<p:commandButton icon="ui-icon-trash" />
+
+						<p:inputText />
+						<p:inputText />
+						<p:commandButton icon="ui-icon-trash" />
+
+						<p:inputText />
+						<p:inputText />
+						<p:commandButton icon="ui-icon-trash" />
+
+						<p:inputText />
+						<p:inputText />
+						<p:commandButton icon="ui-icon-trash" />
+					</p:panelGrid>
+				</p:tab>
+				<!--Fim Tab emails -->
+				
+			</p:tabView>
+			<!-- Fim TabView -->
+		</h:form>
 	</ui:define>
 </ui:composition>
