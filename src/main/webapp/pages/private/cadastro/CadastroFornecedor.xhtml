@@ -12,9 +12,10 @@
 	<ui:define name="conteudo">
 		<h:form id="frmCadastroFornecedor">
 			<p:messages id="mensagens" autoUpdate="true"/>
-			<br />
+			<center>
 			<h1>Cadastro de fornecedor</h1>
-			<br />
+			</center>
+			<br/>
 			<!-- Inicio Barra de opoces -->
 			<p:toolbar style="margin-bottom: 20px">
 				<!-- Inicio de grupo de Barra de opces a esquerda -->
@@ -69,23 +70,23 @@
 				<p:tab title="Endereço" id="enderecoTab">
 					<h:panelGrid columns="2" id="panelGridEndereco">
 						<p:outputLabel value="CEP:" for="cep" />
-						<p:inputMask id="cep" mask="99.999-999" required="true" converter="converterNumber"
-							style="width: 70px" value="#{cadastroFornecedorControlador.fornecedor.endereco.cep}" />
+						<p:inputMask id="cep" mask="99.999-999" required="true"
+							style="width: 70px" />
 
 						<p:outputLabel value="Logradouro: " for="rua" />
-						<p:inputText id="rua" required="true" value="#{cadastroFornecedorControlador.fornecedor.endereco.rua}"/>
+						<p:inputText id="rua" required="true"/>
 
 						<p:outputLabel value="Complemento: " for="complemento" />
-						<p:inputText id="complemento" required="true"  value="#{cadastroFornecedorControlador.fornecedor.endereco.complemento}"/>
+						<p:inputText id="complemento" required="true"  />
 
 						<p:outputLabel value="Bairro: " for="bairro" />
-						<p:inputText id="bairro" required="true" value="#{cadastroFornecedorControlador.fornecedor.endereco.bairro}"/>
+						<p:inputText id="bairro" required="true" />
 
 						<p:outputLabel value="Numero: " for="numero" />
-						<p:inputText id="numero" style="width: 45px" value="#{cadastroFornecedorControlador.fornecedor.endereco.numero}"/>
+						<p:inputText id="numero" style="width: 45px" />
 
 						<p:outputLabel value="UF: " for="uf" />
-						<p:selectOneMenu id="uf" required="true" value="#{cadastroFornecedorControlador.fornecedor.endereco.cidade.uf}">
+						<p:selectOneMenu id="uf" required="true">
 							<f:selectItem itemLabel="Selecione..." itemValue=""
 								noSelectionOption="true" />
 							<f:selectItem itemLabel="GO" itemValue="GO"/>
@@ -94,7 +95,7 @@
 						</p:selectOneMenu>
 
 						<p:outputLabel value="Cidade: " for="cidade" />
-						<p:selectOneMenu id="cidade" required="true" value="#{cadastroFornecedorControlador.fornecedor.endereco.cidade.nomeCidade}">
+						<p:selectOneMenu id="cidade" required="true" >
 							<f:selectItem itemLabel="Selecione..." itemValue=""
 								noSelectionOption="true"/>
 							<f:selectItem itemLabel="Goiânia" itemValue="Goiânia"/>
@@ -108,22 +109,13 @@
 				<!--Inicio Tab telefones -->
 				<p:tab title="Telefones" id="telefonesTab">
 					<h:panelGrid columns="3" id="gridTelefone">
-						<p:outputLabel value="Telefone: " for="telefone" />
-						<p:inputMask id="dddTelefone" mask="(99)" converter="converterNumber"
-							size="10" value="#{cadastroFornecedorControlador.telefone.ddd"/>
+						<p:outputLabel value="Telefone: " />
+						<p:inputMask id="dddTelefone" mask="(99)" 
+							size="10" />
 						<p:inputMask id="numeroTelefone" mask="99999999?9"
-							style="width: 100px" value="#{cadastroFornecedorControlador.telefone.numero"/>
-						<p:commandButton icon="ui-icon-plus" actionListener="#{cadastroFornecedorControlador.adicionarTelefone}" process="dddTelefone numeroTelefone @this" update=""/>
+							style="width: 100px"/>
+						<p:commandButton icon="ui-icon-plus" />
 					</h:panelGrid>
-					
-					<p:dataTable value="#{cadastroFornecedorControlador.telefones}" var="fone">
-					<p:column headerText="DDD">
-					</p:column>
-					<p:column headerText="Numero">
-					</p:column>
-					<p:column headerText="">
-					</p:column>
-					</p:dataTable>
 					
 					<p:panelGrid columns="3">
 						<f:facet name="header">Telefones</f:facet>
