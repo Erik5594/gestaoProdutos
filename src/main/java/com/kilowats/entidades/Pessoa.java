@@ -7,7 +7,7 @@ public class Pessoa {
 	private Long idPessoa;
 	private String nome;
 	private String cgcCpf;
-	private String fisicaJuridica;//0fisica; 1juridica
+	private Integer fisicaJuridica;//0fisica; 1juridica
 	private Endereco endereco;
 	private List<Telefone> telefones;
 	private List<Emails> emails;
@@ -45,10 +45,10 @@ public class Pessoa {
 	public Long getIdPessoa() {
 		return idPessoa;
 	}
-	public String getFisicaJuridica() {
+	public Integer getFisicaJuridica() {
 		return fisicaJuridica;
 	}
-	public void setFisicaJuridica(String fisicaJuridica) {
+	public void setFisicaJuridica(Integer fisicaJuridica) {
 		this.fisicaJuridica = fisicaJuridica;
 	}
 	
