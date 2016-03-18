@@ -13,7 +13,7 @@ public class ValidacaoCadastroFornecedor implements IValidacaoCadastro{
 			if (Utils.isNullOrEmpty(empresa.getNome())) {
 				return false;
 			}
-			if (!cpfCgcValido(empresa)) {
+			if (!cpfCgcValido(empresa.getCgcCpf().replaceAll("\\D", ""))) {
 				return false;
 			}
 		} else {
@@ -29,23 +29,23 @@ public class ValidacaoCadastroFornecedor implements IValidacaoCadastro{
 		if(Utils.isNullOrEmpty(empresa.getNome())){
 			return "Nome não está preenchido";
 		}
-		if(!cpfCgcValido(empresa)){
+		if(!cpfCgcValido(empresa.getCgcCpf().replaceAll("\\D", ""))){
 			return "CPF ou CNPJ inválido";
 		}
 		return "OK";
 	}
 
-	private boolean cpfCgcValido(Empresa empresa) {
-		if(Utils.isNullOrEmpty(empresa.getCgcCpf())){
+	private boolean cpfCgcValido(String cpfCnpj) {
+		if(Utils.isNullOrEmpty(cpfCnpj)){
 			return false;
 		}else{
-			if(Utils.isCGC(empresa.getCgcCpf())){
-				if(Utils.isCNPJValido(empresa.getCgcCpf())){
+			if(Utils.isCGC(cpfCnpj)){
+				//if(Utils.isCNPJValido(cpfCnpj)){
 					return true;
-				}
-				return false;
+				//}
+				//return false;
 			}else{
-				if(Utils.isCPFValido(empresa.getCgcCpf())){
+				if(Utils.isCPFValido(cpfCnpj)){
 					return true;
 				}
 				return false;
