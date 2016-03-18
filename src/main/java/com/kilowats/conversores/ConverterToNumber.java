@@ -18,10 +18,7 @@ public class ConverterToNumber implements Converter{
 
 	@Override
 	public String getAsString(FacesContext arg0, UIComponent arg1, Object valor) {
-		if(valor != null && !"".equals(valor)){
-			return valor.toString();
-		}
-		return "0";
+		return valor.toString();
 	}
 
 }
