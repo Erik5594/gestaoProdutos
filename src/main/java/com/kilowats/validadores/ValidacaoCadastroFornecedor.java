@@ -1,4 +1,4 @@
-package com.kilowats.servicos;
+package com.kilowats.validadores;
 
 import com.kilowats.entidades.Empresa;
 import com.kilowats.interfaces.IValidacaoCadastro;
@@ -9,10 +9,14 @@ public class ValidacaoCadastroFornecedor implements IValidacaoCadastro{
 	@Override
 	public boolean validarCadastro(Object obj) {
 		Empresa empresa = (Empresa) obj;
-		if(Utils.isNullOrEmpty(empresa.getNome())){
-			return false;
-		}
-		if(!cpfCgcValido(empresa)){
+		if (empresa != null) {
+			if (Utils.isNullOrEmpty(empresa.getNome())) {
+				return false;
+			}
+			if (!cpfCgcValido(empresa)) {
+				return false;
+			}
+		} else {
 			return false;
 		}
 		return true;

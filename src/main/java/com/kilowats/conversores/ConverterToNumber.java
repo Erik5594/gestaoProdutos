@@ -21,7 +21,7 @@ public class ConverterToNumber implements Converter{
 		if(valor != null && !"".equals(valor)){
 			return valor.toString();
 		}
-		return null;
+		return "0";
 	}
 
 }
