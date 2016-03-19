@@ -15,12 +15,12 @@
 			<center>
 			<h1>Cadastro de fornecedor</h1>
 			</center>
-			<br/>
 			<!-- Inicio Barra de opoces -->
 			<p:toolbar style="margin-bottom: 20px">
 				<!-- Inicio de grupo de Barra de opces a esquerda -->
 				<p:toolbarGroup>
-					<p:commandButton value="Salvar" actionListener="#{cadastroFornecedorControlador.salvar()}"/>
+					<p:commandButton value="Salvar" style="margin-right: 5px"
+					actionListener="#{cadastroFornecedorControlador.salvar()}"/>
 					<p:button value="Novo"
 						outcome="/pages/private/cadastro/CadastroFornecedor.xhtml" />
 				</p:toolbarGroup>
@@ -35,7 +35,7 @@
 			<!-- Fim Barra de opcoes -->
 			
 			<!-- Inicio Codigo Fornecedor -->
-			<h:panelGrid columns="2" id="panelCodForn">
+			<h:panelGrid columns="2" id="panelCodForn" style="margin-bottom: 15px">
 				<p:outputLabel value="Cod. Fornecedor: " for="codFornecedor" />
 				<p:inputText id="codFornecedor" disabled="true" style="width: 60px" />
 			</h:panelGrid>
@@ -75,7 +75,7 @@
 						value="#{cadastroFornecedorControlador.endereco.cep}"	style="width: 70px" />
 
 						<p:outputLabel value="Logradouro: " for="rua" />
-						<p:inputText id="rua" value="#{cadastroFornecedorControlador.endereco.rua}"/>
+						<p:inputText id="rua" size="35" value="#{cadastroFornecedorControlador.endereco.rua}"/>
 
 						<p:outputLabel value="Complemento: " for="complemento" />
 						<p:inputText id="complemento" value="#{cadastroFornecedorControlador.endereco.complemento}"/>
@@ -90,18 +90,15 @@
 						<p:selectOneMenu id="uf" value="#{cadastroFornecedorControlador.cidade.uf}">
 							<f:selectItem itemLabel="Selecione..." itemValue=""
 								noSelectionOption="true" />
-							<f:selectItem itemLabel="GO" itemValue="GO"/>
-							<f:selectItem itemLabel="MG" itemValue="MG"/>
-							<f:selectItem itemLabel="SP" itemValue="SP"/>
+							<f:selectItems value="#{cadastroFornecedorControlador.carregarEstados()}"/>
+							<p:ajax process="@this" update="cidade"/>
 						</p:selectOneMenu>
 
 						<p:outputLabel value="Cidade: " for="cidade" />
 						<p:selectOneMenu id="cidade" value="#{cadastroFornecedorControlador.cidade.nomeCidade}">
 							<f:selectItem itemLabel="Selecione..." itemValue=""
 								noSelectionOption="true"/>
-							<f:selectItem itemLabel="Goiânia" itemValue="Goiânia"/>
-							<f:selectItem itemLabel="Itaberai" itemValue="Itaberai"/>
-							<f:selectItem itemLabel="Ap. Goiânia" itemValue="Ap. Goiânia"/>
+							<f:selectItems value="#{cadastroFornecedorControlador.carregarCidades()}"/>
 						</p:selectOneMenu>
 					</h:panelGrid>
 				</p:tab>
@@ -109,70 +106,60 @@
 				
 				<!--Inicio Tab telefones -->
 				<p:tab title="Telefones" id="telefonesTab">
-					<h:panelGrid columns="3" id="gridTelefone">
+					<h:panelGrid columns="4" id="gridTelefone">
 						<p:outputLabel value="Telefone: " />
-						<p:inputMask id="dddTelefone" mask="(99)" 
-							size="10" />
+						<p:inputMask id="dddTelefone" mask="(99)" converter="converterNumber"
+							size="2" value="#{cadastroFornecedorControlador.telefone.ddd}"/>
 						<p:inputMask id="numeroTelefone" mask="99999999?9"
-							style="width: 100px"/>
-						<p:commandButton icon="ui-icon-plus" />
+							size="8" value="#{cadastroFornecedorControlador.telefone.numero}" />
+						<p:commandButton icon="ui-icon-plus" actionListener="#{cadastroFornecedorControlador.adcionaTelefone()}"
+						update="gridTelefone tabelaTelefones" process="gridTelefone"/>
 					</h:panelGrid>
 					
-					<p:panelGrid columns="3">
-						<f:facet name="header">Telefones</f:facet>
-						<p:outputLabel value="Cod. Forn." />
-						<p:outputLabel value="Número" />
-						<p:outputLabel value="" />
-
-						<p:inputText />
-						<p:inputText />
-						<p:commandButton icon="ui-icon-trash" />
-
-						<p:inputText />
-						<p:inputText />
-						<p:commandButton icon="ui-icon-trash" />
-
-						<p:inputText />
-						<p:inputText />
-						<p:commandButton icon="ui-icon-trash" />
-
-						<p:inputText />
-						<p:inputText />
-						<p:commandButton icon="ui-icon-trash" />
-					</p:panelGrid>
+					<p:dataTable id="tabelaTelefones" value="#{cadastroFornecedorControlador.telefones}" var="telefone"
+					emptyMessage="Sem telefone(s)" selection="#{cadastroFornecedorControlador.telefoneSelecionado}" style="width: 30%; margin-top: 15px">
+					<f:facet name="header">
+					Telefones
+					</f:facet>
+					<p:column headerText="DDD" style="width: 12%">
+					<p:outputLabel value="#{telefone.ddd}"/>
+					</p:column>
+					
+					<p:column headerText="Numero" style="width: 38%">
+					<p:outputLabel value="#{telefone.numero}"/>
+					</p:column>
+					
+					<p:column headerText="Tipo" style="width: 50%">
+					<p:outputLabel value="#{telefone.tipoTelefone}"/>
+					</p:column>
+					</p:dataTable>
 				</p:tab>
 				<!--Fim Tab telefones -->
 				
 				<!--Inicio Tab emails -->
 				<p:tab title="E-mails" id="emailTab">
-					<h:panelGrid columns="3" id="gridEmail">
+					<h:panelGrid columns="5" id="gridEmail">
 						<p:outputLabel value="E-mail: " for="email" />
-						<p:inputText id="email" />
-						<p:commandButton icon="ui-icon-plus"/>
+						<p:inputText id="email" value="#{cadastroFornecedorControlador.email.emailDestinatario}"/>
+						<p:outputLabel value="Nome Destinatário: " for="destinatarioEmail" style="margin-left: 8px"/>
+						<p:inputText id="destinatarioEmail" value="#{cadastroFornecedorControlador.email.nomePessoaDestinatario}"/>
+						<p:commandButton icon="ui-icon-plus" actionListener="#{cadastroFornecedorControlador.adcionaEmail()}"
+						update="gridEmail tabelaEmails" process="gridEmail"/>
 					</h:panelGrid>
 
-					<p:panelGrid columns="3">
-						<f:facet name="header">E-mails</f:facet>
-						<p:outputLabel value="Cod. Forn." />
-						<p:outputLabel value="E-mail" />
-						<p:outputLabel value="" />
-
-						<p:inputText />
-						<p:inputText />
-						<p:commandButton icon="ui-icon-trash" />
-
-						<p:inputText />
-						<p:inputText />
-						<p:commandButton icon="ui-icon-trash" />
-
-						<p:inputText />
-						<p:inputText />
-						<p:commandButton icon="ui-icon-trash" />
-
-						<p:inputText />
-						<p:inputText />
-						<p:commandButton icon="ui-icon-trash" />
-					</p:panelGrid>
+					<p:dataTable id="tabelaEmails" value="#{cadastroFornecedorControlador.emails}" var="email"
+					emptyMessage="Sem e-mail(s)" selection="#{cadastroFornecedorControlador.emailSelecionado}" style="width: 40%; margin-top: 15px">
+					<f:facet name="header">
+					E-mails
+					</f:facet>
+					<p:column headerText="E-mail">
+					<p:outputLabel value="#{email.emailDestinatario}"/>
+					</p:column>
+					
+					<p:column headerText="Nome Destinatário">
+					<p:outputLabel value="#{email.nomePessoaDestinatario}"/>
+					</p:column>
+					</p:dataTable>
 				</p:tab>
 				<!--Fim Tab emails -->
 				

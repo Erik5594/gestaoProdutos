@@ -13,7 +13,11 @@ public class ConverterToNumber implements Converter{
 		if(valor != null && !"".equals(valor)){
 			valor = valor.replaceAll("\\D", "");
 		}
-		return Integer.parseInt(valor);
+		if(!valor.equals("") && valor != null){
+			return Integer.parseInt(valor);
+		}else{
+			return null;
+		}
 	}
 
 	@Override
