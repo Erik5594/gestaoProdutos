@@ -1,10 +1,13 @@
 package com.kilowats.validadores;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.kilowats.entidades.Empresa;
 import com.kilowats.interfaces.IValidacaoCadastro;
 import com.kilowats.utils.Utils;
 
-public class ValidacaoCadastroFornecedor implements IValidacaoCadastro{
+public class ValidacaoCadastroFornecedor implements IValidacaoCadastro {
 
 	@Override
 	public boolean validarCadastro(Object obj) {
@@ -22,30 +25,33 @@ public class ValidacaoCadastroFornecedor implements IValidacaoCadastro{
 		return true;
 	}
 
-
 	@Override
-	public String validarCadastroComMensagem(Object obj) {
+	public List<String> validarCadastroComMensagem(Object obj) {
 		Empresa empresa = (Empresa) obj;
-		if(Utils.isNullOrEmpty(empresa.getNome())){
-			return "Nome não está preenchido";
+		List<String> mensagens = new ArrayList<>();
+		if (Utils.isNullOrEmpty(empresa.getNome())) {
+			mensagens.add("Nome não está preenchido");
 		}
-		if(!cpfCgcValido(empresa.getCgcCpf().replaceAll("\\D", ""))){
-			return "CPF ou CNPJ inválido";
+		if (!cpfCgcValido(empresa.getCgcCpf().replaceAll("\\D", ""))) {
+			mensagens.add("CPF ou CNPJ inválido");
 		}
-		return "OK";
+		if(mensagens.isEmpty()){
+			mensagens.add("OK");
+		}
+		return mensagens;
 	}
 
 	private boolean cpfCgcValido(String cpfCnpj) {
-		if(Utils.isNullOrEmpty(cpfCnpj)){
+		if (Utils.isNullOrEmpty(cpfCnpj)) {
 			return false;
-		}else{
-			if(Utils.isCGC(cpfCnpj)){
-				//if(Utils.isCNPJValido(cpfCnpj)){
-					return true;
-				//}
-				//return false;
-			}else{
-				if(Utils.isCPFValido(cpfCnpj)){
+		} else {
+			if (Utils.isCGC(cpfCnpj)) {
+				// if(Utils.isCNPJValido(cpfCnpj)){
+				return true;
+				// }
+				// return false;
+			} else {
+				if (Utils.isCPFValido(cpfCnpj)) {
 					return true;
 				}
 				return false;
