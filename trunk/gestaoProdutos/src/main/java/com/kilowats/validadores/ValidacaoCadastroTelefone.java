@@ -5,25 +5,53 @@ import java.util.List;
 
 import com.kilowats.entidades.Telefone;
 import com.kilowats.interfaces.IValidacaoCadastro;
-import com.kilowats.utils.Utils;
 
 public class ValidacaoCadastroTelefone implements IValidacaoCadastro {
 
 	@Override
 	public boolean validarCadastro(Object obj) {
 		Telefone telefone = (Telefone) obj;
-		if (Utils.isNullOrEmpty(telefone.getNumero())) {
+		if(telefone != null){
+			if(!isDddValido(telefone.getDdd())){
+				return false;
+			}
+			if(!isNumeroValido(telefone.getNumero())){
+				return false;
+			}
+			
+			if(telefone.getTipoTelefone() == null){
+				return false;
+			}
+		}else{
 			return false;
 		}
-		if(telefone.getNumero().length() < 8){
+		return true;
+	}
+
+	private boolean isNumeroValido(String numero) {
+		if(numero.equals("") || numero == null){
 			return false;
 		}
-		try{
-			Integer.parseInt(telefone.getNumero());
-		}catch(Exception ex){
+		if(numero.length() < 8){
 			return false;
 		}
-		if(telefone.getDdd() < 2){
+		if(numero.length() > 9){
+			return false;
+		}
+		if(numero.contains("[a-zA-Z]")){
+			return false;
+		}
+		return true;
+	}
+
+	private boolean isDddValido(int ddd) {
+		if(ddd < 10){
+			return false;
+		}
+		if(ddd == 0){
+			return false;
+		}
+		if(ddd > 99){
 			return false;
 		}
 		return true;
@@ -33,19 +61,19 @@ public class ValidacaoCadastroTelefone implements IValidacaoCadastro {
 	public List<String> validarCadastroComMensagem(Object obj) {
 		Telefone telefone = (Telefone) obj;
 		List<String> mensagens = new ArrayList<>();
-		if (Utils.isNullOrEmpty(telefone.getNumero())) {
-			mensagens.add("Numero não está preenchido");
-		}
-		if(telefone.getNumero().length() < 8){
-			mensagens.add("Numero inválido");
-		}
-		try{
-			Integer.parseInt(telefone.getNumero());
-		}catch(Exception ex){
-			mensagens.add("Numero com caracter(es) inválido(s)");
-		}
-		if(telefone.getDdd() < 2){
-			mensagens.add("DDD inválido");
+		if(telefone != null){
+			if(!isDddValido(telefone.getDdd())){
+				mensagens.add("DDD inválido.");
+			}
+			if(!isNumeroValido(telefone.getNumero())){
+				mensagens.add("Numero inválido.");
+			}
+			
+			if(telefone.getTipoTelefone() == null){
+				mensagens.add("Tipo de telefone inválido.");
+			}
+		}else{
+			mensagens.add("Não foram encontrados dados de telefone");
 		}
 		if(mensagens.isEmpty()){
 			mensagens.add("OK");
