@@ -105,7 +105,8 @@ public class CadastroFornecedorControlador implements Serializable{
 		FacesContext context = FacesContext.getCurrentInstance();
 		if(validacoes(context)){
 			completarDadosEmpresa();
-			if(ServicosFornecedor.adicionarFornecedorBancoDados(this.empresa)){
+			ServicosFornecedor servicos = new ServicosFornecedor();
+			if(servicos.salvar(this.empresa)){
 				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Fornecedor cadastrado com suceso!", null));
 			}else{
 				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro interno: erro interno contate a administração do sistema!", null));
@@ -208,11 +209,9 @@ public class CadastroFornecedorControlador implements Serializable{
 	public void setEmpresa(Empresa empresa) {
 		this.empresa = empresa;
 	}
-
 	public Endereco getEndereco() {
 		return endereco;
 	}
-
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
 	}
@@ -228,43 +227,33 @@ public class CadastroFornecedorControlador implements Serializable{
 	public void setCidade(Cidade cidade) {
 		this.cidade = cidade;
 	}
-
 	public List<Telefone> getTelefones() {
 		return telefones;
 	}
-
 	public void setTelefones(List<Telefone> telefones) {
 		this.telefones = telefones;
 	}
-
 	public Telefone getTelefoneSelecionado() {
 		return telefoneSelecionado;
 	}
-
 	public void setTelefoneSelecionado(Telefone telefoneSelecionado) {
 		this.telefoneSelecionado = telefoneSelecionado;
 	}
-
 	public Emails getEmail() {
 		return email;
 	}
-
 	public void setEmail(Emails email) {
 		this.email = email;
 	}
-
 	public Emails getEmailSelecionado() {
 		return emailSelecionado;
 	}
-
 	public void setEmailSelecionado(Emails emailSelecionado) {
 		this.emailSelecionado = emailSelecionado;
 	}
-
 	public List<Emails> getEmails() {
 		return emails;
 	}
-
 	public void setEmails(List<Emails> emails) {
 		this.emails = emails;
 	}
