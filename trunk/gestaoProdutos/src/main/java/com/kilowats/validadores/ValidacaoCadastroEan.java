@@ -31,7 +31,6 @@ public class ValidacaoCadastroEan implements IValidacaoCadastro {
 		if(Utils.isNullOrEmpty(ean.getCodBarras())){
 			mensagens.add("Código de Barras está vazio!");
 		}
-		
 		if(mensagens.isEmpty()){
 			mensagens.add("OK");
 		}

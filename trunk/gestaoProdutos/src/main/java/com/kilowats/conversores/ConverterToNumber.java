@@ -10,19 +10,26 @@ public class ConverterToNumber implements Converter{
 
 	@Override
 	public Object getAsObject(FacesContext arg0, UIComponent arg1, String valor) {
-		if(valor != null && !"".equals(valor)){
+		if (valor != null && !"".equals(valor)) {
 			valor = valor.replaceAll("\\D", "");
 		}
-		if(!valor.equals("") && valor != null){
-			return Integer.parseInt(valor);
-		}else{
+		if (!valor.equals("") && valor != null) {
+			try {
+				return Integer.parseInt(valor);
+			} catch (Exception ex) {
+				return "0";
+			}
+		} else {
 			return null;
 		}
 	}
 
 	@Override
 	public String getAsString(FacesContext arg0, UIComponent arg1, Object valor) {
-		return valor.toString();
+		if(valor != null){
+			return valor.toString();
+		}
+		return "";
 	}
 
 }

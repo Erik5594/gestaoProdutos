@@ -2,7 +2,7 @@ package com.kilowats.enuns;
 
 public enum TipoProdutoUnidadeEnum {
 	
-	UN(0, "Unidade"), KL(1, "Kilo"), MT(2, "Metro"), KIT(3, "Kit");
+	UN(0, "Unidade"), KG(1, "Kilo"), MT(2, "Metro"), KIT(3, "Kit"), PC(4, "Peça");
 	
 	public final int tipoUnidade;
 	public final String descricaoUnidade;
@@ -15,6 +15,10 @@ public enum TipoProdutoUnidadeEnum {
 
 	public String getDescricaoUnidade() {
 		return descricaoUnidade;
+	}
+	
+	public int getTipoUnidade(){
+		return tipoUnidade;
 	}
 	
 }
