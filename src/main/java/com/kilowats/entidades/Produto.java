@@ -6,7 +6,7 @@ import com.kilowats.enuns.TipoProdutoUnidadeEnum;
 
 public class Produto {
 	private long id;
-	private int codProduto;
+	private String codProduto;
 	private String nomeProduto;
 	private TipoProdutoUnidadeEnum tipoUnidade;
 	private int quantidade;
@@ -32,10 +32,10 @@ public class Produto {
 	public void setId(long id) {
 		this.id = id;
 	}
-	public int getCodProduto() {
+	public String getCodProduto() {
 		return codProduto;
 	}
-	public void setCodProduto(int codProduto) {
+	public void setCodProduto(String codProduto) {
 		this.codProduto = codProduto;
 	}
 	public String getNomeProduto() {
@@ -56,4 +56,27 @@ public class Produto {
 	public void setEans(List<Ean> eans) {
 		this.eans = eans;
 	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (id ^ (id >>> 32));
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Produto other = (Produto) obj;
+		if (id != other.id)
+			return false;
+		return true;
+	}
+	
+	
+	
 }
