@@ -6,8 +6,9 @@ import com.kilowats.entidades.Emails;
 import com.kilowats.entidades.Empresa;
 import com.kilowats.entidades.Endereco;
 import com.kilowats.entidades.Telefone;
+import com.kilowats.interfaces.IPersistirBancoDados;
 
-public class ServicosFornecedor {
+public class ServicosFornecedor implements IPersistirBancoDados{
 	
 	public static boolean adicionarFornecedorBancoDados(Empresa empresa){
 		return adicionarFornecedor(empresa);
@@ -67,6 +68,21 @@ public class ServicosFornecedor {
 		System.out.println("Bairro: "+endereco.getCidade().getUf());
 		System.out.println("########## FIM DADOS ENDERECO ##########");
 		return true;
+	}
+
+	@Override
+	public boolean salvar(Object obj) {
+		return adicionarFornecedor((Empresa) obj);
+	}
+
+	@Override
+	public boolean alterar(Object obj) {
+		return false;
+	}
+
+	@Override
+	public boolean deletar(Object obj) {
+		return false;
 	}
 
 }
