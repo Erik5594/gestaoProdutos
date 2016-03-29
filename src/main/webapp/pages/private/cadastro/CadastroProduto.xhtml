@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/WEB-INF/templates/Layout.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<ui:define name="titulo">Cadastro de Fornecedor</ui:define>
+
+	<ui:define name="conteudo">
+		<h:form id="frmCadastroFornecedor">
+			<p:messages id="mensagens" autoUpdate="true"/>
+			<center>
+			<h1>Cadastro de fornecedor</h1>
+			</center>
+			<!-- Inicio Barra de opoces -->
+			<p:toolbar style="margin-bottom: 20px">
+				<!-- Inicio de grupo de Barra de opces a esquerda -->
+				<p:toolbarGroup>
+					<p:commandButton value="Salvar" style="margin-right: 5px"
+					actionListener="#{cadastroFornecedorControlador.salvar()}"/>
+					<p:button value="Novo"
+						outcome="/pages/private/cadastro/CadastroFornecedor.xhtml" />
+				</p:toolbarGroup>
+				<!-- Fim de grupo de Barra de opces a esquerda -->
+				
+				<!-- Inicio de grupo de Barra de opces a Direita -->
+				<p:toolbarGroup align="right">
+					<p:commandButton value="Pesquisar" />
+				</p:toolbarGroup>
+				<!-- Fim de grupo de Barra de opces a Direita -->
+			</p:toolbar>
+			<!-- Fim Barra de opcoes -->
+			
+			<!-- Inicio Panel Produto -->
+			<h:panelGrid columns="2" id="panelProduto" style="margin-bottom: 15px">
+				<p:outputLabel value="Cod. Produto: " for="codProduto" />
+				<p:inputText id="codProduto" disabled="true" style="width: 60px" />
+				
+				<p:outputLabel value="Nome Produto: " for="nomeProduto" />
+				<p:inputText id="nomeProduto" style="width: 60px" />
+				
+				<p:outputLabel value="Tipo: " for="tipoProduto" />
+				<p:inputText id="tipoProduto" style="width: 60px" />
+				
+				<p:outputLabel value="Cod. Barras: " for="codBarrasProduto" />
+				<p:column>
+				<p:inputText id="codBarrasProduto" value="#{cadastroProdutoControlador.ean.codBarras}" style="width: 60px" />
+				<p:commandButton icon="icon-ok" update="tabelaProduto" process="@this codBarrasProduto"
+				actionListener="#{cadastroProdutoControlador.adicionarEan()}"/>
+				</p:column>
+			</h:panelGrid>
+			<!-- Fim Panel Produto -->
+			
+			<!-- Inicio Tabela Eans -->
+			<p:dataTable var="ean" value="#{cadastroProdutoControlador.eans}" id="tabelaProduto">
+			<f:facet name="header">Cód de Barras</f:facet>
+			<p:column headerText="Cód. Barras">
+			<p:outputLabel value="#{ean.codBarras}"/>
+			</p:column>
+			<p:column>
+			<p:commandButton icon="icon-trash"/>
+			</p:column>
+			</p:dataTable>
+			<!-- Fim Tabela Eans -->
+		</h:form>
+	</ui:define>
+</ui:composition>
