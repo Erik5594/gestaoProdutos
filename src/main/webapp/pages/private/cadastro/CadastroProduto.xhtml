@@ -12,6 +12,7 @@
 	<ui:define name="conteudo">
 		<h:form id="frmCadastroFornecedor">
 			<p:messages id="mensagens" autoUpdate="true" for="mensageError"/>
+			<p:messages id="mensagensPadrao" autoUpdate="true"/>
 			<p:growl for="growMensage"/>
 			<h1>Cadastro de produto</h1>
 			<!-- Inicio Barra de opoces -->
@@ -47,6 +48,9 @@
 				<p:outputLabel value="Quantidade " for="quantidadeProduto" />
 				<p:inputText id="quantidadeProduto" disabled="true" size="5" value="#{cadastroProdutoControlador.produto.quantidade}" converter="converterNumber"/>
 				
+				<p:outputLabel value="Valor(R$) " for="valor" />
+				<p:inputText id="valor" disabled="true" size="5" value="#{cadastroProdutoControlador.produto.valor}" converter="converterNumber"/>
+				
 				<p:outputLabel value="Tipo " for="tipoProduto" />
 				<p:selectOneMenu id="tipoProduto" converter="converterTipoUnidadeProduto" value="#{cadastroProdutoControlador.produto.tipoUnidade}">
 				<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>
@@ -56,7 +60,7 @@
 				
 				<p:outputLabel value="Cod. Barras " for="codBarrasProduto" />
 				<p:column>
-				<p:inputText id="codBarrasProduto" value="#{cadastroProdutoControlador.ean.codBarras}" style="width: 60px"/>
+				<p:inputText id="codBarrasProduto" value="#{cadastroProdutoControlador.ean.codBarras}" size="20" style="margin-right: 5px"/>
 				<p:commandButton icon="ui-icon-check" update="tabelaProduto codBarrasProduto" process="@this codBarrasProduto"
 				actionListener="#{cadastroProdutoControlador.adicionarEan()}"/>
 				</p:column>
