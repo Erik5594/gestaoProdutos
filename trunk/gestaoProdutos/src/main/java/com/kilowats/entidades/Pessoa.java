@@ -2,12 +2,14 @@ package com.kilowats.entidades;
 
 import java.util.List;
 
+import com.kilowats.enuns.TipoPessoa;
+
 public class Pessoa {
 
 	private Long idPessoa;
 	private String nome;
 	private String cgcCpf;
-	private Integer fisicaJuridica;//0fisica; 1juridica
+	private TipoPessoa fisicaJuridica;//0fisica; 1juridica
 	private Endereco endereco;
 	private List<Telefone> telefones;
 	private List<Emails> emails;
@@ -45,10 +47,10 @@ public class Pessoa {
 	public Long getIdPessoa() {
 		return idPessoa;
 	}
-	public Integer getFisicaJuridica() {
+	public TipoPessoa getFisicaJuridica() {
 		return fisicaJuridica;
 	}
-	public void setFisicaJuridica(Integer fisicaJuridica) {
+	public void setFisicaJuridica(TipoPessoa fisicaJuridica) {
 		this.fisicaJuridica = fisicaJuridica;
 	}
 	

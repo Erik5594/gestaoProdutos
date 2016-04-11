@@ -13,7 +13,6 @@ public class Produto {
 	private double valor;
 	private List<Ean> eans;
 	
-	
 	public int getQuantidade() {
 		return quantidade;
 	}
