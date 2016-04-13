@@ -1,11 +1,8 @@
 package com.kilowats.entidades;
 
-import com.kilowats.enuns.Operadora;
-
 public class Chip extends Produto{
 	
 	private Long idChip;
-	private Operadora operadora;
 	private int ddd;
 	private long numero;
 	private String imei;
@@ -16,12 +13,6 @@ public class Chip extends Produto{
 	}
 	public void setIdChip(Long idChip) {
 		this.idChip = idChip;
-	}
-	public Operadora getOperadora() {
-		return operadora;
-	}
-	public void setOperadora(Operadora operadora) {
-		this.operadora = operadora;
 	}
 	public int getDdd() {
 		return ddd;
