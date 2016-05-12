@@ -41,7 +41,7 @@ public class CadastroFornecedorControlador implements Serializable{
 	public String carregaMascaraCnpjOuCpfPrimefaces(){
 		int tipo = 0;
 		if(empresa != null && empresa.getFisicaJuridica() != null){
-			tipo = empresa.getFisicaJuridica();
+			tipo = empresa.getFisicaJuridica().getCodPessoa();
 		}
 		return Utils.mascarPrimefacesCnpjOuCpf(tipo);
 	}
