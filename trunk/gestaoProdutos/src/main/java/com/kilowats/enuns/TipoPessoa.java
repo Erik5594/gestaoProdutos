@@ -3,8 +3,8 @@ package com.kilowats.enuns;
 public enum TipoPessoa {
 FISICA(0,"Fisica"), JURIDICA(1,"Juridica");
 
-private int codPessoa;
-private String descTipoPessoa;
+public int codPessoa;
+public String descTipoPessoa;
 
 TipoPessoa(int codPessoa, String descTipoPessoa){
 	this.codPessoa = codPessoa;
