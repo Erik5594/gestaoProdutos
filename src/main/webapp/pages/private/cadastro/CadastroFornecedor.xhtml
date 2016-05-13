@@ -49,7 +49,7 @@
 						value="#{cadastroFornecedorControlador.empresa.nome}"/>
 						
 						<p:outputLabel value="Tipo: " for="tipo"/>
-						<p:selectOneRadio id="tipo" value="#{cadastroFornecedorControlador.empresa.fisicaJuridica}">
+						<p:selectOneRadio id="tipo" value="#{cadastroFornecedorControlador.empresa.fisicaJuridica}" converter="converterTipoPessoa">
 						<f:selectItem itemLabel="Fisica" itemValue="0"/>
 						<f:selectItem itemLabel="Jurídica" itemValue="1"/>
 						<p:ajax update="cnpj" process="@this"/>

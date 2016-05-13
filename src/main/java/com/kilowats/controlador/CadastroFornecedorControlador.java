@@ -9,6 +9,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import com.kilowats.dao.FornecedorDao;
 import com.kilowats.entidades.Cidade;
 import com.kilowats.entidades.Emails;
 import com.kilowats.entidades.Empresa;
@@ -16,7 +17,6 @@ import com.kilowats.entidades.Endereco;
 import com.kilowats.entidades.Telefone;
 import com.kilowats.enuns.TipoTelefoneEnum;
 import com.kilowats.interfaces.IValidacaoCadastro;
-import com.kilowats.servicos.ServicosFornecedor;
 import com.kilowats.utils.Utils;
 import com.kilowats.validadores.ValidacaoCadastroEmail;
 import com.kilowats.validadores.ValidacaoCadastroEndereco;
@@ -105,8 +105,8 @@ public class CadastroFornecedorControlador implements Serializable{
 		FacesContext context = FacesContext.getCurrentInstance();
 		if(validacoes(context)){
 			completarDadosEmpresa();
-			ServicosFornecedor servicos = new ServicosFornecedor();
-			if(servicos.salvar(this.empresa)){
+			FornecedorDao fornDao = new FornecedorDao();
+			if(fornDao.salvar(this.empresa)){
 				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Fornecedor cadastrado com suceso!", null));
 			}else{
 				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro interno: erro interno contate a administração do sistema!", null));
