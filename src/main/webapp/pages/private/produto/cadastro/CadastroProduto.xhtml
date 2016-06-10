@@ -11,8 +11,7 @@
 
 	<ui:define name="conteudo">
 		<h:form id="frmCadastroFornecedor">
-			<p:messages id="mensagens" autoUpdate="true" for="mensageError"/>
-			<p:messages id="mensagensPadrao" autoUpdate="true"/>
+			<p:messages id="mensagensPadrao" autoUpdate="true" closable="true"/>
 			<p:growl for="growMensage"/>
 			<h1>Cadastro de produto</h1>
 			<!-- Inicio Barra de opoces -->
@@ -22,7 +21,7 @@
 					<p:commandButton value="Salvar" style="margin-right: 5px" actionListener="#{cadastroProdutoControlador.salvar()}"
 					update="@form"/>
 					<p:button value="Novo"
-						outcome="/pages/private/cadastro/CadastroProduto.xhtml" />
+						outcome="/pages/private/produto/cadastro/CadastroProduto.xhtml" />
 				</p:toolbarGroup>
 				<!-- Fim de grupo de Barra de opces a esquerda -->
 				

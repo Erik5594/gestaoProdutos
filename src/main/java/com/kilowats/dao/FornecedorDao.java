@@ -54,6 +54,7 @@ public class FornecedorDao implements IPersistirBancoDados{
 		texto.append("");
 		texto.append("########## INICIO DADOS EMPRESA ##########\n");
 		texto.append("Nome: "+ empresa.getNome()+"\n");
+		texto.append("Tipo: "+ empresa.getFisicaJuridica().descTipoPessoa+"\n");
 		texto.append("CNPJ/CPF: "+ empresa.getCgcCpf()+"\n");
 		texto.append("Incs. Estadual: "+empresa.getInscricaoEstadual()+"\n");
 		texto.append("########## FIM DADOS EMPRESA ##########\n");

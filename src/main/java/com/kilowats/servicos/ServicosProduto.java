@@ -28,28 +28,28 @@ public class ServicosProduto implements IPersistirBancoDados {
 	
 	private boolean perssistirProduto(Produto produto){
 		boolean retorno = false;
-		System.out.println("************Inicio Persistir Produto************");
 		if(produto != null){
+			System.out.println("************Inicio Persistir Produto************");
 			System.out.println("Cód.: "+produto.getCodProduto() == null ? "": produto.getCodProduto());
 			System.out.println("Nome: "+produto.getNomeProduto() == null ? "": produto.getNomeProduto());
 			System.out.println("Qtde.: "+produto.getQuantidade());
 			System.out.println("Tipo: "+produto.getTipoUnidade().toString());
 			System.out.println("Valor: R$ "+produto.getValor());
+			System.out.println("************Fim Persistir Produto************");
 		}
-		System.out.println("************Fim Persistir Produto************");
 		return retorno;
 	}
 	
 	private boolean persistirEans(List<Ean> eans){
 			boolean retorno = false;
-			System.out.println("************Inicio Persistir EAN************");
 			if(eans != null && !eans.isEmpty()){
+				System.out.println("************Inicio Persistir EAN************");
 				for(Ean ean : eans){
-				System.out.println("Cód.: "+ean.getCodBarras() == null ? "": ean.getCodBarras());
-				System.out.println("***Próximo***");
+					System.out.println("Cód.: "+ean.getCodBarras() == null ? "": ean.getCodBarras());
+					System.out.println("***Próximo***");
 				}
+				System.out.println("************Fim Persistir EAN************");
 			}
-			System.out.println("************Fim Persistir EAN************");
 			return retorno;
 	}
 

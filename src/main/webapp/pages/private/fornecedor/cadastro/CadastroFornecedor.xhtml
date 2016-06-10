@@ -11,7 +11,7 @@
 
 	<ui:define name="conteudo">
 		<h:form id="frmCadastroFornecedor">
-			<p:messages id="mensagens" autoUpdate="true"/>
+			<p:messages id="mensagens" autoUpdate="true" closable="true"/>
 			<h1>Cadastro de fornecedor</h1>
 			<!-- Inicio Barra de opoces -->
 			<p:toolbar style="margin-bottom: 20px">
@@ -20,7 +20,7 @@
 					<p:commandButton value="Salvar" style="margin-right: 5px"
 					actionListener="#{cadastroFornecedorControlador.salvar()}"/>
 					<p:button value="Novo"
-						outcome="/pages/private/cadastro/CadastroFornecedor.xhtml" />
+						outcome="/pages/private/fornecedor/cadastro/CadastroFornecedor.xhtml" />
 				</p:toolbarGroup>
 				<!-- Fim de grupo de Barra de opces a esquerda -->
 				
@@ -49,7 +49,7 @@
 						value="#{cadastroFornecedorControlador.empresa.nome}"/>
 						
 						<p:outputLabel value="Tipo: " for="tipo"/>
-						<p:selectOneRadio id="tipo" value="#{cadastroFornecedorControlador.empresa.fisicaJuridica}" converter="converterTipoPessoa">
+						<p:selectOneRadio id="tipo" value="#{cadastroFornecedorControlador.tpPessoa}" converter="converterNumber">
 						<f:selectItem itemLabel="Fisica" itemValue="0"/>
 						<f:selectItem itemLabel="Jurídica" itemValue="1"/>
 						<p:ajax update="cnpj" process="@this"/>

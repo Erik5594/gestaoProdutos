@@ -102,7 +102,6 @@ public class CadastroProdutoControlador implements Serializable{
 	public void setEans(List<Ean> eans) {
 		this.eans = eans;
 	}
-
 	public TipoProdutoUnidadeEnum[] getTipoUnidadeProduto() {
 		return TipoProdutoUnidadeEnum.values();
 	}
