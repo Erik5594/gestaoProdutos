@@ -15,6 +15,7 @@ import com.kilowats.entidades.Emails;
 import com.kilowats.entidades.Empresa;
 import com.kilowats.entidades.Endereco;
 import com.kilowats.entidades.Telefone;
+import com.kilowats.enuns.TipoPessoa;
 import com.kilowats.enuns.TipoTelefoneEnum;
 import com.kilowats.interfaces.IValidacaoCadastro;
 import com.kilowats.utils.Utils;
@@ -37,13 +38,10 @@ public class CadastroFornecedorControlador implements Serializable{
 	private Emails email = new Emails();
 	private Emails emailSelecionado = new Emails();
 	private List<Emails> emails = new ArrayList<>();
+	private int tpPessoa;
 	
 	public String carregaMascaraCnpjOuCpfPrimefaces(){
-		int tipo = 0;
-		if(empresa != null && empresa.getFisicaJuridica() != null){
-			tipo = empresa.getFisicaJuridica().getCodPessoa();
-		}
-		return Utils.mascarPrimefacesCnpjOuCpf(tipo);
+		return Utils.mascarPrimefacesCnpjOuCpf(tpPessoa);
 	}
 	
 	public void adcionaTelefone(){
@@ -117,6 +115,11 @@ public class CadastroFornecedorControlador implements Serializable{
 	private void completarDadosEmpresa() {
 		this.endereco.setCidade(this.cidade);
 		this.empresa.setEndereco(this.endereco);
+		if(this.tpPessoa == 0){
+			this.empresa.setFisicaJuridica(TipoPessoa.FISICA);
+		}else{
+			this.empresa.setFisicaJuridica(TipoPessoa.JURIDICA);
+		}
 		if (!this.telefones.isEmpty()) {
 			this.empresa.setTelefones(this.telefones);
 		}
@@ -256,5 +259,11 @@ public class CadastroFornecedorControlador implements Serializable{
 	}
 	public void setEmails(List<Emails> emails) {
 		this.emails = emails;
+	}
+	public int getTpPessoa() {
+		return tpPessoa;
+	}
+	public void setTpPessoa(int tpPessoa) {
+		this.tpPessoa = tpPessoa;
 	}
 }
