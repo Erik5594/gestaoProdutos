@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/WEB-INF/templates/Layout.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<ui:define name="titulo">Cadastro de Cliente</ui:define>
+
+	<ui:define name="conteudo">
+		<h:form id="frmCadastroCliente">
+			<p:messages id="mensagens" autoUpdate="true" closable="true"/>
+			<h1>Cadastro de Cliente</h1>
+			<!-- Inicio Barra de opoces -->
+			<p:toolbar style="margin-bottom: 20px">
+				<!-- Inicio de grupo de Barra de opces a esquerda -->
+				<p:toolbarGroup>
+					<p:commandButton value="Salvar" style="margin-right: 5px"
+					actionListener="#{cadastroClienteControlador.salvar()}"/>
+					<p:button value="Novo"
+						outcome="/pages/private/cliente/cadastro/CadastroCliente.xhtml" />
+				</p:toolbarGroup>
+				<!-- Fim de grupo de Barra de opces a esquerda -->
+				
+				<!-- Inicio de grupo de Barra de opces a Direita -->
+				<p:toolbarGroup align="right">
+					<p:commandButton value="Pesquisar" />
+				</p:toolbarGroup>
+				<!-- Fim de grupo de Barra de opces a Direita -->
+			</p:toolbar>
+			<!-- Fim Barra de opcoes -->
+			
+			<!-- Inicio Codigo Cliente -->
+			<h:panelGrid columns="2" id="panelCodForn" style="margin-bottom: 15px">
+				<p:outputLabel value="Cod. Cliente: " for="codCliente" />
+				<p:inputText id="codCliente" disabled="true" style="width: 60px" />
+			</h:panelGrid>
+			<!-- Fim Codigo Cliente -->
+
+			<!-- Inicio TabView -->
+			<p:tabView>
+				<!--Inicio Tab Principal -->
+				<p:tab title="Dados Principais" id="principalTab">
+					<h:panelGrid columns="2" id="panelGridDadosCliente">
+						<p:outputLabel value="Nome: " for="nome" />
+						<p:inputText id="nome" style="width: 300px"
+						value="#{cadastroClienteControlador.cliente.nome}"/>
+						
+						<p:outputLabel value="Tipo: " for="tipo"/>
+						<p:selectOneRadio id="tipo" value="#{cadastroClienteControlador.tpPessoa}" converter="converterNumber">
+						<f:selectItem itemLabel="Fisica" itemValue="0"/>
+						<f:selectItem itemLabel="Jurídica" itemValue="1"/>
+						<p:ajax update="cnpj" process="@this"/>
+						</p:selectOneRadio>
+
+						<p:outputLabel value="CNPJ/CPF: " for="cnpj" />
+						<p:inputMask id="cnpj" mask="#{cadastroClienteControlador.carregaMascaraCnpjOuCpfPrimefaces()}"
+						value="#{cadastroClienteControlador.cliente.cgcCpf}" style="width: 120px"/>
+					</h:panelGrid>
+				</p:tab>
+				<!--Fim Tab Principal -->
+				
+				<!--Inicio Tab endereco -->
+				<p:tab title="Endereço" id="enderecoTab">
+					<h:panelGrid columns="2" id="panelGridEndereco">
+						<p:outputLabel value="CEP:" for="cep" />
+						<p:inputMask id="cep" mask="99.999-999" converter="converterNumber"
+						value="#{cadastroClienteControlador.endereco.cep}"	style="width: 70px" />
+
+						<p:outputLabel value="Logradouro: " for="rua" />
+						<p:inputText id="rua" size="35" value="#{cadastroClienteControlador.endereco.rua}"/>
+
+						<p:outputLabel value="Complemento: " for="complemento" />
+						<p:inputText id="complemento" value="#{cadastroClienteControlador.endereco.complemento}"/>
+
+						<p:outputLabel value="Bairro: " for="bairro" />
+						<p:inputText id="bairro" value="#{cadastroClienteControlador.endereco.bairro}"/>
+
+						<p:outputLabel value="Numero: " for="numero" />
+						<p:inputText id="numero" style="width: 45px" value="#{cadastroClienteControlador.endereco.numero}"/>
+
+						<p:outputLabel value="UF: " for="uf" />
+						<p:selectOneMenu id="uf" value="#{cadastroClienteControlador.cidade.uf}">
+							<f:selectItem itemLabel="Selecione..." itemValue=""
+								noSelectionOption="true" />
+							<f:selectItems value="#{cadastroClienteControlador.carregarEstados()}"/>
+							<p:ajax process="@this" update="cidade"/>
+						</p:selectOneMenu>
+
+						<p:outputLabel value="Cidade: " for="cidade" />
+						<p:selectOneMenu id="cidade" value="#{cadastroClienteControlador.cidade.nomeCidade}">
+							<f:selectItem itemLabel="Selecione..." itemValue=""
+								noSelectionOption="true"/>
+							<f:selectItems value="#{cadastroClienteControlador.carregarCidades()}"/>
+						</p:selectOneMenu>
+					</h:panelGrid>
+				</p:tab>
+				<!--Fim Tab endereco -->
+				
+				<!--Inicio Tab telefones -->
+				<p:tab title="Telefones" id="telefonesTab">
+					<h:panelGrid columns="5" id="gridTelefone">
+						<p:outputLabel value="Telefone: " />
+						<p:inputMask id="dddTelefone" mask="(99)" converter="converterNumber"
+							size="2" value="#{cadastroClienteControlador.telefone.ddd}"/>
+						<p:inputMask id="numeroTelefone" mask="99999999?9"
+							size="8" value="#{cadastroClienteControlador.telefone.numero}" />
+							
+							<p:selectOneMenu id="tipoTelefone" value="#{cadastroClienteControlador.tipoTelefone}" converter="converterNumber">
+							<f:selectItem itemLabel="Selecione..." itemValue=""
+								noSelectionOption="true"/>
+								<f:selectItem itemLabel="Celular" itemValue="0"/>
+								<f:selectItem itemLabel="Comercial" itemValue="1"/>
+								<f:selectItem itemLabel="Residencial" itemValue="2"/>
+								<f:selectItem itemLabel="Outro" itemValue="3"/>
+						</p:selectOneMenu>
+						<p:commandButton icon="ui-icon-plus" actionListener="#{cadastroClienteControlador.adcionaTelefone()}"
+						update="gridTelefone tabelaTelefones" process="gridTelefone"/>
+					</h:panelGrid>
+					
+					<p:dataTable id="tabelaTelefones" value="#{cadastroClienteControlador.telefones}" var="telefone"
+					emptyMessage="Sem telefone(s)" selection="#{cadastroClienteControlador.telefoneSelecionado}" style="width: 30%; margin-top: 15px">
+					<f:facet name="header">
+					Telefones
+					</f:facet>
+					<p:column headerText="DDD" style="width: 12%">
+					<p:outputLabel value="#{telefone.ddd}"/>
+					</p:column>
+					
+					<p:column headerText="Numero" style="width: 38%">
+					<p:outputLabel value="#{telefone.numero}"/>
+					</p:column>
+					
+					<p:column headerText="Tipo" style="width: 50%">
+					<p:outputLabel value="#{telefone.tipoTelefone}"/>
+					</p:column>
+					</p:dataTable>
+				</p:tab>
+				<!--Fim Tab telefones -->
+				
+				<!--Inicio Tab emails -->
+				<p:tab title="E-mails" id="emailTab">
+					<h:panelGrid columns="5" id="gridEmail">
+						<p:outputLabel value="E-mail: " for="email" />
+						<p:inputText id="email" value="#{cadastroClienteControlador.email.emailDestinatario}"/>
+						<p:outputLabel value="Nome Destinatário: " for="destinatarioEmail" style="margin-left: 8px"/>
+						<p:inputText id="destinatarioEmail" value="#{cadastroClienteControlador.email.nomePessoaDestinatario}"/>
+						<p:commandButton icon="ui-icon-plus" actionListener="#{cadastroClienteControlador.adcionaEmail()}"
+						update="gridEmail tabelaEmails" process="gridEmail"/>
+					</h:panelGrid>
+
+					<p:dataTable id="tabelaEmails" value="#{cadastroClienteControlador.emails}" var="email"
+					emptyMessage="Sem e-mail(s)" selection="#{cadastroClienteControlador.emailSelecionado}" style="width: 40%; margin-top: 15px">
+					<f:facet name="header">
+					E-mails
+					</f:facet>
+					<p:column headerText="E-mail">
+					<p:outputLabel value="#{email.emailDestinatario}"/>
+					</p:column>
+					
+					<p:column headerText="Nome Destinatário">
+					<p:outputLabel value="#{email.nomePessoaDestinatario}"/>
+					</p:column>
+					</p:dataTable>
+				</p:tab>
+				<!--Fim Tab emails -->
+				
+			</p:tabView>
+			<!-- Fim TabView -->
+		</h:form>
+	</ui:define>
+</ui:composition>
