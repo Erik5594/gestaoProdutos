@@ -42,21 +42,45 @@
 </h:head>
 <h:body>
 	<header>
-		<p:toolbar style="height: 40px">
-			<f:facet name="left">
-				 <!-- <p:graphicImage library="imagens" name="logo.png"
-					style="width: 120px" /> --> 
-			</f:facet>
-			<f:facet name="right">
-				<ui:insert name="opcoes-menu-top-right"/>
-			</f:facet>
-		</p:toolbar>
+	<div style="float: left">aqui deve ficar a logomarca</div>
+	<div style="float: right; margin-right: 110px;">
+		<span
+			style="float: left; height: 30px; line-height: 30px; margin-right: 60px;">
+			Olá usuário </span>
+		<h:form style="display: inline-block">
+			<p:menubar styleClass="menu-sistema">
+				<p:submenu label="Cadastros">
+					<p:menuitem value="Cliente"
+						outcome="/pages/private/cliente/cadastro/CadastroCliente" />
+					<p:menuitem value="Fornecedor"
+						outcome="/pages/private/fornecedor/cadastro/CadastroFornecedor" />
+					<p:submenu label="Produtos">
+						<p:menuitem value="Produto"
+							outcome="/pages/private/produto/cadastro/CadastroProduto" />
+						<p:menuitem value="Chip"
+							outcome="/pages/private/produto/cadastro/CadastroChip" />
+					</p:submenu>
+				</p:submenu>
+				<p:submenu label="Movimentação">
+					<p:submenu label="Produtos">
+						<p:menuitem value="Entrada"
+							outcome="/pages/private/produto/movimentacao/CadastroEntradaProduto" />
+						<p:menuitem value="Saída"
+							outcome="/pages/private/produto/movimentacao/CadastroSaidaProduto" />
+					</p:submenu>
+				</p:submenu>
+				<p:menuitem value="Sair" />
+			</p:menubar>
+		</h:form>
+	</div>
+	<div style="clear: both;" />
 	</header>
+</h:body>
 	<div id="conteudo">
 		<ui:insert name="conteudo">Aqui vai ficar o novo conteudo</ui:insert>
 	</div>
+	<p:separator style="marggin-top: 20px"/>
 	<footer>
 	<center>Sistema de Gestão de Produtos - Tarefa de Curso AlgaWorks 2016</center>
 	</footer>
-</h:body>
 </html>

@@ -15,11 +15,16 @@ h1 {
 }
 
 header {
-	padding: 5px;
+	padding: 5px 0px;
 	margin-bottom: 20px;
-	height: 45px;
+	height: 30px;
+	background-color: #545454;
 	color: #fff;
-	box-shadow: 0px 2px 2px #ccc
+	box-shadow: 0px 2px 2px #ccc;
+}
+
+header > div{
+	margin-left: 5px
 }
 
 #conteudo {
@@ -31,9 +36,22 @@ footer {
 	padding: 5px 8px;
 	margin-top: 20px;
 	color: #ffffff;
-	position: fixed;
 	bottom: 0px;
 	width: 100%;
 	background-color: black;
-	margin-bottom: 1px
+	margin-bottom: 10px
+}
+
+.menu-sistema {
+	border: 0px !important;
+	padding: 0px !important;
+	background: none !important;
+}
+
+.menu-sistema .ui-menu-parent > .ui-menuitem-text, .menu-sistema > .ui-menu-list > .ui-menuitem > a > .ui-menuitem-text {
+	color: #fff !important;
+}
+
+.menu-sistema .ui-icon-triangle-1-s{
+	background: url(#{resource['imagens:seta-para-baixo.png']}) no-repeat;
 }
