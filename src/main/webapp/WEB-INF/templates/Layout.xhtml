@@ -44,11 +44,10 @@
 	<header>
 	<div style="float: left">aqui deve ficar a logomarca</div>
 	<div style="float: right; margin-right: 110px;">
-		<span
-			style="float: left; height: 30px; line-height: 30px; margin-right: 60px;">
-			Olá usuário </span>
-		<h:form style="display: inline-block">
-			<p:menubar styleClass="menu-sistema" autoDisplay="false" >
+		<span style="float: left; height: 30px; line-height: 30px; margin-right: 60px;">
+			Olá Usuário </span>
+		<h:form style="display: inline-block;">
+			<p:menubar styleClass="menu-sistema" autoDisplay="false">
 				<p:submenu label="Cadastros">
 					<p:menuitem value="Cliente"
 						outcome="/pages/private/cliente/cadastro/CadastroCliente" />
@@ -60,6 +59,7 @@
 						<p:menuitem value="Chip"
 							outcome="/pages/private/produto/cadastro/CadastroChip" />
 					</p:submenu>
+					<p:menuitem value="Usuário"/>
 				</p:submenu>
 				<p:submenu label="Movimentação">
 					<p:submenu label="Produtos">
