@@ -10,7 +10,7 @@
 	<ui:define name="titulo">Cadastro de chip</ui:define>
 
 	<ui:define name="conteudo">
-		<h:form id="frmCadastroFornecedor">
+		<h:form id="frmCadastroChip">
 			<p:messages id="mensagens" autoUpdate="true" for="mensageError"/>
 			<p:messages id="mensagensPadrao" autoUpdate="true"/>
 			<p:growl for="growMensage"/>
@@ -33,7 +33,62 @@
 				<!-- Fim de grupo de Barra de opces a Direita -->
 			</p:toolbar>
 			<!-- Fim Barra de opcoes -->
-			<h1>Em manutenção</h1>
+			<h1>Em Manutenção</h1>
+			<h:panelGrid columns="5" id="panelChipConsulta" style="margin-bottom: 15px" rendered="true">
+				<p:outputLabel value="Cod. Interno Produto " for="codIntProduto" />
+				<p:inputText id="codIntProduto" disabled="true" style="width: 60px"/>
+				
+				<p:outputLabel value="Código " for="codProduto" />
+				<p:inputText id="codProduto" style="width: 60px" maxlength="10"/>
+				
+				<p:commandButton value="Buscar" icon="ui-icon-search"/>
+			</h:panelGrid>
+			
+			<h:panelGrid columns="2" id="panelChipIdentificacao" style="margin-bottom: 15px" rendered="true">
+				<p:outputLabel value="Nome " for="nomeProduto" />
+				<p:inputText id="nomeProduto" size="60" disabled="true"/>
+			</h:panelGrid>
+			
+			<h:panelGrid columns="2" id="panelChip" style="margin-bottom: 15px" rendered="true">
+				<p:outputLabel value="Imei " for="imeiChip" />
+				<p:inputText id="imeiChip" size="15"/>
+				
+				<p:outputLabel value="DDD " for="dddChip" />
+				<p:inputMask id="dddChip" size="4" maxlength="2" mask="(99)"/>
+				
+				<p:outputLabel value="Número Chip " for="numeroChip" />
+				<p:inputMask id="numeroChip" size="11" mask="99999-9999"/>
+				
+				<p:outputLabel value="Operadora " for="operadora" />
+				<p:selectOneMenu id="operadora" converter="converterOperadora" >
+				<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>
+				<f:selectItem itemLabel="Claro" itemValue="CLARO"/>
+				<f:selectItem itemLabel="Oi" itemValue="OI"/>
+				<f:selectItem itemLabel="Tim" itemValue="TIM"/>
+				<f:selectItem itemLabel="Vivo" itemValue="VIVO"/>
+				</p:selectOneMenu>
+			</h:panelGrid>
+			<!-- Fim Panel Produto -->
+			
+			<!-- Inicio Tabela Eans -->
+			<p:dataTable  id="tabelaChips" var="chip" style="width: 300px" rendered="true">
+			<p:column headerText="Imei">
+			<p:outputLabel value="Imei"/>
+			</p:column>
+			<p:column headerText="DDD">
+			<p:outputLabel value="ddd"/>
+			</p:column>
+			<p:column headerText="Número">
+			<p:outputLabel value="numero"/>
+			</p:column>
+			<p:column headerText="Operadora">
+			<p:outputLabel value="operadora"/>
+			</p:column>
+			<p:column width="10%">
+			<p:commandButton icon="ui-icon-trash"/>
+			</p:column>
+			</p:dataTable>
+			<!-- Fim Tabela Eans -->
 		</h:form>
 	</ui:define>
 </ui:composition>
