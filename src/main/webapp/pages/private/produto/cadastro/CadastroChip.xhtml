@@ -51,22 +51,27 @@
 			<h:panelGrid columns="2" id="panelChipIdentificacao" style="margin-bottom: 15px"
 			rendered="#{cadastroChipControlador.mostrarConteudo}">
 				<p:outputLabel value="Nome " for="nomeProduto" />
-				<p:inputText id="nomeProduto" size="60" disabled="true"/>
+				<p:inputText id="nomeProduto" size="60" disabled="true"
+				value="#{cadastroChipControlador.chip.nomeProduto}"/>
 			</h:panelGrid>
 			
-			<h:panelGrid columns="2" id="panelChip" style="margin-bottom: 15px"
-			rendered="#{cadastroChipControlador.mostrarConteudo}">
+			<p:panel rendered="#{cadastroChipControlador.mostrarConteudo}" style="margin-bottom: 15px">
+			<h:panelGrid columns="2" id="panelChip" style="margin-bottom: 15px">
 				<p:outputLabel value="Imei " for="imeiChip" />
-				<p:inputText id="imeiChip" size="15"/>
+				<p:inputText id="imeiChip" size="15"
+				value="#{cadastroChipControlador.chip.imei}"/>
 				
 				<p:outputLabel value="DDD " for="dddChip" />
-				<p:inputMask id="dddChip" size="4" maxlength="2" mask="(99)"/>
+				<p:inputMask id="dddChip" size="3" maxlength="2" mask="(99)"
+				value="#{cadastroChipControlador.ddd}"/>
 				
-				<p:outputLabel value="Número Chip " for="numeroChip" />
-				<p:inputMask id="numeroChip" size="11" mask="99999-9999"/>
+				<p:outputLabel value="Número " for="numeroChip" />
+				<p:inputMask id="numeroChip" size="9" mask="99999-9999"
+				value="#{cadastroChipControlador.numero}"/>
 				
 				<p:outputLabel value="Operadora " for="operadora" />
-				<p:selectOneMenu id="operadora" converter="converterOperadora" >
+				<p:selectOneMenu id="operadora" converter="converterOperadora" 
+				value="#{cadastroChipControlador.chip.operadora}">
 				<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>
 				<f:selectItem itemLabel="Claro" itemValue="CLARO"/>
 				<f:selectItem itemLabel="Oi" itemValue="OI"/>
@@ -74,26 +79,34 @@
 				<f:selectItem itemLabel="Vivo" itemValue="VIVO"/>
 				</p:selectOneMenu>
 			</h:panelGrid>
+			<center><p:commandButton value="Adicionar" icon="ui-icon-check" actionListener="#{cadastroChipControlador.adicionarChip()}"
+			update="formTabelaChips"/></center>
+			</p:panel>
 			<!-- Fim Panel Produto -->
 			
 			<!-- Inicio Tabela Eans -->
-			<p:dataTable  id="tabelaChips" var="chip" style="width: 300px" rendered="#{cadastroChipControlador.mostrarConteudo}">
-			<p:column headerText="Imei">
-			<p:outputLabel value="Imei"/>
-			</p:column>
-			<p:column headerText="DDD">
-			<p:outputLabel value="ddd"/>
-			</p:column>
-			<p:column headerText="Número">
-			<p:outputLabel value="numero"/>
-			</p:column>
-			<p:column headerText="Operadora">
-			<p:outputLabel value="operadora"/>
-			</p:column>
-			<p:column width="10%">
-			<p:commandButton icon="ui-icon-trash"/>
-			</p:column>
-			</p:dataTable>
+			<h:form id="formTabelaChips">
+				<p:dataTable id="tabelaChips" var="chip" style="width: 300px"
+					rendered="#{cadastroChipControlador.mostrarConteudo}"
+					value="#{cadastroChipControlador.chips}"
+					emptyMessage="Nenhum chip adicionado">
+					<p:column headerText="Imei">
+						<p:outputLabel value="#{chip.imei}" />
+					</p:column>
+					<p:column headerText="DDD">
+						<p:outputLabel value="#{chip.ddd}" />
+					</p:column>
+					<p:column headerText="Número">
+						<p:outputLabel value="#{chip.numero}" />
+					</p:column>
+					<p:column headerText="Operadora">
+						<p:outputLabel value="#{chip.operadora.operadora}" />
+					</p:column>
+					<p:column width="10%">
+						<p:commandButton icon="ui-icon-trash" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
 			<!-- Fim Tabela Eans -->
 		</h:form>
 	</ui:define>
