@@ -9,7 +9,7 @@ public class Chip extends Produto{
 	private long numero;
 	private String imei;
 	private Operadora operadora;
-	private Rastreador restreador;
+	private Rastreador rastreador;
 	
 	public Long getIdChip() {
 		return idChip;
@@ -42,12 +42,17 @@ public class Chip extends Produto{
 	public void setOperadora(Operadora operadora) {
 		this.operadora = operadora;
 	}
-	public Rastreador getRestreador() {
-		return restreador;
+	public Rastreador getRastreador() {
+		return rastreador;
 	}
-	public void setRestreador(Rastreador restreador) {
-		this.restreador = restreador;
+	public void setRastreador(Rastreador restreador) {
+		this.rastreador = restreador;
 	}
+	
+	public boolean isRastreador(){
+		return this.rastreador != null;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
