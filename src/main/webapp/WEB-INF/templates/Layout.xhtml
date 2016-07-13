@@ -59,7 +59,7 @@
 						<p:menuitem value="Chip"
 							outcome="/pages/private/produto/cadastro/CadastroChip" />
 					</p:submenu>
-					<p:menuitem value="Usuário"/>
+					<p:menuitem value="Usuário" outcome="/breve"/>
 				</p:submenu>
 				<p:submenu label="Movimentação">
 					<p:submenu label="Produtos">
@@ -70,16 +70,16 @@
 					</p:submenu>
 				</p:submenu>
 				<p:submenu label="Financeiro">
-					<p:menuitem value="Atualizar Dados" />
+					<p:menuitem value="Atualizar Dados" outcome="/breve"/>
 					<p:submenu label="Gerar Boleto">
 						<p:submenu label="Individual">
-							<p:menuitem value="Boleto" />
-							<p:menuitem value="Carnê" />
+							<p:menuitem value="Boleto" outcome="/breve"/>
+							<p:menuitem value="Carnê" outcome="/breve"/>
 						</p:submenu>
-						<p:menuitem value="Varios" />
+						<p:menuitem value="Varios" outcome="/breve"/>
 					</p:submenu>
 				</p:submenu>
-				<p:menuitem value="Sair" />
+				<p:menuitem value="Sair" outcome="/breve"/>
 			</p:menubar>
 		</h:form>
 	</div>
