@@ -42,7 +42,11 @@
 </h:head>
 <h:body>
 	<header>
-	<div style="float: left">aqui deve ficar a logomarca</div>
+	<div style="float: left">
+		<h:link outcome="/Conteudo.xhtml">
+			<p:graphicImage id="imagem-logo" name="/imagens/java-logo.png" width="29" height="29"/>
+		</h:link>
+	</div>
 	<div style="float: right; margin-right: 110px;">
 		<span style="float: left; height: 30px; line-height: 30px; margin-right: 60px;">
 			Olá Usuário </span>
@@ -59,7 +63,7 @@
 						<p:menuitem value="Chip"
 							outcome="/pages/private/produto/cadastro/CadastroChip" />
 					</p:submenu>
-					<p:menuitem value="Usuário" outcome="/breve"/>
+					<p:menuitem value="Usuário" outcome="/desenvolvimento"/>
 				</p:submenu>
 				<p:submenu label="Movimentação">
 					<p:submenu label="Produtos">
@@ -70,7 +74,7 @@
 					</p:submenu>
 				</p:submenu>
 				<p:submenu label="Financeiro">
-					<p:menuitem value="Atualizar Dados" outcome="/breve"/>
+					<p:menuitem value="Atualizar Dados" outcome="/manutencao"/>
 					<p:submenu label="Gerar Boleto">
 						<p:submenu label="Individual">
 							<p:menuitem value="Boleto" outcome="/breve"/>
