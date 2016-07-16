@@ -57,13 +57,9 @@
 						outcome="/pages/private/cliente/cadastro/CadastroCliente" />
 					<p:menuitem value="Fornecedor"
 						outcome="/pages/private/fornecedor/cadastro/CadastroFornecedor" />
-					<p:submenu label="Produtos">
-						<p:menuitem value="Produto"
-							outcome="/pages/private/produto/cadastro/CadastroProduto" />
-						<p:menuitem value="Chip"
-							outcome="/pages/private/produto/cadastro/CadastroChip" />
-					</p:submenu>
-					<p:menuitem value="Usuário" outcome="/desenvolvimento"/>
+					<p:menuitem value="Produto"
+						outcome="/pages/private/produto/cadastro/CadastroProduto" />
+					<p:menuitem value="Usuário" outcome="/breve"/>
 				</p:submenu>
 				<p:submenu label="Movimentação">
 					<p:submenu label="Produtos">
@@ -73,8 +69,16 @@
 							outcome="/pages/private/produto/movimentacao/CadastroSaidaProduto" />
 					</p:submenu>
 				</p:submenu>
+				<p:submenu label="Restreamento">
+					<p:submenu label="Produtos">
+						<p:menuitem value="Chip"
+							outcome="/pages/private/rastreamento/cadastro/CadastroChip" />
+						<p:menuitem value="Modulo Rastreador"
+							outcome="/breve" />
+					</p:submenu>
+				</p:submenu>
 				<p:submenu label="Financeiro">
-					<p:menuitem value="Atualizar Dados" outcome="/manutencao"/>
+					<p:menuitem value="Atualizar Dados" outcome="/breve"/>
 					<p:submenu label="Gerar Boleto">
 						<p:submenu label="Individual">
 							<p:menuitem value="Boleto" outcome="/breve"/>

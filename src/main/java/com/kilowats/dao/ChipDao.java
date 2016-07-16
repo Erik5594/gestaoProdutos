@@ -17,16 +17,17 @@ public class ChipDao implements IPersistirBancoDados{
 			Chip chip = (Chip) obj;
 			try {
 				File arquivo = new File("c:\\testeChip");
-				if(arquivo.mkdirs()){
-				FileWriter arq = new FileWriter(arquivo+"\\teste.txt");
+				if(!arquivo.exists()){
+					arquivo.mkdirs();
+				}
+				FileWriter arq = new FileWriter(arquivo+"\\teste.txt", true);
 				PrintWriter gravarArquivo = new PrintWriter(arq);
 				gravarArquivo.print("+--------------------------------------------+\n");
 				gravarArquivo.print(adicionarChip(chip)+"\n");
 				gravarArquivo.print("+--------------------------------------------+\n");
 				arq.close();
-				System.out.printf("\nFornecedor gravado com sucesso! \"c:\\testeFornecedor\\teste.txt\".\n");
+				System.out.printf("\nChip gravado com sucesso! \""+arquivo.getPath()+"\\teste.txt\".\n");
 				return true;
-				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -53,7 +54,7 @@ public class ChipDao implements IPersistirBancoDados{
 		texto.append("Imei: "+ chip.getImei()+"\n");
 		texto.append("DDD: "+ chip.getDdd()+"\n");
 		texto.append("Número: "+ chip.getNumero()+"\n");
-		texto.append("Incs. Estadual: "+chip.getOperadora().getOperadora()+"\n");
+		texto.append("Operadora: "+chip.getOperadora().getOperadora()+"\n");
 		texto.append("########## FIM DADOS CHIP ##########\n");
 		texto.append("\n\n\n");
 		if(chip.isRastreador()){

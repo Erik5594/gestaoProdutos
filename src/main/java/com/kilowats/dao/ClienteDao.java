@@ -19,17 +19,18 @@ public class ClienteDao implements IPersistirBancoDados{
 		if(obj instanceof Cliente){
 			Cliente cliente = (Cliente) obj;
 			try {
-				File arquivo = new File("c:\\testeFornecedor");
-				if(arquivo.mkdirs()){
-				FileWriter arq = new FileWriter(arquivo+"\\teste.txt");
+				File arquivo = new File("c:\\testeCliente");
+				if(!arquivo.exists()){
+					arquivo.mkdirs();
+				}
+				FileWriter arq = new FileWriter(arquivo+"\\teste.txt", true);
 				PrintWriter gravarArquivo = new PrintWriter(arq);
-				gravarArquivo.print("+--------------------------------------------+\n");
+				gravarArquivo.println("+--------------------------------------------+\n");
 				gravarArquivo.print(adicionarCliente(cliente)+"\n");
-				gravarArquivo.print("+--------------------------------------------+\n");
+				gravarArquivo.println("+--------------------------------------------+\n");
 				arq.close();
 				System.out.printf("\nFornecedor gravado com sucesso! \"c:\\testeFornecedor\\teste.txt\".\n");
 				return true;
-				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

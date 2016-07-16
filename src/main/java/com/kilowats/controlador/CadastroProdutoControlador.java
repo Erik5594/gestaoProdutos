@@ -51,8 +51,7 @@ public class CadastroProdutoControlador implements Serializable{
 	public void salvar(){
 		if(validacoes()){
 			completarDadosProduto();
-			ServicosProduto servicosProduto = new ServicosProduto();
-			servicosProduto.salvar(this.produto);
+			ServicosProduto.persistirProduto(this.produto);
 			FacesContext context = FacesContext.getCurrentInstance();
 			context.addMessage("growMensage", new FacesMessage(FacesMessage.SEVERITY_INFO, "Cadastro Produto: Produto cadastrado com sucesso!", null));
 		}else{

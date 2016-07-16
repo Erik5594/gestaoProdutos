@@ -42,6 +42,7 @@ public class Chip extends Produto{
 	public void setOperadora(Operadora operadora) {
 		this.operadora = operadora;
 	}
+	
 	public Rastreador getRastreador() {
 		return rastreador;
 	}
