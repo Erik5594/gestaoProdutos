@@ -1,8 +1,12 @@
 package com.kilowats.entidades;
 
+import java.io.Serializable;
+
 import com.kilowats.enuns.TipoVeiculo;
 
-public class Veiculo {
+public class Veiculo implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 
 	private long id;
 	private String placa;

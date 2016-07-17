@@ -1,6 +1,12 @@
 package com.kilowats.entidades;
 
+import com.kilowats.annotations.ProdutoRastreador;
+
+@ProdutoRastreador
 public class Rastreador extends Produto{
+
+	private static final long serialVersionUID = 1L;
+	
 	private long idRastreador;
 	private Empresa fabricante;
 	private boolean exigeFabricante;

@@ -1,12 +1,12 @@
 package com.kilowats.validadores;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.kilowats.annotations.ValidarFornecedor;
 import com.kilowats.entidades.Empresa;
 import com.kilowats.interfaces.IValidacaoCadastro;
 import com.kilowats.utils.Utils;
+import com.kilowats.utils.UtilsFaces;
 
+@ValidarFornecedor
 public class ValidacaoCadastroFornecedor implements IValidacaoCadastro {
 
 	@Override
@@ -26,19 +26,18 @@ public class ValidacaoCadastroFornecedor implements IValidacaoCadastro {
 	}
 
 	@Override
-	public List<String> validarCadastroComMensagem(Object obj) {
+	public boolean validarCadastroComMensagem(Object obj, String titulo) {
 		Empresa empresa = (Empresa) obj;
-		List<String> mensagens = new ArrayList<>();
+		boolean retorno = true;
 		if (Utils.isNullOrEmpty(empresa.getNome())) {
-			mensagens.add("Nome não está preenchido");
+			UtilsFaces.sendMensagemError(titulo, "Nome não está preenchido");
+			retorno = false;
 		}
 		if (!cpfCgcValido(empresa.getCgcCpf().replaceAll("\\D", ""))) {
-			mensagens.add("CPF ou CNPJ inválido");
+			UtilsFaces.sendMensagemError(titulo, "CPF ou CNPJ inválido");
+			retorno = false;
 		}
-		if(mensagens.isEmpty()){
-			mensagens.add("OK");
-		}
-		return mensagens;
+		return retorno;
 	}
 
 	private boolean cpfCgcValido(String cpfCnpj) {

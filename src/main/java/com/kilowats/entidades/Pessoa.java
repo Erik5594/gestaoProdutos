@@ -1,10 +1,13 @@
 package com.kilowats.entidades;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.kilowats.enuns.TipoPessoa;
 
-public class Pessoa {
+public class Pessoa implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 
 	private Long idPessoa;
 	private String nome;

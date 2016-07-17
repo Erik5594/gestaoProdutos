@@ -1,12 +1,12 @@
 package com.kilowats.validadores;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.kilowats.annotations.ValidarCliente;
 import com.kilowats.entidades.Cliente;
 import com.kilowats.interfaces.IValidacaoCadastro;
 import com.kilowats.utils.Utils;
+import com.kilowats.utils.UtilsFaces;
 
+@ValidarCliente
 public class ValidacaoCadastroCliente implements IValidacaoCadastro {
 
 	@Override
@@ -26,19 +26,19 @@ public class ValidacaoCadastroCliente implements IValidacaoCadastro {
 	}
 
 	@Override
-	public List<String> validarCadastroComMensagem(Object obj) {
+	public boolean validarCadastroComMensagem(Object obj, String titulo) {
 		Cliente cliente = (Cliente) obj;
-		List<String> mensagens = new ArrayList<>();
-		if (Utils.isNullOrEmpty(cliente.getNome())) {
-			mensagens.add("Nome não está preenchido");
-		}
-		if (!cpfCgcValido(cliente.getCgcCpf().replaceAll("\\D", ""))) {
-			mensagens.add("CPF ou CNPJ inválido");
-		}
-		if(mensagens.isEmpty()){
-			mensagens.add("OK");
-		}
-		return mensagens;
+		boolean retorno = true;
+			if (Utils.isNullOrEmpty(cliente.getNome())) {
+				UtilsFaces
+						.sendMensagemError(titulo, "Nome não está preenchido");
+				retorno = false;
+			}
+			if (!cpfCgcValido(cliente.getCgcCpf().replaceAll("\\D", ""))) {
+				UtilsFaces.sendMensagemError(titulo, "CPF ou CNPJ inválido");
+				retorno = false;
+			}
+		return retorno;
 	}
 
 	private boolean cpfCgcValido(String cpfCnpj) {

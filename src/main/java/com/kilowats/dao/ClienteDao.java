@@ -6,12 +6,14 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
+import com.kilowats.annotations.CadastrarCliente;
 import com.kilowats.entidades.Emails;
 import com.kilowats.entidades.Cliente;
 import com.kilowats.entidades.Endereco;
 import com.kilowats.entidades.Telefone;
 import com.kilowats.interfaces.IPersistirBancoDados;
 
+@CadastrarCliente
 public class ClienteDao implements IPersistirBancoDados{
 
 	@Override
@@ -19,7 +21,7 @@ public class ClienteDao implements IPersistirBancoDados{
 		if(obj instanceof Cliente){
 			Cliente cliente = (Cliente) obj;
 			try {
-				File arquivo = new File("c:\\testeCliente");
+				File arquivo = new File("c:\\teste\\Cliente");
 				if(!arquivo.exists()){
 					arquivo.mkdirs();
 				}
@@ -29,7 +31,7 @@ public class ClienteDao implements IPersistirBancoDados{
 				gravarArquivo.print(adicionarCliente(cliente)+"\n");
 				gravarArquivo.println("+--------------------------------------------+\n");
 				arq.close();
-				System.out.printf("\nFornecedor gravado com sucesso! \"c:\\testeFornecedor\\teste.txt\".\n");
+				System.out.printf("\nCliente gravado com sucesso! \""+arquivo.getPath()+"\\teste.txt\".\n");
 				return true;
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -104,8 +106,8 @@ public class ClienteDao implements IPersistirBancoDados{
 		texto.append("Complemento: "+endereco.getComplemento()+"\n");
 		texto.append("Numero: "+endereco.getNumero()+"\n");
 		texto.append("Bairro: "+endereco.getBairro()+"\n");
-		texto.append("Bairro: "+endereco.getCidade().getNomeCidade()+"\n");
-		texto.append("Bairro: "+endereco.getCidade().getUf()+"\n");
+		texto.append("Cidade: "+endereco.getCidade().getNomeCidade()+"\n");
+		texto.append("UF: "+endereco.getCidade().getUf()+"\n");
 		texto.append("########## FIM DADOS ENDERECO ##########\n");
 		return texto.toString();
 	}

@@ -1,68 +1,69 @@
 package com.kilowats.validadores;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.lang3.StringUtils;
-
+import com.kilowats.annotations.ValidarEmail;
 import com.kilowats.entidades.Emails;
 import com.kilowats.interfaces.IValidacaoCadastro;
+import com.kilowats.utils.Utils;
+import com.kilowats.utils.UtilsFaces;
 
+@ValidarEmail
 public class ValidacaoCadastroEmail implements IValidacaoCadastro {
 
 	@Override
 	public boolean validarCadastro(Object obj) {
 		Emails email = (Emails) obj;
+		boolean retorno = true;
 		if (email != null) {
 			if (!isEmailValido(email.getEmailDestinatario())) {
-				return false;
+				retorno = false;
 			}
 			if (!isNomeDestinatarioValido(email.getNomePessoaDestinatario())) {
-				return false;
+				retorno =  false;
 			}
 		} else {
-			return false;
+			retorno = false;
 		}
-		return true;
+		return retorno;
 	}
 
 	@Override
-	public List<String> validarCadastroComMensagem(Object obj) {
+	public boolean validarCadastroComMensagem(Object obj, String titulo) {
 		Emails email = (Emails) obj;
-		List<String> mensagens = new ArrayList<>();
+		boolean retorno = true;
 		if (email != null) {
-			if (!StringUtils.isBlank(email.getEmailDestinatario())) {
+			if (!Utils.isNullOrEmpty(email.getEmailDestinatario())) {
 				if (!email.getEmailDestinatario().contains("@")) {
-					mensagens.add("Email inválido!");
+					UtilsFaces.sendMensagemError(titulo, "Email inválido!");
+					retorno = false;
 				}
 			} else {
-				mensagens.add("Email está vazio!");
+				UtilsFaces.sendMensagemError(titulo, "Email está vazio!");
+				retorno = false;
 			}
 
-			if (!StringUtils.isBlank(email.getNomePessoaDestinatario())) {
-				if (!email.getNomePessoaDestinatario().toLowerCase()
-						.equals("teste")) {
+			if (!Utils.isNullOrEmpty(email.getNomePessoaDestinatario())) {
+				if (!email.getNomePessoaDestinatario().toLowerCase().equals("teste")) {
 					if (email.getNomePessoaDestinatario().length() <= 1) {
-						mensagens
-								.add("Nome do destinatário deve ser maior que 1 digito!");
+						UtilsFaces.sendMensagemError(titulo, "Nome do destinatário deve ser maior que 1 digito!");
+						retorno = false;
 					}
 				} else {
-					mensagens.add("Nome do destinatário é inválido!");
+					UtilsFaces.sendMensagemError(titulo, "Nome do destinatário é inválido!");
+					retorno = false;
 				}
 			} else {
-				mensagens.add("Nome do destinatário está vazio!");
+				UtilsFaces.sendMensagemError(titulo, "Nome do destinatário está vazio!");
+				retorno = false;
 			}
 		} else {
-			mensagens.add("Não foram encontrados dados de Email!");
+			UtilsFaces.sendMensagemError(titulo, "Não foram encontrados dados de Email!");
+			retorno = false;
 		}
-		if (mensagens.isEmpty()) {
-			mensagens.add("OK");
-		}
-		return mensagens;
+		return retorno;
 	}
 
 	private boolean isEmailValido(String emailDestinatario) {
-		if (!StringUtils.isBlank(emailDestinatario)) {
+		if (!Utils.isNullOrEmpty(emailDestinatario)) {
 			if (emailDestinatario.contains("@")) {
 				return true;
 			}
@@ -71,7 +72,7 @@ public class ValidacaoCadastroEmail implements IValidacaoCadastro {
 	}
 
 	public boolean isNomeDestinatarioValido(String nomeDestinatario) {
-		if (!StringUtils.isBlank(nomeDestinatario)) {
+		if (!Utils.isNullOrEmpty(nomeDestinatario)) {
 			if (!nomeDestinatario.toLowerCase().equals("teste")) {
 				if (nomeDestinatario.length() > 1) {
 					return true;

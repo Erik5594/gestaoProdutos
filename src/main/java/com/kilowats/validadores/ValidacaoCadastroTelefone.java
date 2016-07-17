@@ -1,11 +1,11 @@
 package com.kilowats.validadores;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.kilowats.annotations.ValidarTelefone;
 import com.kilowats.entidades.Telefone;
 import com.kilowats.interfaces.IValidacaoCadastro;
+import com.kilowats.utils.UtilsFaces;
 
+@ValidarTelefone
 public class ValidacaoCadastroTelefone implements IValidacaoCadastro {
 
 	@Override
@@ -58,27 +58,28 @@ public class ValidacaoCadastroTelefone implements IValidacaoCadastro {
 	}
 
 	@Override
-	public List<String> validarCadastroComMensagem(Object obj) {
+	public boolean validarCadastroComMensagem(Object obj, String titulo) {
 		Telefone telefone = (Telefone) obj;
-		List<String> mensagens = new ArrayList<>();
+		boolean retorno = true;
 		if(telefone != null){
 			if(!isDddValido(telefone.getDdd())){
-				mensagens.add("DDD inválido.");
+				UtilsFaces.sendMensagemError(titulo, "DDD inválido.");
+				retorno = false;
 			}
 			if(!isNumeroValido(telefone.getNumero())){
-				mensagens.add("Numero inválido.");
+				UtilsFaces.sendMensagemError(titulo, "Numero inválido.");
+				retorno = false;
 			}
 			
 			if(telefone.getTipoTelefone() == null){
-				mensagens.add("Tipo de telefone inválido.");
+				UtilsFaces.sendMensagemError(titulo, "Tipo de telefone inválido.");
+				retorno = false;
 			}
 		}else{
-			mensagens.add("Não foram encontrados dados de telefone");
+			UtilsFaces.sendMensagemError(titulo, "Não foram encontrados dados de telefone");
+			retorno = false;
 		}
-		if(mensagens.isEmpty()){
-			mensagens.add("OK");
-		}
-		return mensagens;
+		return retorno;
 	}
 
 }

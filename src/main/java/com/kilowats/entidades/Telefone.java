@@ -1,9 +1,13 @@
 package com.kilowats.entidades;
 
+import java.io.Serializable;
+
 import com.kilowats.enuns.TipoTelefoneEnum;
 
-public class Telefone {
+public class Telefone implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
+
 	private Long idTelefone;
 	private Long idPessoa;
 	private int ddd;

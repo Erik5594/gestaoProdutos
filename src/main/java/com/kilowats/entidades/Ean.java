@@ -1,6 +1,11 @@
 package com.kilowats.entidades;
 
-public class Ean {
+import java.io.Serializable;
+
+public class Ean implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
+
 	private long id;
 	private String codBarras;
 	

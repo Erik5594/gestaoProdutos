@@ -1,10 +1,14 @@
 package com.kilowats.entidades;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.kilowats.enuns.TipoProdutoUnidadeEnum;
 
-public class Produto {
+public class Produto implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
+	
 	private long id;
 	private String codProduto;
 	private String nomeProduto;

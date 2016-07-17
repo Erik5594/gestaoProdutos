@@ -1,8 +1,12 @@
 package com.kilowats.entidades;
 
 import com.kilowats.enuns.Operadora;
+import com.kilowats.annotations.ProdutoChip;
 
+@ProdutoChip
 public class Chip extends Produto{
+	
+	private static final long serialVersionUID = 1L;
 	
 	private Long idChip;
 	private int ddd;
@@ -10,6 +14,10 @@ public class Chip extends Produto{
 	private String imei;
 	private Operadora operadora;
 	private Rastreador rastreador;
+	
+	public Chip(){
+		super();
+	}
 	
 	public Long getIdChip() {
 		return idChip;

@@ -4,25 +4,34 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 import com.kilowats.entidades.Ean;
 import com.kilowats.entidades.Produto;
 import com.kilowats.enuns.TipoProdutoUnidadeEnum;
-import com.kilowats.interfaces.IValidacaoCadastro;
+import com.kilowats.servicos.ServicosEan;
 import com.kilowats.servicos.ServicosProduto;
-import com.kilowats.validadores.ValidacaoCadastroEan;
-import com.kilowats.validadores.ValidacaoCadastroProduto;
+import com.kilowats.utils.UtilsFaces;
 
-@ManagedBean
+@Named
 @ViewScoped
 public class CadastroProdutoControlador implements Serializable{
 	private static final long serialVersionUID = 1L;
-	private Produto produto = new Produto();
-	private Ean ean = new Ean();
+	
+	@Inject
+	private Produto produto;
+	@Inject
+	private Ean ean;
+	@Inject
+	private ServicosEan servicosEan;
+	@Inject
+	private ServicosProduto servicosProduto;
+	
+	private final String TITULO = "Cadastro produto: ";
+	private final String ERRO_INTERNO = "Erro interno: erro interno contate a administração do sistema!";
+	
 	private List<Ean> eans = new ArrayList<>();
 	
 	private void iniciarVariaveis(){
@@ -32,32 +41,22 @@ public class CadastroProdutoControlador implements Serializable{
 	}
 	
 	public void adicionarEan(){
-		IValidacaoCadastro validacao = new ValidacaoCadastroEan();
-		if(this.eans == null || this.eans.isEmpty()){
-			this.eans = new ArrayList<>();
-		}
-		List<String> mensagens = validacao.validarCadastroComMensagem(this.ean);
-		if(mensagens.size() == 1 && mensagens.get(0).toUpperCase().equals("OK")){
-			eans.add(this.ean);
-		}else{
-			FacesContext context = FacesContext.getCurrentInstance();
-			for(String mensagem : mensagens){
-				context.addMessage("mensageError", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Validação Ean: "+ mensagem, null));
-			}
+		if(servicosEan.eanIsValido(ean, TITULO)){
+			eans.add(ean);
 		}
 		ean = new Ean();
 	}
 	
-	public void salvar(){
-		if(validacoes()){
+	public void salvar() {
+		if (validacoes()) {
 			completarDadosProduto();
-			ServicosProduto.persistirProduto(this.produto);
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage("growMensage", new FacesMessage(FacesMessage.SEVERITY_INFO, "Cadastro Produto: Produto cadastrado com sucesso!", null));
-		}else{
-			return;
+			if (servicosProduto.persistirProduto(this.produto)) {
+				UtilsFaces.sendMensagemOk(TITULO, "Produto cadastrado com sucesso!");
+			} else {
+				UtilsFaces.sendMensagemError(TITULO, ERRO_INTERNO);
+			}
+			iniciarVariaveis();
 		}
-		iniciarVariaveis();
 	}
 	
 	private void completarDadosProduto() {
@@ -67,20 +66,7 @@ public class CadastroProdutoControlador implements Serializable{
 	}
 
 	private boolean validacoes(){
-		return produtoIsValido();
-	}
-
-	private boolean produtoIsValido() {
-		FacesContext context = FacesContext.getCurrentInstance();
-		IValidacaoCadastro validacaoProduto = new ValidacaoCadastroProduto();
-		List<String> mensagens = validacaoProduto.validarCadastroComMensagem(this.produto);
-		if(mensagens.size() == 1 && mensagens.get(0).toUpperCase().equals("OK")){
-			return true;
-		}
-		for(String mensagem : mensagens){
-			context.addMessage("mensageError", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Validação Produto: "+ mensagem, null));
-		}
-		return false;
+		return servicosProduto.produtoIsValido(this.produto, TITULO);
 	}
 
 	public Produto getProduto() {

@@ -1,6 +1,10 @@
 package com.kilowats.entidades;
 
-public class Emails {
+import java.io.Serializable;
+
+public class Emails implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 
 	private Long idEmail;
 	private Long idPessoa;

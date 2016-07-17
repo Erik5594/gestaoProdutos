@@ -5,10 +5,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import com.kilowats.annotations.CadastrarChip;
 import com.kilowats.entidades.Chip;
 import com.kilowats.entidades.Rastreador;
 import com.kilowats.interfaces.IPersistirBancoDados;
 
+@CadastrarChip
 public class ChipDao implements IPersistirBancoDados{
 
 	@Override
@@ -16,17 +18,17 @@ public class ChipDao implements IPersistirBancoDados{
 		if(obj instanceof Chip){
 			Chip chip = (Chip) obj;
 			try {
-				File arquivo = new File("c:\\testeChip");
+				File arquivo = new File("c:\\teste\\Chip");
 				if(!arquivo.exists()){
 					arquivo.mkdirs();
 				}
 				FileWriter arq = new FileWriter(arquivo+"\\teste.txt", true);
 				PrintWriter gravarArquivo = new PrintWriter(arq);
-				gravarArquivo.print("+--------------------------------------------+\n");
-				gravarArquivo.print(adicionarChip(chip)+"\n");
-				gravarArquivo.print("+--------------------------------------------+\n");
+				gravarArquivo.print("+--------------------------------------------+\n\b");
+				gravarArquivo.print(adicionarChip(chip)+"\n\b");
+				gravarArquivo.print("+--------------------------------------------+\n\b");
 				arq.close();
-				System.out.printf("\nChip gravado com sucesso! \""+arquivo.getPath()+"\\teste.txt\".\n");
+				System.out.printf("\n\bChip gravado com sucesso! \""+arquivo.getPath()+"\\teste.txt\".\n\b");
 				return true;
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -50,13 +52,13 @@ public class ChipDao implements IPersistirBancoDados{
 	private String adicionarChip(Chip chip){
 		StringBuffer texto = new StringBuffer();
 		texto.append("");
-		texto.append("########## INICIO DADOS CHIP ##########\n");
-		texto.append("Imei: "+ chip.getImei()+"\n");
-		texto.append("DDD: "+ chip.getDdd()+"\n");
-		texto.append("Número: "+ chip.getNumero()+"\n");
-		texto.append("Operadora: "+chip.getOperadora().getOperadora()+"\n");
-		texto.append("########## FIM DADOS CHIP ##########\n");
-		texto.append("\n\n\n");
+		texto.append("########## INICIO DADOS CHIP ##########\n\b");
+		texto.append("Imei: "+ chip.getImei()+"\n\b");
+		texto.append("DDD: "+ chip.getDdd()+"\n\b");
+		texto.append("Número: "+ chip.getNumero()+"\n\b");
+		texto.append("Operadora: "+chip.getOperadora().getOperadora()+"\n\b");
+		texto.append("########## FIM DADOS CHIP ##########\n\b");
+		texto.append("\n\b\n\b\n\b");
 		if(chip.isRastreador()){
 			texto.append(adicionaRastreador(chip.getRastreador()));
 		}
@@ -66,9 +68,9 @@ public class ChipDao implements IPersistirBancoDados{
 	private Object adicionaRastreador(Rastreador rastreador) {
 		StringBuffer texto = new StringBuffer();
 		texto.append("");
-		texto.append("########## INICIO DADOS RASTREADOR ##########\n");
-		texto.append("Id Rastreador: "+ rastreador.getIdRastreador()+"\n");
-		texto.append("########## FIM DADOS CHIP ##########\n");
+		texto.append("########## INICIO DADOS RASTREADOR ##########\n\b");
+		texto.append("Id Rastreador: "+ rastreador.getIdRastreador()+"\n\b");
+		texto.append("########## FIM DADOS CHIP ##########\n\b");
 		return texto.toString();
 	}
 	

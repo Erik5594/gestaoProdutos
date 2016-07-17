@@ -1,13 +1,12 @@
 package com.kilowats.validadores;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.lang3.StringUtils;
-
+import com.kilowats.annotations.ValidarEndereco;
 import com.kilowats.entidades.Endereco;
 import com.kilowats.interfaces.IValidacaoCadastro;
+import com.kilowats.utils.Utils;
+import com.kilowats.utils.UtilsFaces;
 
+@ValidarEndereco
 public class ValidacaoCadastroEndereco implements IValidacaoCadastro {
 
 	@Override
@@ -38,32 +37,35 @@ public class ValidacaoCadastroEndereco implements IValidacaoCadastro {
 	}
 
 	@Override
-	public List<String> validarCadastroComMensagem(Object obj) {
+	public boolean validarCadastroComMensagem(Object obj, String titulo) {
 		Endereco endereco = (Endereco) obj;
-		List<String> mensagens = new ArrayList<>();
+		boolean retorno = true;
 		if (endereco != null) {
 			if (!isCepValido(endereco.getCep())) {
-				mensagens.add("Cep inválido");
+				UtilsFaces.sendMensagemError(titulo, "Cep inválido");
+				retorno = false;
 			}
 			if (!isStringEnderecoValida(endereco.getBairro())) {
-				mensagens.add("Bairro inválido");
+				UtilsFaces.sendMensagemError(titulo, "Bairro inválido");
+				retorno = false;
 			}
 			if (!isStringEnderecoValida(endereco.getComplemento())) {
-				mensagens.add("Complemento inválido");
+				UtilsFaces.sendMensagemError(titulo, "Complemento inválido");
+				retorno = false;
 			}
 			if (!isStringEnderecoValida(endereco.getRua())) {
-				mensagens.add("Rua inválida");
+				UtilsFaces.sendMensagemError(titulo, "Rua inválida");
+				retorno = false;
 			}
 			if (endereco.getCidade() == null) {
-				mensagens.add("Cidade não definida");
+				UtilsFaces.sendMensagemError(titulo, "Cidade não definida");
+				retorno = false;
 			}
 		} else {
-			mensagens.add("Endereço não preenchido");
+			UtilsFaces.sendMensagemError(titulo, "Endereço não preenchido");
+			retorno = false;
 		}
-		if(mensagens.isEmpty()){
-			mensagens.add("OK");
-		}
-		return mensagens;
+		return retorno;
 	}
 
 	public boolean isCepValido(int cep) {
@@ -80,7 +82,7 @@ public class ValidacaoCadastroEndereco implements IValidacaoCadastro {
 	}
 
 	private boolean isStringEnderecoValida(String texto) {
-		if (StringUtils.isBlank(texto)) {
+		if (Utils.isNullOrEmpty(texto)) {
 			return false;
 		}
 		if (texto.toLowerCase().equals("teste")) {

@@ -5,9 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 import com.kilowats.entidades.Cidade;
 import com.kilowats.entidades.Emails;
@@ -16,46 +17,57 @@ import com.kilowats.entidades.Endereco;
 import com.kilowats.entidades.Telefone;
 import com.kilowats.enuns.TipoPessoa;
 import com.kilowats.enuns.TipoTelefoneEnum;
-import com.kilowats.interfaces.IValidacaoCadastro;
+import com.kilowats.servicos.ServicosEmail;
+import com.kilowats.servicos.ServicosEndereco;
 import com.kilowats.servicos.ServicosFornecedor;
+import com.kilowats.servicos.ServicosTelefone;
 import com.kilowats.utils.Utils;
-import com.kilowats.validadores.ValidacaoCadastroEmail;
-import com.kilowats.validadores.ValidacaoCadastroEndereco;
-import com.kilowats.validadores.ValidacaoCadastroFornecedor;
-import com.kilowats.validadores.ValidacaoCadastroTelefone;
+import com.kilowats.utils.UtilsFaces;
 
-@ManagedBean
+@Named
 @ViewScoped
 public class CadastroFornecedorControlador implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
-	private Empresa empresa = new Empresa();
-	private Endereco endereco = new Endereco();
-	private Telefone telefone = new Telefone();
-	private Cidade cidade = new Cidade();
+	
+	@Inject
+	private Empresa empresa;
+	@Inject
+	private Endereco endereco;
+	@Inject
+	private Telefone telefone;
+	@Inject
+	private Cidade cidade;
+	@Inject
+	private Emails email;
+	@Inject
+	private Emails emailSelecionado;
+	@Inject
+	private Telefone telefoneSelecionado;
+	@Inject
+	private ServicosEmail servicosEmail;
+	@Inject
+	private ServicosTelefone servicosTelefone;
+	@Inject
+	private ServicosEndereco servicosEndereco;
+	@Inject
+	private ServicosFornecedor servicosFornecedor;
+	
 	private List<Telefone> telefones = new ArrayList<>();
-	private Telefone telefoneSelecionado = new Telefone();
-	private Emails email = new Emails();
-	private Emails emailSelecionado = new Emails();
 	private List<Emails> emails = new ArrayList<>();
 	private int tpPessoa;
+	
+	private final String TITULO = "Cadastro Fornecedor: ";
+	private final String ERRO_INTERNO = "Erro interno: erro interno contate a administração do sistema!";
 	
 	public String carregaMascaraCnpjOuCpfPrimefaces(){
 		return Utils.mascarPrimefacesCnpjOuCpf(tpPessoa);
 	}
 	
 	public void adcionaTelefone(){
-		FacesContext context = FacesContext.getCurrentInstance();
-		IValidacaoCadastro validacao = new ValidacaoCadastroTelefone();
 		telefone.setTipoTelefone(TipoTelefoneEnum.COMERCIAL);
-		List<String> mensagens = validacao.validarCadastroComMensagem(telefone);
-		if(mensagens.get(0).toUpperCase().equals("OK") && telefone != null){
+		if(servicosTelefone.telefoneIsValido(telefone, TITULO)){
 			adcionaTelefoneList(this.telefone);
-		}else{
-			for(String mensagem : mensagens){
-				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Validação Telefone: " + mensagem, null));
-				return;
-			}
 		}
 		this.telefone= new Telefone(); 
 	}
@@ -73,16 +85,8 @@ public class CadastroFornecedorControlador implements Serializable{
 	}
 
 	public void adcionaEmail(){
-		FacesContext context = FacesContext.getCurrentInstance();
-		IValidacaoCadastro validacao = new ValidacaoCadastroEmail();
-		List<String> mensagens = validacao.validarCadastroComMensagem(email);
-		if(mensagens.get(0).toUpperCase().equals("OK") && email != null){
+		if(servicosEmail.emailIsValido(email, TITULO)){
 			adcionaEmailList(this.email);
-		}else{
-			for(String mensagem : mensagens){
-				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Validação Email: " + mensagem, null));
-				return;
-			}
 		}
 		this.email = new Emails(); 
 	}
@@ -100,13 +104,13 @@ public class CadastroFornecedorControlador implements Serializable{
 	}
 
 	public void salvar(){
-		FacesContext context = FacesContext.getCurrentInstance();
-		if(validacoes(context)){
+		endereco.setCidade(cidade);
+		if(validacoes()){
 			completarDadosEmpresa();
-			if(ServicosFornecedor.persistirFornecedor(this.empresa)){
-				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Fornecedor cadastrado com suceso!", null));
+			if(servicosFornecedor.persistirFornecedor(this.empresa)){
+				UtilsFaces.sendMensagemOk(TITULO, "Fornecedor cadastrado com suceso!");
 			}else{
-				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro interno: erro interno contate a administração do sistema!", null));
+				UtilsFaces.sendMensagemOk(TITULO, ERRO_INTERNO);
 			}
 		}
 	}
@@ -127,41 +131,19 @@ public class CadastroFornecedorControlador implements Serializable{
 		}
 	}
 
-	private boolean validarEndereco(FacesContext context) {
-		IValidacaoCadastro validacao = new ValidacaoCadastroEndereco();
-		this.endereco.setCidade(this.cidade);
-		List<String> mensagens = validacao.validarCadastroComMensagem(endereco);
-		if(mensagens.get(0).toUpperCase().equals("OK")){
-			return true;
-		}else{
-			for(String mensagem : mensagens){
-				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Validação Endereço: " + mensagem, null));
-			}
-			return false;
-		}
+	private boolean validarEndereco() {
+		return servicosEndereco.enderecoIsValido(endereco, TITULO);
 	}
 	
-	public boolean validacoes(FacesContext context){
-		if(validarDadosPrincipais(context) & validarEndereco(context)){
+	public boolean validacoes(){
+		if(validarDadosPrincipais() & validarEndereco()){
 			return true;
 		}
 		return false;
 	}
 	
-	private boolean validarDadosPrincipais(FacesContext context) {
-		List<String> mensagens = new ArrayList<>();
-		IValidacaoCadastro validacao = new ValidacaoCadastroFornecedor();
-		mensagens = validacao.validarCadastroComMensagem(empresa);
-		if (mensagens.get(0).toUpperCase().equals("OK")) {
-			return true;
-		} else {
-			for (String mensagem : mensagens) {
-				context.addMessage(null, new FacesMessage(
-						FacesMessage.SEVERITY_FATAL,
-						"Validação Dados Principais: " + mensagem, null));
-			}
-			return false;
-		}
+	private boolean validarDadosPrincipais() {
+		return servicosFornecedor.validarFornecedor(empresa, TITULO);
 	}
 	
 	public List<String> carregarEstados(){

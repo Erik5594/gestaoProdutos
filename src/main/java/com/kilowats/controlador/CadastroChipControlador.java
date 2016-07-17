@@ -4,17 +4,17 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 
+import com.kilowats.annotations.ProdutoChip;
 import com.kilowats.entidades.Chip;
-import com.kilowats.interfaces.IValidacaoCadastro;
 import com.kilowats.servicos.ServicosChip;
-import com.kilowats.validadores.ValidacaoCadastroChip;
+import com.kilowats.utils.UtilsFaces;
 
-@ManagedBean
+@Named
 @ViewScoped
 public class CadastroChipControlador implements Serializable{
 
@@ -22,17 +22,22 @@ public class CadastroChipControlador implements Serializable{
 	private int codInternoProduto = 0;
 	private int codProduto = 0;
 	private boolean mostrarConteudo = false;
+	@Inject @ProdutoChip
 	private Chip chip = new Chip();
+	@Inject
+	private ServicosChip servicos;
 	private List<Chip> chips = new ArrayList<>();
 	private String ddd;
 	private String numero;
-	
+	private final String TITULO = "Cadastro Chip: ";
+	private final String ERRO_INTERNO = "Erro interno: erro interno contate a administração do sistema!";
 	
 	private void inicializarVariaveis(){
 		chip = new Chip();
 		ddd = new String();
 		numero = new String();
 	}
+	
 	public void buscarProduto(){
 		//PRECISA SER IMPLEMENTADO A REGRA
 		if(codInternoProduto > 0 || codProduto > 0){
@@ -52,18 +57,17 @@ public class CadastroChipControlador implements Serializable{
 
 	private void persistirBanco(FacesContext context) {
 		for (Chip chip1 : chips) {
-			if (ServicosChip.persistirChip(chip1)) {
-				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Chip ["+chip1.getImei()+"] cadastrado com suceso!", null));
+			if (servicos.persistirChip(chip1)) {
+				UtilsFaces.sendMensagemOk(TITULO, "Chip ["+chip1.getImei()+"] cadastrado com sucesso!");
 			} else {
-				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Erro interno: erro interno contate a administração do sistema!",null));
+				UtilsFaces.sendMensagemError(TITULO,ERRO_INTERNO);
 			}
 		}
 	}
 	
 	public void adicionarChip() {
-		FacesContext context = FacesContext.getCurrentInstance();
 		adicionarDddNumeroNoChip();
-		if (validacoes(context)) {
+		if (validacoes()) {
 			if (chips == null && chips.isEmpty()) {
 				chips = new ArrayList<>();
 			}
@@ -72,20 +76,8 @@ public class CadastroChipControlador implements Serializable{
 		inicializarVariaveis();
 	}
 
-	private boolean validacoes(FacesContext context) {
-		IValidacaoCadastro validacao = new ValidacaoCadastroChip();
-		List<String> mensagens = new ArrayList<>();
-		mensagens = validacao.validarCadastroComMensagem(chip);
-		if (mensagens.get(0).toUpperCase().equals("OK")) {
-			return true;
-		} else {
-			for (String mensagem : mensagens) {
-				context.addMessage(null, new FacesMessage(
-						FacesMessage.SEVERITY_FATAL,
-						"Validação Dados Principais: " + mensagem, null));
-			}
-			return false;
-		}
+	private boolean validacoes() {
+		return servicos.chipIsValido(chip, TITULO);
 	}
 
 	public int getCodInternoProduto() {

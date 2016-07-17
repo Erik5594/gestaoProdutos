@@ -1,6 +1,10 @@
 package com.kilowats.entidades;
 
-public class Cidade {
+import java.io.Serializable;
+
+public class Cidade implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 
 	private Long idCidade;
 	private String nomeCidade;
