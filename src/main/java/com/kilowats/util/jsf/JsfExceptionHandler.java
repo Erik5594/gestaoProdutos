@@ -12,11 +12,15 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ExceptionQueuedEvent;
 import javax.faces.event.ExceptionQueuedEventContext;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.kilowats.services.NegocioException;
 
 public class JsfExceptionHandler extends ExceptionHandlerWrapper{
 
 	private ExceptionHandler wrapped;
+	private static Log log = LogFactory.getLog(JsfExceptionHandler.class);
 	
 	
 	public JsfExceptionHandler(ExceptionHandler wrapped) {
@@ -45,9 +49,10 @@ public class JsfExceptionHandler extends ExceptionHandlerWrapper{
 				redirect("/");
 			}else if(negocioException != null){
 				handled = true;
-				FacesUtils.sendMensagemError(negocioException.getMessage(), negocioException.getMessage());
+				FacesUtils.sendMensagemError("Exception: ", negocioException.getMessage());
 			}else{
 				handled = true;
+				log.error("Erro de Sistema: "+ exception.getMessage(), exception);
 				redirect("/erro.xhtml");
 			}
 			}finally{

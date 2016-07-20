@@ -60,7 +60,7 @@ public class CadastroClienteControlador implements Serializable{
 	private final String ERRO_INTERNO = "Erro interno: erro interno contate a administração do sistema!";
 	
 	public void pesquisar(){
-		throw new NegocioException("Cliente não pode pesquisado, pois ainda não foi implementado.");
+		throw new RuntimeException("Cliente não pode pesquisado, pois ainda não foi implementado.");
 	}
 	
 	public String carregaMascaraCnpjOuCpfPrimefaces(){
