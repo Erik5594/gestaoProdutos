@@ -4,7 +4,7 @@ import com.kilowats.annotations.ValidarCliente;
 import com.kilowats.entidades.Cliente;
 import com.kilowats.interfaces.IValidacaoCadastro;
 import com.kilowats.utils.Utils;
-import com.kilowats.utils.UtilsFaces;
+import com.kilowats.util.jsf.FacesUtils;
 
 @ValidarCliente
 public class ValidacaoCadastroCliente implements IValidacaoCadastro {
@@ -30,12 +30,12 @@ public class ValidacaoCadastroCliente implements IValidacaoCadastro {
 		Cliente cliente = (Cliente) obj;
 		boolean retorno = true;
 			if (Utils.isNullOrEmpty(cliente.getNome())) {
-				UtilsFaces
+				FacesUtils
 						.sendMensagemError(titulo, "Nome não está preenchido");
 				retorno = false;
 			}
 			if (!cpfCgcValido(cliente.getCgcCpf().replaceAll("\\D", ""))) {
-				UtilsFaces.sendMensagemError(titulo, "CPF ou CNPJ inválido");
+				FacesUtils.sendMensagemError(titulo, "CPF ou CNPJ inválido");
 				retorno = false;
 			}
 		return retorno;

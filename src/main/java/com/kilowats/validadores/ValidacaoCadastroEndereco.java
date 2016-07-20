@@ -4,7 +4,7 @@ import com.kilowats.annotations.ValidarEndereco;
 import com.kilowats.entidades.Endereco;
 import com.kilowats.interfaces.IValidacaoCadastro;
 import com.kilowats.utils.Utils;
-import com.kilowats.utils.UtilsFaces;
+import com.kilowats.util.jsf.FacesUtils;
 
 @ValidarEndereco
 public class ValidacaoCadastroEndereco implements IValidacaoCadastro {
@@ -42,27 +42,27 @@ public class ValidacaoCadastroEndereco implements IValidacaoCadastro {
 		boolean retorno = true;
 		if (endereco != null) {
 			if (!isCepValido(endereco.getCep())) {
-				UtilsFaces.sendMensagemError(titulo, "Cep inválido");
+				FacesUtils.sendMensagemError(titulo, "Cep inválido");
 				retorno = false;
 			}
 			if (!isStringEnderecoValida(endereco.getBairro())) {
-				UtilsFaces.sendMensagemError(titulo, "Bairro inválido");
+				FacesUtils.sendMensagemError(titulo, "Bairro inválido");
 				retorno = false;
 			}
 			if (!isStringEnderecoValida(endereco.getComplemento())) {
-				UtilsFaces.sendMensagemError(titulo, "Complemento inválido");
+				FacesUtils.sendMensagemError(titulo, "Complemento inválido");
 				retorno = false;
 			}
 			if (!isStringEnderecoValida(endereco.getRua())) {
-				UtilsFaces.sendMensagemError(titulo, "Rua inválida");
+				FacesUtils.sendMensagemError(titulo, "Rua inválida");
 				retorno = false;
 			}
 			if (endereco.getCidade() == null) {
-				UtilsFaces.sendMensagemError(titulo, "Cidade não definida");
+				FacesUtils.sendMensagemError(titulo, "Cidade não definida");
 				retorno = false;
 			}
 		} else {
-			UtilsFaces.sendMensagemError(titulo, "Endereço não preenchido");
+			FacesUtils.sendMensagemError(titulo, "Endereço não preenchido");
 			retorno = false;
 		}
 		return retorno;

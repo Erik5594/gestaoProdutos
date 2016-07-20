@@ -22,7 +22,7 @@ import com.kilowats.servicos.ServicosEndereco;
 import com.kilowats.servicos.ServicosFornecedor;
 import com.kilowats.servicos.ServicosTelefone;
 import com.kilowats.utils.Utils;
-import com.kilowats.utils.UtilsFaces;
+import com.kilowats.util.jsf.FacesUtils;
 
 @Named
 @ViewScoped
@@ -108,9 +108,9 @@ public class CadastroFornecedorControlador implements Serializable{
 		if(validacoes()){
 			completarDadosEmpresa();
 			if(servicosFornecedor.persistirFornecedor(this.empresa)){
-				UtilsFaces.sendMensagemOk(TITULO, "Fornecedor cadastrado com suceso!");
+				FacesUtils.sendMensagemOk(TITULO, "Fornecedor cadastrado com suceso!");
 			}else{
-				UtilsFaces.sendMensagemOk(TITULO, ERRO_INTERNO);
+				FacesUtils.sendMensagemOk(TITULO, ERRO_INTERNO);
 			}
 		}
 	}

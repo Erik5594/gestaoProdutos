@@ -15,12 +15,13 @@ import com.kilowats.entidades.Endereco;
 import com.kilowats.entidades.Telefone;
 import com.kilowats.enuns.TipoPessoa;
 import com.kilowats.enuns.TipoTelefoneEnum;
+import com.kilowats.services.NegocioException;
 import com.kilowats.servicos.ServicosCliente;
 import com.kilowats.servicos.ServicosEmail;
 import com.kilowats.servicos.ServicosEndereco;
 import com.kilowats.servicos.ServicosTelefone;
 import com.kilowats.utils.Utils;
-import com.kilowats.utils.UtilsFaces;
+import com.kilowats.util.jsf.FacesUtils;
 
 @Named
 @ViewScoped
@@ -58,6 +59,9 @@ public class CadastroClienteControlador implements Serializable{
 	private final String TITULO = "Cadastro Cliente: ";
 	private final String ERRO_INTERNO = "Erro interno: erro interno contate a administração do sistema!";
 	
+	public void pesquisar(){
+		throw new NegocioException("Cliente não pode pesquisado, pois ainda não foi implementado.");
+	}
 	
 	public String carregaMascaraCnpjOuCpfPrimefaces(){
 		return Utils.mascarPrimefacesCnpjOuCpf(tpPessoa);
@@ -91,7 +95,7 @@ public class CadastroClienteControlador implements Serializable{
 			telefones = new ArrayList<>();
 		}else{
 			if(telefones.contains(telefone)){
-				UtilsFaces.sendMensagemError(TITULO, "Validação Telefone: Numero já adicionado!");
+				FacesUtils.sendMensagemError(TITULO, "Validação Telefone: Numero já adicionado!");
 				return;
 			}
 		}
@@ -110,7 +114,7 @@ public class CadastroClienteControlador implements Serializable{
 			emails = new ArrayList<>();
 		}else{
 			if(emails.contains(email)){
-				UtilsFaces.sendMensagemError(TITULO, "Validação Email: E-mail já adicionado!");
+				FacesUtils.sendMensagemError(TITULO, "Validação Email: E-mail já adicionado!");
 				return;
 			}
 		}
@@ -122,9 +126,9 @@ public class CadastroClienteControlador implements Serializable{
 		if(validacoes()){
 			completarDadosEmpresa();
 			if(servicosCliente.persistirCliente(this.cliente)){
-				UtilsFaces.sendMensagemOk(TITULO, "Cliente cadastrado com suceso!");
+				FacesUtils.sendMensagemOk(TITULO, "Cliente cadastrado com suceso!");
 			}else{
-				UtilsFaces.sendMensagemError(TITULO, ERRO_INTERNO);
+				FacesUtils.sendMensagemError(TITULO, ERRO_INTERNO);
 			}
 		}
 	}

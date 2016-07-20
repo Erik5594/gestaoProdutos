@@ -4,7 +4,7 @@ import com.kilowats.annotations.ValidarChip;
 import com.kilowats.entidades.Chip;
 import com.kilowats.interfaces.IValidacaoCadastro;
 import com.kilowats.utils.Utils;
-import com.kilowats.utils.UtilsFaces;
+import com.kilowats.util.jsf.FacesUtils;
 
 @ValidarChip
 public class ValidacaoCadastroChip implements IValidacaoCadastro {
@@ -20,19 +20,19 @@ public class ValidacaoCadastroChip implements IValidacaoCadastro {
 		Chip chip = (Chip) obj;
 		boolean retorno = true;
 			if (chip == null) {
-				UtilsFaces.sendMensagemError(titulo, "Chip não informado!");
+				FacesUtils.sendMensagemError(titulo, "Chip não informado!");
 				retorno = false;
 			}
 			if (Utils.isNullOrEmpty(chip.getImei())) {
-				UtilsFaces.sendMensagemError(titulo, "Imei chip inválido!");
+				FacesUtils.sendMensagemError(titulo, "Imei chip inválido!");
 				retorno = false;
 			}
 			if (chip.getDdd() == 0) {
-				UtilsFaces.sendMensagemError(titulo, "DDD inválido!");
+				FacesUtils.sendMensagemError(titulo, "DDD inválido!");
 				retorno = false;
 			}
 			if (chip.getNumero() < 9999999) {
-				UtilsFaces.sendMensagemError(titulo, "Número do chip inválido");
+				FacesUtils.sendMensagemError(titulo, "Número do chip inválido");
 				retorno = false;
 			}
 		return retorno;

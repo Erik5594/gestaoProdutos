@@ -12,6 +12,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ExceptionQueuedEvent;
 import javax.faces.event.ExceptionQueuedEventContext;
 
+import com.kilowats.services.NegocioException;
+
 public class JsfExceptionHandler extends ExceptionHandlerWrapper{
 
 	private ExceptionHandler wrapped;
@@ -34,16 +36,36 @@ public class JsfExceptionHandler extends ExceptionHandlerWrapper{
 		while (events.hasNext()) {
 			ExceptionQueuedEvent event = events.next();
 			ExceptionQueuedEventContext context = (ExceptionQueuedEventContext) event.getSource();
-			
 			Throwable exception = context.getException();
+			NegocioException negocioException = getNegocioException(exception);
+			boolean handled = false;
 			try{
 			if(exception instanceof ViewExpiredException){
+				handled = true;
 				redirect("/");
+			}else if(negocioException != null){
+				handled = true;
+				FacesUtils.sendMensagemError(negocioException.getMessage(), negocioException.getMessage());
+			}else{
+				handled = true;
+				redirect("/erro.xhtml");
 			}
 			}finally{
-				events.remove();
+				if(handled){
+					events.remove();
+				}
 			}
 		}
+	}
+
+
+	private NegocioException getNegocioException(Throwable exception) {
+		if(exception instanceof NegocioException){
+			return (NegocioException) exception;
+		}else if(exception.getCause() != null){
+			return getNegocioException(exception.getCause());
+		}
+		return null;
 	}
 
 

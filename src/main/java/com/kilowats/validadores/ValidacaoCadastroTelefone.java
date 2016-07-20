@@ -3,7 +3,7 @@ package com.kilowats.validadores;
 import com.kilowats.annotations.ValidarTelefone;
 import com.kilowats.entidades.Telefone;
 import com.kilowats.interfaces.IValidacaoCadastro;
-import com.kilowats.utils.UtilsFaces;
+import com.kilowats.util.jsf.FacesUtils;
 
 @ValidarTelefone
 public class ValidacaoCadastroTelefone implements IValidacaoCadastro {
@@ -63,20 +63,20 @@ public class ValidacaoCadastroTelefone implements IValidacaoCadastro {
 		boolean retorno = true;
 		if(telefone != null){
 			if(!isDddValido(telefone.getDdd())){
-				UtilsFaces.sendMensagemError(titulo, "DDD inválido.");
+				FacesUtils.sendMensagemError(titulo, "DDD inválido.");
 				retorno = false;
 			}
 			if(!isNumeroValido(telefone.getNumero())){
-				UtilsFaces.sendMensagemError(titulo, "Numero inválido.");
+				FacesUtils.sendMensagemError(titulo, "Numero inválido.");
 				retorno = false;
 			}
 			
 			if(telefone.getTipoTelefone() == null){
-				UtilsFaces.sendMensagemError(titulo, "Tipo de telefone inválido.");
+				FacesUtils.sendMensagemError(titulo, "Tipo de telefone inválido.");
 				retorno = false;
 			}
 		}else{
-			UtilsFaces.sendMensagemError(titulo, "Não foram encontrados dados de telefone");
+			FacesUtils.sendMensagemError(titulo, "Não foram encontrados dados de telefone");
 			retorno = false;
 		}
 		return retorno;

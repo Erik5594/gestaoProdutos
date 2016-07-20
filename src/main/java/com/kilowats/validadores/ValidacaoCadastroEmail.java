@@ -4,7 +4,7 @@ import com.kilowats.annotations.ValidarEmail;
 import com.kilowats.entidades.Emails;
 import com.kilowats.interfaces.IValidacaoCadastro;
 import com.kilowats.utils.Utils;
-import com.kilowats.utils.UtilsFaces;
+import com.kilowats.util.jsf.FacesUtils;
 
 @ValidarEmail
 public class ValidacaoCadastroEmail implements IValidacaoCadastro {
@@ -33,30 +33,30 @@ public class ValidacaoCadastroEmail implements IValidacaoCadastro {
 		if (email != null) {
 			if (!Utils.isNullOrEmpty(email.getEmailDestinatario())) {
 				if (!email.getEmailDestinatario().contains("@")) {
-					UtilsFaces.sendMensagemError(titulo, "Email inválido!");
+					FacesUtils.sendMensagemError(titulo, "Email inválido!");
 					retorno = false;
 				}
 			} else {
-				UtilsFaces.sendMensagemError(titulo, "Email está vazio!");
+				FacesUtils.sendMensagemError(titulo, "Email está vazio!");
 				retorno = false;
 			}
 
 			if (!Utils.isNullOrEmpty(email.getNomePessoaDestinatario())) {
 				if (!email.getNomePessoaDestinatario().toLowerCase().equals("teste")) {
 					if (email.getNomePessoaDestinatario().length() <= 1) {
-						UtilsFaces.sendMensagemError(titulo, "Nome do destinatário deve ser maior que 1 digito!");
+						FacesUtils.sendMensagemError(titulo, "Nome do destinatário deve ser maior que 1 digito!");
 						retorno = false;
 					}
 				} else {
-					UtilsFaces.sendMensagemError(titulo, "Nome do destinatário é inválido!");
+					FacesUtils.sendMensagemError(titulo, "Nome do destinatário é inválido!");
 					retorno = false;
 				}
 			} else {
-				UtilsFaces.sendMensagemError(titulo, "Nome do destinatário está vazio!");
+				FacesUtils.sendMensagemError(titulo, "Nome do destinatário está vazio!");
 				retorno = false;
 			}
 		} else {
-			UtilsFaces.sendMensagemError(titulo, "Não foram encontrados dados de Email!");
+			FacesUtils.sendMensagemError(titulo, "Não foram encontrados dados de Email!");
 			retorno = false;
 		}
 		return retorno;

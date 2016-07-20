@@ -4,7 +4,7 @@ import com.kilowats.annotations.ValidarFornecedor;
 import com.kilowats.entidades.Empresa;
 import com.kilowats.interfaces.IValidacaoCadastro;
 import com.kilowats.utils.Utils;
-import com.kilowats.utils.UtilsFaces;
+import com.kilowats.util.jsf.FacesUtils;
 
 @ValidarFornecedor
 public class ValidacaoCadastroFornecedor implements IValidacaoCadastro {
@@ -30,11 +30,11 @@ public class ValidacaoCadastroFornecedor implements IValidacaoCadastro {
 		Empresa empresa = (Empresa) obj;
 		boolean retorno = true;
 		if (Utils.isNullOrEmpty(empresa.getNome())) {
-			UtilsFaces.sendMensagemError(titulo, "Nome não está preenchido");
+			FacesUtils.sendMensagemError(titulo, "Nome não está preenchido");
 			retorno = false;
 		}
 		if (!cpfCgcValido(empresa.getCgcCpf().replaceAll("\\D", ""))) {
-			UtilsFaces.sendMensagemError(titulo, "CPF ou CNPJ inválido");
+			FacesUtils.sendMensagemError(titulo, "CPF ou CNPJ inválido");
 			retorno = false;
 		}
 		return retorno;
