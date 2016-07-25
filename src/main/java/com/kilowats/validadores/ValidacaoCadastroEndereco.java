@@ -3,7 +3,7 @@ package com.kilowats.validadores;
 import com.kilowats.annotations.ValidarEndereco;
 import com.kilowats.entidades.Endereco;
 import com.kilowats.interfaces.IValidacaoCadastro;
-import com.kilowats.utils.Utils;
+import com.kilowats.util.Utils;
 import com.kilowats.util.jsf.FacesUtils;
 
 @ValidarEndereco

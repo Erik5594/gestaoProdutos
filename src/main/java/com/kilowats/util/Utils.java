@@ -1,4 +1,4 @@
-package com.kilowats.utils;
+package com.kilowats.util;
 
 import java.util.InputMismatchException;
 

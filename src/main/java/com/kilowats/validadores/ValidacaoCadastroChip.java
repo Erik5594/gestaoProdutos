@@ -3,7 +3,7 @@ package com.kilowats.validadores;
 import com.kilowats.annotations.ValidarChip;
 import com.kilowats.entidades.Chip;
 import com.kilowats.interfaces.IValidacaoCadastro;
-import com.kilowats.utils.Utils;
+import com.kilowats.util.Utils;
 import com.kilowats.util.jsf.FacesUtils;
 
 @ValidarChip

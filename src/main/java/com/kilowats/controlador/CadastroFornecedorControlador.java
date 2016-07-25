@@ -21,7 +21,7 @@ import com.kilowats.servicos.ServicosEmail;
 import com.kilowats.servicos.ServicosEndereco;
 import com.kilowats.servicos.ServicosFornecedor;
 import com.kilowats.servicos.ServicosTelefone;
-import com.kilowats.utils.Utils;
+import com.kilowats.util.Utils;
 import com.kilowats.util.jsf.FacesUtils;
 
 @Named
