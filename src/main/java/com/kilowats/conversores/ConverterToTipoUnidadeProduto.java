@@ -6,7 +6,7 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
 import com.kilowats.enuns.TipoProdutoUnidadeEnum;
-import com.kilowats.utils.Utils;
+import com.kilowats.util.Utils;
 
 @FacesConverter(value = "converterTipoUnidadeProduto")
 public class ConverterToTipoUnidadeProduto implements Converter{

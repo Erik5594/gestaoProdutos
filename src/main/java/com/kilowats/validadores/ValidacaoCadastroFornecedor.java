@@ -3,7 +3,7 @@ package com.kilowats.validadores;
 import com.kilowats.annotations.ValidarFornecedor;
 import com.kilowats.entidades.Empresa;
 import com.kilowats.interfaces.IValidacaoCadastro;
-import com.kilowats.utils.Utils;
+import com.kilowats.util.Utils;
 import com.kilowats.util.jsf.FacesUtils;
 
 @ValidarFornecedor

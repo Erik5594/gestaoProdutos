@@ -6,7 +6,7 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
 import com.kilowats.enuns.Operadora;
-import com.kilowats.utils.Utils;
+import com.kilowats.util.Utils;
 
 @FacesConverter(value = "converterOperadora")
 public class ConverterToOperadora implements Converter{

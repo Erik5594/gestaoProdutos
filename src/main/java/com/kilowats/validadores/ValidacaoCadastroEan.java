@@ -3,7 +3,7 @@ package com.kilowats.validadores;
 import com.kilowats.annotations.ValidarEan;
 import com.kilowats.entidades.Ean;
 import com.kilowats.interfaces.IValidacaoCadastro;
-import com.kilowats.utils.Utils;
+import com.kilowats.util.Utils;
 import com.kilowats.util.jsf.FacesUtils;
 
 @ValidarEan
