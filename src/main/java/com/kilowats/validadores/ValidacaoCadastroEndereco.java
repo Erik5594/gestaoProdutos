@@ -14,19 +14,19 @@ public class ValidacaoCadastroEndereco implements IValidacaoCadastro {
 		Endereco endereco = (Endereco) obj;
 
 		if (endereco != null) {
-			if (!isCepValido(endereco.getCep())) {
+			if (!isCepValido(endereco.getCep().getCep())) {
 				return false;
 			}
-			if (!isStringEnderecoValida(endereco.getBairro())) {
+			if (!isStringEnderecoValida(endereco.getCep().getBairro())) {
 				return false;
 			}
 			if (!isStringEnderecoValida(endereco.getComplemento())) {
 				return false;
 			}
-			if (!isStringEnderecoValida(endereco.getRua())) {
+			if (!isStringEnderecoValida(endereco.getCep().getRua())) {
 				return false;
 			}
-			if (endereco.getCidade() == null) {
+			if (endereco.getCep().getCidade() == null) {
 				return false;
 			}
 		} else {
@@ -41,11 +41,11 @@ public class ValidacaoCadastroEndereco implements IValidacaoCadastro {
 		Endereco endereco = (Endereco) obj;
 		boolean retorno = true;
 		if (endereco != null) {
-			if (!isCepValido(endereco.getCep())) {
+			if (!isCepValido(endereco.getCep().getCep())) {
 				FacesUtils.sendMensagemError(titulo, "Cep inválido");
 				retorno = false;
 			}
-			if (!isStringEnderecoValida(endereco.getBairro())) {
+			if (!isStringEnderecoValida(endereco.getCep().getBairro())) {
 				FacesUtils.sendMensagemError(titulo, "Bairro inválido");
 				retorno = false;
 			}
@@ -53,11 +53,11 @@ public class ValidacaoCadastroEndereco implements IValidacaoCadastro {
 				FacesUtils.sendMensagemError(titulo, "Complemento inválido");
 				retorno = false;
 			}
-			if (!isStringEnderecoValida(endereco.getRua())) {
+			if (!isStringEnderecoValida(endereco.getCep().getRua())) {
 				FacesUtils.sendMensagemError(titulo, "Rua inválida");
 				retorno = false;
 			}
-			if (endereco.getCidade() == null) {
+			if (endereco.getCep().getCidade() == null) {
 				FacesUtils.sendMensagemError(titulo, "Cidade não definida");
 				retorno = false;
 			}

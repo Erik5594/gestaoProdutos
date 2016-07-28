@@ -2,7 +2,9 @@ package com.kilowats.entidades;
 
 import java.io.Serializable;
 
-public class Emails implements Serializable{
+import lombok.Data;
+
+public @Data class Emails implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
@@ -10,28 +12,7 @@ public class Emails implements Serializable{
 	private Long idPessoa;
 	private String emailDestinatario;
 	private String nomePessoaDestinatario;
-	
-	public Long getIdPessoa() {
-		return idPessoa;
-	}
-	public void setIdPessoa(Long idPessoa) {
-		this.idPessoa = idPessoa;
-	}
-	public String getEmailDestinatario() {
-		return emailDestinatario;
-	}
-	public void setEmailDestinatario(String emailDestinatario) {
-		this.emailDestinatario = emailDestinatario;
-	}
-	public String getNomePessoaDestinatario() {
-		return nomePessoaDestinatario;
-	}
-	public void setNomePessoaDestinatario(String nomePessoaDestinatario) {
-		this.nomePessoaDestinatario = nomePessoaDestinatario;
-	}
-	public Long getIdEmail() {
-		return idEmail;
-	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

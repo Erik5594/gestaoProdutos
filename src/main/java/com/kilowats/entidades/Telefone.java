@@ -2,9 +2,11 @@ package com.kilowats.entidades;
 
 import java.io.Serializable;
 
+import lombok.Data;
+
 import com.kilowats.enuns.TipoTelefoneEnum;
 
-public class Telefone implements Serializable{
+public @Data class Telefone implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 
@@ -14,33 +16,6 @@ public class Telefone implements Serializable{
 	private String numero;
 	private TipoTelefoneEnum tipoTelefone;
 	
-	public Long getIdPessoa() {
-		return idPessoa;
-	}
-	public void setIdPessoa(Long idPessoa) {
-		this.idPessoa = idPessoa;
-	}
-	public int getDdd() {
-		return ddd;
-	}
-	public void setDdd(int ddd) {
-		this.ddd = ddd;
-	}
-	public String getNumero() {
-		return numero;
-	}
-	public void setNumero(String numero) {
-		this.numero = numero;
-	}
-	public Long getIdTelefone() {
-		return idTelefone;
-	}
-	public TipoTelefoneEnum getTipoTelefone() {
-		return tipoTelefone;
-	}
-	public void setTipoTelefone(TipoTelefoneEnum tipoTelefone) {
-		this.tipoTelefone = tipoTelefone;
-	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;

@@ -1,10 +1,14 @@
 package com.kilowats.entidades;
 
-import com.kilowats.enuns.Operadora;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import com.kilowats.annotations.ProdutoChip;
+import com.kilowats.enuns.Operadora;
 
 @ProdutoChip
-public class Chip extends Produto{
+@EqualsAndHashCode(callSuper=false)
+public @Data class Chip extends Produto{
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -17,49 +21,6 @@ public class Chip extends Produto{
 	
 	public Chip(){
 		super();
-	}
-	
-	public Long getIdChip() {
-		return idChip;
-	}
-	public void setIdChip(Long idChip) {
-		this.idChip = idChip;
-	}
-	public int getDdd() {
-		return ddd;
-	}
-	public void setDdd(int ddd) {
-		this.ddd = ddd;
-	}
-	public long getNumero() {
-		return numero;
-	}
-	public void setNumero(long numero) {
-		this.numero = numero;
-	}
-	public String getImei() {
-		return imei;
-	}
-	public void setImei(String imei) {
-		this.imei = imei;
-	}
-	
-	public Operadora getOperadora() {
-		return operadora;
-	}
-	public void setOperadora(Operadora operadora) {
-		this.operadora = operadora;
-	}
-	
-	public Rastreador getRastreador() {
-		return rastreador;
-	}
-	public void setRastreador(Rastreador restreador) {
-		this.rastreador = restreador;
-	}
-	
-	public boolean isRastreador(){
-		return this.rastreador != null;
 	}
 	
 	@Override
@@ -84,6 +45,10 @@ public class Chip extends Produto{
 		} else if (!imei.equals(other.imei))
 			return false;
 		return true;
+	}
+
+	public boolean isRastreador() {
+		return rastreador != null && rastreador.getIdRastreador() != 0L;
 	}
 	
 	

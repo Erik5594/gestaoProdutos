@@ -73,13 +73,13 @@
 						value="#{cadastroFornecedorControlador.endereco.cep}"	style="width: 70px" />
 
 						<p:outputLabel value="Logradouro: " for="rua" />
-						<p:inputText id="rua" size="35" value="#{cadastroFornecedorControlador.endereco.rua}"/>
+						<p:inputText id="rua" size="35" value="#{cadastroFornecedorControlador.endereco.cep.rua}"/>
 
 						<p:outputLabel value="Complemento: " for="complemento" />
 						<p:inputText id="complemento" value="#{cadastroFornecedorControlador.endereco.complemento}"/>
 
 						<p:outputLabel value="Bairro: " for="bairro" />
-						<p:inputText id="bairro" value="#{cadastroFornecedorControlador.endereco.bairro}"/>
+						<p:inputText id="bairro" value="#{cadastroFornecedorControlador.endereco.cep.bairro}"/>
 
 						<p:outputLabel value="Numero: " for="numero" />
 						<p:inputText id="numero" style="width: 45px" value="#{cadastroFornecedorControlador.endereco.numero}"/>

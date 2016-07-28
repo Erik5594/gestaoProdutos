@@ -104,7 +104,7 @@ public class CadastroFornecedorControlador implements Serializable{
 	}
 
 	public void salvar(){
-		endereco.setCidade(cidade);
+		endereco.getCep().setCidade(cidade);
 		if(validacoes()){
 			completarDadosEmpresa();
 			if(servicosFornecedor.persistirFornecedor(this.empresa)){
@@ -116,7 +116,7 @@ public class CadastroFornecedorControlador implements Serializable{
 	}
 
 	private void completarDadosEmpresa() {
-		this.endereco.setCidade(this.cidade);
+		this.endereco.getCep().setCidade(this.cidade);
 		this.empresa.setEndereco(this.endereco);
 		if(this.tpPessoa == 0){
 			this.empresa.setFisicaJuridica(TipoPessoa.FISICA);

@@ -102,13 +102,13 @@ public class FornecedorDao implements IPersistirBancoDados{
 	private String adicionaEnderecoFornecedor(Endereco endereco){
 		StringBuffer texto = new StringBuffer();
 		texto.append("########## INICIO DADOS ENDERECO ##########\n");
-		texto.append("Cep: "+endereco.getCep()+"\n");
-		texto.append("Rua: "+endereco.getRua()+"\n");
+		texto.append("Cep: "+endereco.getCep().getCep()+"\n");
+		texto.append("Rua: "+endereco.getCep().getRua()+"\n");
 		texto.append("Complemento: "+endereco.getComplemento()+"\n");
 		texto.append("Numero: "+endereco.getNumero()+"\n");
-		texto.append("Bairro: "+endereco.getBairro()+"\n");
-		texto.append("Cidade: "+endereco.getCidade().getNomeCidade()+"\n");
-		texto.append("UF: "+endereco.getCidade().getUf()+"\n");
+		texto.append("Bairro: "+endereco.getCep().getBairro()+"\n");
+		texto.append("Cidade: "+endereco.getCep().getCidade().getNomeCidade()+"\n");
+		texto.append("UF: "+endereco.getCep().getCidade().getUf()+"\n");
 		texto.append("########## FIM DADOS ENDERECO ##########\n");
 		return texto.toString();
 	}

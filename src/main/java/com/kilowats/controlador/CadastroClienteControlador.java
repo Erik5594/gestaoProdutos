@@ -15,7 +15,6 @@ import com.kilowats.entidades.Endereco;
 import com.kilowats.entidades.Telefone;
 import com.kilowats.enuns.TipoPessoa;
 import com.kilowats.enuns.TipoTelefoneEnum;
-import com.kilowats.services.NegocioException;
 import com.kilowats.servicos.ServicosCliente;
 import com.kilowats.servicos.ServicosEmail;
 import com.kilowats.servicos.ServicosEndereco;
@@ -122,7 +121,7 @@ public class CadastroClienteControlador implements Serializable{
 	}
 
 	public void salvar(){
-		endereco.setCidade(cidade);
+		endereco.getCep().setCidade(cidade);
 		if(validacoes()){
 			completarDadosEmpresa();
 			if(servicosCliente.persistirCliente(this.cliente)){
@@ -134,7 +133,7 @@ public class CadastroClienteControlador implements Serializable{
 	}
 
 	private void completarDadosEmpresa() {
-		this.endereco.setCidade(this.cidade);
+		this.endereco.getCep().setCidade(this.cidade);
 		this.cliente.setEndereco(this.endereco);
 		if(this.tpPessoa == 0){
 			this.cliente.setFisicaJuridica(TipoPessoa.FISICA);

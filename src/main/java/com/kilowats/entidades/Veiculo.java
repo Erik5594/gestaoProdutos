@@ -2,9 +2,11 @@ package com.kilowats.entidades;
 
 import java.io.Serializable;
 
+import lombok.Data;
+
 import com.kilowats.enuns.TipoVeiculo;
 
-public class Veiculo implements Serializable{
+public @Data class Veiculo implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
@@ -13,36 +15,7 @@ public class Veiculo implements Serializable{
 	private String chassi;
 	private TipoVeiculo tipoVeiculo;
 	private Pessoa cliente;
-	public long getId() {
-		return id;
-	}
-	public void setId(long id) {
-		this.id = id;
-	}
-	public String getPlaca() {
-		return placa;
-	}
-	public void setPlaca(String placa) {
-		this.placa = placa;
-	}
-	public String getChassi() {
-		return chassi;
-	}
-	public void setChassi(String chassi) {
-		this.chassi = chassi;
-	}
-	public TipoVeiculo getTipoVeiculo() {
-		return tipoVeiculo;
-	}
-	public void setTipoVeiculo(TipoVeiculo tipoVeiculo) {
-		this.tipoVeiculo = tipoVeiculo;
-	}
-	public Pessoa getCliente() {
-		return cliente;
-	}
-	public void setCliente(Pessoa cliente) {
-		this.cliente = cliente;
-	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
