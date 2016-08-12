@@ -14,20 +14,16 @@ import com.kilowats.annotations.ProdutoChip;
 import com.kilowats.enuns.Operadora;
 
 @ProdutoChip
-@Entity
 public @Data class Chip implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
-	@Id
-	@GeneratedValue
 	private Long idChip;
 	private String codControle;
 	private int ddd;
 	private long numero;
 	private String imei;
 	private Operadora operadora;
-	@ManyToOne
 	private Rastreador rastreador;
 	
 	public Chip(){

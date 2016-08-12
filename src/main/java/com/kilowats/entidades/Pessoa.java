@@ -10,7 +10,7 @@ import com.kilowats.enuns.TipoPessoa;
 public @Data class Pessoa implements Serializable{
 
 	private static final long serialVersionUID = 1L;
-
+	private Long id;
 	private String nome;
 	private String cgcCpf;
 	private TipoPessoa fisicaJuridica;//0fisica; 1juridica

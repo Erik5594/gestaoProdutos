@@ -15,20 +15,14 @@ import lombok.Data;
 import com.kilowats.annotations.ProdutoRastreador;
 
 @ProdutoRastreador
-@Entity
 public @Data class Rastreador implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
-	@Id
-	@GeneratedValue
 	private long idRastreador;
-	@Transient
 	private Empresa fabricante;
 	private boolean exigeFabricante;
-	@OneToMany(mappedBy="rastreador")
 	private List<Chip> chip;
-	@Transient
 	private Veiculo veiculo;
 	
 	@Override

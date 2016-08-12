@@ -6,6 +6,7 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
 import com.kilowats.entidades.Chip;
+import com.kilowats.entidades.Grupo;
 import com.kilowats.entidades.Rastreador;
 import com.kilowats.enuns.Operadora;
 
@@ -17,22 +18,12 @@ public class Teste {
 		EntityTransaction trc = manager.getTransaction();
 		trc.begin();
 		
-		Chip chip = new Chip();
+
+		Grupo grupo = new Grupo();
+		grupo.setDescricao("Administrador do sistema");
+		grupo.setNome("ADMINISTRADOR");
 		
-		chip.setDdd(62);
-		chip.setImei("545131545345312");
-		chip.setNumero(985023781);
-		chip.setOperadora(Operadora.OI);
-		
-		Rastreador rastreador = new Rastreador();
-		rastreador.setExigeFabricante(false);
-		rastreador.setFabricante(null);
-		rastreador.setVeiculo(null);
-		rastreador.getChip().add(chip);
-		
-		chip.setRastreador(rastreador);
-		
-		manager.persist(chip);
+		manager.persist(grupo);
 		
 		trc.commit();
 	}
