@@ -14,7 +14,7 @@ public @Data class Veiculo implements Serializable{
 	private String placa;
 	private String chassi;
 	private TipoVeiculo tipoVeiculo;
-	private Pessoa cliente;
+	private Cliente cliente;
 	
 	@Override
 	public int hashCode() {

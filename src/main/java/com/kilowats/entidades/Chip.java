@@ -1,22 +1,33 @@
 package com.kilowats.entidades;
 
+import java.io.Serializable;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
+
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import com.kilowats.annotations.ProdutoChip;
 import com.kilowats.enuns.Operadora;
 
 @ProdutoChip
-@EqualsAndHashCode(callSuper=false)
-public @Data class Chip extends Produto{
+@Entity
+public @Data class Chip implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
+	@Id
+	@GeneratedValue
 	private Long idChip;
+	private String codControle;
 	private int ddd;
 	private long numero;
 	private String imei;
 	private Operadora operadora;
+	@ManyToOne
 	private Rastreador rastreador;
 	
 	public Chip(){
@@ -50,6 +61,4 @@ public @Data class Chip extends Produto{
 	public boolean isRastreador() {
 		return rastreador != null && rastreador.getIdRastreador() != 0L;
 	}
-	
-	
 }

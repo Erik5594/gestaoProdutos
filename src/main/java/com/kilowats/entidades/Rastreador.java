@@ -1,20 +1,34 @@
 package com.kilowats.entidades;
 
+import java.io.Serializable;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Transient;
+
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import com.kilowats.annotations.ProdutoRastreador;
 
 @ProdutoRastreador
-@EqualsAndHashCode(callSuper=false)
-public @Data class Rastreador extends Produto{
+@Entity
+public @Data class Rastreador implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
+	@Id
+	@GeneratedValue
 	private long idRastreador;
+	@Transient
 	private Empresa fabricante;
 	private boolean exigeFabricante;
-	private Chip chip;
+	@OneToMany(mappedBy="rastreador")
+	private List<Chip> chip;
+	@Transient
 	private Veiculo veiculo;
 	
 	@Override
