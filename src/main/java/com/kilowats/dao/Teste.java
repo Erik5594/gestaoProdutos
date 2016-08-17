@@ -8,6 +8,7 @@ import javax.persistence.Persistence;
 import com.kilowats.entidades.Chip;
 import com.kilowats.entidades.Grupo;
 import com.kilowats.entidades.Rastreador;
+import com.kilowats.entidades.Usuario;
 import com.kilowats.enuns.Operadora;
 
 public class Teste {
@@ -19,13 +20,15 @@ public class Teste {
 		trc.begin();
 		
 
-		Grupo grupo = new Grupo();
-		grupo.setDescricao("Administrador do sistema");
-		grupo.setNome("ADMINISTRADOR");
+		Usuario usuario = new Usuario();
+		usuario.setEmail("admin");
+		usuario.setNome("Erik");
+		usuario.setSenha("admin");
 		
-		manager.persist(grupo);
+		manager.persist(usuario);
 		
 		trc.commit();
+		manager.close();
 	}
 
 }
