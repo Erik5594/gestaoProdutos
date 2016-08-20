@@ -1,15 +1,15 @@
 package com.kilowats.dao;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
-import com.kilowats.entidades.Chip;
 import com.kilowats.entidades.Grupo;
-import com.kilowats.entidades.Rastreador;
 import com.kilowats.entidades.Usuario;
-import com.kilowats.enuns.Operadora;
 
 public class Teste {
 
@@ -24,7 +24,12 @@ public class Teste {
 		usuario.setEmail("admin");
 		usuario.setNome("Erik");
 		usuario.setSenha("admin");
-		
+		List<Grupo> grupos = new ArrayList<>();
+		Grupo grupo = new Grupo();
+		grupo.setNome("ADMINISTRADOR");
+		grupo.setDescricao("Administrador do sistema.");
+		grupos.add(grupo);
+		usuario.setGrupos(grupos);
 		manager.persist(usuario);
 		
 		trc.commit();

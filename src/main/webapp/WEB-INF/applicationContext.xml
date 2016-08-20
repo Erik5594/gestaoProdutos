@@ -1,12 +1,11 @@
 <beans:beans xmlns="http://www.springframework.org/schema/security"
-  xmlns:beans="http://www.springframework.org/schema/beans"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://www.springframework.org/schema/beans
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
            http://www.springframework.org/schema/security
            http://www.springframework.org/schema/security/spring-security-3.2.xsd">
-           
-           <beans:bean id="appUserDetailsService" class="com.kilowats.security.AppUserDetailsService"/>
+
+	<beans:bean id="appUserDetailsService" class="com.kilowats.security.AppUserDetailsService" />
 
 
 	<beans:bean id="exceptionTranslationFilter"
@@ -27,31 +26,39 @@
 		<beans:property name="redirectStrategy" ref="jsfRedirectStrategy" />
 	</beans:bean>
 
-	<beans:bean id="jsfRedirectStrategy"
-		class="com.kilowats.security.JsfRedirectStrategy" />
-           
-           
-           
-           <http pattern="/Login.xhtml" security="none"/>
-           <http pattern="/erro.xhtml" security="none"/>
-           <http pattern="/javax.faces.resource/**" security="none" />
-           
+	<beans:bean id="jsfRedirectStrategy" class="com.kilowats.security.JsfRedirectStrategy" />
+
+
+
+	<http pattern="/Login.xhtml" security="none" />
+	<http pattern="/erro.xhtml" security="none" />
+	<http pattern="/javax.faces.resource/**" security="none" />
+
+	<!-- auto-config caso esteja true ele configura automaticamente as telas 
+		de login e logout -->
 	<http auto-config="false" use-expressions="true">
 		<custom-filter ref="exceptionTranslationFilter" before="FILTER_SECURITY_INTERCEPTOR" />
-		
+
 		<intercept-url pattern="/Conteudo.xhtml" access="isAuthenticated()" />
 		<intercept-url pattern="/AcessoNegado.xhtml" access="isAuthenticated()" />
-		<intercept-url pattern="/pages/private/cliente/**" access="hasAnyRole('VENDEDORES', 'ADMINISTRADORES')" />
-		<intercept-url pattern="/pages/private/produto/**" access="hasAnyRole('ADMINISTRADORES')" />
+		<intercept-url pattern="/pages/private/cliente/**"
+			access="hasAnyRole('VENDEDORES', 'ADMINISTRADORES')" />
+		<intercept-url pattern="/pages/private/produto/**"
+			access="hasAnyRole('ADMINISTRADORES')" />
 		<intercept-url pattern="/**" access="denyAll" />
-		<form-login login-page="/Login.xhtml" default-target-url="/"  always-use-default-target="true"
-		authentication-failure-url="/Login.xhtml?invalid=true"/>
-		<logout logout-url="/j_spring_security_logout" invalidate-session="true"/>
+
+		<!-- Defino a tela de login -->
+		<form-login login-page="/Login.xhtml" default-target-url="/"
+			always-use-default-target="true" authentication-failure-url="/Login.xhtml?invalid=true" />
+
+		<!-- Defino a tela de logout -->
+		<logout logout-url="/j_spring_security_logout"
+			invalidate-session="true" />
 	</http>
-	
+
 	<authentication-manager>
 		<authentication-provider user-service-ref="appUserDetailsService">
 		</authentication-provider>
 	</authentication-manager>
-           
+
 </beans:beans>

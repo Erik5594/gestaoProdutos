@@ -20,7 +20,7 @@ public class ServicosFornecedor implements Serializable{
 	private IValidacaoCadastro validar;
 	
 	public boolean persistirFornecedor(Empresa empresa){
-		return persistir.salvar(empresa);
+		return false;
 	}
 	public boolean validarFornecedor(Empresa empresa, String titulo){
 		return validar.validarCadastroComMensagem(empresa, titulo);

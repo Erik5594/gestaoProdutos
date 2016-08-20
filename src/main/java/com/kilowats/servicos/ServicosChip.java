@@ -20,7 +20,7 @@ public class ServicosChip implements Serializable{
 	private IValidacaoCadastro validar;
 	
 	public boolean persistirChip(Chip chip){
-		return persistir.salvar(chip);
+		return false;
 	}
 	
 	public boolean chipIsValido(Chip chip, String titulo){

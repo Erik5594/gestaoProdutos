@@ -20,7 +20,7 @@ public class ServicosCliente implements Serializable{
 	private IValidacaoCadastro validar;
 
 	public boolean persistirCliente(Cliente cliente){
-		return persistir.salvar(cliente);
+		return false;
 	}
 	
 	public boolean validarCliente(Cliente cliente, String titulo){

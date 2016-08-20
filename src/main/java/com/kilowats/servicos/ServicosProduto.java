@@ -20,7 +20,7 @@ public class ServicosProduto implements Serializable{
 	private IValidacaoCadastro validador;
 
 	public boolean persistirProduto(Produto produto) {
-		return persistir.salvar(produto);
+		return false;
 	}
 	
 	public boolean produtoIsValido(Produto produto, String titulo) {
