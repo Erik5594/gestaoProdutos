@@ -5,5 +5,7 @@ public interface IPersistirBancoDados {
 	Object salvar(Object obj);
 	
 	boolean deletar(Object obj);
+	
+	Object pesquisarById(Object obj);
 
 }

@@ -5,6 +5,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.kilowats.enuns.TipoGrupo;
+
 import lombok.Data;
 
 @Entity
@@ -12,7 +14,7 @@ public @Data class Grupo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	private String nome;
+	private TipoGrupo nomeGrupo;
 	private String descricao;
 	
 	@Override

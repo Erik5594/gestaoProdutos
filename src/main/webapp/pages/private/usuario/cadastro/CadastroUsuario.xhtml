@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/WEB-INF/templates/Layout.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<ui:define name="titulo">Cadastro de usuário</ui:define>
+
+	<ui:define name="conteudo">
+		<h:form id="frmCadastroUsuario">
+			<p:messages id="mensagens" autoUpdate="true" for="mensageError"/>
+			<p:messages id="mensagensPadrao" autoUpdate="true"/>
+			<p:growl for="growMensage"/>
+			<h1>Cadastro de usuário</h1>
+			<!-- Inicio Barra de opoces -->
+			<p:toolbar style="margin-bottom: 20px">
+				<!-- Inicio de grupo de Barra de opces a esquerda -->
+				<p:toolbarGroup>
+					<p:commandButton value="Salvar" style="margin-right: 5px" 
+					update="@form"/>
+					<p:button value="Novo"
+						outcome="/pages/private/usuario/cadastro/CadastroUsuario.xhtml" />
+				</p:toolbarGroup>
+				<!-- Fim de grupo de Barra de opces a esquerda -->
+				
+				<!-- Inicio de grupo de Barra de opces a Direita -->
+				<p:toolbarGroup align="right">
+					<p:commandButton value="Pesquisar" />
+				</p:toolbarGroup>
+				<!-- Fim de grupo de Barra de opces a Direita -->
+			</p:toolbar>
+			<!-- Fim Barra de opcoes -->
+			<h1>Em Manutenção</h1>
+			<h:panelGrid columns="2">
+			
+			<p:outputLabel value="Nome:"/>
+			<p:inputText size="30" value="#{cadastroUsuarioControlador.usuario.nome}"/>
+			
+			<p:outputLabel value="E-mail:"/>
+			<p:inputText size="30" value="#{cadastroUsuarioControlador.usuario.email}"/>
+			
+			<p:outputLabel value="Senha:"/>
+			<p:password size="15" value="#{cadastroUsuarioControlador.usuario.senha}"/>
+			
+			<p:outputLabel value="Grupos:"/>
+			<p:selectManyCheckbox layout="grid" columns="3" converter="converterNomeGrupo"
+			 value="#{cadastroUsuarioControlador.usuario.grupo.nomeGrupo}">
+			<f:selectItem itemLabel="Administrador" itemValue="ADMINISTRADORES"/>
+			<f:selectItem itemLabel="Vendedor" itemValue="VENDEDORES"/>
+			</p:selectManyCheckbox>
+			
+			</h:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>

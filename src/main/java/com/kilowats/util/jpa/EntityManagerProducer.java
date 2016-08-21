@@ -17,7 +17,8 @@ public class EntityManagerProducer {
 		factory = Persistence.createEntityManagerFactory("gestaoPU");
 	}
 	
-	@Produces @RequestScoped
+	@Produces
+	@RequestScoped
 	public EntityManager createEntityManager() {
 		return factory.createEntityManager();
 	}

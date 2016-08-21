@@ -18,4 +18,10 @@ public class ProdutoDao implements IPersistirBancoDados{
 		return false;
 	}
 
+	@Override
+	public Object pesquisarById(Object obj) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

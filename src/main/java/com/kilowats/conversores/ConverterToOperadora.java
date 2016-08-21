@@ -27,6 +27,12 @@ public class ConverterToOperadora implements Converter{
 
 	@Override
 	public String getAsString(FacesContext arg0, UIComponent arg1, Object arg2) {
+		if(arg2 instanceof Operadora){
+			if(arg2 != null){
+				Operadora operadora = (Operadora) arg2;
+				return operadora.getOperadora();
+			}
+		}
 		return null;
 	}
 }

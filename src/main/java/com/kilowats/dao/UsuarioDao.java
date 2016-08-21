@@ -15,18 +15,19 @@ public class UsuarioDao implements IPersistirBancoDados{
 	private EntityManager manager;
 
 	@Override
-	public Usuario salvar(Object obj) {
-		if(obj instanceof Usuario){
-			Usuario usuario = (Usuario) obj;
-			return manager.merge(usuario);
-		}
-		return null;
+	public Object salvar(Object obj) {
+		return manager.merge(obj);
 	}	
 
 	@Override
 	public boolean deletar(Object obj) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean retorno = true;
+		try{
+			manager.remove(obj);
+		}catch(Exception e){
+			retorno = false;
+		}
+		return retorno;
 	}
 	
 
@@ -38,6 +39,11 @@ public class UsuarioDao implements IPersistirBancoDados{
 		} catch (NoResultException e) {
 			return null;
 		}
+	}
+
+	@Override
+	public Object pesquisarById(Object obj) {
+		return manager.find(Usuario.class, obj);
 	}
 	
 }

@@ -17,5 +17,11 @@ public class ChipDao implements IPersistirBancoDados{
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	@Override
+	public Object pesquisarById(Object obj) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

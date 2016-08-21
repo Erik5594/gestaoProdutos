@@ -31,6 +31,7 @@
 
 
 	<http pattern="/Login.xhtml" security="none" />
+	<http pattern="/pages/private/usuario/**" security="none" />
 	<http pattern="/erro.xhtml" security="none" />
 	<http pattern="/javax.faces.resource/**" security="none" />
 
