@@ -4,26 +4,21 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
-import com.kilowats.annotations.CadastrarUsuario;
 import com.kilowats.entidades.Usuario;
-import com.kilowats.interfaces.IPersistirBancoDados;
 
-@CadastrarUsuario
-public class UsuarioDao implements IPersistirBancoDados{
+public class UsuarioDao {
 	
 	@Inject
 	private EntityManager manager;
 
-	@Override
-	public Object salvar(Object obj) {
-		return manager.merge(obj);
+	public Usuario salvar(Usuario usuario) {
+		return (Usuario) manager.merge(usuario);
 	}	
 
-	@Override
-	public boolean deletar(Object obj) {
+	public boolean deletar(Usuario usuario) {
 		boolean retorno = true;
 		try{
-			manager.remove(obj);
+			manager.remove(usuario);
 		}catch(Exception e){
 			retorno = false;
 		}
@@ -41,9 +36,8 @@ public class UsuarioDao implements IPersistirBancoDados{
 		}
 	}
 
-	@Override
-	public Object pesquisarById(Object obj) {
-		return manager.find(Usuario.class, obj);
+	public Usuario pesquisarById(Long id) {
+		return (Usuario) manager.find(Usuario.class, id);
 	}
 	
 }

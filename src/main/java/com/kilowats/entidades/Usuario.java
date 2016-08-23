@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
@@ -26,10 +27,13 @@ public @Data class Usuario implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
+	@Column(length=30, nullable=false)
 	private String nome;
+	@Column(length=50, nullable=false)
 	private String email;
+	@Column(length=12, nullable=false)
 	private String senha;
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany
 	@JoinTable(name = "usuario_grupo", joinColumns = @JoinColumn(name="usuario_id"),
 			inverseJoinColumns = @JoinColumn(name = "grupo_id"),
 			foreignKey = @ForeignKey(name = "fk_usuario_id"),

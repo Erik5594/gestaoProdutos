@@ -1,7 +1,8 @@
 package com.kilowats.enuns;
 
 public enum TipoGrupo {
-	ADMINISTRADORES(0, "Administradores"), VENDEDORES(1, "Vendedores");
+	ADMINISTRADORES(0, "Administradores"), VENDEDORES(1, "Vendedores"), TECNICOS(2, "Técnico"),
+	FINANCEIROS(3, "Financeiros");
 	private int codGrupo;
 	private String nomeGrupo;
 	

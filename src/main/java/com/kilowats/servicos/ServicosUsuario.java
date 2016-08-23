@@ -4,10 +4,9 @@ import java.io.Serializable;
 
 import javax.inject.Inject;
 
-import com.kilowats.annotations.CadastrarUsuario;
 import com.kilowats.annotations.ValidarUsuario;
+import com.kilowats.dao.UsuarioDao;
 import com.kilowats.entidades.Usuario;
-import com.kilowats.interfaces.IPersistirBancoDados;
 import com.kilowats.interfaces.IValidacaoCadastro;
 
 public class ServicosUsuario implements Serializable{
@@ -16,23 +15,23 @@ public class ServicosUsuario implements Serializable{
 	
 	@Inject @ValidarUsuario
 	private IValidacaoCadastro validar;
-	@Inject @CadastrarUsuario
-	private IPersistirBancoDados persistir;
+	@Inject
+	private UsuarioDao usuarioDao;
 	
 	public boolean usuarioIsValido(Usuario usuario, String titulo){
 		return validar.validarCadastroComMensagem(usuario, titulo);
 	}
 	
 	public Usuario salvar(Usuario usuario){
-		return (Usuario) persistir.salvar(usuario);
+		return usuarioDao.salvar(usuario);
 	}
 	
 	public Usuario pesquisarById(Usuario usuario){
-		return (Usuario) persistir.pesquisarById(usuario.getId());
+		return usuarioDao.pesquisarById(usuario.getId());
 	}
 	
 	public boolean deletar(Usuario usuario) {
-		return persistir.deletar(usuario);
+		return usuarioDao.deletar(usuario);
 	}
 
 }

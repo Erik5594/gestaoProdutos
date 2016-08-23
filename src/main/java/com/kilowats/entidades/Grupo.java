@@ -1,6 +1,9 @@
 package com.kilowats.entidades;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,7 +17,12 @@ public @Data class Grupo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	private TipoGrupo nomeGrupo;
+	@Enumerated(EnumType.STRING)
+	@Column(name="nome_amigavel_grupo", length=20, nullable=false)
+	private String nomeAmigavel;
+	@Column(name="nome_grupo", length=20, nullable=false)
+	private String nome;
+	@Column(length=60, nullable=true)
 	private String descricao;
 	
 	@Override

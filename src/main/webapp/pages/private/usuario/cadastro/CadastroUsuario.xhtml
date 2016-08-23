@@ -20,7 +20,7 @@
 				<!-- Inicio de grupo de Barra de opces a esquerda -->
 				<p:toolbarGroup>
 					<p:commandButton value="Salvar" style="margin-right: 5px" 
-					update="@form"/>
+					update="@form" action="#{cadastroUsuarioControlador.salvar()}"/>
 					<p:button value="Novo"
 						outcome="/pages/private/usuario/cadastro/CadastroUsuario.xhtml" />
 				</p:toolbarGroup>
@@ -46,10 +46,12 @@
 			<p:password size="15" value="#{cadastroUsuarioControlador.usuario.senha}"/>
 			
 			<p:outputLabel value="Grupos:"/>
-			<p:selectManyCheckbox layout="grid" columns="3" converter="converterNomeGrupo"
-			 value="#{cadastroUsuarioControlador.usuario.grupo.nomeGrupo}">
+			<p:selectManyCheckbox layout="grid" columns="3"
+			 value="#{cadastroUsuarioControlador.nomeGrupos}">
 			<f:selectItem itemLabel="Administrador" itemValue="ADMINISTRADORES"/>
 			<f:selectItem itemLabel="Vendedor" itemValue="VENDEDORES"/>
+			<f:selectItem itemLabel="Tecnico" itemValue="TECNICOS"/>
+			<f:selectItem itemLabel="Financeiro" itemValue="FINANCEIROS"/>
 			</p:selectManyCheckbox>
 			
 			</h:panelGrid>
