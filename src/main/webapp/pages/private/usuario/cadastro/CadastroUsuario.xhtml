@@ -47,11 +47,9 @@
 			
 			<p:outputLabel value="Grupos:"/>
 			<p:selectManyCheckbox layout="grid" columns="3"
-			 value="#{cadastroUsuarioControlador.nomeGrupos}">
-			<f:selectItem itemLabel="Administrador" itemValue="ADMINISTRADORES"/>
-			<f:selectItem itemLabel="Vendedor" itemValue="VENDEDORES"/>
-			<f:selectItem itemLabel="Tecnico" itemValue="TECNICOS"/>
-			<f:selectItem itemLabel="Financeiro" itemValue="FINANCEIROS"/>
+			 value="#{cadastroUsuarioControlador.gruposSelecionado}" converter="grupoConverter">
+			 	<f:selectItems value="#{cadastroUsuarioControlador.grupos}" var="grupo" itemLabel="#{grupo.nomeAmigavel}"
+			 	itemValue="#{grupo.id}"/>
 			</p:selectManyCheckbox>
 			
 			</h:panelGrid>

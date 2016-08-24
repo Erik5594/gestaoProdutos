@@ -1,7 +1,6 @@
 package com.kilowats.controlador;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.view.ViewScoped;
@@ -13,7 +12,7 @@ import lombok.Setter;
 
 import com.kilowats.entidades.Grupo;
 import com.kilowats.entidades.Usuario;
-import com.kilowats.enuns.TipoGrupo;
+import com.kilowats.servicos.ServicosGrupo;
 import com.kilowats.servicos.ServicosUsuario;
 import com.kilowats.util.jsf.FacesUtils;
 
@@ -26,31 +25,33 @@ public class CadastroUsuarioControlador implements Serializable {
 	@Inject @Getter @Setter
 	private Usuario usuario;
 	@Inject
-	private ServicosUsuario servicos;
+	private ServicosUsuario servicosUsuario;
+	@Inject
+	private ServicosGrupo servicosGrupo;
 	@Getter @Setter
-	List<String> nomeGrupos = new ArrayList<>();
+	private List<Grupo> gruposSelecionado;
+	@Getter @Setter
+	private List<Grupo> grupos;
 	private final String titulo = "Cadastro de Usuário: ";
 	
+	public CadastroUsuarioControlador() {
+		grupos = servicosGrupo.todos();
+	}
+	
 	public void salvar(){
-		setarGrupos();
-		if(servicos.usuarioIsValido(usuario, titulo)){
-			usuario = servicos.salvar(usuario);
+		setarGruposUsuario();
+		if(servicosUsuario.usuarioIsValido(usuario, titulo)){
+			usuario = servicosUsuario.salvar(usuario);
 			if(usuario != null && usuario.getId() > 0){
 				FacesUtils.sendMensagemOk(titulo, "Usuário cadastrado com sucesso!");
 			}
 		}
 	}
 
-	private List<Grupo> listarGrupos() {
-		List<Grupo> grupos = new ArrayList<Grupo>();
-		if(nomeGrupos != null && !nomeGrupos.isEmpty()){
-			for(String nomeGrupo : nomeGrupos){
-				Grupo grupo = new Grupo();
-				if(){
-					grupo.setNomeGrupo(TipoGrupo.ADMINISTRADORES);
-					grupo.setDescricao(descricao);
-				}
-			}
-		}
+	private void setarGruposUsuario() {
+		usuario.setGrupos(gruposSelecionado);
 	}
+
+
+
 }

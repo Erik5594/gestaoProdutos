@@ -1,26 +1,35 @@
 package com.kilowats.dao;
 
-import com.kilowats.annotations.CadastrarGrupo;
-import com.kilowats.interfaces.IPersistirBancoDados;
+import java.util.List;
 
-@CadastrarGrupo
-public class GrupoDao implements IPersistirBancoDados{
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
 
-	@Override
-	public Object salvar(Object obj) {
-		// TODO Auto-generated method stub
-		return null;
+import com.kilowats.entidades.Grupo;
+
+public class GrupoDao {
+	@Inject
+	private EntityManager manager;
+
+	public Grupo salvar(Grupo grupo) {
+		return (Grupo) manager.merge(grupo);
 	}
 
-	@Override
-	public boolean deletar(Object obj) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean deletar(Grupo grupo) {
+		boolean retorno = true;
+		try{
+			manager.remove(grupo);
+		}catch(Exception e){
+			retorno = false;
+		}
+		return retorno;
 	}
 
-	@Override
-	public Object pesquisarById(Object obj) {
-		// TODO Auto-generated method stub
-		return null;
+	public Grupo pesquisarById(Long id) {
+		return (Grupo) manager.find(Grupo.class, id);
+	}
+	
+	public List<Grupo> todos(){
+		return manager.createQuery("from Grupo", Grupo.class).getResultList();
 	}
 }

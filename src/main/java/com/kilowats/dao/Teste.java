@@ -10,7 +10,6 @@ import javax.persistence.Persistence;
 
 import com.kilowats.entidades.Grupo;
 import com.kilowats.entidades.Usuario;
-import com.kilowats.enuns.TipoGrupo;
 
 public class Teste {
 
