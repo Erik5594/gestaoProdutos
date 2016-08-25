@@ -31,7 +31,6 @@
 
 
 	<http pattern="/Login.xhtml" security="none" />
-	<http pattern="/pages/private/usuario/**" security="none" />
 	<http pattern="/erro.xhtml" security="none" />
 	<http pattern="/javax.faces.resource/**" security="none" />
 
@@ -44,6 +43,7 @@
 		<intercept-url pattern="/AcessoNegado.xhtml" access="isAuthenticated()" />
 		<intercept-url pattern="/pages/private/cliente/**"
 			access="hasAnyRole('VENDEDORES', 'ADMINISTRADORES')" />
+		<intercept-url pattern="/pages/private/usuario/**" access="hasAnyRole('ADMINISTRADORES')" />
 		<intercept-url pattern="/pages/private/produto/**"
 			access="hasAnyRole('ADMINISTRADORES')" />
 		<intercept-url pattern="/**" access="denyAll" />

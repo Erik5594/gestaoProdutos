@@ -26,7 +26,10 @@ public class Teste {
 		usuario.setSenha("admin");
 		
 		Grupo grupo = manager.find(Grupo.class, 1L);
-		/*grupo.setDescricao("Administrador do sistema.");
+		/*
+		Grupo grupo = new Grupo();
+		
+		grupo.setDescricao("Administrador do sistema.");
 		grupo.setNome("ADMINISTRADORES");
 		grupo.setNomeAmigavel("Administradores");
 		
@@ -40,8 +43,8 @@ public class Teste {
 		
 		grupo.setDescricao("Técnico da empresa.");
 		grupo.setNome("TECNICOS");
-		grupo.setNomeAmigavel("Técnicos");
-				*/
+		grupo.setNomeAmigavel("Técnicos");*/
+		
 		List<Grupo> grupos = new ArrayList<>();
 		grupos.add(grupo);
 		
