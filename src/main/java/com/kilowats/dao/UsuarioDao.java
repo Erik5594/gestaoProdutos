@@ -2,6 +2,7 @@ package com.kilowats.dao;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 
 import com.kilowats.entidades.Usuario;
@@ -12,7 +13,11 @@ public class UsuarioDao {
 	private EntityManager manager;
 
 	public Usuario salvar(Usuario usuario) {
-		return (Usuario) manager.merge(usuario);
+		EntityTransaction entityTransaction = manager.getTransaction();
+		entityTransaction.begin();
+		usuario = (Usuario) manager.merge(usuario);
+		entityTransaction.commit();
+		return usuario;
 	}	
 
 	public boolean deletar(Usuario usuario) {

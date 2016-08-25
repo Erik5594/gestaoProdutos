@@ -10,6 +10,10 @@
 	<ui:define name="titulo">Cadastro de usuário</ui:define>
 
 	<ui:define name="conteudo">
+		<f:metadata>
+    		<f:event listener="#{cadastroUsuarioControlador.inicializar}" type="preRenderView" />
+    	</f:metadata>
+	
 		<h:form id="frmCadastroUsuario">
 			<p:messages id="mensagens" autoUpdate="true" for="mensageError"/>
 			<p:messages id="mensagensPadrao" autoUpdate="true"/>
@@ -49,7 +53,7 @@
 			<p:selectManyCheckbox layout="grid" columns="3"
 			 value="#{cadastroUsuarioControlador.gruposSelecionado}" converter="grupoConverter">
 			 	<f:selectItems value="#{cadastroUsuarioControlador.grupos}" var="grupo" itemLabel="#{grupo.nomeAmigavel}"
-			 	itemValue="#{grupo.id}"/>
+			 	itemValue="#{grupo}"/>
 			</p:selectManyCheckbox>
 			
 			</h:panelGrid>

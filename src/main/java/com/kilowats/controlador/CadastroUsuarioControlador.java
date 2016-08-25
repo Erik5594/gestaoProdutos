@@ -1,6 +1,7 @@
 package com.kilowats.controlador;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.view.ViewScoped;
@@ -35,9 +36,14 @@ public class CadastroUsuarioControlador implements Serializable {
 	private final String titulo = "Cadastro de Usuário: ";
 	
 	public CadastroUsuarioControlador() {
-		grupos = servicosGrupo.todos();
+		limpar();
 	}
 	
+	public void inicializar(){
+		if(FacesUtils.isNotPostback()){
+			grupos = servicosGrupo.todos();
+		}
+	}
 	public void salvar(){
 		setarGruposUsuario();
 		if(servicosUsuario.usuarioIsValido(usuario, titulo)){
@@ -51,7 +57,12 @@ public class CadastroUsuarioControlador implements Serializable {
 	private void setarGruposUsuario() {
 		usuario.setGrupos(gruposSelecionado);
 	}
-
+	
+	private void limpar() {
+		usuario = new Usuario();
+		grupos = new ArrayList<>();
+		gruposSelecionado = new ArrayList<>();
+	}
 
 
 }

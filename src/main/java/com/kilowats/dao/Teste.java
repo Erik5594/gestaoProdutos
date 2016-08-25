@@ -26,11 +26,27 @@ public class Teste {
 		usuario.setSenha("admin");
 		
 		Grupo grupo = manager.find(Grupo.class, 1L);
-				
+		/*grupo.setDescricao("Administrador do sistema.");
+		grupo.setNome("ADMINISTRADORES");
+		grupo.setNomeAmigavel("Administradores");
+		
+		grupo.setDescricao("Financeiro da empresa.");
+		grupo.setNome("FINANCEIROS");
+		grupo.setNomeAmigavel("Financeiros");
+		
+		grupo.setDescricao("Vendedores da empresa.");
+		grupo.setNome("VENDEDORES");
+		grupo.setNomeAmigavel("Vendedores");
+		
+		grupo.setDescricao("Técnico da empresa.");
+		grupo.setNome("TECNICOS");
+		grupo.setNomeAmigavel("Técnicos");
+				*/
 		List<Grupo> grupos = new ArrayList<>();
 		grupos.add(grupo);
 		
 		usuario.setGrupos(grupos);
+		
 		
 		manager.merge(usuario);
 		trc.commit();

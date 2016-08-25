@@ -15,7 +15,6 @@ public @Data class Grupo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	@Enumerated(EnumType.STRING)
 	@Column(name="nome_amigavel_grupo", length=20, nullable=false)
 	private String nomeAmigavel;
 	@Column(name="nome_grupo", length=20, nullable=false)
