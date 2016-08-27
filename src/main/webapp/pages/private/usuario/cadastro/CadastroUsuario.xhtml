@@ -38,7 +38,7 @@
 			</p:toolbar>
 			<!-- Fim Barra de opcoes -->
 			<h1>Em Manutenção</h1>
-			<h:panelGrid columns="2">
+			<h:panelGrid columns="2" id="gridDadosUsuario">
 			
 			<p:outputLabel value="Nome:"/>
 			<p:inputText size="30" value="#{cadastroUsuarioControlador.usuario.nome}"/>
@@ -46,15 +46,13 @@
 			<p:outputLabel value="E-mail:"/>
 			<p:inputText size="30" value="#{cadastroUsuarioControlador.usuario.email}"/>
 			
-			<p:messages id="messages" showDetail="true" autoUpdate="true" />
- 
 	        <h:outputLabel for="pwd1" value="Senha: *" />
-	        <p:password id="pwd1" value="#{cadastroUsuarioControlador.usuario.senha}" match="pwd2" label="Senha 1" required="true" />
+	        <p:password id="pwd1" value="#{cadastroUsuarioControlador.usuario.senha}"
+	        match="pwd2" label="Senha"/>
 	 
 	        <h:outputLabel for="pwd2" value="Senha (Confirmação): *" />
-	        <p:password id="pwd2" value="#{cadastroUsuarioControlador.usuario.senha}" label="Senha Confirmação" required="true" />
-	        <p:outputLabel value=""/>
-		    <p:commandButton update="matchGrid" value="Validar" />
+	        <p:password id="pwd2" value="#{cadastroUsuarioControlador.usuario.senha}"
+	        label="Senha Confirmação"/>
 			
 			<p:panelGrid columns="2">
 			<p:outputLabel value="Grupos:"/>
@@ -64,8 +62,7 @@
 			 	itemValue="#{grupo}"/>
 			</p:selectManyCheckbox>
 			</p:panelGrid>
-			
-			</h:panelGrid>
+	        </h:panelGrid>
 		</h:form>
 	</ui:define>
 </ui:composition>

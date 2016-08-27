@@ -11,6 +11,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ExceptionQueuedEvent;
 import javax.faces.event.ExceptionQueuedEventContext;
+import javax.validation.ConstraintViolationException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -42,6 +43,7 @@ public class JsfExceptionHandler extends ExceptionHandlerWrapper{
 			ExceptionQueuedEventContext context = (ExceptionQueuedEventContext) event.getSource();
 			Throwable exception = context.getException();
 			NegocioException negocioException = getNegocioException(exception);
+			ConstraintViolationException constraintViolationException = getConstraintViolationException(exception);
 			boolean handled = false;
 			try{
 			if(exception instanceof ViewExpiredException){
@@ -50,6 +52,9 @@ public class JsfExceptionHandler extends ExceptionHandlerWrapper{
 			}else if(negocioException != null){
 				handled = true;
 				FacesUtils.sendMensagemError("Exception: ", negocioException.getMessage());
+			}else if(constraintViolationException instanceof ConstraintViolationException){
+				handled = true;
+				FacesUtils.sendMensagemError("Exception: ", constraintViolationException.getMessage());
 			}else{
 				handled = true;
 				log.error("Erro de Sistema: "+ exception.getMessage(), exception);
@@ -69,6 +74,15 @@ public class JsfExceptionHandler extends ExceptionHandlerWrapper{
 			return (NegocioException) exception;
 		}else if(exception.getCause() != null){
 			return getNegocioException(exception.getCause());
+		}
+		return null;
+	}
+	
+	private ConstraintViolationException getConstraintViolationException(Throwable exception) {
+		if(exception instanceof ConstraintViolationException){
+			return (ConstraintViolationException) exception;
+		}else if(exception.getCause() != null){
+			return getConstraintViolationException(exception.getCause());
 		}
 		return null;
 	}

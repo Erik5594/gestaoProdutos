@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
@@ -15,6 +14,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Email;
 
 import lombok.Data;
 
@@ -27,12 +29,16 @@ public @Data class Usuario implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
+	@NotNull
 	@Column(length=30, nullable=false)
 	private String nome;
+	@NotNull @Email
 	@Column(length=50, nullable=false)
 	private String email;
+	@NotNull
 	@Column(length=12, nullable=false)
 	private String senha;
+	@NotNull
 	@ManyToMany
 	@JoinTable(name = "usuario_grupo", joinColumns = @JoinColumn(name="usuario_id"),
 			inverseJoinColumns = @JoinColumn(name = "grupo_id"),

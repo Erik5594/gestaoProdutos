@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.faces.view.ViewScoped;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -46,11 +46,9 @@ public class CadastroUsuarioControlador implements Serializable {
 	}
 	public void salvar(){
 		setarGruposUsuario();
-		if(servicosUsuario.usuarioIsValido(usuario, titulo)){
-			usuario = servicosUsuario.salvar(usuario);
-			if(usuario != null && usuario.getId() > 0){
-				FacesUtils.sendMensagemOk(titulo, "Usuário cadastrado com sucesso!");
-			}
+		usuario = servicosUsuario.salvar(usuario);
+		if(usuario != null && usuario.getId() > 0){
+			FacesUtils.sendMensagemOk(titulo, "Usuário cadastrado com sucesso!");
 		}
 	}
 
