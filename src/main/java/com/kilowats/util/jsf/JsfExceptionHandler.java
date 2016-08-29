@@ -43,7 +43,6 @@ public class JsfExceptionHandler extends ExceptionHandlerWrapper{
 			ExceptionQueuedEventContext context = (ExceptionQueuedEventContext) event.getSource();
 			Throwable exception = context.getException();
 			NegocioException negocioException = getNegocioException(exception);
-			ConstraintViolationException constraintViolationException = getConstraintViolationException(exception);
 			boolean handled = false;
 			try{
 			if(exception instanceof ViewExpiredException){
@@ -52,9 +51,6 @@ public class JsfExceptionHandler extends ExceptionHandlerWrapper{
 			}else if(negocioException != null){
 				handled = true;
 				FacesUtils.sendMensagemError("Exception: ", negocioException.getMessage());
-			}else if(constraintViolationException instanceof ConstraintViolationException){
-				handled = true;
-				FacesUtils.sendMensagemError("Exception: ", constraintViolationException.getMessage());
 			}else{
 				handled = true;
 				log.error("Erro de Sistema: "+ exception.getMessage(), exception);
@@ -78,16 +74,6 @@ public class JsfExceptionHandler extends ExceptionHandlerWrapper{
 		return null;
 	}
 	
-	private ConstraintViolationException getConstraintViolationException(Throwable exception) {
-		if(exception instanceof ConstraintViolationException){
-			return (ConstraintViolationException) exception;
-		}else if(exception.getCause() != null){
-			return getConstraintViolationException(exception.getCause());
-		}
-		return null;
-	}
-
-
 	private void redirect(String page) {
 		try{
 		FacesContext context = FacesContext.getCurrentInstance();

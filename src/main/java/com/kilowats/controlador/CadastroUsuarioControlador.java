@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -35,21 +36,22 @@ public class CadastroUsuarioControlador implements Serializable {
 	private List<Grupo> grupos;
 	private final String titulo = "Cadastro de Usuário: ";
 	
-	public CadastroUsuarioControlador() {
-		limpar();
-	}
+	private String[] ids;
+	
 	
 	public void inicializar(){
+		System.out.println("Inicializando...");
 		if(FacesUtils.isNotPostback()){
+			grupos = new ArrayList<>();
 			grupos = servicosGrupo.todos();
 		}
 	}
 	public void salvar(){
-		setarGruposUsuario();
+		/*setarGruposUsuario();
 		usuario = servicosUsuario.salvar(usuario);
 		if(usuario != null && usuario.getId() > 0){
 			FacesUtils.sendMensagemOk(titulo, "Usuário cadastrado com sucesso!");
-		}
+		}*/
 	}
 
 	private void setarGruposUsuario() {
@@ -58,9 +60,12 @@ public class CadastroUsuarioControlador implements Serializable {
 	
 	private void limpar() {
 		usuario = new Usuario();
-		grupos = new ArrayList<>();
 		gruposSelecionado = new ArrayList<>();
 	}
-
-
+	public String[] getIds() {
+		return ids;
+	}
+	public void setIds(String[] ids) {
+		this.ids = ids;
+	}
 }
