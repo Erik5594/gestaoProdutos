@@ -2,19 +2,31 @@ package com.kilowats.entidades;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
 import lombok.Data;
 
 import com.kilowats.enuns.TipoTelefoneEnum;
-
+@Entity
 public @Data class Telefone implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 
+	@Id @Column(name="id_telefone")
 	private Long idTelefone;
-	private Long idPessoa;
 	private int ddd;
 	private String numero;
+	@Enumerated(EnumType.STRING)
 	private TipoTelefoneEnum tipoTelefone;
+	@ManyToOne
+	@JoinColumn(name="id_pessoa")
+	private Pessoa pessoa;
 	
 	@Override
 	public int hashCode() {

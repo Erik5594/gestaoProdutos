@@ -47,6 +47,7 @@
 		<intercept-url pattern="/pages/private/produto/**"
 			access="hasAnyRole('ADMINISTRADORES')" />
 		<intercept-url pattern="/**" access="denyAll" />
+		<intercept-url pattern="/erro.xhtml" access="permitAll" />
 
 		<!-- Defino a tela de login -->
 		<form-login login-page="/Login.xhtml" default-target-url="/"

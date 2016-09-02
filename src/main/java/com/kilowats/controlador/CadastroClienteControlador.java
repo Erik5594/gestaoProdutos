@@ -134,7 +134,9 @@ public class CadastroClienteControlador implements Serializable{
 
 	private void completarDadosEmpresa() {
 		this.endereco.getCep().setCidade(this.cidade);
-		this.cliente.setEndereco(this.endereco);
+		List<Endereco> enderecos = new ArrayList<>();
+		enderecos.add(endereco);
+		this.cliente.setEndereco(enderecos);
 		if(this.tpPessoa == 0){
 			this.cliente.setFisicaJuridica(TipoPessoa.FISICA);
 		}else{

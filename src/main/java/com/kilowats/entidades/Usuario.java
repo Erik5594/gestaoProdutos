@@ -16,8 +16,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.Email;
-
 @Entity
 @Table(name = "usuario")
 public class Usuario implements Serializable{
@@ -30,7 +28,7 @@ public class Usuario implements Serializable{
 	@NotNull
 	@Column(length=30, nullable=false)
 	private String nome;
-	@NotNull @Email
+	@NotNull
 	@Column(length=50, nullable=false)
 	private String email;
 	@NotNull

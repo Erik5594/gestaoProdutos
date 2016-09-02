@@ -2,16 +2,26 @@ package com.kilowats.entidades;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
 import lombok.Data;
 
+@Entity
 public @Data class Emails implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
+	@Id @Column(name="id_email")
 	private Long idEmail;
-	private Long idPessoa;
 	private String emailDestinatario;
 	private String nomePessoaDestinatario;
+	@ManyToOne
+	@JoinColumn(name="id_pessoa")
+	private Pessoa pessoa;
 
 	@Override
 	public int hashCode() {

@@ -68,7 +68,7 @@ public class ValidacaoCadastroEndereco implements IValidacaoCadastro {
 		return retorno;
 	}
 
-	public boolean isCepValido(int cep) {
+	public boolean isCepValido(Long cep) {
 		if (cep == 0) {
 			return false;
 		}
