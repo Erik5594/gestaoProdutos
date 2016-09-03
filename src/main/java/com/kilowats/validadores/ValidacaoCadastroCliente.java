@@ -10,32 +10,19 @@ import com.kilowats.util.jsf.FacesUtils;
 public class ValidacaoCadastroCliente implements IValidacaoCadastro {
 
 	@Override
-	public boolean validarCadastro(Object obj) {
-		Cliente cliente = (Cliente) obj;
-		if (cliente != null) {
-			if (Utils.isNullOrEmpty(cliente.getNome())) {
-				return false;
-			}
-			if (!cpfCgcValido(cliente.getCgcCpf().replaceAll("\\D", ""))) {
-				return false;
-			}
-		} else {
-			return false;
-		}
-		return true;
-	}
-
-	@Override
-	public boolean validarCadastroComMensagem(Object obj, String titulo) {
+	public boolean validarCadastroComMensagem(Object obj, String titulo, boolean mostrarMensagem) {
 		Cliente cliente = (Cliente) obj;
 		boolean retorno = true;
 			if (Utils.isNullOrEmpty(cliente.getNome())) {
-				FacesUtils
-						.sendMensagemError(titulo, "Nome não está preenchido");
+				if(mostrarMensagem){
+					FacesUtils.sendMensagemError(titulo, "Nome não está preenchido");
+				}
 				retorno = false;
 			}
 			if (!cpfCgcValido(cliente.getCgcCpf().replaceAll("\\D", ""))) {
-				FacesUtils.sendMensagemError(titulo, "CPF ou CNPJ inválido");
+				if(mostrarMensagem){
+					FacesUtils.sendMensagemError(titulo, "CPF ou CNPJ inválido");
+				}
 				retorno = false;
 			}
 		return retorno;

@@ -41,7 +41,7 @@ public class CadastroProdutoControlador implements Serializable{
 	}
 	
 	public void adicionarEan(){
-		if(servicosEan.eanIsValido(ean, TITULO)){
+		if(servicosEan.eanIsValido(ean, TITULO, true)){
 			eans.add(ean);
 		}
 		ean = new Ean();
@@ -66,7 +66,7 @@ public class CadastroProdutoControlador implements Serializable{
 	}
 
 	private boolean validacoes(){
-		return servicosProduto.produtoIsValido(this.produto, TITULO);
+		return servicosProduto.produtoIsValido(this.produto, TITULO, true);
 	}
 
 	public Produto getProduto() {

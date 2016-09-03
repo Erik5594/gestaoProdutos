@@ -9,6 +9,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 
@@ -20,9 +21,12 @@ public @Data class Telefone implements Serializable{
 
 	@Id @Column(name="id_telefone")
 	private Long idTelefone;
+	@NotNull @Column(length=3, nullable=false)
 	private int ddd;
+	@NotNull @Column(length=10, nullable=false)
 	private String numero;
 	@Enumerated(EnumType.STRING)
+	@Column(name="tipo_telefone", nullable=false, length=20)
 	private TipoTelefoneEnum tipoTelefone;
 	@ManyToOne
 	@JoinColumn(name="id_pessoa")

@@ -8,9 +8,12 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import lombok.Data;
+
+import com.kilowats.entidades.Cep;
 import com.kilowats.entidades.Cidade;
-import com.kilowats.entidades.Emails;
 import com.kilowats.entidades.Cliente;
+import com.kilowats.entidades.Email;
 import com.kilowats.entidades.Endereco;
 import com.kilowats.entidades.Telefone;
 import com.kilowats.enuns.TipoPessoa;
@@ -24,7 +27,7 @@ import com.kilowats.util.jsf.FacesUtils;
 
 @Named
 @ViewScoped
-public class CadastroClienteControlador implements Serializable{
+public @Data class CadastroClienteControlador implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	@Inject
@@ -38,20 +41,22 @@ public class CadastroClienteControlador implements Serializable{
 	@Inject
 	private Telefone telefoneSelecionado;
 	@Inject
-	private Emails email;
+	private Email email;
 	@Inject
-	private Emails emailSelecionado;
+	private Email emailSelecionado;
 	@Inject
 	private ServicosTelefone servicosTelefone;
 	@Inject
 	private ServicosCliente servicosCliente;
 	@Inject
+	private ServicosEmail servicosEmail;
+	@Inject
 	private ServicosEndereco servicosEndereco;
 	@Inject
-	private ServicosEmail servicosEmail;
-	
+	private Cep cep;
+
 	private List<Telefone> telefones = new ArrayList<>();
-	private List<Emails> emails = new ArrayList<>();
+	private List<Email> emails = new ArrayList<>();
 	private int tpPessoa;
 	private int tipoTelefone;
 	
@@ -68,7 +73,7 @@ public class CadastroClienteControlador implements Serializable{
 	
 	public void adcionaTelefone(){
 		telefone.setTipoTelefone(returnTipoTelefone());
-		if(servicosTelefone.telefoneIsValido(telefone, TITULO)){
+		if(servicosTelefone.telefoneIsValido(telefone, TITULO, true)){
 			adcionaTelefoneList(this.telefone);
 		}
 		this.telefone= new Telefone(); 
@@ -102,13 +107,13 @@ public class CadastroClienteControlador implements Serializable{
 	}
 
 	public void adcionaEmail(){
-		if(servicosEmail.emailIsValido(email, TITULO)){
+		if(servicosEmail.emailIsValido(email, TITULO, true)){
 			adcionaEmailList(this.email);
 		}
-		this.email = new Emails(); 
+		this.email = new Email(); 
 	}
 	
-	public void adcionaEmailList(Emails email){
+	public void adcionaEmailList(Email email){
 		if(emails.isEmpty()){
 			emails = new ArrayList<>();
 		}else{
@@ -121,10 +126,10 @@ public class CadastroClienteControlador implements Serializable{
 	}
 
 	public void salvar(){
-		endereco.getCep().setCidade(cidade);
+		completarDadosEmpresa();
 		if(validacoes()){
-			completarDadosEmpresa();
-			if(servicosCliente.persistirCliente(this.cliente)){
+			cliente = servicosCliente.persistirCliente(cliente);
+			if(cliente != null && cliente.getId() > 0L){
 				FacesUtils.sendMensagemOk(TITULO, "Cliente cadastrado com suceso!");
 			}else{
 				FacesUtils.sendMensagemError(TITULO, ERRO_INTERNO);
@@ -133,7 +138,8 @@ public class CadastroClienteControlador implements Serializable{
 	}
 
 	private void completarDadosEmpresa() {
-		this.endereco.getCep().setCidade(this.cidade);
+		cep.setCidade(cidade);
+		endereco.setCep(cep);
 		List<Endereco> enderecos = new ArrayList<>();
 		enderecos.add(endereco);
 		this.cliente.setEndereco(enderecos);
@@ -151,10 +157,10 @@ public class CadastroClienteControlador implements Serializable{
 	}
 
 	private boolean validarEndereco() {
-		return servicosEndereco.enderecoIsValido(endereco, TITULO);
+		return servicosEndereco.enderecoIsValido(endereco, TITULO, true);
 	}
 	
-	public boolean validacoes(){
+	private boolean validacoes(){
 		if(validarDadosPrincipais() & validarEndereco()){
 			return true;
 		}
@@ -162,7 +168,7 @@ public class CadastroClienteControlador implements Serializable{
 	}
 	
 	private boolean validarDadosPrincipais() {
-		return servicosCliente.validarCliente(cliente, TITULO);
+		return servicosCliente.validarCliente(cliente, TITULO, true);
 	}
 	
 	public List<String> carregarEstados(){
@@ -204,72 +210,5 @@ public class CadastroClienteControlador implements Serializable{
 			}
 		}
 		return cidades;
-	}
-
-	public Cliente getCliente() {
-		return cliente;
-	}
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
-	public Endereco getEndereco() {
-		return endereco;
-	}
-	public void setEndereco(Endereco endereco) {
-		this.endereco = endereco;
-	}
-	public Telefone getTelefone() {
-		return telefone;
-	}
-	public void setTelefone(Telefone telefone) {
-		this.telefone = telefone;
-	}
-	public Cidade getCidade() {
-		return cidade;
-	}
-	public void setCidade(Cidade cidade) {
-		this.cidade = cidade;
-	}
-	public List<Telefone> getTelefones() {
-		return telefones;
-	}
-	public void setTelefones(List<Telefone> telefones) {
-		this.telefones = telefones;
-	}
-	public Telefone getTelefoneSelecionado() {
-		return telefoneSelecionado;
-	}
-	public void setTelefoneSelecionado(Telefone telefoneSelecionado) {
-		this.telefoneSelecionado = telefoneSelecionado;
-	}
-	public Emails getEmail() {
-		return email;
-	}
-	public void setEmail(Emails email) {
-		this.email = email;
-	}
-	public Emails getEmailSelecionado() {
-		return emailSelecionado;
-	}
-	public void setEmailSelecionado(Emails emailSelecionado) {
-		this.emailSelecionado = emailSelecionado;
-	}
-	public List<Emails> getEmails() {
-		return emails;
-	}
-	public void setEmails(List<Emails> emails) {
-		this.emails = emails;
-	}
-	public int getTpPessoa() {
-		return tpPessoa;
-	}
-	public void setTpPessoa(int tpPessoa) {
-		this.tpPessoa = tpPessoa;
-	}
-	public int getTipoTelefone() {
-		return tipoTelefone;
-	}
-	public void setTipoTelefone(int tipoTelefone) {
-		this.tipoTelefone = tipoTelefone;
 	}
 }

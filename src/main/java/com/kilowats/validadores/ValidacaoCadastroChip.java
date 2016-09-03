@@ -10,29 +10,31 @@ import com.kilowats.util.jsf.FacesUtils;
 public class ValidacaoCadastroChip implements IValidacaoCadastro {
 
 	@Override
-	public boolean validarCadastro(Object obj) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean validarCadastroComMensagem(Object obj, String titulo) {
+	public boolean validarCadastroComMensagem(Object obj, String titulo, boolean mostrarMensagem) {
 		Chip chip = (Chip) obj;
 		boolean retorno = true;
 			if (chip == null) {
-				FacesUtils.sendMensagemError(titulo, "Chip não informado!");
+				if(mostrarMensagem){
+					FacesUtils.sendMensagemError(titulo, "Chip não informado!");
+				}
 				retorno = false;
 			}
 			if (Utils.isNullOrEmpty(chip.getImei())) {
-				FacesUtils.sendMensagemError(titulo, "Imei chip inválido!");
+				if(mostrarMensagem){
+					FacesUtils.sendMensagemError(titulo, "Imei chip inválido!");
+				}
 				retorno = false;
 			}
 			if (chip.getDdd() == 0) {
-				FacesUtils.sendMensagemError(titulo, "DDD inválido!");
+				if(mostrarMensagem){
+					FacesUtils.sendMensagemError(titulo, "DDD inválido!");
+				}
 				retorno = false;
 			}
 			if (chip.getNumero() < 9999999) {
-				FacesUtils.sendMensagemError(titulo, "Número do chip inválido");
+				if(mostrarMensagem){
+					FacesUtils.sendMensagemError(titulo, "Número do chip inválido");
+				}
 				retorno = false;
 			}
 		return retorno;

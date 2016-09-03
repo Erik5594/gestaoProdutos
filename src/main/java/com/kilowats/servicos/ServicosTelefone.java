@@ -15,8 +15,8 @@ public class ServicosTelefone implements Serializable{
 	@Inject @ValidarTelefone
 	private IValidacaoCadastro validar;
 	
-	public boolean telefoneIsValido(Telefone telefone, String titulo){
-		return validar.validarCadastroComMensagem(telefone, titulo);
+	public boolean telefoneIsValido(Telefone telefone, String titulo, boolean mostrarMensagem){
+		return validar.validarCadastroComMensagem(telefone, titulo, mostrarMensagem);
 	}
 
 }

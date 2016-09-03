@@ -2,12 +2,6 @@ package com.kilowats.entidades;
 
 import java.io.Serializable;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Transient;
-
 import lombok.Data;
 
 import com.kilowats.annotations.ProdutoChip;

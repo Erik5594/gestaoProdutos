@@ -11,7 +11,6 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ExceptionQueuedEvent;
 import javax.faces.event.ExceptionQueuedEventContext;
-import javax.validation.ConstraintViolationException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

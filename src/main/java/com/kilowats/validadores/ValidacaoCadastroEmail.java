@@ -1,7 +1,7 @@
 package com.kilowats.validadores;
 
 import com.kilowats.annotations.ValidarEmail;
-import com.kilowats.entidades.Emails;
+import com.kilowats.entidades.Email;
 import com.kilowats.interfaces.IValidacaoCadastro;
 import com.kilowats.util.Utils;
 import com.kilowats.util.jsf.FacesUtils;
@@ -10,53 +10,27 @@ import com.kilowats.util.jsf.FacesUtils;
 public class ValidacaoCadastroEmail implements IValidacaoCadastro {
 
 	@Override
-	public boolean validarCadastro(Object obj) {
-		Emails email = (Emails) obj;
+	public boolean validarCadastroComMensagem(Object obj, String titulo, boolean mostrarMensagem) {
+		Email email = (Email) obj;
 		boolean retorno = true;
 		if (email != null) {
 			if (!isEmailValido(email.getEmailDestinatario())) {
-				retorno = false;
-			}
-			if (!isNomeDestinatarioValido(email.getNomePessoaDestinatario())) {
-				retorno =  false;
-			}
-		} else {
-			retorno = false;
-		}
-		return retorno;
-	}
-
-	@Override
-	public boolean validarCadastroComMensagem(Object obj, String titulo) {
-		Emails email = (Emails) obj;
-		boolean retorno = true;
-		if (email != null) {
-			if (!Utils.isNullOrEmpty(email.getEmailDestinatario())) {
-				if (!email.getEmailDestinatario().contains("@")) {
+				if(mostrarMensagem){
 					FacesUtils.sendMensagemError(titulo, "Email inválido!");
-					retorno = false;
 				}
-			} else {
-				FacesUtils.sendMensagemError(titulo, "Email está vazio!");
 				retorno = false;
 			}
 
-			if (!Utils.isNullOrEmpty(email.getNomePessoaDestinatario())) {
-				if (!email.getNomePessoaDestinatario().toLowerCase().equals("teste")) {
-					if (email.getNomePessoaDestinatario().length() <= 1) {
-						FacesUtils.sendMensagemError(titulo, "Nome do destinatário deve ser maior que 1 digito!");
-						retorno = false;
-					}
-				} else {
-					FacesUtils.sendMensagemError(titulo, "Nome do destinatário é inválido!");
-					retorno = false;
+			if (!isNomeDestinatarioValido(email.getNomePessoaDestinatario())) {
+				if(mostrarMensagem){
+					FacesUtils.sendMensagemError(titulo, "Nome do destinatário inválido!");
 				}
-			} else {
-				FacesUtils.sendMensagemError(titulo, "Nome do destinatário está vazio!");
 				retorno = false;
 			}
 		} else {
-			FacesUtils.sendMensagemError(titulo, "Não foram encontrados dados de Email!");
+			if(mostrarMensagem){
+				FacesUtils.sendMensagemError(titulo, "Não foram encontrados dados de Email!");
+			}
 			retorno = false;
 		}
 		return retorno;

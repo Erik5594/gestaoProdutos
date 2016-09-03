@@ -10,29 +10,31 @@ import com.kilowats.util.jsf.FacesUtils;
 public class ValidacaoCadastroProduto implements IValidacaoCadastro {
 
 	@Override
-	public boolean validarCadastro(Object obj) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean validarCadastroComMensagem(Object obj, String titulo) {
+	public boolean validarCadastroComMensagem(Object obj, String titulo, boolean mostrarMensagem) {
 		Produto produto = (Produto) obj;
 		boolean retorno = true;
 		if(produto == null){
-			FacesUtils.sendMensagemError(titulo, "Produto está vazio!");
+			if(mostrarMensagem){
+				FacesUtils.sendMensagemError(titulo, "Produto está vazio!");
+			}
 			retorno = false;
 		}
 		if(Utils.isNullOrEmpty(produto.getNomeProduto())){
-			FacesUtils.sendMensagemError(titulo, "Nome do produto inválido!");
+			if(mostrarMensagem){
+				FacesUtils.sendMensagemError(titulo, "Nome do produto inválido!");
+			}
 			retorno = false;
 		}
 		if(produto.getTipoUnidade() == null){
-			FacesUtils.sendMensagemError(titulo, "Unidade de medida do produto inválida");
+			if(mostrarMensagem){
+				FacesUtils.sendMensagemError(titulo, "Unidade de medida do produto inválida");
+			}
 			retorno = false;
 		}
 		if(!Utils.isNullOrEmpty(produto.getCodProduto()) && produto.getCodProduto().length() > 10){
-			FacesUtils.sendMensagemError(titulo, "Código do produto muito longo. (máximo 10 caracteres)");
+			if(mostrarMensagem){
+				FacesUtils.sendMensagemError(titulo, "Código do produto muito longo. (máximo 10 caracteres)");
+			}
 			retorno = false;
 		}
 		return retorno;

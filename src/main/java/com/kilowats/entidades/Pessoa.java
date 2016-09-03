@@ -3,6 +3,7 @@ package com.kilowats.entidades;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
@@ -28,10 +29,12 @@ public @Data class Pessoa implements Serializable{
 	private Long id;
 	@NotNull
 	private String nome;
-	@NotNull
+	@NotNull @Column(name="cpf_cgc", length=14, unique=true)
 	private String cgcCpf;
-	@NotNull @Max(2)
+	@NotNull @Max(1) @Column(name="tipo_pessoa", length=1)
 	private TipoPessoa fisicaJuridica;//0fisica; 1juridica
+	@NotNull @Column(name="status", length=1, nullable=false)
+	private int status;//1ativo;0inativo
 	@OneToMany
 	@JoinTable(name = "pessoa_endereco", joinColumns = @JoinColumn(name="pessoa_id"),
 			inverseJoinColumns = @JoinColumn(name = "endereco_id"),
@@ -41,5 +44,5 @@ public @Data class Pessoa implements Serializable{
 	@OneToMany(mappedBy="pessoa")
 	private List<Telefone> telefones;
 	@OneToMany(mappedBy="pessoa")
-	private List<Emails> emails;
+	private List<Email> emails;
 }

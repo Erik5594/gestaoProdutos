@@ -4,26 +4,25 @@ import java.io.Serializable;
 
 import javax.inject.Inject;
 
-import com.kilowats.annotations.CadastrarCliente;
 import com.kilowats.annotations.ValidarCliente;
+import com.kilowats.dao.ClienteDao;
 import com.kilowats.entidades.Cliente;
-import com.kilowats.interfaces.IPersistirBancoDados;
 import com.kilowats.interfaces.IValidacaoCadastro;
 
 public class ServicosCliente implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
-	@Inject @CadastrarCliente
-	private IPersistirBancoDados persistir;
+	@Inject
+	private ClienteDao clienteDao;
 	@Inject @ValidarCliente
 	private IValidacaoCadastro validar;
 
-	public boolean persistirCliente(Cliente cliente){
-		return false;
+	public Cliente persistirCliente(Cliente cliente){
+		return clienteDao.salvar(cliente);
 	}
 	
-	public boolean validarCliente(Cliente cliente, String titulo){
-		return validar.validarCadastroComMensagem(cliente, titulo);
+	public boolean validarCliente(Cliente cliente, String titulo, boolean mostrarMensagem){
+		return validar.validarCadastroComMensagem(cliente, titulo, mostrarMensagem);
 	}
 }

@@ -7,13 +7,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 
 @Entity
-@Table(name="tbl_cidade")
 public @Data class Cidade implements Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -22,10 +20,10 @@ public @Data class Cidade implements Serializable{
 	@Column(name="id_cidade")
 	private Long idCidade;
 	@NotNull
-	@Column(name="nome_cidade")
+	@Column(name="nome_cidade", length=160, nullable=false)
 	private String nomeCidade;
 	@NotNull
-	@Column(name="sigla_cidade")
+	@Column(name="sigla_cidade", length=160, nullable=false)
 	private String siglaCidade;
 	@Column(length=2, nullable=false) @NotNull
 	private String uf;

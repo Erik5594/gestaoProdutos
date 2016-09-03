@@ -18,8 +18,8 @@ public class ServicosUsuario implements Serializable{
 	@Inject
 	private UsuarioDao usuarioDao;
 	
-	public boolean usuarioIsValido(Usuario usuario, String titulo){
-		return validar.validarCadastroComMensagem(usuario, titulo);
+	public boolean usuarioIsValido(Usuario usuario, String titulo, boolean mostrarMensagem){
+		return validar.validarCadastroComMensagem(usuario, titulo, mostrarMensagem);
 	}
 	
 	public Usuario salvar(Usuario usuario){

@@ -15,8 +15,8 @@ public class ServicosEndereco implements Serializable{
 	@Inject @ValidarEndereco
 	private IValidacaoCadastro validador;
 	
-	public boolean enderecoIsValido(Endereco endereco, String titulo){
-		return validador.validarCadastroComMensagem(endereco, titulo);
+	public boolean enderecoIsValido(Endereco endereco, String titulo, boolean mostrarMensagem){
+		return validador.validarCadastroComMensagem(endereco, titulo, mostrarMensagem);
 	}
 
 }

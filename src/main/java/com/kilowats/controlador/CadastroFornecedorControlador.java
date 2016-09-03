@@ -11,7 +11,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.kilowats.entidades.Cidade;
-import com.kilowats.entidades.Emails;
+import com.kilowats.entidades.Email;
 import com.kilowats.entidades.Empresa;
 import com.kilowats.entidades.Endereco;
 import com.kilowats.entidades.Telefone;
@@ -39,9 +39,9 @@ public class CadastroFornecedorControlador implements Serializable{
 	@Inject
 	private Cidade cidade;
 	@Inject
-	private Emails email;
+	private Email email;
 	@Inject
-	private Emails emailSelecionado;
+	private Email emailSelecionado;
 	@Inject
 	private Telefone telefoneSelecionado;
 	@Inject
@@ -54,7 +54,7 @@ public class CadastroFornecedorControlador implements Serializable{
 	private ServicosFornecedor servicosFornecedor;
 	
 	private List<Telefone> telefones = new ArrayList<>();
-	private List<Emails> emails = new ArrayList<>();
+	private List<Email> emails = new ArrayList<>();
 	private int tpPessoa;
 	
 	private final String TITULO = "Cadastro Fornecedor: ";
@@ -66,7 +66,7 @@ public class CadastroFornecedorControlador implements Serializable{
 	
 	public void adcionaTelefone(){
 		telefone.setTipoTelefone(TipoTelefoneEnum.COMERCIAL);
-		if(servicosTelefone.telefoneIsValido(telefone, TITULO)){
+		if(servicosTelefone.telefoneIsValido(telefone, TITULO, true)){
 			adcionaTelefoneList(this.telefone);
 		}
 		this.telefone= new Telefone(); 
@@ -85,13 +85,13 @@ public class CadastroFornecedorControlador implements Serializable{
 	}
 
 	public void adcionaEmail(){
-		if(servicosEmail.emailIsValido(email, TITULO)){
+		if(servicosEmail.emailIsValido(email, TITULO, true)){
 			adcionaEmailList(this.email);
 		}
-		this.email = new Emails(); 
+		this.email = new Email(); 
 	}
 	
-	public void adcionaEmailList(Emails email){
+	public void adcionaEmailList(Email email){
 		if(emails.isEmpty()){
 			emails = new ArrayList<>();
 		}else{
@@ -134,7 +134,7 @@ public class CadastroFornecedorControlador implements Serializable{
 	}
 
 	private boolean validarEndereco() {
-		return servicosEndereco.enderecoIsValido(endereco, TITULO);
+		return servicosEndereco.enderecoIsValido(endereco, TITULO, true);
 	}
 	
 	public boolean validacoes(){
@@ -145,7 +145,7 @@ public class CadastroFornecedorControlador implements Serializable{
 	}
 	
 	private boolean validarDadosPrincipais() {
-		return servicosFornecedor.validarFornecedor(empresa, TITULO);
+		return servicosFornecedor.validarFornecedor(empresa, TITULO, true);
 	}
 	
 	public List<String> carregarEstados(){
@@ -225,22 +225,22 @@ public class CadastroFornecedorControlador implements Serializable{
 	public void setTelefoneSelecionado(Telefone telefoneSelecionado) {
 		this.telefoneSelecionado = telefoneSelecionado;
 	}
-	public Emails getEmail() {
+	public Email getEmail() {
 		return email;
 	}
-	public void setEmail(Emails email) {
+	public void setEmail(Email email) {
 		this.email = email;
 	}
-	public Emails getEmailSelecionado() {
+	public Email getEmailSelecionado() {
 		return emailSelecionado;
 	}
-	public void setEmailSelecionado(Emails emailSelecionado) {
+	public void setEmailSelecionado(Email emailSelecionado) {
 		this.emailSelecionado = emailSelecionado;
 	}
-	public List<Emails> getEmails() {
+	public List<Email> getEmails() {
 		return emails;
 	}
-	public void setEmails(List<Emails> emails) {
+	public void setEmails(List<Email> emails) {
 		this.emails = emails;
 	}
 	public int getTpPessoa() {

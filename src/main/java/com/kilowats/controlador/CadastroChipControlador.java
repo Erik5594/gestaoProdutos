@@ -77,7 +77,7 @@ public class CadastroChipControlador implements Serializable{
 	}
 
 	private boolean validacoes() {
-		return servicos.chipIsValido(chip, TITULO);
+		return servicos.chipIsValido(chip, TITULO, true);
 	}
 
 	public int getCodInternoProduto() {

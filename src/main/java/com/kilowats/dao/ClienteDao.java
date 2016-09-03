@@ -1,27 +1,26 @@
 package com.kilowats.dao;
 
-import com.kilowats.annotations.CadastrarCliente;
-import com.kilowats.interfaces.IPersistirBancoDados;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 
-@CadastrarCliente
-public class ClienteDao implements IPersistirBancoDados{
+import com.kilowats.entidades.Cliente;
 
-	@Override
-	public Object salvar(Object obj) {
-		// TODO Auto-generated method stub
-		return null;
+public class ClienteDao {
+
+	@Inject
+	private EntityManager manager;
+	
+	public Cliente salvar(Cliente cliente) {
+		EntityTransaction entityTransaction = manager.getTransaction();
+		entityTransaction.begin();
+		cliente = (Cliente) manager.merge(cliente);
+		entityTransaction.commit();
+		return cliente;
 	}
 
-	@Override
-	public boolean deletar(Object obj) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public Object pesquisarById(Object obj) {
-		// TODO Auto-generated method stub
-		return null;
+	public Cliente pesquisarById(Long id) {
+		return (Cliente) manager.find(Cliente.class, id);
 	}
 
 }

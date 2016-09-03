@@ -10,29 +10,19 @@ import com.kilowats.util.jsf.FacesUtils;
 public class ValidacaoCadastroEan implements IValidacaoCadastro {
 
 	@Override
-	public boolean validarCadastro(Object obj) {
-		Ean ean = (Ean) obj;
-		if(ean == null){
-			return false;
-		}
-		if(Utils.isNullOrEmpty(ean.getCodBarras())){
-			return false;
-		}
-		return true;
-	}
-
-	@Override
-	public boolean validarCadastroComMensagem(Object obj, String titulo) {
+	public boolean validarCadastroComMensagem(Object obj, String titulo, boolean mostrarMensagem) {
 		Ean ean = (Ean) obj;
 		boolean retorno = true;
 			if (ean == null) {
-				FacesUtils.sendMensagemError(titulo,
-						"Código de Barras está vazio!");
+				if(mostrarMensagem){
+					FacesUtils.sendMensagemError(titulo,"Código de Barras está vazio!");
+				}
 				retorno = false;
 			}
 			if (Utils.isNullOrEmpty(ean.getCodBarras())) {
-				FacesUtils.sendMensagemError(titulo,
-						"Código de Barras está vazio!");
+				if(mostrarMensagem){
+					FacesUtils.sendMensagemError(titulo, "Código de Barras está vazio!");
+				}
 				retorno = false;
 			}
 		return retorno;

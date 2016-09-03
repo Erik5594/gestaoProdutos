@@ -8,26 +8,6 @@ import com.kilowats.util.jsf.FacesUtils;
 @ValidarTelefone
 public class ValidacaoCadastroTelefone implements IValidacaoCadastro {
 
-	@Override
-	public boolean validarCadastro(Object obj) {
-		Telefone telefone = (Telefone) obj;
-		if(telefone != null){
-			if(!isDddValido(telefone.getDdd())){
-				return false;
-			}
-			if(!isNumeroValido(telefone.getNumero())){
-				return false;
-			}
-			
-			if(telefone.getTipoTelefone() == null){
-				return false;
-			}
-		}else{
-			return false;
-		}
-		return true;
-	}
-
 	private boolean isNumeroValido(String numero) {
 		if(numero.equals("") || numero == null){
 			return false;
@@ -58,25 +38,33 @@ public class ValidacaoCadastroTelefone implements IValidacaoCadastro {
 	}
 
 	@Override
-	public boolean validarCadastroComMensagem(Object obj, String titulo) {
+	public boolean validarCadastroComMensagem(Object obj, String titulo, boolean mostrarMensagem) {
 		Telefone telefone = (Telefone) obj;
 		boolean retorno = true;
 		if(telefone != null){
 			if(!isDddValido(telefone.getDdd())){
-				FacesUtils.sendMensagemError(titulo, "DDD inválido.");
+				if(mostrarMensagem){
+					FacesUtils.sendMensagemError(titulo, "DDD inválido.DDD["+telefone.getDdd()+"], Número["+telefone.getNumero()+"]");
+				}
 				retorno = false;
 			}
 			if(!isNumeroValido(telefone.getNumero())){
-				FacesUtils.sendMensagemError(titulo, "Numero inválido.");
+				if(mostrarMensagem){
+					FacesUtils.sendMensagemError(titulo, "Numero inválido.DDD["+telefone.getDdd()+"], Número["+telefone.getNumero()+"]");
+				}
 				retorno = false;
 			}
 			
 			if(telefone.getTipoTelefone() == null){
-				FacesUtils.sendMensagemError(titulo, "Tipo de telefone inválido.");
+				if(mostrarMensagem){
+					FacesUtils.sendMensagemError(titulo, "Tipo de telefone inválido.DDD["+telefone.getDdd()+"], Número["+telefone.getNumero()+"]");
+				}
 				retorno = false;
 			}
 		}else{
-			FacesUtils.sendMensagemError(titulo, "Não foram encontrados dados de telefone");
+			if(mostrarMensagem){
+				FacesUtils.sendMensagemError(titulo, "Não foram encontrados dados de telefone");
+			}
 			retorno = false;
 		}
 		return retorno;

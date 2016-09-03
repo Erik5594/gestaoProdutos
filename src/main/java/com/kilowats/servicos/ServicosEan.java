@@ -15,8 +15,8 @@ public class ServicosEan implements Serializable{
 	@Inject @ValidarEan
 	private IValidacaoCadastro validador;
 	
-	public boolean eanIsValido(Ean ean, String titulo){
-		return validador.validarCadastroComMensagem(ean, titulo);
+	public boolean eanIsValido(Ean ean, String titulo, boolean mostrarMensagem){
+		return validador.validarCadastroComMensagem(ean, titulo, mostrarMensagem);
 	}
 
 }

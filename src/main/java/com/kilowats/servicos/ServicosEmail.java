@@ -5,7 +5,7 @@ import java.io.Serializable;
 import javax.inject.Inject;
 
 import com.kilowats.annotations.ValidarEmail;
-import com.kilowats.entidades.Emails;
+import com.kilowats.entidades.Email;
 import com.kilowats.interfaces.IValidacaoCadastro;
 
 public class ServicosEmail implements Serializable{
@@ -15,8 +15,8 @@ public class ServicosEmail implements Serializable{
 	@Inject @ValidarEmail
 	private IValidacaoCadastro validador;
 	
-	public boolean emailIsValido(Emails email, String titulo){
-		return validador.validarCadastroComMensagem(email, titulo);
+	public boolean emailIsValido(Email email, String titulo, boolean mostrarMensagem){
+		return validador.validarCadastroComMensagem(email, titulo, mostrarMensagem);
 	}
 
 }

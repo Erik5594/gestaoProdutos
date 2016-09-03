@@ -11,13 +11,15 @@ import javax.persistence.ManyToOne;
 import lombok.Data;
 
 @Entity
-public @Data class Emails implements Serializable{
+public @Data class Email implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
 	@Id @Column(name="id_email")
 	private Long idEmail;
+	@Column(name="email_destinatario", length=60, nullable=false)
 	private String emailDestinatario;
+	@Column(name="nome_destinatario", length=60, nullable=false)
 	private String nomePessoaDestinatario;
 	@ManyToOne
 	@JoinColumn(name="id_pessoa")
@@ -41,7 +43,7 @@ public @Data class Emails implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Emails other = (Emails) obj;
+		Email other = (Email) obj;
 		if (emailDestinatario == null) {
 			if (other.emailDestinatario != null)
 				return false;
