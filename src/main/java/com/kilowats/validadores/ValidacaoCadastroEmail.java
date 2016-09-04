@@ -14,14 +14,14 @@ public class ValidacaoCadastroEmail implements IValidacaoCadastro {
 		Email email = (Email) obj;
 		boolean retorno = true;
 		if (email != null) {
-			if (!isEmailValido(email.getEmailDestinatario())) {
+			if (!Utils.isEmailValido(email.getEmailDestinatario())) {
 				if(mostrarMensagem){
 					FacesUtils.sendMensagemError(titulo, "Email inválido!");
 				}
 				retorno = false;
 			}
 
-			if (!isNomeDestinatarioValido(email.getNomePessoaDestinatario())) {
+			if (!Utils.isNomeValido(email.getNomePessoaDestinatario())) {
 				if(mostrarMensagem){
 					FacesUtils.sendMensagemError(titulo, "Nome do destinatário inválido!");
 				}
@@ -34,26 +34,6 @@ public class ValidacaoCadastroEmail implements IValidacaoCadastro {
 			retorno = false;
 		}
 		return retorno;
-	}
-
-	private boolean isEmailValido(String emailDestinatario) {
-		if (!Utils.isNullOrEmpty(emailDestinatario)) {
-			if (emailDestinatario.contains("@")) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public boolean isNomeDestinatarioValido(String nomeDestinatario) {
-		if (!Utils.isNullOrEmpty(nomeDestinatario)) {
-			if (!nomeDestinatario.toLowerCase().equals("teste")) {
-				if (nomeDestinatario.length() > 1) {
-					return true;
-				}
-			}
-		}
-		return false;
 	}
 
 }

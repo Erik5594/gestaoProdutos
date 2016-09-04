@@ -179,5 +179,25 @@ public class Utils {
 		}
 		return false;
 	}
+	
+	public static boolean isEmailValido(String email) {
+		if (!Utils.isNullOrEmpty(email)) {
+			if (email.contains("@")) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static boolean isNomeValido(String nome) {
+		if (!Utils.isNullOrEmpty(nome)) {
+			if (!nome.toLowerCase().equals("teste")) {
+				if (nome.length() > 1) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 
 }

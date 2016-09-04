@@ -47,10 +47,14 @@ public class CadastroUsuarioControlador implements Serializable {
 	}
 	public void salvar(){
 		setarGruposUsuario();
-		usuario = servicosUsuario.salvar(usuario);
-		if(usuario != null && usuario.getId() > 0){
-			FacesUtils.sendMensagemOk(titulo, "Usuário cadastrado com sucesso!");
-			limpar();
+		if(servicosUsuario.usuarioIsValido(usuario, titulo, true)){
+			usuario = servicosUsuario.salvar(usuario);
+			if(usuario != null && usuario.getId() > 0){
+				FacesUtils.sendMensagemOk(titulo, "Usuário cadastrado com sucesso!");
+				limpar();
+			}else{
+				FacesUtils.sendMensagemError(titulo, "Usuário não cadastrado!");
+			}
 		}
 	}
 
