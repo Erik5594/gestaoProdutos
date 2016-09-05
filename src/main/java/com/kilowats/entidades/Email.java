@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -15,7 +17,7 @@ public @Data class Email implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
-	@Id @Column(name="id_email")
+	@Id @GeneratedValue(strategy = GenerationType.AUTO) @Column(name="id_email")
 	private Long idEmail;
 	@Column(name="email_destinatario", length=60, nullable=false)
 	private String emailDestinatario;

@@ -2,18 +2,35 @@ package com.kilowats.entidades;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
+
 import lombok.Data;
 
 import com.kilowats.enuns.TipoVeiculo;
 
+@Entity
 public @Data class Veiculo implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
+	@Id @GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
+	@NotNull @Column(nullable=false, length=7)
 	private String placa;
+	@Column(length=21)
 	private String chassi;
+	@Enumerated(EnumType.ORDINAL)
+	@Column(name="tipo_veiculo")
 	private TipoVeiculo tipoVeiculo;
+	@NotNull @ManyToOne
 	private Cliente cliente;
 	
 	@Override

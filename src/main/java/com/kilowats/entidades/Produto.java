@@ -3,20 +3,40 @@ package com.kilowats.entidades;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 import lombok.Data;
 
 import com.kilowats.enuns.TipoProdutoUnidadeEnum;
 
+@Entity
 public @Data class Produto implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
+	@Id @GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
+	@NotNull @Column(name="cod_produto", length=15, nullable=false)
 	private String codProduto;
+	@NotNull @Column(name="nome_produto", length=120, nullable=false)
 	private String nomeProduto;
+	@NotNull @Enumerated(EnumType.ORDINAL) @Column(name="tipo_unidade")
 	private TipoProdutoUnidadeEnum tipoUnidade;
+	@NotNull @Min(0) @Max(100) @Column(nullable=false, length=5, precision=2)
 	private int quantidade;
+	@NotNull @Column(nullable=false, length=8, precision=2)
 	private double valor;
+	@OneToMany(mappedBy="produto")
 	private List<Ean> eans;
 	
 	@Override
