@@ -14,7 +14,7 @@ import com.kilowats.entidades.Cidade;
 import com.kilowats.entidades.Email;
 import com.kilowats.entidades.Empresa;
 import com.kilowats.entidades.Endereco;
-import com.kilowats.entidades.Telefone;
+import com.kilowats.entidades.TelefoneCliente;
 import com.kilowats.enuns.TipoPessoa;
 import com.kilowats.enuns.TipoTelefoneEnum;
 import com.kilowats.servicos.ServicosEmail;
@@ -35,7 +35,7 @@ public class CadastroFornecedorControlador implements Serializable{
 	@Inject
 	private Endereco endereco;
 	@Inject
-	private Telefone telefone;
+	private TelefoneCliente telefone;
 	@Inject
 	private Cidade cidade;
 	@Inject
@@ -43,7 +43,7 @@ public class CadastroFornecedorControlador implements Serializable{
 	@Inject
 	private Email emailSelecionado;
 	@Inject
-	private Telefone telefoneSelecionado;
+	private TelefoneCliente telefoneSelecionado;
 	@Inject
 	private ServicosEmail servicosEmail;
 	@Inject
@@ -53,7 +53,7 @@ public class CadastroFornecedorControlador implements Serializable{
 	@Inject
 	private ServicosFornecedor servicosFornecedor;
 	
-	private List<Telefone> telefones = new ArrayList<>();
+	private List<TelefoneCliente> telefones = new ArrayList<>();
 	private List<Email> emails = new ArrayList<>();
 	private int tpPessoa;
 	
@@ -69,10 +69,10 @@ public class CadastroFornecedorControlador implements Serializable{
 		if(servicosTelefone.telefoneIsValido(telefone, TITULO, true)){
 			adcionaTelefoneList(this.telefone);
 		}
-		this.telefone= new Telefone(); 
+		this.telefone= new TelefoneCliente(); 
 	}
 	
-	public void adcionaTelefoneList(Telefone telefone){
+	public void adcionaTelefoneList(TelefoneCliente telefone){
 		if(telefones.isEmpty()){
 			telefones = new ArrayList<>();
 		}else{
@@ -201,10 +201,10 @@ public class CadastroFornecedorControlador implements Serializable{
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
 	}
-	public Telefone getTelefone() {
+	public TelefoneCliente getTelefone() {
 		return telefone;
 	}
-	public void setTelefone(Telefone telefone) {
+	public void setTelefone(TelefoneCliente telefone) {
 		this.telefone = telefone;
 	}
 	public Cidade getCidade() {
@@ -213,16 +213,16 @@ public class CadastroFornecedorControlador implements Serializable{
 	public void setCidade(Cidade cidade) {
 		this.cidade = cidade;
 	}
-	public List<Telefone> getTelefones() {
+	public List<TelefoneCliente> getTelefones() {
 		return telefones;
 	}
-	public void setTelefones(List<Telefone> telefones) {
+	public void setTelefones(List<TelefoneCliente> telefones) {
 		this.telefones = telefones;
 	}
-	public Telefone getTelefoneSelecionado() {
+	public TelefoneCliente getTelefoneSelecionado() {
 		return telefoneSelecionado;
 	}
-	public void setTelefoneSelecionado(Telefone telefoneSelecionado) {
+	public void setTelefoneSelecionado(TelefoneCliente telefoneSelecionado) {
 		this.telefoneSelecionado = telefoneSelecionado;
 	}
 	public Email getEmail() {

@@ -14,10 +14,11 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 
 import lombok.Data;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 import com.kilowats.enuns.TipoPessoa;
 
@@ -27,22 +28,23 @@ public @Data class Pessoa implements Serializable{
 	private static final long serialVersionUID = 1L;
 	@Id @GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	@NotNull
+	@NotEmpty
 	private String nome;
-	@NotNull @Column(name="cpf_cgc", length=14, unique=true)
+	@NotEmpty @Column(name="cpf_cgc", length=14, unique=true)
 	private String cgcCpf;
-	@NotNull @Max(1) @Column(name="tipo_pessoa", length=1)
+	@Column(name="tipo_pessoa", length=1)
 	private TipoPessoa fisicaJuridica;//0fisica; 1juridica
 	@NotNull @Column(name="status", length=1, nullable=false)
 	private int status;//1ativo;0inativo
+	@NotEmpty
 	@OneToMany
 	@JoinTable(name = "pessoa_endereco", joinColumns = @JoinColumn(name="pessoa_id"),
 			inverseJoinColumns = @JoinColumn(name = "endereco_id"),
 			foreignKey = @ForeignKey(name = "fk_pessoa_id"),
 			inverseForeignKey = @ForeignKey(name = "fk_endereco_id"))
 	private List<Endereco> endereco;
-	@OneToMany(mappedBy="pessoa")
-	private List<Telefone> telefones;
+	@OneToMany(mappedBy="cliente")
+	private List<TelefoneCliente> telefones;
 	@OneToMany(mappedBy="pessoa")
 	private List<Email> emails;
 }

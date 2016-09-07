@@ -45,7 +45,7 @@
 				<p:tab title="Dados Principais" id="principalTab">
 					<h:panelGrid columns="2" id="panelGridDadosCliente">
 						<p:outputLabel value="Nome: " for="nome" />
-						<p:inputText id="nome" style="width: 300px"
+						<p:inputText id="nome" style="width: 300px" onkeyup="this.value=this.value.toUpperCase();"
 						value="#{cadastroClienteControlador.cliente.nome}"/>
 						
 						<p:outputLabel value="Tipo: " for="tipo"/>
@@ -66,20 +66,24 @@
 				<p:tab title="Endereço" id="enderecoTab">
 					<h:panelGrid columns="2" id="panelGridEndereco">
 						<p:outputLabel value="CEP:" for="cep" />
-						<p:inputMask id="cep" mask="99.999-999" converter="converterNumber"
-						value="#{cadastroClienteControlador.endereco.cep.cep}"	style="width: 70px" />
+						<p:inputMask id="cep" mask="99.999-999" converter="converterLong"
+						value="#{cadastroClienteControlador.cep.cep}"	style="width: 70px" />
 
 						<p:outputLabel value="Logradouro: " for="rua" />
-						<p:inputText id="rua" size="35" value="#{cadastroClienteControlador.cep.rua}"/>
+						<p:inputText id="rua" size="35" onkeyup="this.value=this.value.toUpperCase();"
+						value="#{cadastroClienteControlador.cep.rua}"/>
 
 						<p:outputLabel value="Complemento: " for="complemento" />
-						<p:inputText id="complemento" value="#{cadastroClienteControlador.endereco.complemento}"/>
+						<p:inputText id="complemento" onkeyup="this.value=this.value.toUpperCase();"
+						value="#{cadastroClienteControlador.endereco.complemento}"/>
 
 						<p:outputLabel value="Bairro: " for="bairro" />
-						<p:inputText id="bairro" value="#{cadastroClienteControlador.cep.bairro}"/>
+						<p:inputText id="bairro" onkeyup="this.value=this.value.toUpperCase();"
+						value="#{cadastroClienteControlador.cep.bairro}"/>
 
 						<p:outputLabel value="Numero: " for="numero" />
-						<p:inputText id="numero" style="width: 45px" value="#{cadastroClienteControlador.endereco.numero}"/>
+						<p:inputText id="numero" onkeyup="this.value=this.value.toUpperCase();" 
+						style="width: 45px" value="#{cadastroClienteControlador.endereco.numero}"/>
 
 						<p:outputLabel value="UF: " for="uf" />
 						<p:selectOneMenu id="uf" value="#{cadastroClienteControlador.cidade.uf}">
@@ -103,13 +107,14 @@
 				<p:tab title="Telefones" id="telefonesTab">
 					<h:panelGrid columns="5" id="gridTelefone">
 						<p:outputLabel value="Telefone: " />
-						<p:inputMask id="dddTelefone" mask="(99)" converter="converterNumber"
+						<p:inputMask id="dddTelefone" mask="(99)" label="DDD" converter="converterNumber"
 							size="2" value="#{cadastroClienteControlador.telefone.ddd}"/>
-						<p:inputMask id="numeroTelefone" mask="99999999?9"
+						<p:inputMask id="numeroTelefone" 
+						mask="99999999?9" label="Número" 
 							size="8" value="#{cadastroClienteControlador.telefone.numero}" />
 							
-							<p:selectOneMenu id="tipoTelefone" value="#{cadastroClienteControlador.tipoTelefone}" converter="converterNumber">
-							<f:selectItem itemLabel="Selecione..." itemValue=""
+							<p:selectOneMenu id="tipoTelefone" label="Tipo Telefone" value="#{cadastroClienteControlador.tipoTelefone}" converter="converterNumber">
+							<f:selectItem itemLabel="Selecione..." itemValue="9"
 								noSelectionOption="true"/>
 								<f:selectItem itemLabel="Celular" itemValue="0"/>
 								<f:selectItem itemLabel="Comercial" itemValue="1"/>
@@ -144,9 +149,11 @@
 				<p:tab title="E-mails" id="emailTab">
 					<h:panelGrid columns="5" id="gridEmail">
 						<p:outputLabel value="E-mail: " for="email" />
-						<p:inputText id="email" value="#{cadastroClienteControlador.email.emailDestinatario}"/>
+						<p:inputText id="email" onkeyup="this.value=this.value.toUpperCase();"
+						value="#{cadastroClienteControlador.email.emailDestinatario}"/>
 						<p:outputLabel value="Nome Destinatário: " for="destinatarioEmail" style="margin-left: 8px"/>
-						<p:inputText id="destinatarioEmail" value="#{cadastroClienteControlador.email.nomePessoaDestinatario}"/>
+						<p:inputText id="destinatarioEmail" onkeyup="this.value=this.value.toUpperCase();"
+						value="#{cadastroClienteControlador.email.nomePessoaDestinatario}"/>
 						<p:commandButton icon="ui-icon-plus" actionListener="#{cadastroClienteControlador.adcionaEmail()}"
 						update="gridEmail tabelaEmails" process="gridEmail"/>
 					</h:panelGrid>

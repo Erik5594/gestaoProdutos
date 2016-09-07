@@ -37,14 +37,13 @@
 				<!-- Fim de grupo de Barra de opces a Direita -->
 			</p:toolbar>
 			<!-- Fim Barra de opcoes -->
-			<h1>Em Manutenção</h1>
 			<h:panelGrid columns="2" id="gridDadosUsuario">
 			
-			<p:outputLabel value="Nome:"/>
-			<p:inputText size="30" value="#{cadastroUsuarioControlador.usuario.nome}" label="Nome usuário"/>
+			<p:outputLabel value="Nome:" for="nomeUsuario"/>
+			<p:inputText size="30" id="nomeUsuario" value="#{cadastroUsuarioControlador.usuario.nome}" label="Nome usuário"/>
 			
-			<p:outputLabel value="E-mail:"/>
-			<p:inputText size="30" value="#{cadastroUsuarioControlador.usuario.email}" label="E-mail"/>
+			<p:outputLabel value="E-mail:" for="email"/>
+			<p:inputText size="30" id="email" value="#{cadastroUsuarioControlador.usuario.email}" label="E-mail"/>
 			
 	        <p:outputLabel for="pwd1" value="Senha:" />
 	        <p:password id="pwd1" value="#{cadastroUsuarioControlador.usuario.senha}" label="Senha"/>

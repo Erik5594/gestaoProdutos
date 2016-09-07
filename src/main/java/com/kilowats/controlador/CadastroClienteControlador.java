@@ -10,14 +10,18 @@ import javax.inject.Named;
 
 import lombok.Data;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.kilowats.entidades.Cep;
 import com.kilowats.entidades.Cidade;
 import com.kilowats.entidades.Cliente;
 import com.kilowats.entidades.Email;
 import com.kilowats.entidades.Endereco;
-import com.kilowats.entidades.Telefone;
+import com.kilowats.entidades.TelefoneCliente;
 import com.kilowats.enuns.TipoPessoa;
 import com.kilowats.enuns.TipoTelefoneEnum;
+import com.kilowats.servicos.ServicosCep;
+import com.kilowats.servicos.ServicosCidade;
 import com.kilowats.servicos.ServicosCliente;
 import com.kilowats.servicos.ServicosEmail;
 import com.kilowats.servicos.ServicosEndereco;
@@ -35,11 +39,11 @@ public @Data class CadastroClienteControlador implements Serializable{
 	@Inject
 	private Endereco endereco;
 	@Inject
-	private Telefone telefone;
+	private TelefoneCliente telefone;
 	@Inject
 	private Cidade cidade;
 	@Inject
-	private Telefone telefoneSelecionado;
+	private TelefoneCliente telefoneSelecionado;
 	@Inject
 	private Email email;
 	@Inject
@@ -51,17 +55,30 @@ public @Data class CadastroClienteControlador implements Serializable{
 	@Inject
 	private ServicosEmail servicosEmail;
 	@Inject
+	private ServicosCidade servicosCidade;
+	@Inject
 	private ServicosEndereco servicosEndereco;
+	@Inject
+	private ServicosCep servicosCep;
 	@Inject
 	private Cep cep;
 
-	private List<Telefone> telefones = new ArrayList<>();
+	private List<TelefoneCliente> telefones = new ArrayList<>();
 	private List<Email> emails = new ArrayList<>();
 	private int tpPessoa;
 	private int tipoTelefone;
 	
 	private final String TITULO = "Cadastro Cliente: ";
 	private final String ERRO_INTERNO = "Erro interno: erro interno contate a administração do sistema!";
+	
+	private void inicializarVariaveis(){
+		cliente = new Cliente();
+		cep = new Cep();
+		cidade = new Cidade();
+		endereco = new Endereco();
+		telefones = new ArrayList<>();
+		emails = new ArrayList<>();
+	}
 	
 	public void pesquisar(){
 		throw new RuntimeException("Cliente não pode pesquisado, pois ainda não foi implementado.");
@@ -76,7 +93,8 @@ public @Data class CadastroClienteControlador implements Serializable{
 		if(servicosTelefone.telefoneIsValido(telefone, TITULO, true)){
 			adcionaTelefoneList(this.telefone);
 		}
-		this.telefone= new Telefone(); 
+		this.telefone= new TelefoneCliente();
+		tipoTelefone = 9;
 	}
 
 	private TipoTelefoneEnum returnTipoTelefone() {
@@ -94,7 +112,7 @@ public @Data class CadastroClienteControlador implements Serializable{
 		}
 	}
 	
-	public void adcionaTelefoneList(Telefone telefone){
+	public void adcionaTelefoneList(TelefoneCliente telefone){
 		if(telefones.isEmpty()){
 			telefones = new ArrayList<>();
 		}else{
@@ -126,10 +144,12 @@ public @Data class CadastroClienteControlador implements Serializable{
 	}
 
 	public void salvar(){
+		cliente.setCgcCpf(cliente.getCgcCpf().replaceAll("\\D", ""));
 		completarDadosEmpresa();
 		if(validacoes()){
 			cliente = servicosCliente.persistirCliente(cliente);
 			if(cliente != null && cliente.getId() > 0L){
+				inicializarVariaveis();
 				FacesUtils.sendMensagemOk(TITULO, "Cliente cadastrado com suceso!");
 			}else{
 				FacesUtils.sendMensagemError(TITULO, ERRO_INTERNO);
@@ -138,8 +158,11 @@ public @Data class CadastroClienteControlador implements Serializable{
 	}
 
 	private void completarDadosEmpresa() {
+		salvarCidade();
 		cep.setCidade(cidade);
+		salvarCep();
 		endereco.setCep(cep);
+		salvarEndereco();
 		List<Endereco> enderecos = new ArrayList<>();
 		enderecos.add(endereco);
 		this.cliente.setEndereco(enderecos);
@@ -156,6 +179,43 @@ public @Data class CadastroClienteControlador implements Serializable{
 		}
 	}
 
+	private void salvarEndereco() {
+		if (servicosEndereco.enderecoIsValido(endereco, TITULO, true)) {
+			endereco = servicosEndereco.persistirEndereco(endereco);
+		}
+	}
+
+	private void salvarCidade() {
+		Cidade cidadeOfPesquisa = new Cidade();
+		if(!StringUtils.isBlank(cidade.getNomeCidade())){
+			cidadeOfPesquisa = servicosCidade.pesquisarByNomeCidade(cidade.getNomeCidade());
+		}
+		if(cidadeOfPesquisa == null){
+			if(cidade.getSiglaCidade() == null){
+				cidade.setSiglaCidade(cidade.getNomeCidade());
+			}
+			if(servicosCidade.cidadeIsValido(cidade, TITULO, true)){
+				cidade = servicosCidade.persistirCidade(cidade);
+			}
+		}else{
+			cidade = cidadeOfPesquisa;
+		}
+	}
+
+	private void salvarCep() {
+		Cep cepOfPesquisa = new Cep();
+		if(cep.getCep() != null && cep.getCep() > 0L){
+			cepOfPesquisa = servicosCep.pesquisarCepByCep(cep.getCep());
+		}
+		if(cepOfPesquisa == null){
+			if(servicosCep.cepIsValido(cep, TITULO, true)){
+				cep = servicosCep.persistirCep(cep);
+			}
+		}else{
+			cep = cepOfPesquisa;
+		}
+	}
+	
 	private boolean validarEndereco() {
 		return servicosEndereco.enderecoIsValido(endereco, TITULO, true);
 	}

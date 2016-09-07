@@ -11,28 +11,29 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotNull;
+import javax.persistence.Table;
 
 import lombok.Data;
 
 import com.kilowats.enuns.TipoTelefoneEnum;
 @Entity
-public @Data class Telefone implements Serializable{
+@Table(name="telefone_cliente")
+public @Data class TelefoneCliente implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 
 	@Id @Column(name="id_telefone") @GeneratedValue(strategy = GenerationType.AUTO)
 	private Long idTelefone;
-	@NotNull @Column(length=3, nullable=false)
+	@Column(length=3, nullable=false)
 	private int ddd;
-	@NotNull @Column(length=10, nullable=false)
+	@Column(length=10, nullable=false)
 	private String numero;
 	@Enumerated(EnumType.STRING)
 	@Column(name="tipo_telefone", nullable=false, length=20)
 	private TipoTelefoneEnum tipoTelefone;
 	@ManyToOne
 	@JoinColumn(name="id_pessoa")
-	private Pessoa pessoa;
+	private Cliente cliente;
 	
 	@Override
 	public int hashCode() {
@@ -50,7 +51,7 @@ public @Data class Telefone implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Telefone other = (Telefone) obj;
+		TelefoneCliente other = (TelefoneCliente) obj;
 		if (ddd != other.ddd)
 			return false;
 		if (numero == null) {

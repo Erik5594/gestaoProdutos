@@ -2,6 +2,7 @@ package com.kilowats.entidades;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,6 +14,8 @@ import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 @Entity
 public @Data class Endereco implements Serializable{
 
@@ -20,11 +23,12 @@ public @Data class Endereco implements Serializable{
 
 	@Id @GeneratedValue(strategy = GenerationType.AUTO) @Column(name="id_complemento")
 	private Long idComplemento;
-	@NotNull @Column(nullable=false, length=100)
+	@NotEmpty @Column(nullable=false, length=100)
 	private String complemento;
-	@NotNull @Column(name="numero_endereco", nullable=false, length=10)
+	@NotEmpty @Column(name="numero_endereco", nullable=false, length=10)
 	private String numero;
-	@ManyToOne
+	@NotNull
+	@ManyToOne(cascade= CascadeType.ALL)
 	@JoinColumn(name="cep")
 	private Cep cep;
 }

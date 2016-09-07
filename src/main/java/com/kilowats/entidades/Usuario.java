@@ -16,6 +16,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 @Entity
 @Table(name = "usuario")
 public class Usuario implements Serializable{
@@ -25,13 +27,13 @@ public class Usuario implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	@NotNull
+	@NotEmpty
 	@Column(length=30, nullable=false)
 	private String nome;
-	@NotNull
+	@NotEmpty
 	@Column(length=50, nullable=false)
 	private String email;
-	@NotNull
+	@NotEmpty
 	@Column(length=12, nullable=false)
 	private String senha;
 	@NotNull

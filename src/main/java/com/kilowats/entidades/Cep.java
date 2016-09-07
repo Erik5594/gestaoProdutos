@@ -2,26 +2,27 @@ package com.kilowats.entidades;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 @Entity
 public @Data class Cep implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
-	@Id
+	@NotNull @Id
 	private Long cep;
-	@NotNull @Column(name="logradouro", nullable=false, length=150)
+	@NotEmpty @Column(name="logradouro", nullable=false, length=150)
 	private String rua;
-	@NotNull @Column(name="bairro", nullable=false, length=150)
+	@NotEmpty @Column(name="bairro", nullable=false, length=150)
 	private String bairro;
-	@ManyToOne
+	@NotNull @ManyToOne(cascade = CascadeType.ALL)
 	private Cidade cidade;
 }
