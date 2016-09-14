@@ -14,7 +14,7 @@ import com.kilowats.entidades.Cidade;
 import com.kilowats.entidades.Email;
 import com.kilowats.entidades.Empresa;
 import com.kilowats.entidades.Endereco;
-import com.kilowats.entidades.TelefoneCliente;
+import com.kilowats.entidades.Telefone;
 import com.kilowats.enuns.TipoPessoa;
 import com.kilowats.enuns.TipoTelefoneEnum;
 import com.kilowats.servicos.ServicosEmail;
@@ -35,7 +35,7 @@ public class CadastroFornecedorControlador implements Serializable{
 	@Inject
 	private Endereco endereco;
 	@Inject
-	private TelefoneCliente telefone;
+	private Telefone telefone;
 	@Inject
 	private Cidade cidade;
 	@Inject
@@ -43,7 +43,7 @@ public class CadastroFornecedorControlador implements Serializable{
 	@Inject
 	private Email emailSelecionado;
 	@Inject
-	private TelefoneCliente telefoneSelecionado;
+	private Telefone telefoneSelecionado;
 	@Inject
 	private ServicosEmail servicosEmail;
 	@Inject
@@ -53,7 +53,7 @@ public class CadastroFornecedorControlador implements Serializable{
 	@Inject
 	private ServicosFornecedor servicosFornecedor;
 	
-	private List<TelefoneCliente> telefones = new ArrayList<>();
+	private List<Telefone> telefones = new ArrayList<>();
 	private List<Email> emails = new ArrayList<>();
 	private int tpPessoa;
 	
@@ -69,10 +69,10 @@ public class CadastroFornecedorControlador implements Serializable{
 		if(servicosTelefone.telefoneIsValido(telefone, TITULO, true)){
 			adcionaTelefoneList(this.telefone);
 		}
-		this.telefone= new TelefoneCliente(); 
+		this.telefone= new Telefone(); 
 	}
 	
-	public void adcionaTelefoneList(TelefoneCliente telefone){
+	public void adcionaTelefoneList(Telefone telefone){
 		if(telefones.isEmpty()){
 			telefones = new ArrayList<>();
 		}else{
@@ -107,7 +107,7 @@ public class CadastroFornecedorControlador implements Serializable{
 		endereco.getCep().setCidade(cidade);
 		if(validacoes()){
 			completarDadosEmpresa();
-			if(servicosFornecedor.persistirFornecedor(this.empresa)){
+			if(Utils.isNotNull(servicosFornecedor.persistirFornecedor(this.empresa))){
 				FacesUtils.sendMensagemOk(TITULO, "Fornecedor cadastrado com suceso!");
 			}else{
 				FacesUtils.sendMensagemOk(TITULO, ERRO_INTERNO);
@@ -201,10 +201,10 @@ public class CadastroFornecedorControlador implements Serializable{
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
 	}
-	public TelefoneCliente getTelefone() {
+	public Telefone getTelefone() {
 		return telefone;
 	}
-	public void setTelefone(TelefoneCliente telefone) {
+	public void setTelefone(Telefone telefone) {
 		this.telefone = telefone;
 	}
 	public Cidade getCidade() {
@@ -213,16 +213,16 @@ public class CadastroFornecedorControlador implements Serializable{
 	public void setCidade(Cidade cidade) {
 		this.cidade = cidade;
 	}
-	public List<TelefoneCliente> getTelefones() {
+	public List<Telefone> getTelefones() {
 		return telefones;
 	}
-	public void setTelefones(List<TelefoneCliente> telefones) {
+	public void setTelefones(List<Telefone> telefones) {
 		this.telefones = telefones;
 	}
-	public TelefoneCliente getTelefoneSelecionado() {
+	public Telefone getTelefoneSelecionado() {
 		return telefoneSelecionado;
 	}
-	public void setTelefoneSelecionado(TelefoneCliente telefoneSelecionado) {
+	public void setTelefoneSelecionado(Telefone telefoneSelecionado) {
 		this.telefoneSelecionado = telefoneSelecionado;
 	}
 	public Email getEmail() {

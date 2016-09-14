@@ -13,6 +13,7 @@ import com.kilowats.entidades.Produto;
 import com.kilowats.enuns.TipoProdutoUnidadeEnum;
 import com.kilowats.servicos.ServicosEan;
 import com.kilowats.servicos.ServicosProduto;
+import com.kilowats.util.Utils;
 import com.kilowats.util.jsf.FacesUtils;
 
 @Named
@@ -50,7 +51,7 @@ public class CadastroProdutoControlador implements Serializable{
 	public void salvar() {
 		if (validacoes()) {
 			completarDadosProduto();
-			if (servicosProduto.persistirProduto(this.produto)) {
+			if (Utils.isNotNull(servicosProduto.persistirProduto(this.produto))) {
 				FacesUtils.sendMensagemOk(TITULO, "Produto cadastrado com sucesso!");
 			} else {
 				FacesUtils.sendMensagemError(TITULO, ERRO_INTERNO);

@@ -12,6 +12,7 @@ import javax.inject.Named;
 import com.kilowats.annotations.ProdutoChip;
 import com.kilowats.entidades.Chip;
 import com.kilowats.servicos.ServicosChip;
+import com.kilowats.util.Utils;
 import com.kilowats.util.jsf.FacesUtils;
 
 @Named
@@ -57,7 +58,7 @@ public class CadastroChipControlador implements Serializable{
 
 	private void persistirBanco(FacesContext context) {
 		for (Chip chip1 : chips) {
-			if (servicos.persistirChip(chip1)) {
+			if (Utils.isNotNull(servicos.persistirChip(chip1))) {
 				FacesUtils.sendMensagemOk(TITULO, "Chip ["+chip1.getImei()+"] cadastrado com sucesso!");
 			} else {
 				FacesUtils.sendMensagemError(TITULO,ERRO_INTERNO);

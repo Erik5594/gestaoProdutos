@@ -17,7 +17,7 @@ import com.kilowats.entidades.Cidade;
 import com.kilowats.entidades.Cliente;
 import com.kilowats.entidades.Email;
 import com.kilowats.entidades.Endereco;
-import com.kilowats.entidades.TelefoneCliente;
+import com.kilowats.entidades.Telefone;
 import com.kilowats.enuns.TipoPessoa;
 import com.kilowats.enuns.TipoTelefoneEnum;
 import com.kilowats.servicos.ServicosCep;
@@ -39,11 +39,11 @@ public @Data class CadastroClienteControlador implements Serializable{
 	@Inject
 	private Endereco endereco;
 	@Inject
-	private TelefoneCliente telefone;
+	private Telefone telefone;
 	@Inject
 	private Cidade cidade;
 	@Inject
-	private TelefoneCliente telefoneSelecionado;
+	private Telefone telefoneSelecionado;
 	@Inject
 	private Email email;
 	@Inject
@@ -63,7 +63,7 @@ public @Data class CadastroClienteControlador implements Serializable{
 	@Inject
 	private Cep cep;
 
-	private List<TelefoneCliente> telefones = new ArrayList<>();
+	private List<Telefone> telefones = new ArrayList<>();
 	private List<Email> emails = new ArrayList<>();
 	private int tpPessoa;
 	private int tipoTelefone;
@@ -93,7 +93,7 @@ public @Data class CadastroClienteControlador implements Serializable{
 		if(servicosTelefone.telefoneIsValido(telefone, TITULO, true)){
 			adcionaTelefoneList(this.telefone);
 		}
-		this.telefone= new TelefoneCliente();
+		this.telefone= new Telefone();
 		tipoTelefone = 9;
 	}
 
@@ -112,7 +112,7 @@ public @Data class CadastroClienteControlador implements Serializable{
 		}
 	}
 	
-	public void adcionaTelefoneList(TelefoneCliente telefone){
+	public void adcionaTelefoneList(Telefone telefone){
 		if(telefones.isEmpty()){
 			telefones = new ArrayList<>();
 		}else{
@@ -148,7 +148,7 @@ public @Data class CadastroClienteControlador implements Serializable{
 		completarDadosEmpresa();
 		if(validacoes()){
 			cliente = servicosCliente.persistirCliente(cliente);
-			if(cliente != null && cliente.getId() > 0L){
+			if(Utils.isNotNull(cliente) && cliente.getId() > 0L){
 				inicializarVariaveis();
 				FacesUtils.sendMensagemOk(TITULO, "Cliente cadastrado com suceso!");
 			}else{

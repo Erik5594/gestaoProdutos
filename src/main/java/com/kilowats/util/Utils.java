@@ -199,5 +199,20 @@ public class Utils {
 		}
 		return false;
 	}
+	
+	public static boolean isNull(Object obj){
+		if(obj instanceof String){
+			return isNullOrEmpty(obj.toString());
+		}
+		if(obj == null){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	public static boolean isNotNull(Object obj){
+		return !isNull(obj);
+	}
 
 }
