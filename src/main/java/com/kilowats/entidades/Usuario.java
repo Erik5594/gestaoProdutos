@@ -14,13 +14,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
+
+import lombok.Data;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "usuario")
-public class Usuario implements Serializable{
+public @Data class Usuario implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -36,6 +39,8 @@ public class Usuario implements Serializable{
 	@NotEmpty
 	@Column(length=12, nullable=false)
 	private String senha;
+	@Transient @NotEmpty
+	private String senhaConfirmacao;
 	@NotNull
 	@ManyToMany
 	@JoinTable(name = "usuario_grupo", joinColumns = @JoinColumn(name="usuario_id"),
@@ -67,37 +72,4 @@ public class Usuario implements Serializable{
 			return false;
 		return true;
 	}
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	public String getNome() {
-		return nome;
-	}
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	@NotNull
-	public String getSenha() {
-		return senha;
-	}
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
-	public List<Grupo> getGrupos() {
-		return grupos;
-	}
-	public void setGrupos(List<Grupo> grupos) {
-		this.grupos = grupos;
-	}
-	
-	
 }

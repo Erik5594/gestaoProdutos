@@ -47,6 +47,9 @@
 			
 	        <p:outputLabel for="pwd1" value="Senha:" />
 	        <p:password id="pwd1" value="#{cadastroUsuarioControlador.usuario.senha}" label="Senha"/>
+	        
+	        <p:outputLabel for="pwd2" value="Confirmar Senha:" />
+	        <p:password id="pwd2" value="#{cadastroUsuarioControlador.usuario.senhaConfirmacao}" label="Senha de Confirmação"/>
 			
 			<p:outputLabel value="Grupos:" rendered="#{not empty cadastroUsuarioControlador.grupos}"/>
 			<p:selectManyCheckbox layout="grid" columns="3" label="Grupos" rendered="#{not empty cadastroUsuarioControlador.grupos}"

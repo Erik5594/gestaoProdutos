@@ -17,8 +17,8 @@ import lombok.Data;
 
 import com.kilowats.enuns.TipoTelefoneEnum;
 @Entity
-@Table(name="telefone_cliente")
-public @Data class TelefoneCliente implements Serializable{
+@Table(name="telefone")
+public @Data class Telefone implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 
@@ -51,7 +51,7 @@ public @Data class TelefoneCliente implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		TelefoneCliente other = (TelefoneCliente) obj;
+		Telefone other = (Telefone) obj;
 		if (ddd != other.ddd)
 			return false;
 		if (numero == null) {

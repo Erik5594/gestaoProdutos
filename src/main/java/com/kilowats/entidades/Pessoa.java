@@ -44,7 +44,7 @@ public @Data class Pessoa implements Serializable{
 			inverseForeignKey = @ForeignKey(name = "fk_endereco_id"))
 	private List<Endereco> endereco;
 	@OneToMany(mappedBy="cliente")
-	private List<TelefoneCliente> telefones;
+	private List<Telefone> telefones;
 	@OneToMany(mappedBy="pessoa")
 	private List<Email> emails;
 }
