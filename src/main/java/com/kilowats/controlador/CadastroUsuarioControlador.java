@@ -15,6 +15,7 @@ import com.kilowats.entidades.Grupo;
 import com.kilowats.entidades.Usuario;
 import com.kilowats.servicos.ServicosGrupo;
 import com.kilowats.servicos.ServicosUsuario;
+import com.kilowats.util.Utils;
 import com.kilowats.util.jsf.FacesUtils;
 
 @Named
@@ -49,7 +50,7 @@ public class CadastroUsuarioControlador implements Serializable {
 		setarGruposUsuario();
 		if(servicosUsuario.usuarioIsValido(usuario, titulo, true)){
 			usuario = servicosUsuario.salvar(usuario);
-			if(usuario != null && usuario.getId() > 0){
+			if(Utils.isNotNull(usuario) && usuario.getId() > 0){
 				FacesUtils.sendMensagemOk(titulo, "Usuário cadastrado com sucesso!");
 				limpar();
 			}else{

@@ -107,7 +107,8 @@ public class CadastroFornecedorControlador implements Serializable{
 		endereco.getCep().setCidade(cidade);
 		if(validacoes()){
 			completarDadosEmpresa();
-			if(Utils.isNotNull(servicosFornecedor.persistirFornecedor(this.empresa))){
+			empresa = servicosFornecedor.persistirFornecedor(this.empresa);
+			if(Utils.isNotNull(empresa) && empresa.getId() > 0L){
 				FacesUtils.sendMensagemOk(TITULO, "Fornecedor cadastrado com suceso!");
 			}else{
 				FacesUtils.sendMensagemOk(TITULO, ERRO_INTERNO);

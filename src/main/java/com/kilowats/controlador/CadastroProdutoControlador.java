@@ -51,10 +51,11 @@ public class CadastroProdutoControlador implements Serializable{
 	public void salvar() {
 		if (validacoes()) {
 			completarDadosProduto();
-			if (Utils.isNotNull(servicosProduto.persistirProduto(this.produto))) {
+			produto = servicosProduto.persistirProduto(this.produto);
+			if (Utils.isNotNull(produto) && produto.getId() > 0L) {
 				FacesUtils.sendMensagemOk(TITULO, "Produto cadastrado com sucesso!");
 			} else {
-				FacesUtils.sendMensagemError(TITULO, ERRO_INTERNO);
+				FacesUtils.sendMensagemError(TITULO, ERRO_INTERNO+" ["+produto.getNomeProduto()+"]");
 			}
 			iniciarVariaveis();
 		}

@@ -32,7 +32,7 @@ public @Data class Pessoa implements Serializable{
 	private String nome;
 	@NotEmpty @Column(name="cpf_cgc", length=14, unique=true)
 	private String cgcCpf;
-	@Column(name="tipo_pessoa", length=1)
+	@Column(name="tipo_pessoa", length=1, nullable=false)
 	private TipoPessoa fisicaJuridica;//0fisica; 1juridica
 	@NotNull @Column(name="status", length=1, nullable=false)
 	private int status;//1ativo;0inativo

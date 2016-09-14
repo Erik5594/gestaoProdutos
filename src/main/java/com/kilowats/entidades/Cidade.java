@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 
@@ -32,4 +33,8 @@ public @Data class Cidade implements Serializable{
 	private String uf;
 	@OneToMany(mappedBy="cidade")
 	private List<Cep> cep;
+	@NotNull @Column(name="cep_inicial", nullable=false)
+	private Long cepInicial;
+	@NotNull @Column(name="cep_final", nullable=false)
+	private Long cepFinal;
 }
