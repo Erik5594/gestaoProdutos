@@ -12,7 +12,7 @@ public class CidadeDao {
 	@Inject
 	private EntityManager manager;
 	
-	public Cidade salvar(Cidade cidade) {
+	public Cidade salvarOrUpdate(Cidade cidade) {
 		EntityTransaction entityTransaction = manager.getTransaction();
 		entityTransaction.begin();
 		cidade = (Cidade) manager.merge(cidade);

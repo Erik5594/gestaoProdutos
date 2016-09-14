@@ -16,7 +16,7 @@ public class ServicosGrupo implements Serializable{
 	private GrupoDao grupoDao;
 	
 	public Grupo salvar(Grupo grupo){
-		return grupoDao.salvar(grupo);
+		return grupoDao.salvarOrUpdate(grupo);
 	}
 	
 	public Grupo pesquisarById(Long id){

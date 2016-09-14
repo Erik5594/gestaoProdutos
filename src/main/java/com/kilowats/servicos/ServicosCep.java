@@ -19,7 +19,7 @@ public class ServicosCep implements Serializable{
 	private CepDao cepDao;
 	
 	public Cep persistirCep(Cep cep){
-		return cepDao.salvar(cep);
+		return cepDao.salvarOrUpdate(cep);
 	}
 	
 	public boolean cepIsValido(Cep cep, String titulo, boolean mostrarMensagem){

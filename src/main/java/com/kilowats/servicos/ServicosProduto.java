@@ -18,8 +18,8 @@ public class ServicosProduto implements Serializable{
 	@Inject @ValidarProduto
 	private IValidacaoCadastro validador;
 
-	public boolean persistirProduto(Produto produto) {
-		return false;
+	public Produto persistirProduto(Produto produto) {
+		return produtoDao.salvarOrUpdate(produto);
 	}
 	
 	public boolean produtoIsValido(Produto produto, String titulo, boolean mostrarMensagem) {

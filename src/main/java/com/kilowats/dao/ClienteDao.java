@@ -11,7 +11,7 @@ public class ClienteDao {
 	@Inject
 	private EntityManager manager;
 	
-	public Cliente salvar(Cliente cliente) {
+	public Cliente salvarOrUpdate(Cliente cliente) {
 		EntityTransaction entityTransaction = manager.getTransaction();
 		entityTransaction.begin();
 		cliente = (Cliente) manager.merge(cliente);

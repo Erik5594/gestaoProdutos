@@ -11,7 +11,7 @@ public class CepDao {
 	@Inject
 	private EntityManager manager;
 	
-	public Cep salvar(Cep cep) {
+	public Cep salvarOrUpdate(Cep cep) {
 		EntityTransaction entityTransaction = manager.getTransaction();
 		entityTransaction.begin();
 		cep = (Cep) manager.merge(cep);

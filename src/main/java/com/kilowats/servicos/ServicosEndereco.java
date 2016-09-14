@@ -23,7 +23,7 @@ public class ServicosEndereco implements Serializable{
 	}
 	
 	public Endereco persistirEndereco(Endereco endereco){
-		return enderecoDao.salvar(endereco);
+		return enderecoDao.salvarOrUpdate(endereco);
 	}
 
 }

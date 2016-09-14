@@ -12,7 +12,7 @@ public class UsuarioDao {
 	@Inject
 	private EntityManager manager;
 
-	public Usuario salvar(Usuario usuario) {
+	public Usuario salvarOrUpdate(Usuario usuario) {
 		EntityTransaction entityTransaction = manager.getTransaction();
 		entityTransaction.begin();
 		usuario = (Usuario) manager.merge(usuario);

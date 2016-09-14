@@ -19,7 +19,7 @@ public class ServicosCliente implements Serializable{
 	private IValidacaoCadastro validar;
 
 	public Cliente persistirCliente(Cliente cliente){
-		return clienteDao.salvar(cliente);
+		return clienteDao.salvarOrUpdate(cliente);
 	}
 	
 	public boolean validarCliente(Cliente cliente, String titulo, boolean mostrarMensagem){

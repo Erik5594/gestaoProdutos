@@ -18,8 +18,8 @@ public class ServicosChip implements Serializable{
 	@Inject @ValidarChip
 	private IValidacaoCadastro validar;
 	
-	public boolean persistirChip(Chip chip){
-		return false;
+	public Chip persistirChip(Chip chip){
+		return chipDao.salvarOrUpdate(chip);
 	}
 	
 	public boolean chipIsValido(Chip chip, String titulo, boolean mostrarMensagem){

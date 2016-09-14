@@ -19,7 +19,7 @@ public class ServicosCidade implements Serializable{
 	private CidadeDao cidadeDao;
 	
 	public Cidade persistirCidade(Cidade cidade){
-		return cidadeDao.salvar(cidade);
+		return cidadeDao.salvarOrUpdate(cidade);
 	}
 	
 	public Cidade pesquisarByNomeCidade(String nomeCidade){

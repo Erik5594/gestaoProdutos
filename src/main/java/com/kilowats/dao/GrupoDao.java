@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 
 import com.kilowats.entidades.Grupo;
 
@@ -11,8 +12,12 @@ public class GrupoDao {
 	@Inject
 	private EntityManager manager;
 
-	public Grupo salvar(Grupo grupo) {
-		return (Grupo) manager.merge(grupo);
+	public Grupo salvarOrUpdate(Grupo grupo) {
+		EntityTransaction entityTransaction = manager.getTransaction();
+		entityTransaction.begin();
+		grupo = (Grupo) manager.merge(grupo);
+		entityTransaction.commit();
+		return grupo;
 	}
 
 	public boolean deletar(Grupo grupo) {

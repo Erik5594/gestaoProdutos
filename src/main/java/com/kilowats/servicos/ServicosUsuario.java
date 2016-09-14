@@ -23,7 +23,7 @@ public class ServicosUsuario implements Serializable{
 	}
 	
 	public Usuario salvar(Usuario usuario){
-		return usuarioDao.salvar(usuario);
+		return usuarioDao.salvarOrUpdate(usuario);
 	}
 	
 	public Usuario pesquisarById(Usuario usuario){

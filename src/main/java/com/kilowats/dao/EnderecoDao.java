@@ -11,7 +11,7 @@ public class EnderecoDao {
 	@Inject
 	private EntityManager manager;
 	
-	public Endereco salvar(Endereco endereco) {
+	public Endereco salvarOrUpdate(Endereco endereco) {
 		EntityTransaction entityTransaction = manager.getTransaction();
 		entityTransaction.begin();
 		endereco = (Endereco) manager.merge(endereco);

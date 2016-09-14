@@ -18,9 +18,10 @@ public class ServicosFornecedor implements Serializable{
 	@Inject @ValidarFornecedor
 	private IValidacaoCadastro validar;
 	
-	public boolean persistirFornecedor(Empresa empresa){
-		return false;
+	public Empresa persistirFornecedor(Empresa empresa){
+		return fornecedorDao.salvarOrUpdate(empresa);
 	}
+	
 	public boolean validarFornecedor(Empresa empresa, String titulo, boolean mostrarMensagem){
 		return validar.validarCadastroComMensagem(empresa, titulo, mostrarMensagem);
 	}
