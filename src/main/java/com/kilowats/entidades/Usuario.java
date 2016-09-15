@@ -39,7 +39,7 @@ public @Data class Usuario implements Serializable{
 	@NotEmpty
 	@Column(length=12, nullable=false)
 	private String senha;
-	@Transient @NotEmpty
+	@Transient
 	private String senhaConfirmacao;
 	@NotNull
 	@ManyToMany

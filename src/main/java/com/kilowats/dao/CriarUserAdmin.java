@@ -11,7 +11,7 @@ import javax.persistence.Persistence;
 import com.kilowats.entidades.Grupo;
 import com.kilowats.entidades.Usuario;
 
-public class Teste {
+public class CriarUserAdmin {
 
 	
 	public static void main(String[] args) {
@@ -24,26 +24,9 @@ public class Teste {
 		usuario.setEmail("admin");
 		usuario.setNome("Erik");
 		usuario.setSenha("admin");
+		usuario.setSenhaConfirmacao("admin");
 		
 		Grupo grupo = manager.find(Grupo.class, 1L);
-		/*
-		Grupo grupo = new Grupo();
-		
-		grupo.setDescricao("Administrador do sistema.");
-		grupo.setNome("ADMINISTRADORES");
-		grupo.setNomeAmigavel("Administradores");
-		
-		grupo.setDescricao("Financeiro da empresa.");
-		grupo.setNome("FINANCEIROS");
-		grupo.setNomeAmigavel("Financeiros");
-		
-		grupo.setDescricao("Vendedores da empresa.");
-		grupo.setNome("VENDEDORES");
-		grupo.setNomeAmigavel("Vendedores");
-		
-		grupo.setDescricao("Técnico da empresa.");
-		grupo.setNome("TECNICOS");
-		grupo.setNomeAmigavel("Técnicos");*/
 		
 		List<Grupo> grupos = new ArrayList<>();
 		grupos.add(grupo);
