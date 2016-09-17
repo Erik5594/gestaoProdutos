@@ -26,7 +26,7 @@ public @Data class Produto implements Serializable{
 	
 	@Id @GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	@NotNull @Column(name="cod_produto", length=15, nullable=false)
+	@NotNull @Column(name="cod_produto", length=15, nullable=false, unique=true)
 	private String codProduto;
 	@NotNull @Column(name="nome_produto", length=120, nullable=false)
 	private String nomeProduto;

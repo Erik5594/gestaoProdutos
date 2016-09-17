@@ -18,7 +18,7 @@
 			<p:toolbar style="margin-bottom: 20px">
 				<!-- Inicio de grupo de Barra de opces a esquerda -->
 				<p:toolbarGroup>
-					<p:commandButton value="Salvar" style="margin-right: 5px" actionListener="#{cadastroProdutoControlador.salvar()}"
+					<p:commandButton value="#{cadastroProdutoControlador.editar() ? 'Editar':'Salvar'}" style="margin-right: 5px" actionListener="#{cadastroProdutoControlador.salvar()}"
 					update="@form"/>
 					<p:button value="Novo"
 						outcome="/pages/private/produto/cadastro/CadastroProduto.xhtml" />
@@ -35,20 +35,22 @@
 			
 			<!-- Inicio Panel Produto -->
 			<h:panelGrid columns="2" id="panelProduto" style="margin-bottom: 15px">
-				<p:outputLabel value="Cod. Interno " for="codIntProduto" />
-				<p:inputText id="codIntProduto" disabled="true" style="width: 60px" value="#{cadastroProdutoControlador.produto.id}" converter="converterNumber"/>
+				<p:outputLabel value="Cod. Interno " for="codIntProduto" rendered="false"/>
+				<p:inputText id="codIntProduto" disabled="true" style="width: 60px" value="#{cadastroProdutoControlador.produto.id}" converter="converterNumber" rendered="false"/>
 				
 				<p:outputLabel value="Código " for="codProduto" />
-				<p:inputText id="codProduto" style="width: 60px" value="#{cadastroProdutoControlador.produto.codProduto}" maxlength="10"/>
+				<p:inputText id="codProduto" style="width: 60px" value="#{cadastroProdutoControlador.produto.codProduto}"
+				maxlength="10" disabled="#{cadastroProdutoControlador.editar()}"/>
 				
 				<p:outputLabel value="Nome " for="nomeProduto" />
-				<p:inputText id="nomeProduto" size="60" value="#{cadastroProdutoControlador.produto.nomeProduto}" required="true"/>
+				<p:inputText id="nomeProduto" size="60"  onkeyup="this.value=this.value.toUpperCase();" 
+				value="#{cadastroProdutoControlador.produto.nomeProduto}"/>
 				
 				<p:outputLabel value="Quantidade " for="quantidadeProduto" />
-				<p:inputText id="quantidadeProduto" disabled="true" size="5" value="#{cadastroProdutoControlador.produto.quantidade}" converter="converterNumber"/>
+				<p:inputText id="quantidadeProduto" disabled="#{cadastroProdutoControlador.editar()}" size="5" value="#{cadastroProdutoControlador.produto.quantidade}" converter="converterNumber"/>
 				
 				<p:outputLabel value="Valor(R$) " for="valor" />
-				<p:inputText id="valor" disabled="true" size="5" value="#{cadastroProdutoControlador.produto.valor}" converter="converterNumber"/>
+				<p:inputText id="valor" disabled="#{cadastroProdutoControlador.editar()}" size="5" value="#{cadastroProdutoControlador.produto.valor}" converter="converterNumber"/>
 				
 				<p:outputLabel value="Tipo " for="tipoProduto" />
 				<p:selectOneMenu id="tipoProduto" converter="converterTipoUnidadeProduto" value="#{cadastroProdutoControlador.produto.tipoUnidade}">
@@ -59,7 +61,8 @@
 				
 				<p:outputLabel value="Cod. Barras " for="codBarrasProduto" />
 				<p:column>
-				<p:inputText id="codBarrasProduto" value="#{cadastroProdutoControlador.ean.codBarras}" size="20" style="margin-right: 5px"/>
+				<p:inputText id="codBarrasProduto" value="#{cadastroProdutoControlador.ean.codBarras}"
+				size="20" style="margin-right: 5px" onkeyup="this.value=this.value.toUpperCase();"/>
 				<p:commandButton icon="ui-icon-check" update="tabelaProduto codBarrasProduto" process="@this codBarrasProduto"
 				actionListener="#{cadastroProdutoControlador.adicionarEan()}"/>
 				</p:column>

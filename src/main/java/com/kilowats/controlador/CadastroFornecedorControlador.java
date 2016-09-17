@@ -1,5 +1,8 @@
 package com.kilowats.controlador;
 
+import static com.kilowats.util.Utils.isNotNullOrEmpty;
+import static com.kilowats.util.Utils.mascaraPrimefacesCnpjOuCpf;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +24,6 @@ import com.kilowats.servicos.ServicosEmail;
 import com.kilowats.servicos.ServicosEndereco;
 import com.kilowats.servicos.ServicosFornecedor;
 import com.kilowats.servicos.ServicosTelefone;
-import com.kilowats.util.Utils;
 import com.kilowats.util.jsf.FacesUtils;
 
 @Named
@@ -61,7 +63,7 @@ public class CadastroFornecedorControlador implements Serializable{
 	private final String ERRO_INTERNO = "Erro interno: erro interno contate a administração do sistema!";
 	
 	public String carregaMascaraCnpjOuCpfPrimefaces(){
-		return Utils.mascarPrimefacesCnpjOuCpf(tpPessoa);
+		return mascaraPrimefacesCnpjOuCpf(tpPessoa);
 	}
 	
 	public void adcionaTelefone(){
@@ -108,7 +110,7 @@ public class CadastroFornecedorControlador implements Serializable{
 		if(validacoes()){
 			completarDadosEmpresa();
 			empresa = servicosFornecedor.persistirFornecedor(this.empresa);
-			if(Utils.isNotNull(empresa) && empresa.getId() > 0L){
+			if(isNotNullOrEmpty(empresa) && empresa.getId() > 0L){
 				FacesUtils.sendMensagemOk(TITULO, "Fornecedor cadastrado com suceso!");
 			}else{
 				FacesUtils.sendMensagemOk(TITULO, ERRO_INTERNO);

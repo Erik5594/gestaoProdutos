@@ -1,5 +1,7 @@
 package com.kilowats.controlador;
 
+import static com.kilowats.util.Utils.isNotNullOrEmpty;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +15,6 @@ import com.kilowats.entidades.Produto;
 import com.kilowats.enuns.TipoProdutoUnidadeEnum;
 import com.kilowats.servicos.ServicosEan;
 import com.kilowats.servicos.ServicosProduto;
-import com.kilowats.util.Utils;
 import com.kilowats.util.jsf.FacesUtils;
 
 @Named
@@ -35,12 +36,6 @@ public class CadastroProdutoControlador implements Serializable{
 	
 	private List<Ean> eans = new ArrayList<>();
 	
-	private void iniciarVariaveis(){
-		this.produto = new Produto();
-		this.ean = new Ean();
-		this.eans = new ArrayList<>();
-	}
-	
 	public void adicionarEan(){
 		if(servicosEan.eanIsValido(ean, TITULO, true)){
 			eans.add(ean);
@@ -49,26 +44,25 @@ public class CadastroProdutoControlador implements Serializable{
 	}
 	
 	public void salvar() {
-		if (validacoes()) {
+		if (servicosProduto.produtoIsValido(this.produto, TITULO, true)) {
 			completarDadosProduto();
 			produto = servicosProduto.persistirProduto(this.produto);
-			if (Utils.isNotNull(produto) && produto.getId() > 0L) {
+			if (isNotNullOrEmpty(produto) && produto.getId() > 0L) {
 				FacesUtils.sendMensagemOk(TITULO, "Produto cadastrado com sucesso!");
 			} else {
 				FacesUtils.sendMensagemError(TITULO, ERRO_INTERNO+" ["+produto.getNomeProduto()+"]");
 			}
-			iniciarVariaveis();
 		}
 	}
 	
+	public boolean editar(){
+		return isNotNullOrEmpty(produto.getId());
+	}
+	
 	private void completarDadosProduto() {
-		if(this.eans != null && !this.eans.isEmpty()){
+		if(isNotNullOrEmpty(eans)){
 			this.produto.setEans(this.eans);
 		}
-	}
-
-	private boolean validacoes(){
-		return servicosProduto.produtoIsValido(this.produto, TITULO, true);
 	}
 
 	public Produto getProduto() {

@@ -1,5 +1,8 @@
 package com.kilowats.controlador;
 
+import static com.kilowats.util.Utils.isNotNullOrEmpty;
+import static com.kilowats.util.Utils.mascaraPrimefacesCnpjOuCpf;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +21,7 @@ import com.kilowats.entidades.Cliente;
 import com.kilowats.entidades.Email;
 import com.kilowats.entidades.Endereco;
 import com.kilowats.entidades.Telefone;
+import com.kilowats.entidades.Veiculo;
 import com.kilowats.enuns.TipoPessoa;
 import com.kilowats.enuns.TipoTelefoneEnum;
 import com.kilowats.servicos.ServicosCep;
@@ -26,7 +30,7 @@ import com.kilowats.servicos.ServicosCliente;
 import com.kilowats.servicos.ServicosEmail;
 import com.kilowats.servicos.ServicosEndereco;
 import com.kilowats.servicos.ServicosTelefone;
-import com.kilowats.util.Utils;
+import com.kilowats.servicos.ServicosVeiculo;
 import com.kilowats.util.jsf.FacesUtils;
 
 @Named
@@ -49,11 +53,17 @@ public @Data class CadastroClienteControlador implements Serializable{
 	@Inject
 	private Email emailSelecionado;
 	@Inject
+	private Veiculo veiculo;
+	@Inject
+	private Veiculo veiculoSelecionado;
+	@Inject
 	private ServicosTelefone servicosTelefone;
 	@Inject
 	private ServicosCliente servicosCliente;
 	@Inject
 	private ServicosEmail servicosEmail;
+	@Inject
+	private ServicosVeiculo servicosVeiculo;
 	@Inject
 	private ServicosCidade servicosCidade;
 	@Inject
@@ -65,6 +75,7 @@ public @Data class CadastroClienteControlador implements Serializable{
 
 	private List<Telefone> telefones = new ArrayList<>();
 	private List<Email> emails = new ArrayList<>();
+	private List<Veiculo> veiculos = new ArrayList<>();
 	private int tpPessoa;
 	private int tipoTelefone;
 	
@@ -85,7 +96,7 @@ public @Data class CadastroClienteControlador implements Serializable{
 	}
 	
 	public String carregaMascaraCnpjOuCpfPrimefaces(){
-		return Utils.mascarPrimefacesCnpjOuCpf(tpPessoa);
+		return mascaraPrimefacesCnpjOuCpf(tpPessoa);
 	}
 	
 	public void adcionaTelefone(){
@@ -142,13 +153,32 @@ public @Data class CadastroClienteControlador implements Serializable{
 		}
 		emails.add(email);
 	}
+	
+	public void adcionaVeiculo(){
+		if(servicosVeiculo.veiculoIsValido(veiculo, TITULO, true)){
+			adcionaVeiculoList(this.veiculo);
+		}
+		this.veiculo = new Veiculo(); 
+	}
+	
+	public void adcionaVeiculoList(Veiculo veiculo){
+		if(veiculos.isEmpty()){
+			veiculos = new ArrayList<>();
+		}else{
+			if(veiculos.contains(veiculo)){
+				FacesUtils.sendMensagemError(TITULO, "Validação Veiculo: Veiculo já adicionado!");
+				return;
+			}
+		}
+		veiculos.add(veiculo);
+	}
 
 	public void salvar(){
 		cliente.setCgcCpf(cliente.getCgcCpf().replaceAll("\\D", ""));
-		completarDadosEmpresa();
+		completarDadosPessoa();
 		if(validacoes()){
 			cliente = servicosCliente.persistirCliente(cliente);
-			if(Utils.isNotNull(cliente) && cliente.getId() > 0L){
+			if(isNotNullOrEmpty(cliente) && cliente.getId() > 0L){
 				inicializarVariaveis();
 				FacesUtils.sendMensagemOk(TITULO, "Cliente cadastrado com suceso!");
 			}else{
@@ -157,7 +187,7 @@ public @Data class CadastroClienteControlador implements Serializable{
 		}
 	}
 
-	private void completarDadosEmpresa() {
+	private void completarDadosPessoa() {
 		salvarCidade();
 		cep.setCidade(cidade);
 		salvarCep();
@@ -171,11 +201,14 @@ public @Data class CadastroClienteControlador implements Serializable{
 		}else{
 			this.cliente.setFisicaJuridica(TipoPessoa.JURIDICA);
 		}
-		if (!this.telefones.isEmpty()) {
+		if (isNotNullOrEmpty(telefones)) {
 			this.cliente.setTelefones(this.telefones);
 		}
-		if (!this.emails.isEmpty()) {
+		if (isNotNullOrEmpty(emails)) {
 			this.cliente.setEmails(this.emails);
+		}
+		if (isNotNullOrEmpty(veiculos)) {
+			this.cliente.setVeiculos(veiculos);
 		}
 	}
 
@@ -193,6 +226,8 @@ public @Data class CadastroClienteControlador implements Serializable{
 		if(cidadeOfPesquisa == null){
 			if(cidade.getSiglaCidade() == null){
 				cidade.setSiglaCidade(cidade.getNomeCidade());
+				cidade.setCepInicial(74000000l);
+				cidade.setCepFinal(76999999l);
 			}
 			if(servicosCidade.cidadeIsValido(cidade, TITULO, true)){
 				cidade = servicosCidade.persistirCidade(cidade);

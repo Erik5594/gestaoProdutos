@@ -1,6 +1,8 @@
 package com.kilowats.util;
 
+import java.text.ParseException;
 import java.util.InputMismatchException;
+import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -13,8 +15,8 @@ public class Utils {
 		return texto;
 	}
 
-	public static boolean isNullOrEmpty(String texto) {
-		return StringUtils.isBlank(texto);
+	public static boolean isNullOrEmpty(Object obj) {
+		return !isNotNullOrEmpty(obj);
 	}
 
 	public static String mascaraPrimefacesCGC() {
@@ -25,7 +27,7 @@ public class Utils {
 		return "999.999.999-99";
 	}
 	
-	public static String mascarPrimefacesCnpjOuCpf(int tipo){
+	public static String mascaraPrimefacesCnpjOuCpf(int tipo){
 		if(tipo == 0){
 			return mascaraPrimefacesCPF();
 		}
@@ -200,19 +202,38 @@ public class Utils {
 		return false;
 	}
 	
-	public static boolean isNull(Object obj){
+	public static boolean isNotNullOrEmpty(Object obj){
 		if(obj instanceof String){
-			return isNullOrEmpty(obj.toString());
+			return StringUtils.isNotBlank(obj.toString());
+		}else if(obj instanceof List<?>){
+			List<Object> objs = (List<Object>) obj;
+			return objs != null && !objs.isEmpty();
+		}else if(obj instanceof Long){
+			Long lon = (Long)obj;
+			return lon != null && lon > 0l;
+		}else if(obj instanceof Integer){
+			Integer inter = (Integer) obj;
+			return inter != null && inter > 0;
+		}else if(obj instanceof Float){
+			Float flo = (Float) obj;
+			return flo != null && flo > 0F;
 		}
-		if(obj == null){
-			return true;
-		}else{
-			return false;
-		}
-	}
-	
-	public static boolean isNotNull(Object obj){
-		return !isNull(obj);
+		return obj != null;
 	}
 
+	public static boolean placaIsValida(String placa){
+		if(placa.length() != 7){
+			return false;
+		}
+		String textoPlaca = placa.substring(0, 3).replaceAll("\\d", "");
+		if(textoPlaca.length() != 3){
+			return false;
+		}
+		try{
+		int numeroPlaca = Integer.parseInt(placa.substring(3, 7));
+		}catch(NumberFormatException e){
+			return false;
+		}
+		return true;
+	}
 }

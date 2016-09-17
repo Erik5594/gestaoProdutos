@@ -59,7 +59,7 @@ public class CadastroChipControlador implements Serializable{
 	private void persistirBanco(FacesContext context) {
 		for (Chip chip1 : chips) {
 			chip1 = servicos.persistirChip(chip1);
-			if (Utils.isNotNull(chip1) && chip1.getIdChip() > 0L) {
+			if (Utils.isNotNullOrEmpty(chip1) && chip1.getIdChip() > 0L) {
 				FacesUtils.sendMensagemOk(TITULO, "Chip ["+chip1.getImei()+"] cadastrado com sucesso!");
 			} else {
 				FacesUtils.sendMensagemError(TITULO,ERRO_INTERNO+" ["+chip1.getImei()+"]");

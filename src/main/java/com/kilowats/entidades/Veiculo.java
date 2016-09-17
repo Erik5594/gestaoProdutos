@@ -10,7 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 
@@ -23,14 +22,14 @@ public @Data class Veiculo implements Serializable{
 
 	@Id @GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	@NotNull @Column(nullable=false, length=7)
+	@Column(nullable=false, length=7, unique=true)
 	private String placa;
-	@Column(length=21)
+	@Column(length=21, unique=true, nullable=false)
 	private String chassi;
 	@Enumerated(EnumType.ORDINAL)
 	@Column(name="tipo_veiculo")
 	private TipoVeiculo tipoVeiculo;
-	@NotNull @ManyToOne
+	@ManyToOne
 	private Cliente cliente;
 	
 	@Override

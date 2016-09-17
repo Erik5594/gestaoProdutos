@@ -149,7 +149,7 @@
 				<p:tab title="E-mails" id="emailTab">
 					<h:panelGrid columns="5" id="gridEmail">
 						<p:outputLabel value="E-mail: " for="email" />
-						<p:inputText id="email" onkeyup="this.value=this.value.toUpperCase();"
+						<p:inputText id="email"
 						value="#{cadastroClienteControlador.email.emailDestinatario}"/>
 						<p:outputLabel value="Nome Destinatário: " for="destinatarioEmail" style="margin-left: 8px"/>
 						<p:inputText id="destinatarioEmail" onkeyup="this.value=this.value.toUpperCase();"
@@ -169,6 +169,51 @@
 					
 					<p:column headerText="Nome Destinatário">
 					<p:outputLabel value="#{email.nomePessoaDestinatario}"/>
+					</p:column>
+					</p:dataTable>
+				</p:tab>
+				<!--Fim Tab emails -->
+				
+				<!--Inicio Tab emails -->
+				<p:tab title="Veículos" id="veiculoTab">
+					<h:panelGrid columns="7" id="gridVeiculo">
+						<p:outputLabel value="Placa: " for="placa" />
+						<p:inputText id="placa" onkeyup="this.value=this.value.toUpperCase();" maxlength="7"
+						value="#{cadastroClienteControlador.veiculo.placa}" placeholder="AAA0000" size="7"/>
+						
+						<p:outputLabel value="Chassi: " for="chassi" style="margin-left: 8px"/>
+						<p:inputText id="chassi" onkeyup="this.value=this.value.toUpperCase();"
+						value="#{cadastroClienteControlador.veiculo.chassi}"/>
+						
+						<p:outputLabel value="Tipo Veiculo " for="tipoVeiculo" />
+						<p:selectOneMenu id="tipoVeiculo" converter="converterTipoVeiculo" 
+						value="#{cadastroClienteControlador.veiculo.tipoVeiculo}">
+						<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>
+						<f:selectItem itemLabel="Carro" itemValue="CARRO"/>
+						<f:selectItem itemLabel="Moto" itemValue="MOTO"/>
+						<f:selectItem itemLabel="Caminhão" itemValue="CAMINHAO"/>
+						<f:selectItem itemLabel="Trator" itemValue="TRATOR"/>
+						<f:selectItem itemLabel="Caminhonete" itemValue="CAMINHONETE"/>
+						</p:selectOneMenu>
+						<p:commandButton icon="ui-icon-plus" actionListener="#{cadastroClienteControlador.adcionaVeiculo()}"
+						update="gridVeiculo tabelaVeiculos" process="gridVeiculo"/>
+					</h:panelGrid>
+
+					<p:dataTable id="tabelaVeiculos" value="#{cadastroClienteControlador.veiculos}" var="veiculo"
+					emptyMessage="Sem veiculo(s)" selection="#{cadastroClienteControlador.veiculoSelecionado}" style="width: 40%; margin-top: 15px">
+					<f:facet name="header">
+					Veículos
+					</f:facet>
+					<p:column headerText="Placa">
+					<p:outputLabel value="#{veiculo.placa}"/>
+					</p:column>
+					
+					<p:column headerText="Chassi">
+					<p:outputLabel value="#{veiculo.chassi}"/>
+					</p:column>
+					
+					<p:column headerText="Tipo Veiculo">
+					<p:outputLabel value="#{veiculo.tipoVeiculo.tipoVeiculo}"/>
 					</p:column>
 					</p:dataTable>
 				</p:tab>
