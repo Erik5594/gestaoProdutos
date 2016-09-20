@@ -5,14 +5,11 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
@@ -36,12 +33,7 @@ public @Data class Pessoa implements Serializable{
 	private TipoPessoa fisicaJuridica;//0fisica; 1juridica
 	@NotNull @Column(name="status", length=1, nullable=false)
 	private int status;//1ativo;0inativo
-	@NotEmpty
 	@OneToMany
-	@JoinTable(name = "pessoa_endereco", joinColumns = @JoinColumn(name="pessoa_id"),
-			inverseJoinColumns = @JoinColumn(name = "endereco_id"),
-			foreignKey = @ForeignKey(name = "fk_pessoa_id"),
-			inverseForeignKey = @ForeignKey(name = "fk_endereco_id"))
 	private List<Endereco> endereco;
 	@OneToMany(mappedBy="cliente")
 	private List<Telefone> telefones;

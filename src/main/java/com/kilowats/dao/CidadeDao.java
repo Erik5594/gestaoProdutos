@@ -32,4 +32,22 @@ public class CidadeDao {
 	public Cidade pesquisarById(long id){
 		return (Cidade) manager.find(Cidade.class, id);
 	}
+	
+	public Cidade pesquisarMunicipioByCepGeral(long cep){
+		try{
+			return (Cidade) manager.createQuery("from Cidade where cepInicial = :cepInicial and cepInicial = cepFinal", Cidade.class)
+				.setParameter("cepInicial", cep).getSingleResult();
+		}catch (NoResultException e) {
+			return null;
+		}
+	}
+	
+	public Cidade pesquisarMunicipioByFaixaCep(long cep){
+		try{
+			return (Cidade) manager.createQuery("from Cidade where :cepInicial BETWEEN cepInicial AND cepFinal", Cidade.class)
+				.setParameter("cepInicial", cep).getSingleResult();
+		}catch (NoResultException e) {
+			return null;
+		}
+	}
 }

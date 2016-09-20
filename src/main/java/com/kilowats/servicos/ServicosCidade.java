@@ -33,4 +33,12 @@ public class ServicosCidade implements Serializable{
 	public Cidade pesquisarById(long id){
 		return cidadeDao.pesquisarById(id);
 	}
+	
+	public Cidade pesquisarMunicipioByFaixaCep(long cep){
+		return cidadeDao.pesquisarMunicipioByFaixaCep(cep);
+	}
+	
+	public Cidade pesquisarMunicipioByCepGeral(long cep){
+		return cidadeDao.pesquisarMunicipioByCepGeral(cep);
+	}
 }

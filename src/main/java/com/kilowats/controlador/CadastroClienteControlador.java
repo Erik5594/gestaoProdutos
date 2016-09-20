@@ -13,8 +13,6 @@ import javax.inject.Named;
 
 import lombok.Data;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.kilowats.entidades.Cep;
 import com.kilowats.entidades.Cidade;
 import com.kilowats.entidades.Cliente;
@@ -31,6 +29,7 @@ import com.kilowats.servicos.ServicosEmail;
 import com.kilowats.servicos.ServicosEndereco;
 import com.kilowats.servicos.ServicosTelefone;
 import com.kilowats.servicos.ServicosVeiculo;
+import com.kilowats.util.Utils;
 import com.kilowats.util.jsf.FacesUtils;
 
 @Named
@@ -42,6 +41,8 @@ public @Data class CadastroClienteControlador implements Serializable{
 	private Cliente cliente;
 	@Inject
 	private Endereco endereco;
+	@Inject
+	private Endereco enderecoSelecionado;
 	@Inject
 	private Telefone telefone;
 	@Inject
@@ -76,6 +77,8 @@ public @Data class CadastroClienteControlador implements Serializable{
 	private List<Telefone> telefones = new ArrayList<>();
 	private List<Email> emails = new ArrayList<>();
 	private List<Veiculo> veiculos = new ArrayList<>();
+	private List<Endereco> enderecos = new ArrayList<>();
+	
 	private int tpPessoa;
 	private int tipoTelefone;
 	
@@ -106,6 +109,34 @@ public @Data class CadastroClienteControlador implements Serializable{
 		}
 		this.telefone= new Telefone();
 		tipoTelefone = 9;
+	}
+	
+	public void buscarEnderecoByCep(){
+		if(Utils.isNotNullOrEmpty(cep.getCep())){
+			long numrCep = cep.getCep();
+			cep = servicosCep.pesquisarCepByCep(numrCep);
+			if(Utils.isNullOrEmpty(cep)){
+				cep.setCep(numrCep);
+				cidade = servicosCidade.pesquisarMunicipioByCepGeral(numrCep);
+				if(Utils.isNotNullOrEmpty(cidade)){
+					cidade = servicosCidade.pesquisarMunicipioByFaixaCep(numrCep);
+					if(Utils.isNotNullOrEmpty(cidade)){
+						FacesUtils.sendMensagemError(TITULO, "Cep inválido!");
+						return;
+					}else{
+						FacesUtils.sendMensagemAviso(TITULO, "Cep por faixa encontrado!");
+						return;
+					}
+				}else{
+					FacesUtils.sendMensagemAviso(TITULO, "Cep geral informado!");
+					return;
+				}
+			}else{
+				return;
+			}
+		}else{
+			FacesUtils.sendMensagemError(TITULO, "Cep não informado!");
+		}
 	}
 
 	private TipoTelefoneEnum returnTipoTelefone() {
@@ -172,9 +203,35 @@ public @Data class CadastroClienteControlador implements Serializable{
 		}
 		veiculos.add(veiculo);
 	}
+	
+	public void adcionaEndereco(){
+		cep.setCidade(cidade);
+		endereco.setCep(cep);
+		if(servicosEndereco.enderecoIsValido(endereco, TITULO, true)){
+			adcionaEnderecoList(this.endereco);
+		}
+		inicializarEndereco();
+	}
+
+	private void inicializarEndereco() {
+		cep = new Cep();
+		cidade = new Cidade();
+		this.endereco = new Endereco();
+	}
+	
+	public void adcionaEnderecoList(Endereco ender){
+		if(enderecos.isEmpty()){
+			enderecos = new ArrayList<>();
+		}else{
+			if(enderecos.contains(ender)){
+				FacesUtils.sendMensagemError(TITULO, "Validação Endereço: Endereço já adicionado!");
+				return;
+			}
+		}
+		enderecos.add(ender);
+	}
 
 	public void salvar(){
-		cliente.setCgcCpf(cliente.getCgcCpf().replaceAll("\\D", ""));
 		completarDadosPessoa();
 		if(validacoes()){
 			cliente = servicosCliente.persistirCliente(cliente);
@@ -188,13 +245,6 @@ public @Data class CadastroClienteControlador implements Serializable{
 	}
 
 	private void completarDadosPessoa() {
-		salvarCidade();
-		cep.setCidade(cidade);
-		salvarCep();
-		endereco.setCep(cep);
-		salvarEndereco();
-		List<Endereco> enderecos = new ArrayList<>();
-		enderecos.add(endereco);
 		this.cliente.setEndereco(enderecos);
 		if(this.tpPessoa == 0){
 			this.cliente.setFisicaJuridica(TipoPessoa.FISICA);
@@ -210,42 +260,9 @@ public @Data class CadastroClienteControlador implements Serializable{
 		if (isNotNullOrEmpty(veiculos)) {
 			this.cliente.setVeiculos(veiculos);
 		}
+		cliente.setCgcCpf(cliente.getCgcCpf().replaceAll("\\D", ""));
 	}
 
-	private void salvarEndereco() {
-		if (servicosEndereco.enderecoIsValido(endereco, TITULO, true)) {
-			endereco = servicosEndereco.persistirEndereco(endereco);
-		}
-	}
-
-	private void salvarCidade() {
-		Cidade cidadeOfPesquisa = new Cidade();
-		if(!StringUtils.isBlank(cidade.getNomeCidade())){
-			cidadeOfPesquisa = servicosCidade.pesquisarByNomeCidade(cidade.getNomeCidade());
-		}
-		if(cidadeOfPesquisa == null){
-			if(servicosCidade.cidadeIsValido(cidade, TITULO, true)){
-				cidade = servicosCidade.persistirCidade(cidade);
-			}
-		}else{
-			cidade = cidadeOfPesquisa;
-		}
-	}
-
-	private void salvarCep() {
-		Cep cepOfPesquisa = new Cep();
-		if(cep.getCep() != null && cep.getCep() > 0L){
-			cepOfPesquisa = servicosCep.pesquisarCepByCep(cep.getCep());
-		}
-		if(cepOfPesquisa == null){
-			if(servicosCep.cepIsValido(cep, TITULO, true)){
-				cep = servicosCep.persistirCep(cep);
-			}
-		}else{
-			cep = cepOfPesquisa;
-		}
-	}
-	
 	private boolean validarEndereco() {
 		return servicosEndereco.enderecoIsValido(endereco, TITULO, true);
 	}
