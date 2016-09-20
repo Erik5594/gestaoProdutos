@@ -2,6 +2,7 @@ package com.kilowats.servicos;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,12 @@ import com.kilowats.entidades.Cidade;
 import com.kilowats.interfaces.IValidacaoCadastro;
 import com.kilowats.util.Utils;
 
-public class ServicosImportadorMunicipios {
+public class ServicosImportadorMunicipios implements Serializable{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	
 	@Inject @ValidarCidade
 	private IValidacaoCadastro validador;

@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,10 +23,16 @@ import com.kilowats.util.jsf.FacesUtils;
 
 @Named
 @ViewScoped
-public @Data class ImportadorMunicipiosControlador{
-	private final String titulo = "Importar Municípios: ";
+public @Data class ImportadorMunicipiosControlador implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Inject
 	private ServicosImportadorMunicipios servicosImportadorMunicipios;
+	
+	private final String titulo = "Importar Municípios: ";
 	
 	public void uploadDeArquivo(FileUploadEvent event) {
 		List<Cidade> cidades = new ArrayList<>();
