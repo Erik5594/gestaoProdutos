@@ -3,7 +3,6 @@ package com.kilowats.validadores;
 import com.kilowats.annotations.ValidarCep;
 import com.kilowats.entidades.Cep;
 import com.kilowats.interfaces.IValidacaoCadastro;
-import com.kilowats.util.Utils;
 import com.kilowats.util.jsf.FacesUtils;
 
 @ValidarCep
@@ -20,18 +19,6 @@ public class ValidacaoCadastroCep implements IValidacaoCadastro {
 				}
 				retorno = false;
 			}
-			if(!isStringEnderecoValida(cep.getBairro())){
-				if(mostrarMensagem){
-					FacesUtils.sendMensagemError(titulo, "Bairro inválido");
-				}
-				retorno = false;
-			}
-			if(!isStringEnderecoValida(cep.getRua())){
-				if(mostrarMensagem){
-					FacesUtils.sendMensagemError(titulo, "Logradouro inválido");
-				}
-				retorno = false;
-			}
 			if(cep.getCidade() == null){
 				if(mostrarMensagem){
 					FacesUtils.sendMensagemError(titulo, "Cep informado deve pertencer a uma cidade");
@@ -45,18 +32,5 @@ public class ValidacaoCadastroCep implements IValidacaoCadastro {
 			retorno = false;
 		}
 		return retorno;
-	}
-
-	private boolean isStringEnderecoValida(String texto) {
-		if (Utils.isNullOrEmpty(texto)) {
-			return false;
-		}
-		if (texto.toLowerCase().equals("teste")) {
-			return false;
-		}
-		if (texto.length() <= 2) {
-			return false;
-		}
-		return true;
 	}
 }

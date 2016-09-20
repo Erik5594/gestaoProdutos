@@ -29,4 +29,8 @@ public class ServicosCidade implements Serializable{
 	public boolean cidadeIsValido(Cidade cidade, String titulo, boolean mostrarMensagem){
 		return validador.validarCadastroComMensagem(cidade, titulo, mostrarMensagem);
 	}
+	
+	public Cidade pesquisarById(long id){
+		return cidadeDao.pesquisarById(id);
+	}
 }

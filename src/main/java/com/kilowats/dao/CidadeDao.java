@@ -28,4 +28,8 @@ public class CidadeDao {
 			return null;
 		}
 	}
+	
+	public Cidade pesquisarById(long id){
+		return (Cidade) manager.find(Cidade.class, id);
+	}
 }
