@@ -224,11 +224,6 @@ public @Data class CadastroClienteControlador implements Serializable{
 			cidadeOfPesquisa = servicosCidade.pesquisarByNomeCidade(cidade.getNomeCidade());
 		}
 		if(cidadeOfPesquisa == null){
-			if(cidade.getSiglaCidade() == null){
-				cidade.setSiglaCidade(cidade.getNomeCidade());
-				cidade.setCepInicial(74000000l);
-				cidade.setCepFinal(76999999l);
-			}
 			if(servicosCidade.cidadeIsValido(cidade, TITULO, true)){
 				cidade = servicosCidade.persistirCidade(cidade);
 			}

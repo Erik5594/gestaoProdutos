@@ -46,6 +46,8 @@
 		<intercept-url pattern="/pages/private/usuario/**" access="hasAnyRole('ADMINISTRADORES')" />
 		<intercept-url pattern="/pages/private/produto/**"
 			access="hasAnyRole('ADMINISTRADORES')" />
+			<intercept-url pattern="/pages/private/configuracao/**"
+			access="hasAnyRole('ADMINISTRADORES')" />
 		<intercept-url pattern="/**" access="denyAll" />
 		<intercept-url pattern="/erro.xhtml" access="permitAll" />
 

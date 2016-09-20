@@ -26,9 +26,6 @@ public @Data class Cidade implements Serializable{
 	@NotEmpty
 	@Column(name="nome_cidade", length=160, nullable=false, unique=true)
 	private String nomeCidade;
-	@NotEmpty
-	@Column(name="sigla_cidade", length=160, nullable=false, unique=true)
-	private String siglaCidade;
 	@NotEmpty @Column(length=2, nullable=false)
 	private String uf;
 	@OneToMany(mappedBy="cidade")

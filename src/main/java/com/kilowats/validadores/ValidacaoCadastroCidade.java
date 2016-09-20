@@ -26,12 +26,6 @@ public class ValidacaoCadastroCidade implements IValidacaoCadastro {
 				}
 				retorno = false;
 			}
-			if(!isStringEnderecoValida(cidade.getSiglaCidade())){
-				if(mostrarMensagem){
-					FacesUtils.sendMensagemError(titulo, "Sigla da cidade inválida");
-				}
-				retorno = false;
-			}
 		}else{
 			if(mostrarMensagem){
 				FacesUtils.sendMensagemError(titulo, "Cidade deve ser preenchido");
