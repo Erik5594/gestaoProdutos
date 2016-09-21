@@ -64,42 +64,79 @@
 				
 				<!--Inicio Tab endereco -->
 				<p:tab title="Endereço" id="enderecoTab">
-					<h:panelGrid columns="2" id="panelGridEndereco">
+					<h:panelGrid columns="3" id="panelGridEnderecoCep">
 						<p:outputLabel value="CEP:" for="cep" />
-						<p:inputMask id="cep" mask="99.999-999" converter="converterLong"
+						<p:inputMask id="cep" mask="99.999-999" converter="converterLong" disabled="#{cadastroClienteControlador.bloqueioCep1}"
 						value="#{cadastroClienteControlador.cep.cep}"	style="width: 70px" />
+						
+						<p:commandLink value="ui-icon-pencil" rendered="#{cadastroClienteControlador.bloqPesquisaCep}"
+						actionListener="#{cadastroClienteControlador.habilitaPesquisaCep()}" update="enderecoTab"/>
+						<p:commandLink value="ui-icon-search" rendered="#{!cadastroClienteControlador.bloqPesquisaCep}" 
+						actionListener="#{cadastroClienteControlador.buscarEnderecoByCep()}" update="enderecoTab"/>
+					</h:panelGrid>
 
 						<p:outputLabel value="Logradouro: " for="rua" />
 						<p:inputText id="rua" size="35" onkeyup="this.value=this.value.toUpperCase();"
-						value="#{cadastroClienteControlador.cep.rua}"/>
+						value="#{cadastroClienteControlador.cep.rua}" disabled="#{cadastroClienteControlador.bloqueioCep2}"/>
 
 						<p:outputLabel value="Complemento: " for="complemento" />
 						<p:inputText id="complemento" onkeyup="this.value=this.value.toUpperCase();"
+						disabled="#{cadastroClienteControlador.bloqPesquisaCep}"
 						value="#{cadastroClienteControlador.endereco.complemento}"/>
-
-						<p:outputLabel value="Bairro: " for="bairro" />
-						<p:inputText id="bairro" onkeyup="this.value=this.value.toUpperCase();"
-						value="#{cadastroClienteControlador.cep.bairro}"/>
 
 						<p:outputLabel value="Numero: " for="numero" />
 						<p:inputText id="numero" onkeyup="this.value=this.value.toUpperCase();" 
+							disabled="#{cadastroClienteControlador.bloqPesquisaCep}"
 						style="width: 45px" value="#{cadastroClienteControlador.endereco.numero}"/>
+						
+						<p:outputLabel value="Bairro: " for="bairro" />
+						<p:inputText id="bairro" onkeyup="this.value=this.value.toUpperCase();"
+						value="#{cadastroClienteControlador.cep.bairro}" disabled="#{cadastroClienteControlador.bloqueioCep2}"/>
 
 						<p:outputLabel value="UF: " for="uf" />
-						<p:selectOneMenu id="uf" value="#{cadastroClienteControlador.cidade.uf}">
-							<f:selectItem itemLabel="Selecione..." itemValue=""
-								noSelectionOption="true" />
-							<f:selectItems value="#{cadastroClienteControlador.carregarEstados()}"/>
-							<p:ajax process="@this" update="cidade"/>
-						</p:selectOneMenu>
+						<p:inputText value="#{cadastroClienteControlador.cidade.uf}" id="uf" disabled="true"/>
 
 						<p:outputLabel value="Cidade: " for="cidade" />
-						<p:selectOneMenu id="cidade" value="#{cadastroClienteControlador.cidade.nomeCidade}">
-							<f:selectItem itemLabel="Selecione..." itemValue=""
-								noSelectionOption="true"/>
-							<f:selectItems value="#{cadastroClienteControlador.carregarCidades()}"/>
-						</p:selectOneMenu>
+						<p:inputText value="#{cadastroClienteControlador.cidade.nomeCidade}" id="cidade" disabled="true"/>
 					</h:panelGrid>
+					
+					<p:dataTable id="tabelaEnderecos" value="#{cadastroClienteControlador.enderecos}" var="endereco"
+					emptyMessage="Sem endereço(s)" selection="#{cadastroClienteControlador.enderecoSelecionado}" style="width: 30%; margin-top: 15px">
+					<f:facet name="header">
+					Endereços
+					</f:facet>
+					<p:column headerText="Cep" style="width: 12%">
+					<p:outputLabel value="#{endereco.cep.cep}"/>
+					</p:column>
+					
+					<p:column headerText="Logradouro" style="width: 38%">
+					<p:outputLabel value="#{endereco.cep.rua}"/>
+					</p:column>
+					
+					<p:column headerText="Complemento" style="width: 50%">
+					<p:outputLabel value="#{endereco.complemento}"/>
+					</p:column>
+					
+					<p:column headerText="Número" style="width: 50%">
+					<p:outputLabel value="#{endereco.numero}"/>
+					</p:column>
+					
+					<p:column headerText="Bairro" style="width: 50%">
+					<p:outputLabel value="#{endereco.cep.bairro}"/>
+					</p:column>
+					
+					<p:column headerText="Cidade" style="width: 50%">
+					<p:outputLabel value="#{endereco.cep.cidade.nomeCidade}"/>
+					</p:column>
+					
+					<p:column headerText="UF" style="width: 50%">
+					<p:outputLabel value="#{endereco.cep.cidade.uf}"/>
+					</p:column>
+					
+					<p:column headerText="Entrega" style="width: 50%">
+					<p:selectCheckboxMenu value="#{endereco.enderecoEntrega}" disabled="true"/>
+					</p:column>
+					</p:dataTable>
 				</p:tab>
 				<!--Fim Tab endereco -->
 				

@@ -82,6 +82,16 @@ public @Data class CadastroClienteControlador implements Serializable{
 	private int tpPessoa;
 	private int tipoTelefone;
 	
+	private boolean cepGeralOrFaixa;
+	private boolean bloqPesquisaCep;
+	private boolean cepEncontrado;
+	
+	{
+		cepGeralOrFaixa = true;
+		bloqPesquisaCep = true;
+		cepEncontrado = true;
+	}
+	
 	private final String TITULO = "Cadastro Cliente: ";
 	private final String ERRO_INTERNO = "Erro interno: erro interno contate a administração do sistema!";
 	
@@ -92,6 +102,20 @@ public @Data class CadastroClienteControlador implements Serializable{
 		endereco = new Endereco();
 		telefones = new ArrayList<>();
 		emails = new ArrayList<>();
+	}
+	
+	public void habilitaPesquisaCep(){
+		bloqPesquisaCep = false;
+		cepGeralOrFaixa = false;
+		cepEncontrado = false;
+	}
+	
+	public boolean isBloqueioCep1(){
+		return cepGeralOrFaixa || isBloqueioCep2();
+	}
+	
+	public boolean isBloqueioCep2(){
+		return bloqPesquisaCep || cepEncontrado;
 	}
 	
 	public void pesquisar(){
@@ -122,16 +146,20 @@ public @Data class CadastroClienteControlador implements Serializable{
 					cidade = servicosCidade.pesquisarMunicipioByFaixaCep(numrCep);
 					if(Utils.isNotNullOrEmpty(cidade)){
 						FacesUtils.sendMensagemError(TITULO, "Cep inválido!");
+						inicializarEndereco();
 						return;
 					}else{
 						FacesUtils.sendMensagemAviso(TITULO, "Cep por faixa encontrado!");
+						cepGeralOrFaixa = true;
 						return;
 					}
 				}else{
 					FacesUtils.sendMensagemAviso(TITULO, "Cep geral informado!");
+					cepGeralOrFaixa = true;
 					return;
 				}
 			}else{
+				cepEncontrado = true;
 				return;
 			}
 		}else{
@@ -217,6 +245,9 @@ public @Data class CadastroClienteControlador implements Serializable{
 		cep = new Cep();
 		cidade = new Cidade();
 		this.endereco = new Endereco();
+		bloqPesquisaCep = true;
+		cepEncontrado = true;
+		cepGeralOrFaixa = true;
 	}
 	
 	public void adcionaEnderecoList(Endereco ender){
