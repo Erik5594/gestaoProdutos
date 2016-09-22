@@ -71,36 +71,36 @@
 						
 						<p:commandButton icon="ui-icon-pencil" rendered="#{cadastroClienteControlador.bloqPesquisaCep}"
 						actionListener="#{cadastroClienteControlador.habilitaPesquisaCep()}"
-						update="enderecoTab" process="@this"/>
+						update="panelGridEnderecoCep panelGridEndereco" process="@this"/>
 						
 						<p:commandButton icon="ui-icon-search" rendered="#{!cadastroClienteControlador.bloqPesquisaCep}" 
 						actionListener="#{cadastroClienteControlador.buscarEnderecoByCep()}"
-						update="enderecoTab" process="@this cep"/>
+						update="panelGridEnderecoCep panelGridEndereco" process="@this cep"/>
 					</h:panelGrid>
 					<h:panelGrid columns="2" id="panelGridEndereco">
 						<p:outputLabel value="Logradouro: " for="rua" />
 						<p:inputText id="rua" size="35" onkeyup="this.value=this.value.toUpperCase();"
-						value="#{cadastroClienteControlador.cep.rua}" disabled="#{cadastroClienteControlador.bloqueioCep2}"/>
+						value="#{cadastroClienteControlador.cep.rua}" disabled="#{cadastroClienteControlador.bloqueioNivel1}"/>
 
 						<p:outputLabel value="Complemento: " for="complemento" />
 						<p:inputText id="complemento" onkeyup="this.value=this.value.toUpperCase();"
-						disabled="#{cadastroClienteControlador.bloqPesquisaCep}"
+						disabled="#{cadastroClienteControlador.bloqueiaEnderecoGeral}"
 						value="#{cadastroClienteControlador.endereco.complemento}"/>
 
 						<p:outputLabel value="Numero: " for="numero" />
 						<p:inputText id="numero" onkeyup="this.value=this.value.toUpperCase();" 
-							disabled="#{cadastroClienteControlador.bloqPesquisaCep}"
+							disabled="#{cadastroClienteControlador.bloqueiaEnderecoGeral}"
 						style="width: 45px" value="#{cadastroClienteControlador.endereco.numero}"/>
 						
 						<p:outputLabel value="Bairro: " for="bairro" />
 						<p:inputText id="bairro" onkeyup="this.value=this.value.toUpperCase();"
-						value="#{cadastroClienteControlador.cep.bairro}" disabled="#{cadastroClienteControlador.bloqueioCep2}"/>
+						value="#{cadastroClienteControlador.cep.bairro}" disabled="#{cadastroClienteControlador.bloqueioNivel1}"/>
 
 						<p:outputLabel value="UF: " for="uf" />
-						<p:inputText value="#{cadastroClienteControlador.cidade.uf}" id="uf" disabled="true"/>
+						<p:inputText value="#{cadastroClienteControlador.cep.cidade.uf}" id="uf" disabled="true"/>
 
 						<p:outputLabel value="Cidade: " for="cidade" />
-						<p:inputText value="#{cadastroClienteControlador.cidade.nomeCidade}" id="cidade" disabled="true"/>
+						<p:inputText value="#{cadastroClienteControlador.cep.cidade.nomeCidade}" id="cidade" disabled="true"/>
 					</h:panelGrid>
 					
 					<p:dataTable id="tabelaEnderecos" value="#{cadastroClienteControlador.enderecos}" var="endereco"

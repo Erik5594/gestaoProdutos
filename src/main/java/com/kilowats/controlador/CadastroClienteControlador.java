@@ -82,12 +82,12 @@ public @Data class CadastroClienteControlador implements Serializable{
 	private int tpPessoa;
 	private int tipoTelefone;
 	
-	private boolean cepGeralOrFaixa;
+	private boolean bloqueiaEnderecoGeral;
 	private boolean bloqPesquisaCep;
 	private boolean cepEncontrado;
 	
 	{
-		cepGeralOrFaixa = true;
+		bloqueiaEnderecoGeral = true;
 		bloqPesquisaCep = true;
 		cepEncontrado = true;
 	}
@@ -105,15 +105,12 @@ public @Data class CadastroClienteControlador implements Serializable{
 	}
 	
 	public void habilitaPesquisaCep(){
-		bloqPesquisaCep = false;
+		inicializarEndereco(false);
 	}
 	
-	public boolean isBloqueioCep1(){
-		return cepGeralOrFaixa || isBloqueioCep2();
-	}
 	
-	public boolean isBloqueioCep2(){
-		return bloqPesquisaCep || cepEncontrado;
+	public boolean isBloqueioNivel1(){
+		return bloqueiaEnderecoGeral || cepEncontrado;
 	}
 	
 	public void pesquisar(){
@@ -144,25 +141,39 @@ public @Data class CadastroClienteControlador implements Serializable{
 					cidade = servicosCidade.pesquisarMunicipioByFaixaCep(numrCep);
 					if(Utils.isNullOrEmpty(cidade)){
 						FacesUtils.sendMensagemError(TITULO, "Cep inválido!");
-						inicializarEndereco();
-						return;
+						inicializarEndereco(true);
 					}else{
+						cep.setCidade(cidade);
 						FacesUtils.sendMensagemAviso(TITULO, "Cep por faixa encontrado!");
-						cepGeralOrFaixa = true;
-						return;
+						habilitaEdicaoCepGeralOrFaixa();
 					}
 				}else{
+					cep.setCidade(cidade);
 					FacesUtils.sendMensagemAviso(TITULO, "Cep geral informado!");
-					cepGeralOrFaixa = true;
-					return;
+					habilitaEdicaoCepGeralOrFaixa();
 				}
 			}else{
-				cepEncontrado = true;
-				return;
+				if(Utils.isNotNullOrEmpty(cep.getCidade()) && cep.getCidade().getCepInicial().equals(cep.getCidade().getCepFinal())){
+					habilitaEdicaoCepGeralOrFaixa();
+				}else{
+					habilitaEdicaoComplemento();
+				}
 			}
 		}else{
 			FacesUtils.sendMensagemError(TITULO, "Cep não informado!");
 		}
+	}
+
+	private void habilitaEdicaoCepGeralOrFaixa() {
+		bloqueiaEnderecoGeral = false;
+		bloqPesquisaCep = true;
+		cepEncontrado = false;
+	}
+
+	private void habilitaEdicaoComplemento() {
+		cepEncontrado = true;
+		bloqPesquisaCep = true;
+		bloqueiaEnderecoGeral = false;
 	}
 
 	private TipoTelefoneEnum returnTipoTelefone() {
@@ -236,16 +247,16 @@ public @Data class CadastroClienteControlador implements Serializable{
 		if(servicosEndereco.enderecoIsValido(endereco, TITULO, true)){
 			adcionaEnderecoList(this.endereco);
 		}
-		inicializarEndereco();
+		inicializarEndereco(true);
 	}
 
-	private void inicializarEndereco() {
+	private void inicializarEndereco(boolean var) {
 		cep = new Cep();
 		cidade = new Cidade();
 		this.endereco = new Endereco();
-		bloqPesquisaCep = true;
+		bloqPesquisaCep = var;
 		cepEncontrado = true;
-		cepGeralOrFaixa = true;
+		bloqueiaEnderecoGeral = true;
 	}
 	
 	public void adcionaEnderecoList(Endereco ender){
