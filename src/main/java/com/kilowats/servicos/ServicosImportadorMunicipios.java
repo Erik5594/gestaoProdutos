@@ -36,18 +36,26 @@ public class ServicosImportadorMunicipios implements Serializable{
 			cidade.setUf(Utils.retornaStringNaoNull(dadosCidade[2]));
 			cidade.setCepInicial(new Long(dadosCidade[3]));
 			cidade.setCepFinal(new Long(dadosCidade[4]));
-			cidades.add(cidade);
+			if(!cidades.contains(cidade)){
+				cidades.add(cidade);
+			}
 			linha = linhasTexto.readLine();
 		}
 		return cidades;
 	}
 	
 	public void guardarCidades(List<Cidade> cidades, String titulo){
+		int contador = 0;
 		for(Cidade cidade : cidades){
-			if(servicosCidade.cidadeIsValido(cidade, titulo, false)){
-				servicosCidade.persistirCidade(cidade);
+			Cidade cidade2 = servicosCidade.pesquisarById(cidade.getIdCidade());
+			if(Utils.isNullOrEmpty(cidade2)){
+				if(servicosCidade.cidadeIsValido(cidade, titulo, false)){
+					servicosCidade.persistirCidade(cidade);
+					contador = contador + 1;
+				}
 			}
 		}
+		System.out.println(contador);
 	}
-
+	
 }

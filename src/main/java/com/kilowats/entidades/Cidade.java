@@ -1,14 +1,12 @@
 package com.kilowats.entidades;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
 import lombok.Data;
 
@@ -24,10 +22,35 @@ public @Data class Cidade implements Serializable{
 	private String nomeCidade;
 	@Column(length=2, nullable=false)
 	private String uf;
-	@OneToMany(mappedBy="cidade")
-	private List<Cep> cep;
 	@Column(name="cep_inicial", nullable=false)
 	private Long cepInicial;
 	@Column(name="cep_final", nullable=false)
 	private Long cepFinal;
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Cidade other = (Cidade) obj;
+		if (idCidade == null) {
+			if (other.idCidade != null)
+				return false;
+		} else if (!idCidade.equals(other.idCidade))
+			return false;
+		return true;
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((idCidade == null) ? 0 : idCidade.hashCode());
+		return result;
+	}
+	
+	
 }

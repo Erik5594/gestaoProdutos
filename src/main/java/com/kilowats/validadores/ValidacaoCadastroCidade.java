@@ -13,7 +13,7 @@ public class ValidacaoCadastroCidade implements IValidacaoCadastro {
 	public boolean validarCadastroComMensagem(Object obj, String titulo, boolean mostrarMensagem) {
 		Cidade cidade = (Cidade) obj;
 		boolean retorno = true;
-		if (cidade != null) {
+		if (Utils.isNotNullOrEmpty(cidade)) {
 			if(Utils.isNullOrEmpty(cidade.getUf())){
 				if(mostrarMensagem){
 					FacesUtils.sendMensagemError(titulo, "UF deve ser informado");
