@@ -14,6 +14,13 @@ import lombok.Data;
 public @Data class Cep implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
+	public Cep(){
+	}
+	
+	public Cep(Long cep){
+		this.cep = cep;
+	}
+	
 	@NotNull @Id
 	private Long cep;
 	@Column(name="logradouro", nullable=true, length=150)

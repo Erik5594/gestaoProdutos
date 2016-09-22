@@ -207,18 +207,26 @@ public class Utils {
 			return StringUtils.isNotBlank(obj.toString());
 		}else if(obj instanceof List<?>){
 			List<Object> objs = (List<Object>) obj;
-			return objs != null && !objs.isEmpty();
+			return isNotNull(objs) && !objs.isEmpty();
 		}else if(obj instanceof Long){
 			Long lon = (Long)obj;
-			return lon != null && lon > 0l;
+			return isNotNull(lon) && lon > 0l;
 		}else if(obj instanceof Integer){
 			Integer inter = (Integer) obj;
-			return inter != null && inter > 0;
+			return isNotNull(inter) && inter > 0;
 		}else if(obj instanceof Float){
 			Float flo = (Float) obj;
-			return flo != null && flo > 0F;
+			return isNotNull(flo) && flo > 0F;
 		}
-		return obj != null;
+		return isNotNull(obj);
+	}
+	
+	public static boolean isNull(Object obj){
+		return obj == null;
+	}
+	
+	public static boolean isNotNull(Object obj){
+		return !isNull(obj);
 	}
 
 	public static boolean placaIsValida(String placa){

@@ -66,15 +66,18 @@
 				<p:tab title="Endereço" id="enderecoTab">
 					<h:panelGrid columns="3" id="panelGridEnderecoCep">
 						<p:outputLabel value="CEP:" for="cep" />
-						<p:inputMask id="cep" mask="99.999-999" converter="converterLong" disabled="#{cadastroClienteControlador.bloqueioCep1}"
+						<p:inputMask id="cep" mask="99.999-999" converter="converterLong" disabled="#{cadastroClienteControlador.bloqPesquisaCep}"
 						value="#{cadastroClienteControlador.cep.cep}"	style="width: 70px" />
 						
-						<p:commandLink value="ui-icon-pencil" rendered="#{cadastroClienteControlador.bloqPesquisaCep}"
-						actionListener="#{cadastroClienteControlador.habilitaPesquisaCep()}" update="enderecoTab"/>
-						<p:commandLink value="ui-icon-search" rendered="#{!cadastroClienteControlador.bloqPesquisaCep}" 
-						actionListener="#{cadastroClienteControlador.buscarEnderecoByCep()}" update="enderecoTab"/>
+						<p:commandButton icon="ui-icon-pencil" rendered="#{cadastroClienteControlador.bloqPesquisaCep}"
+						actionListener="#{cadastroClienteControlador.habilitaPesquisaCep()}"
+						update="enderecoTab" process="@this"/>
+						
+						<p:commandButton icon="ui-icon-search" rendered="#{!cadastroClienteControlador.bloqPesquisaCep}" 
+						actionListener="#{cadastroClienteControlador.buscarEnderecoByCep()}"
+						update="enderecoTab" process="@this cep"/>
 					</h:panelGrid>
-
+					<h:panelGrid columns="2" id="panelGridEndereco">
 						<p:outputLabel value="Logradouro: " for="rua" />
 						<p:inputText id="rua" size="35" onkeyup="this.value=this.value.toUpperCase();"
 						value="#{cadastroClienteControlador.cep.rua}" disabled="#{cadastroClienteControlador.bloqueioCep2}"/>

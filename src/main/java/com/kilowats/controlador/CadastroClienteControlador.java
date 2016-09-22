@@ -106,8 +106,6 @@ public @Data class CadastroClienteControlador implements Serializable{
 	
 	public void habilitaPesquisaCep(){
 		bloqPesquisaCep = false;
-		cepGeralOrFaixa = false;
-		cepEncontrado = false;
 	}
 	
 	public boolean isBloqueioCep1(){
@@ -140,11 +138,11 @@ public @Data class CadastroClienteControlador implements Serializable{
 			long numrCep = cep.getCep();
 			cep = servicosCep.pesquisarCepByCep(numrCep);
 			if(Utils.isNullOrEmpty(cep)){
-				cep.setCep(numrCep);
+				cep = new Cep(numrCep);
 				cidade = servicosCidade.pesquisarMunicipioByCepGeral(numrCep);
-				if(Utils.isNotNullOrEmpty(cidade)){
+				if(Utils.isNullOrEmpty(cidade)){
 					cidade = servicosCidade.pesquisarMunicipioByFaixaCep(numrCep);
-					if(Utils.isNotNullOrEmpty(cidade)){
+					if(Utils.isNullOrEmpty(cidade)){
 						FacesUtils.sendMensagemError(TITULO, "Cep inválido!");
 						inicializarEndereco();
 						return;
