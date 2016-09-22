@@ -4,8 +4,6 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import lombok.Data;
@@ -15,7 +13,7 @@ public @Data class Cidade implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
-	@Id @GeneratedValue(strategy=GenerationType.AUTO)
+	@Id
 	@Column(name="id_cidade")
 	private Long idCidade;
 	@Column(name="nome_cidade", length=160, nullable=false)

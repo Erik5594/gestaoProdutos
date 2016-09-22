@@ -1,6 +1,7 @@
 package com.kilowats.servicos;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -20,6 +21,18 @@ public class ServicosCidade implements Serializable{
 	
 	public Cidade persistirCidade(Cidade cidade){
 		return cidadeDao.salvarOrUpdate(cidade);
+	}
+	
+	public void persistirListaCidade(List<Cidade> cidades){
+		cidadeDao.salvarOrUpdateLista(cidades);
+	}
+	
+	public void saveCidade(Cidade cidade){
+		cidadeDao.salvar(cidade);
+	}
+	
+	public void saveListaCidade(List<Cidade> cidades){
+		cidadeDao.salvarLista(cidades);
 	}
 	
 	public Cidade pesquisarByNomeCidade(String nomeCidade){

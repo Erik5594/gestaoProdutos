@@ -38,7 +38,7 @@ public @Data class ImportadorCepControlador implements Serializable{
 		List<Cep> ceps = new ArrayList<>();
 		UploadedFile uploadedFile = event.getFile();
 		ceps = extrairCepsDoArquivo(ceps, uploadedFile);
-		servicosImportadorCeps.guardarCeps(ceps, titulo);
+		servicosImportadorCeps.guardarCeps(ceps);
         FacesUtils.sendMensagemOk(titulo, "Arquivo importado com sucesso!");
     }
 

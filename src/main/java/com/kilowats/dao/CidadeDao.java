@@ -1,5 +1,7 @@
 package com.kilowats.dao;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -18,6 +20,31 @@ public class CidadeDao {
 		cidade = (Cidade) manager.merge(cidade);
 		entityTransaction.commit();
 		return cidade;
+	}
+	
+	public void salvar(Cidade cidade) {
+		EntityTransaction entityTransaction = manager.getTransaction();
+		entityTransaction.begin();
+		manager.persist(cidade);
+		entityTransaction.commit();
+	}
+	
+	public void salvarLista(List<Cidade> cidades) {
+		EntityTransaction entityTransaction = manager.getTransaction();
+		entityTransaction.begin();
+		for(Cidade cidade : cidades){
+			manager.persist(cidade);
+		}
+		entityTransaction.commit();
+	}
+	
+	public void salvarOrUpdateLista(List<Cidade> cidades) {
+		EntityTransaction entityTransaction = manager.getTransaction();
+		entityTransaction.begin();
+		for(Cidade cidade : cidades){
+			cidade = (Cidade) manager.merge(cidade);
+		}
+		entityTransaction.commit();
 	}
 	
 	public Cidade pesquisarByNome(String nomeCidade){

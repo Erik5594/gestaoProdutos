@@ -1,6 +1,7 @@
 package com.kilowats.servicos;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -20,6 +21,18 @@ public class ServicosCep implements Serializable{
 	
 	public Cep persistirCep(Cep cep){
 		return cepDao.salvarOrUpdate(cep);
+	}
+	
+	public void persistirListaCep(List<Cep> ceps){
+		cepDao.salvarOrUpdateLista(ceps);
+	}
+	
+	public void saveCep(Cep cep){
+		cepDao.salvar(cep);
+	}
+	
+	public void saveListaCep(List<Cep> ceps){
+		cepDao.salvarLista(ceps);
 	}
 	
 	public boolean cepIsValido(Cep cep, String titulo, boolean mostrarMensagem){

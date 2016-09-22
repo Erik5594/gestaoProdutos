@@ -37,18 +37,16 @@ public class ServicosImportadorCeps implements Serializable{
 			cep.setRua(Utils.retornaStringNaoNull(dadosCep[1]));
 			cep.setBairro(Utils.retornaStringNaoNull(dadosCep[2]));
 			cep.setCep(new Long(dadosCep[4]));
-			ceps.add(cep);
+			if(servicosCep.cepIsValido(cep, null, false)){
+				ceps.add(cep);
+			}
 			linha = linhasTexto.readLine();
 		}
 		return ceps;
 	}
 	
-	public void guardarCeps(List<Cep> ceps, String titulo){
-		for(Cep cep : ceps){
-			if(servicosCep.cepIsValido(cep, titulo, false)){
-				servicosCep.persistirCep(cep);
-			}
-		}
+	public void guardarCeps(List<Cep> ceps){
+		servicosCep.saveListaCep(ceps);
 	}
 
 }

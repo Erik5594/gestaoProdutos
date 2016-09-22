@@ -36,7 +36,7 @@ public class ServicosImportadorMunicipios implements Serializable{
 			cidade.setUf(Utils.retornaStringNaoNull(dadosCidade[2]));
 			cidade.setCepInicial(new Long(dadosCidade[3]));
 			cidade.setCepFinal(new Long(dadosCidade[4]));
-			if(!cidades.contains(cidade)){
+			if(servicosCidade.cidadeIsValido(cidade, null, false)){
 				cidades.add(cidade);
 			}
 			linha = linhasTexto.readLine();
@@ -45,17 +45,7 @@ public class ServicosImportadorMunicipios implements Serializable{
 	}
 	
 	public void guardarCidades(List<Cidade> cidades, String titulo){
-		int contador = 0;
-		for(Cidade cidade : cidades){
-			Cidade cidade2 = servicosCidade.pesquisarById(cidade.getIdCidade());
-			if(Utils.isNullOrEmpty(cidade2)){
-				if(servicosCidade.cidadeIsValido(cidade, titulo, false)){
-					servicosCidade.persistirCidade(cidade);
-					contador = contador + 1;
-				}
-			}
-		}
-		System.out.println(contador);
+		servicosCidade.saveListaCidade(cidades);
 	}
 	
 }
