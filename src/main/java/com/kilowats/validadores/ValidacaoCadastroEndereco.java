@@ -20,7 +20,7 @@ public class ValidacaoCadastroEndereco implements IValidacaoCadastro {
 				}
 				retorno = false;
 			}
-			if (!isStringEnderecoValida(endereco.getCep().getBairro())) {
+			if (!isStringEnderecoValida(endereco.getCep().getBairro()) && !isStringEnderecoValida(endereco.getBairro())) {
 				if(mostrarMensagem){
 					FacesUtils.sendMensagemError(titulo, "Bairro inválido");
 				}
@@ -32,7 +32,7 @@ public class ValidacaoCadastroEndereco implements IValidacaoCadastro {
 				}
 				retorno = false;
 			}
-			if (!isStringEnderecoValida(endereco.getCep().getRua())) {
+			if (!isStringEnderecoValida(endereco.getCep().getRua()) && !isStringEnderecoValida(endereco.getRua())) {
 				if(mostrarMensagem){
 					FacesUtils.sendMensagemError(titulo, "Rua inválida");
 				}

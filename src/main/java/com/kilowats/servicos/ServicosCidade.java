@@ -23,7 +23,7 @@ public class ServicosCidade implements Serializable{
 		return cidadeDao.salvarOrUpdate(cidade);
 	}
 	
-	public void persistirListaCidade(List<Cidade> cidades){
+	public void mergeListaCidade(List<Cidade> cidades){
 		cidadeDao.salvarOrUpdateLista(cidades);
 	}
 	

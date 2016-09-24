@@ -46,7 +46,7 @@ public class ServicosImportadorCeps implements Serializable{
 	}
 	
 	public void guardarCeps(List<Cep> ceps){
-		servicosCep.saveListaCep(ceps);
+		servicosCep.mergeListaCep(ceps);
 	}
 
 }

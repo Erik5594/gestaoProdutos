@@ -132,35 +132,55 @@ public @Data class CadastroClienteControlador implements Serializable{
 	
 	public void buscarEnderecoByCep(){
 		if(Utils.isNotNullOrEmpty(cep.getCep())){
-			long numrCep = cep.getCep();
-			cep = servicosCep.pesquisarCepByCep(numrCep);
-			if(Utils.isNullOrEmpty(cep)){
-				cep = new Cep(numrCep);
-				cidade = servicosCidade.pesquisarMunicipioByCepGeral(numrCep);
-				if(Utils.isNullOrEmpty(cidade)){
-					cidade = servicosCidade.pesquisarMunicipioByFaixaCep(numrCep);
-					if(Utils.isNullOrEmpty(cidade)){
-						FacesUtils.sendMensagemError(TITULO, "Cep inválido!");
-						inicializarEndereco(true);
-					}else{
-						cep.setCidade(cidade);
-						FacesUtils.sendMensagemAviso(TITULO, "Cep por faixa encontrado!");
-						habilitaEdicaoCepGeralOrFaixa();
-					}
-				}else{
-					cep.setCidade(cidade);
-					FacesUtils.sendMensagemAviso(TITULO, "Cep geral informado!");
-					habilitaEdicaoCepGeralOrFaixa();
-				}
-			}else{
-				if(Utils.isNotNullOrEmpty(cep.getCidade()) && cep.getCidade().getCepInicial().equals(cep.getCidade().getCepFinal())){
-					habilitaEdicaoCepGeralOrFaixa();
-				}else{
-					habilitaEdicaoComplemento();
-				}
-			}
+			pesquisarCepBancoDados();
 		}else{
 			FacesUtils.sendMensagemError(TITULO, "Cep não informado!");
+		}
+	}
+
+	private void pesquisarCepBancoDados() {
+		long numrCep = cep.getCep();
+		cep = servicosCep.pesquisarCepByCep(numrCep);
+		if(Utils.isNullOrEmpty(cep)){
+			cep = new Cep(numrCep);
+			cidade = servicosCidade.pesquisarMunicipioByCepGeral(numrCep);
+			if(Utils.isNullOrEmpty(cidade)){
+				cidade = servicosCidade.pesquisarMunicipioByFaixaCep(numrCep);
+				if(Utils.isNullOrEmpty(cidade)){
+					FacesUtils.sendMensagemError(TITULO, "Cep inválido!");
+					inicializarEndereco(true);
+				}else{
+					cep.setCidade(cidade);
+					acaoCepByFaixaEncontrado();
+				}
+			}else{
+				cep.setCidade(cidade);
+				acaoCepGeralEncontrado();
+			}
+		}else{
+			acaoCepEncontrado();
+		}
+	}
+
+	private void acaoCepByFaixaEncontrado() {
+		FacesUtils.sendMensagemAviso(TITULO, "Cep por faixa encontrado!");
+		endereco.setCepGeral(false);
+		endereco.setCepByFaixa(true);
+		habilitaEdicaoCepGeralOrFaixa();
+	}
+
+	private void acaoCepGeralEncontrado() {
+		FacesUtils.sendMensagemAviso(TITULO, "Cep geral informado!");
+		endereco.setCepGeral(true);
+		endereco.setCepByFaixa(false);
+		habilitaEdicaoCepGeralOrFaixa();
+	}
+
+	private void acaoCepEncontrado() {
+		if(Utils.isNotNullOrEmpty(cep.getCidade()) && cep.getCidade().getCepInicial().equals(cep.getCidade().getCepFinal())){
+			acaoCepGeralEncontrado();
+		}else{
+			habilitaEdicaoComplemento();
 		}
 	}
 
@@ -242,7 +262,6 @@ public @Data class CadastroClienteControlador implements Serializable{
 	}
 	
 	public void adcionaEndereco(){
-		cep.setCidade(cidade);
 		endereco.setCep(cep);
 		if(servicosEndereco.enderecoIsValido(endereco, TITULO, true)){
 			adcionaEnderecoList(this.endereco);
@@ -260,7 +279,7 @@ public @Data class CadastroClienteControlador implements Serializable{
 	}
 	
 	public void adcionaEnderecoList(Endereco ender){
-		if(enderecos.isEmpty()){
+		if(Utils.isNullOrEmpty(enderecos)){
 			enderecos = new ArrayList<>();
 		}else{
 			if(enderecos.contains(ender)){
@@ -273,7 +292,7 @@ public @Data class CadastroClienteControlador implements Serializable{
 
 	public void salvar(){
 		completarDadosPessoa();
-		if(validacoes()){
+		if(servicosCliente.validarCliente(cliente, TITULO, true)){
 			cliente = servicosCliente.persistirCliente(cliente);
 			if(isNotNullOrEmpty(cliente) && cliente.getId() > 0L){
 				inicializarVariaveis();
@@ -285,6 +304,7 @@ public @Data class CadastroClienteControlador implements Serializable{
 	}
 
 	private void completarDadosPessoa() {
+		enderecos = ajustaDadosEndereco();
 		this.cliente.setEndereco(enderecos);
 		if(this.tpPessoa == 0){
 			this.cliente.setFisicaJuridica(TipoPessoa.FISICA);
@@ -303,59 +323,24 @@ public @Data class CadastroClienteControlador implements Serializable{
 		cliente.setCgcCpf(cliente.getCgcCpf().replaceAll("\\D", ""));
 	}
 
-	private boolean validarEndereco() {
-		return servicosEndereco.enderecoIsValido(endereco, TITULO, true);
-	}
-	
-	private boolean validacoes(){
-		if(validarDadosPrincipais() & validarEndereco()){
-			return true;
-		}
-		return false;
-	}
-	
-	private boolean validarDadosPrincipais() {
-		return servicosCliente.validarCliente(cliente, TITULO, true);
-	}
-	
-	public List<String> carregarEstados(){
-		List<String> ufs = new ArrayList<>();
-		ufs.add("GO");
-		ufs.add("SP");
-		ufs.add("MG");
-		ufs.add("RJ");
-		return ufs;
-	}
-	
-	public List<String> carregarCidades() {
-		List<String> cidades = new ArrayList<>();
-		if (cidade != null
-				&& (cidade.getUf() != null && !"".equals(cidade.getUf()))) {
-			String uf = cidade.getUf();
-			if (uf.toUpperCase().equals("GO")) {
-				cidades.add("Goiânia");
-				cidades.add("Aparecida de Goiânia");
-				cidades.add("Trindade");
-			}
-
-			if (uf.toUpperCase().equals("SP")) {
-				cidades.add("São Paulo");
-				cidades.add("Santos");
-				cidades.add("Guarulhos");
-			}
-
-			if (uf.toUpperCase().equals("MG")) {
-				cidades.add("Belo Horizonte");
-				cidades.add("Formiga");
-				cidades.add("Teófilo Otoni");
-			}
-
-			if (uf.toUpperCase().equals("RJ")) {
-				cidades.add("Rio de Janeiro");
-				cidades.add("Macae");
-				cidades.add("Cabo Frio");
+	private List<Endereco> ajustaDadosEndereco() {
+		List<Endereco> enderecosAjustados = new ArrayList<>();
+		for(Endereco ender : enderecos){			
+			if(Utils.isNotNull(ender)){
+				if(ender.isCepGeral()){
+					ender.setBairro(ender.getCep().getBairro());
+					ender.setRua(ender.getCep().getRua());
+					ender.setCep(servicosCep.pesquisarCepByCep(ender.getCep().getCep()));
+				}else if(ender.isCepByFaixa()){
+					Cep cep2 = new Cep(ender.getCep().getCep());
+					cep2.setCidade(servicosCidade.pesquisarMunicipioByFaixaCep(cep2.getCep()));
+					ender.setBairro(ender.getCep().getBairro());
+					ender.setRua(ender.getCep().getRua());
+					ender.setCep(cep2);
+				}
+				enderecosAjustados.add(ender);
 			}
 		}
-		return cidades;
+		return enderecosAjustados;
 	}
 }

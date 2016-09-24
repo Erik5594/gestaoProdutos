@@ -64,6 +64,7 @@
 				
 				<!--Inicio Tab endereco -->
 				<p:tab title="Endereço" id="enderecoTab">
+				<p:panel style="margin-bottom: 15px" id="panelEndereco">
 					<h:panelGrid columns="3" id="panelGridEnderecoCep">
 						<p:outputLabel value="CEP:" for="cep" />
 						<p:inputMask id="cep" mask="99.999-999" converter="converterLong" disabled="#{cadastroClienteControlador.bloqPesquisaCep}"
@@ -71,17 +72,23 @@
 						
 						<p:commandButton icon="ui-icon-pencil" rendered="#{cadastroClienteControlador.bloqPesquisaCep}"
 						actionListener="#{cadastroClienteControlador.habilitaPesquisaCep()}"
-						update="panelGridEnderecoCep panelGridEndereco" process="@this"/>
+						update="panelEndereco" process="@this"/>
 						
 						<p:commandButton icon="ui-icon-search" rendered="#{!cadastroClienteControlador.bloqPesquisaCep}" 
 						actionListener="#{cadastroClienteControlador.buscarEnderecoByCep()}"
-						update="panelGridEnderecoCep panelGridEndereco" process="@this cep"/>
+						update="panelEndereco" process="@this cep"/>
 					</h:panelGrid>
-					<h:panelGrid columns="2" id="panelGridEndereco">
+					<h:panelGrid columns="2" id="panelGridLogradouroBairro">
 						<p:outputLabel value="Logradouro: " for="rua" />
-						<p:inputText id="rua" size="35" onkeyup="this.value=this.value.toUpperCase();"
+						<p:inputText id="rua" size="43" onkeyup="this.value=this.value.toUpperCase();"
 						value="#{cadastroClienteControlador.cep.rua}" disabled="#{cadastroClienteControlador.bloqueioNivel1}"/>
-
+						
+						<p:outputLabel value="Bairro: " for="bairro" />
+						<p:inputText id="bairro" onkeyup="this.value=this.value.toUpperCase();" size="43"
+						value="#{cadastroClienteControlador.cep.bairro}" disabled="#{cadastroClienteControlador.bloqueioNivel1}"/>
+					</h:panelGrid>
+						
+					<h:panelGrid columns="4" id="panelGridComplementoNumero">
 						<p:outputLabel value="Complemento: " for="complemento" />
 						<p:inputText id="complemento" onkeyup="this.value=this.value.toUpperCase();"
 						disabled="#{cadastroClienteControlador.bloqueiaEnderecoGeral}"
@@ -90,21 +97,37 @@
 						<p:outputLabel value="Numero: " for="numero" />
 						<p:inputText id="numero" onkeyup="this.value=this.value.toUpperCase();" 
 							disabled="#{cadastroClienteControlador.bloqueiaEnderecoGeral}"
-						style="width: 45px" value="#{cadastroClienteControlador.endereco.numero}"/>
+						size="6" value="#{cadastroClienteControlador.endereco.numero}"/>
+					</h:panelGrid>
 						
-						<p:outputLabel value="Bairro: " for="bairro" />
-						<p:inputText id="bairro" onkeyup="this.value=this.value.toUpperCase();"
-						value="#{cadastroClienteControlador.cep.bairro}" disabled="#{cadastroClienteControlador.bloqueioNivel1}"/>
-
+					<h:panelGrid columns="4" id="panelGridUfCidade">
 						<p:outputLabel value="UF: " for="uf" />
-						<p:inputText value="#{cadastroClienteControlador.cep.cidade.uf}" id="uf" disabled="true"/>
+						<p:inputText value="#{cadastroClienteControlador.cep.cidade.uf}"
+						id="uf" disabled="true" size="3"/>
 
 						<p:outputLabel value="Cidade: " for="cidade" />
-						<p:inputText value="#{cadastroClienteControlador.cep.cidade.nomeCidade}" id="cidade" disabled="true"/>
+						<p:inputText value="#{cadastroClienteControlador.cep.cidade.nomeCidade}"
+						id="cidade" disabled="true" size="33"/>
 					</h:panelGrid>
 					
+					<h:panelGrid columns="2" id="panelGridIsEntrega">
+						<p:outputLabel value="Entrega: " for="entrega" />
+						<p:selectBooleanCheckbox id="entrega"
+						disabled="#{cadastroClienteControlador.bloqueiaEnderecoGeral}"
+						value="#{cadastroClienteControlador.endereco.enderecoEntrega}"/>
+					</h:panelGrid>
+					
+					<center>
+					<p:commandButton value="Adicionar" icon="ui-icon-check"
+					actionListener="#{cadastroClienteControlador.adcionaEndereco()}"
+					process="@this panelEndereco"
+					update="panelEndereco tabelaEnderecos"/>
+					</center>
+				</p:panel>
+					
 					<p:dataTable id="tabelaEnderecos" value="#{cadastroClienteControlador.enderecos}" var="endereco"
-					emptyMessage="Sem endereço(s)" selection="#{cadastroClienteControlador.enderecoSelecionado}" style="width: 30%; margin-top: 15px">
+					emptyMessage="Sem endereço(s)" selection="#{cadastroClienteControlador.enderecoSelecionado}"
+					style="width: 100%; margin-top: 15px">
 					<f:facet name="header">
 					Endereços
 					</f:facet>
@@ -137,7 +160,7 @@
 					</p:column>
 					
 					<p:column headerText="Entrega" style="width: 50%">
-					<p:selectCheckboxMenu value="#{endereco.enderecoEntrega}" disabled="true"/>
+					<p:selectBooleanCheckbox value="#{endereco.enderecoEntrega}" disabled="true"/>
 					</p:column>
 					</p:dataTable>
 				</p:tab>

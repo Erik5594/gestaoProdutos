@@ -23,7 +23,7 @@ public class ServicosCep implements Serializable{
 		return cepDao.salvarOrUpdate(cep);
 	}
 	
-	public void persistirListaCep(List<Cep> ceps){
+	public void mergeListaCep(List<Cep> ceps){
 		cepDao.salvarOrUpdateLista(ceps);
 	}
 	

@@ -33,7 +33,7 @@ public @Data class Telefone implements Serializable{
 	private TipoTelefoneEnum tipoTelefone;
 	@ManyToOne
 	@JoinColumn(name="id_pessoa")
-	private Cliente cliente;
+	private Pessoa pessoa;
 	
 	@Override
 	public int hashCode() {

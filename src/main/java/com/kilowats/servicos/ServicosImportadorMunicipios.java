@@ -45,7 +45,7 @@ public class ServicosImportadorMunicipios implements Serializable{
 	}
 	
 	public void guardarCidades(List<Cidade> cidades, String titulo){
-		servicosCidade.saveListaCidade(cidades);
+		servicosCidade.mergeListaCidade(cidades);
 	}
 	
 }
