@@ -18,7 +18,7 @@
 				<!-- Inicio de grupo de Barra de opces a esquerda -->
 				<p:toolbarGroup>
 					<p:commandButton value="Salvar" style="margin-right: 5px"
-					actionListener="#{cadastroClienteControlador.salvar()}"/>
+					actionListener="#{cadastroClienteControlador.salvar()}" update="@form"/>
 					<p:button value="Novo"
 						outcome="/pages/private/cliente/cadastro/CadastroCliente.xhtml" />
 				</p:toolbarGroup>

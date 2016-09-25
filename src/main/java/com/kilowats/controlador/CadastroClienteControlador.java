@@ -85,11 +85,13 @@ public @Data class CadastroClienteControlador implements Serializable{
 	private boolean bloqueiaEnderecoGeral;
 	private boolean bloqPesquisaCep;
 	private boolean cepEncontrado;
+	private boolean enderecoEntrega;
 	
 	{
 		bloqueiaEnderecoGeral = true;
 		bloqPesquisaCep = true;
 		cepEncontrado = true;
+		enderecoEntrega = false;
 	}
 	
 	private final String TITULO = "Cadastro Cliente: ";
@@ -99,9 +101,14 @@ public @Data class CadastroClienteControlador implements Serializable{
 		cliente = new Cliente();
 		cep = new Cep();
 		cidade = new Cidade();
-		endereco = new Endereco();
+		enderecos = new ArrayList<>();
 		telefones = new ArrayList<>();
 		emails = new ArrayList<>();
+		enderecoEntrega = false;
+		bloqueiaEnderecoGeral = true;
+		bloqPesquisaCep = true;
+		cepEncontrado = true;
+		enderecoEntrega = false;
 	}
 	
 	public void habilitaPesquisaCep(){
@@ -276,6 +283,7 @@ public @Data class CadastroClienteControlador implements Serializable{
 		bloqPesquisaCep = var;
 		cepEncontrado = true;
 		bloqueiaEnderecoGeral = true;
+		enderecoEntrega = false;
 	}
 	
 	public void adcionaEnderecoList(Endereco ender){
@@ -328,9 +336,10 @@ public @Data class CadastroClienteControlador implements Serializable{
 		for(Endereco ender : enderecos){			
 			if(Utils.isNotNull(ender)){
 				if(ender.isCepGeral()){
+					Cep cep2 = servicosCep.pesquisarCepByCep(ender.getCep().getCep());
 					ender.setBairro(ender.getCep().getBairro());
 					ender.setRua(ender.getCep().getRua());
-					ender.setCep(servicosCep.pesquisarCepByCep(ender.getCep().getCep()));
+					ender.setCep(cep2);
 				}else if(ender.isCepByFaixa()){
 					Cep cep2 = new Cep(ender.getCep().getCep());
 					cep2.setCidade(servicosCidade.pesquisarMunicipioByFaixaCep(cep2.getCep()));

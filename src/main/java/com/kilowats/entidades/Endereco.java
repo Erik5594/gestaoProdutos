@@ -28,8 +28,8 @@ public @Data class Endereco implements Serializable{
 	@Column(name="numero_endereco", nullable=false, length=10)
 	private String numero;
 	
-	@Column(name="endereco_entrega", nullable=false)
-	private int enderecoEntrega;
+	@Column(name="endereco_entrega", nullable=false, columnDefinition = "boolean")
+	private boolean enderecoEntrega;
 	
 	@ManyToOne(cascade= CascadeType.ALL)
 	@JoinColumn(name="cep")
@@ -49,14 +49,6 @@ public @Data class Endereco implements Serializable{
 	private boolean cepGeral;
 	@Transient
 	private boolean cepByFaixa;
-	
-	public void setEnderecoEntrega(Boolean entrega){
-		this.enderecoEntrega = entrega ? 1:0;
-	}
-	
-	public boolean isEnderecoEntrega(){
-		return this.enderecoEntrega == 1 ? true:false;
-	}
 	
 	@Override
 	public boolean equals(Object obj) {
