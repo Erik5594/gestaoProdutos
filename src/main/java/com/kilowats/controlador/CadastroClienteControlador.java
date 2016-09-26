@@ -16,9 +16,9 @@ import lombok.Data;
 import com.kilowats.entidades.Cep;
 import com.kilowats.entidades.Cidade;
 import com.kilowats.entidades.Cliente;
-import com.kilowats.entidades.Email;
-import com.kilowats.entidades.Endereco;
-import com.kilowats.entidades.Telefone;
+import com.kilowats.entidades.EmailCliente;
+import com.kilowats.entidades.EnderecoCliente;
+import com.kilowats.entidades.TelefoneCliente;
 import com.kilowats.entidades.Veiculo;
 import com.kilowats.enuns.TipoPessoa;
 import com.kilowats.enuns.TipoTelefoneEnum;
@@ -40,19 +40,19 @@ public @Data class CadastroClienteControlador implements Serializable{
 	@Inject
 	private Cliente cliente;
 	@Inject
-	private Endereco endereco;
+	private EnderecoCliente endereco;
 	@Inject
-	private Endereco enderecoSelecionado;
+	private EnderecoCliente enderecoSelecionado;
 	@Inject
-	private Telefone telefone;
+	private TelefoneCliente telefone;
 	@Inject
 	private Cidade cidade;
 	@Inject
-	private Telefone telefoneSelecionado;
+	private TelefoneCliente telefoneSelecionado;
 	@Inject
-	private Email email;
+	private EmailCliente email;
 	@Inject
-	private Email emailSelecionado;
+	private EmailCliente emailSelecionado;
 	@Inject
 	private Veiculo veiculo;
 	@Inject
@@ -74,10 +74,10 @@ public @Data class CadastroClienteControlador implements Serializable{
 	@Inject
 	private Cep cep;
 
-	private List<Telefone> telefones = new ArrayList<>();
-	private List<Email> emails = new ArrayList<>();
+	private List<TelefoneCliente> telefones = new ArrayList<>();
+	private List<EmailCliente> emails = new ArrayList<>();
 	private List<Veiculo> veiculos = new ArrayList<>();
-	private List<Endereco> enderecos = new ArrayList<>();
+	private List<EnderecoCliente> enderecos = new ArrayList<>();
 	
 	private int tpPessoa;
 	private int tipoTelefone;
@@ -104,6 +104,7 @@ public @Data class CadastroClienteControlador implements Serializable{
 		enderecos = new ArrayList<>();
 		telefones = new ArrayList<>();
 		emails = new ArrayList<>();
+		veiculos = new ArrayList<>();
 		enderecoEntrega = false;
 		bloqueiaEnderecoGeral = true;
 		bloqPesquisaCep = true;
@@ -130,10 +131,11 @@ public @Data class CadastroClienteControlador implements Serializable{
 	
 	public void adcionaTelefone(){
 		telefone.setTipoTelefone(returnTipoTelefone());
+		telefone.setCliente(cliente);
 		if(servicosTelefone.telefoneIsValido(telefone, TITULO, true)){
 			adcionaTelefoneList(this.telefone);
 		}
-		this.telefone= new Telefone();
+		this.telefone= new TelefoneCliente();
 		tipoTelefone = 9;
 	}
 	
@@ -218,7 +220,7 @@ public @Data class CadastroClienteControlador implements Serializable{
 		}
 	}
 	
-	public void adcionaTelefoneList(Telefone telefone){
+	public void adcionaTelefoneList(TelefoneCliente telefone){
 		if(telefones.isEmpty()){
 			telefones = new ArrayList<>();
 		}else{
@@ -231,13 +233,14 @@ public @Data class CadastroClienteControlador implements Serializable{
 	}
 
 	public void adcionaEmail(){
+		email.setCliente(cliente);
 		if(servicosEmail.emailIsValido(email, TITULO, true)){
 			adcionaEmailList(this.email);
 		}
-		this.email = new Email(); 
+		this.email = new EmailCliente(); 
 	}
 	
-	public void adcionaEmailList(Email email){
+	public void adcionaEmailList(EmailCliente email){
 		if(emails.isEmpty()){
 			emails = new ArrayList<>();
 		}else{
@@ -250,6 +253,7 @@ public @Data class CadastroClienteControlador implements Serializable{
 	}
 	
 	public void adcionaVeiculo(){
+		veiculo.setCliente(cliente);
 		if(servicosVeiculo.veiculoIsValido(veiculo, TITULO, true)){
 			adcionaVeiculoList(this.veiculo);
 		}
@@ -270,6 +274,7 @@ public @Data class CadastroClienteControlador implements Serializable{
 	
 	public void adcionaEndereco(){
 		endereco.setCep(cep);
+		endereco.setCliente(cliente);
 		if(servicosEndereco.enderecoIsValido(endereco, TITULO, true)){
 			adcionaEnderecoList(this.endereco);
 		}
@@ -279,14 +284,14 @@ public @Data class CadastroClienteControlador implements Serializable{
 	private void inicializarEndereco(boolean var) {
 		cep = new Cep();
 		cidade = new Cidade();
-		this.endereco = new Endereco();
+		this.endereco = new EnderecoCliente();
 		bloqPesquisaCep = var;
 		cepEncontrado = true;
 		bloqueiaEnderecoGeral = true;
 		enderecoEntrega = false;
 	}
 	
-	public void adcionaEnderecoList(Endereco ender){
+	public void adcionaEnderecoList(EnderecoCliente ender){
 		if(Utils.isNullOrEmpty(enderecos)){
 			enderecos = new ArrayList<>();
 		}else{
@@ -331,9 +336,9 @@ public @Data class CadastroClienteControlador implements Serializable{
 		cliente.setCgcCpf(cliente.getCgcCpf().replaceAll("\\D", ""));
 	}
 
-	private List<Endereco> ajustaDadosEndereco() {
-		List<Endereco> enderecosAjustados = new ArrayList<>();
-		for(Endereco ender : enderecos){			
+	private List<EnderecoCliente> ajustaDadosEndereco() {
+		List<EnderecoCliente> enderecosAjustados = new ArrayList<>();
+		for(EnderecoCliente ender : enderecos){			
 			if(Utils.isNotNull(ender)){
 				if(ender.isCepGeral()){
 					Cep cep2 = servicosCep.pesquisarCepByCep(ender.getCep().getCep());

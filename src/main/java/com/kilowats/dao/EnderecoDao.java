@@ -4,17 +4,15 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
-import com.kilowats.entidades.Endereco;
-
 public class EnderecoDao {
 
 	@Inject
 	private EntityManager manager;
 	
-	public Endereco salvarOrUpdate(Endereco endereco) {
+	public Object salvarOrUpdate(Object endereco) {
 		EntityTransaction entityTransaction = manager.getTransaction();
 		entityTransaction.begin();
-		endereco = (Endereco) manager.merge(endereco);
+		endereco = manager.merge(endereco);
 		entityTransaction.commit();
 		return endereco;
 	}

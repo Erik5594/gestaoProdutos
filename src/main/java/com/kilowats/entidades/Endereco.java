@@ -8,13 +8,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
 import lombok.Data;
 
-@Entity
+@Entity @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public @Data class Endereco implements Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -41,15 +43,10 @@ public @Data class Endereco implements Serializable{
 	@Column(name="bairro", nullable=true, length=150)
 	private String bairro;
 	
-	@ManyToOne
-	@JoinColumn(name="id_pessoa")
-	private Pessoa pessoa;
-	
 	@Transient
 	private boolean cepGeral;
 	@Transient
 	private boolean cepByFaixa;
-	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -59,11 +56,6 @@ public @Data class Endereco implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Endereco other = (Endereco) obj;
-		if (bairro == null) {
-			if (other.bairro != null)
-				return false;
-		} else if (!bairro.equals(other.bairro))
-			return false;
 		if (cep == null) {
 			if (other.cep != null)
 				return false;
@@ -74,32 +66,24 @@ public @Data class Endereco implements Serializable{
 				return false;
 		} else if (!complemento.equals(other.complemento))
 			return false;
-		if (idComplemento == null) {
-			if (other.idComplemento != null)
+		if (numero == null) {
+			if (other.numero != null)
 				return false;
-		} else if (!idComplemento.equals(other.idComplemento))
-			return false;
-		if (rua == null) {
-			if (other.rua != null)
-				return false;
-		} else if (!rua.equals(other.rua))
+		} else if (!numero.equals(other.numero))
 			return false;
 		return true;
 	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((bairro == null) ? 0 : bairro.hashCode());
 		result = prime * result + ((cep == null) ? 0 : cep.hashCode());
 		result = prime * result
 				+ ((complemento == null) ? 0 : complemento.hashCode());
-		result = prime * result
-				+ ((idComplemento == null) ? 0 : idComplemento.hashCode());
-		result = prime * result + ((rua == null) ? 0 : rua.hashCode());
+		result = prime * result + ((numero == null) ? 0 : numero.hashCode());
 		return result;
 	}
+	
 	
 	
 }

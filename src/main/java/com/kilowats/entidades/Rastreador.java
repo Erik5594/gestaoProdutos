@@ -23,7 +23,7 @@ public @Data class Rastreador implements Serializable{
 	@Id
 	private long idRastreador;
 	@ManyToOne
-	private Empresa fabricante;
+	private Fornecedor fabricante;
 	@Transient
 	private boolean exigeFabricante;
 	@OneToMany(mappedBy="rastreador")

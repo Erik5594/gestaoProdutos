@@ -7,12 +7,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
 import lombok.Data;
 
-@Entity
+@Entity @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public @Data class Email implements Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -23,20 +23,6 @@ public @Data class Email implements Serializable{
 	private String emailDestinatario;
 	@Column(name="nome_destinatario", length=60, nullable=false)
 	private String nomePessoaDestinatario;
-	@ManyToOne
-	@JoinColumn(name="id_pessoa")
-	private Pessoa pessoa;
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime
-				* result
-				+ ((emailDestinatario == null) ? 0 : emailDestinatario
-						.hashCode());
-		return result;
-	}
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -51,7 +37,34 @@ public @Data class Email implements Serializable{
 				return false;
 		} else if (!emailDestinatario.equals(other.emailDestinatario))
 			return false;
+		if (idEmail == null) {
+			if (other.idEmail != null)
+				return false;
+		} else if (!idEmail.equals(other.idEmail))
+			return false;
+		if (nomePessoaDestinatario == null) {
+			if (other.nomePessoaDestinatario != null)
+				return false;
+		} else if (!nomePessoaDestinatario.equals(other.nomePessoaDestinatario))
+			return false;
 		return true;
 	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime
+				* result
+				+ ((emailDestinatario == null) ? 0 : emailDestinatario
+						.hashCode());
+		result = prime * result + ((idEmail == null) ? 0 : idEmail.hashCode());
+		result = prime
+				* result
+				+ ((nomePessoaDestinatario == null) ? 0
+						: nomePessoaDestinatario.hashCode());
+		return result;
+	}
+	
+
 	
 }

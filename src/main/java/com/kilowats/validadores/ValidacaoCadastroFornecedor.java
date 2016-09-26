@@ -1,7 +1,7 @@
 package com.kilowats.validadores;
 
 import com.kilowats.annotations.ValidarFornecedor;
-import com.kilowats.entidades.Empresa;
+import com.kilowats.entidades.Fornecedor;
 import com.kilowats.interfaces.IValidacaoCadastro;
 import com.kilowats.util.Utils;
 import com.kilowats.util.jsf.FacesUtils;
@@ -11,7 +11,7 @@ public class ValidacaoCadastroFornecedor implements IValidacaoCadastro {
 
 	@Override
 	public boolean validarCadastroComMensagem(Object obj, String titulo, boolean mostrarMensagem) {
-		Empresa empresa = (Empresa) obj;
+		Fornecedor empresa = (Fornecedor) obj;
 		boolean retorno = true;
 		if (Utils.isNullOrEmpty(empresa.getNome())) {
 			if(mostrarMensagem){

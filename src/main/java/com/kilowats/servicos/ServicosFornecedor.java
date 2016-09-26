@@ -6,7 +6,7 @@ import javax.inject.Inject;
 
 import com.kilowats.annotations.ValidarFornecedor;
 import com.kilowats.dao.FornecedorDao;
-import com.kilowats.entidades.Empresa;
+import com.kilowats.entidades.Fornecedor;
 import com.kilowats.interfaces.IValidacaoCadastro;
 
 public class ServicosFornecedor implements Serializable{
@@ -18,11 +18,11 @@ public class ServicosFornecedor implements Serializable{
 	@Inject @ValidarFornecedor
 	private IValidacaoCadastro validar;
 	
-	public Empresa persistirFornecedor(Empresa empresa){
+	public Fornecedor persistirFornecedor(Fornecedor empresa){
 		return fornecedorDao.salvarOrUpdate(empresa);
 	}
 	
-	public boolean validarFornecedor(Empresa empresa, String titulo, boolean mostrarMensagem){
+	public boolean validarFornecedor(Fornecedor empresa, String titulo, boolean mostrarMensagem){
 		return validar.validarCadastroComMensagem(empresa, titulo, mostrarMensagem);
 	}
 }

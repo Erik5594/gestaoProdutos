@@ -1,18 +1,14 @@
 package com.kilowats.entidades;
 
 import java.io.Serializable;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
 import lombok.Data;
@@ -35,10 +31,4 @@ public @Data class Pessoa implements Serializable{
 	private TipoPessoa fisicaJuridica;//0fisica; 1juridica
 	@NotNull @Column(name="status", length=1, nullable=false)
 	private int status;//1ativo;0inativo
-	@OneToMany(mappedBy="pessoa", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-	private List<Endereco> endereco;
-	@OneToMany(mappedBy="pessoa", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-	private List<Telefone> telefones;
-	@OneToMany(mappedBy="pessoa", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-	private List<Email> emails;
 }

@@ -14,10 +14,10 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.kilowats.entidades.Cidade;
-import com.kilowats.entidades.Email;
-import com.kilowats.entidades.Empresa;
-import com.kilowats.entidades.Endereco;
-import com.kilowats.entidades.Telefone;
+import com.kilowats.entidades.EmailFornecedor;
+import com.kilowats.entidades.EnderecoFornecedor;
+import com.kilowats.entidades.Fornecedor;
+import com.kilowats.entidades.TelefoneFornecedor;
 import com.kilowats.enuns.TipoPessoa;
 import com.kilowats.enuns.TipoTelefoneEnum;
 import com.kilowats.servicos.ServicosEmail;
@@ -33,19 +33,19 @@ public class CadastroFornecedorControlador implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Inject
-	private Empresa empresa;
+	private Fornecedor empresa;
 	@Inject
-	private Endereco endereco;
+	private EnderecoFornecedor endereco;
 	@Inject
-	private Telefone telefone;
+	private TelefoneFornecedor telefone;
 	@Inject
 	private Cidade cidade;
 	@Inject
-	private Email email;
+	private EmailFornecedor email;
 	@Inject
-	private Email emailSelecionado;
+	private EmailFornecedor emailSelecionado;
 	@Inject
-	private Telefone telefoneSelecionado;
+	private TelefoneFornecedor telefoneSelecionado;
 	@Inject
 	private ServicosEmail servicosEmail;
 	@Inject
@@ -55,8 +55,8 @@ public class CadastroFornecedorControlador implements Serializable{
 	@Inject
 	private ServicosFornecedor servicosFornecedor;
 	
-	private List<Telefone> telefones = new ArrayList<>();
-	private List<Email> emails = new ArrayList<>();
+	private List<TelefoneFornecedor> telefones = new ArrayList<>();
+	private List<EmailFornecedor> emails = new ArrayList<>();
 	private int tpPessoa;
 	
 	private final String TITULO = "Cadastro Fornecedor: ";
@@ -71,10 +71,10 @@ public class CadastroFornecedorControlador implements Serializable{
 		if(servicosTelefone.telefoneIsValido(telefone, TITULO, true)){
 			adcionaTelefoneList(this.telefone);
 		}
-		this.telefone= new Telefone(); 
+		this.telefone= new TelefoneFornecedor(); 
 	}
 	
-	public void adcionaTelefoneList(Telefone telefone){
+	public void adcionaTelefoneList(TelefoneFornecedor telefone){
 		if(telefones.isEmpty()){
 			telefones = new ArrayList<>();
 		}else{
@@ -90,10 +90,10 @@ public class CadastroFornecedorControlador implements Serializable{
 		if(servicosEmail.emailIsValido(email, TITULO, true)){
 			adcionaEmailList(this.email);
 		}
-		this.email = new Email(); 
+		this.email = new EmailFornecedor(); 
 	}
 	
-	public void adcionaEmailList(Email email){
+	public void adcionaEmailList(EmailFornecedor email){
 		if(emails.isEmpty()){
 			emails = new ArrayList<>();
 		}else{
@@ -120,7 +120,7 @@ public class CadastroFornecedorControlador implements Serializable{
 
 	private void completarDadosEmpresa() {
 		this.endereco.getCep().setCidade(this.cidade);
-		List<Endereco> enderecos = new ArrayList<>();
+		List<EnderecoFornecedor> enderecos = new ArrayList<>();
 		enderecos.add(endereco);
 		this.empresa.setEndereco(enderecos);
 		if(this.tpPessoa == 0){
@@ -192,22 +192,22 @@ public class CadastroFornecedorControlador implements Serializable{
 		return cidades;
 	}
 
-	public Empresa getEmpresa() {
+	public Fornecedor getEmpresa() {
 		return empresa;
 	}
-	public void setEmpresa(Empresa empresa) {
+	public void setEmpresa(Fornecedor empresa) {
 		this.empresa = empresa;
 	}
-	public Endereco getEndereco() {
+	public EnderecoFornecedor getEndereco() {
 		return endereco;
 	}
-	public void setEndereco(Endereco endereco) {
+	public void setEndereco(EnderecoFornecedor endereco) {
 		this.endereco = endereco;
 	}
-	public Telefone getTelefone() {
+	public TelefoneFornecedor getTelefone() {
 		return telefone;
 	}
-	public void setTelefone(Telefone telefone) {
+	public void setTelefone(TelefoneFornecedor telefone) {
 		this.telefone = telefone;
 	}
 	public Cidade getCidade() {
@@ -216,34 +216,34 @@ public class CadastroFornecedorControlador implements Serializable{
 	public void setCidade(Cidade cidade) {
 		this.cidade = cidade;
 	}
-	public List<Telefone> getTelefones() {
+	public List<TelefoneFornecedor> getTelefones() {
 		return telefones;
 	}
-	public void setTelefones(List<Telefone> telefones) {
+	public void setTelefones(List<TelefoneFornecedor> telefones) {
 		this.telefones = telefones;
 	}
-	public Telefone getTelefoneSelecionado() {
+	public TelefoneFornecedor getTelefoneSelecionado() {
 		return telefoneSelecionado;
 	}
-	public void setTelefoneSelecionado(Telefone telefoneSelecionado) {
+	public void setTelefoneSelecionado(TelefoneFornecedor telefoneSelecionado) {
 		this.telefoneSelecionado = telefoneSelecionado;
 	}
-	public Email getEmail() {
+	public EmailFornecedor getEmail() {
 		return email;
 	}
-	public void setEmail(Email email) {
+	public void setEmail(EmailFornecedor email) {
 		this.email = email;
 	}
-	public Email getEmailSelecionado() {
+	public EmailFornecedor getEmailSelecionado() {
 		return emailSelecionado;
 	}
-	public void setEmailSelecionado(Email emailSelecionado) {
+	public void setEmailSelecionado(EmailFornecedor emailSelecionado) {
 		this.emailSelecionado = emailSelecionado;
 	}
-	public List<Email> getEmails() {
+	public List<EmailFornecedor> getEmails() {
 		return emails;
 	}
-	public void setEmails(List<Email> emails) {
+	public void setEmails(List<EmailFornecedor> emails) {
 		this.emails = emails;
 	}
 	public int getTpPessoa() {

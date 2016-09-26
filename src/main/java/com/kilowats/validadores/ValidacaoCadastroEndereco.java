@@ -1,7 +1,7 @@
 package com.kilowats.validadores;
 
 import com.kilowats.annotations.ValidarEndereco;
-import com.kilowats.entidades.Endereco;
+import com.kilowats.entidades.EnderecoCliente;
 import com.kilowats.interfaces.IValidacaoCadastro;
 import com.kilowats.util.Utils;
 import com.kilowats.util.jsf.FacesUtils;
@@ -11,7 +11,7 @@ public class ValidacaoCadastroEndereco implements IValidacaoCadastro {
 
 	@Override
 	public boolean validarCadastroComMensagem(Object obj, String titulo, boolean mostrarMensagem) {
-		Endereco endereco = (Endereco) obj;
+		EnderecoCliente endereco = (EnderecoCliente) obj;
 		boolean retorno = true;
 		if (endereco != null) {
 			if (!isCepValido(endereco.getCep().getCep())) {

@@ -22,7 +22,7 @@ public class ServicosEndereco implements Serializable{
 		return validador.validarCadastroComMensagem(endereco, titulo, mostrarMensagem);
 	}
 	
-	public Endereco persistirEndereco(Endereco endereco){
+	public Object persistirEndereco(Object endereco){
 		return enderecoDao.salvarOrUpdate(endereco);
 	}
 

@@ -32,7 +32,7 @@ public @Data class ImportadorCepControlador implements Serializable{
 	@Inject
 	private ServicosImportadorCeps servicosImportadorCeps;
 	
-	private final String titulo = "Importar Municípios: ";
+	private final String titulo = "Importar CEPs: ";
 	
 	public void uploadDeArquivo(FileUploadEvent event) {
 		List<Cep> ceps = new ArrayList<>();

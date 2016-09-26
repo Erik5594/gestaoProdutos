@@ -9,15 +9,14 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
 import lombok.Data;
 
 import com.kilowats.enuns.TipoTelefoneEnum;
-@Entity
-@Table(name="telefone")
+
+@Entity  @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public @Data class Telefone implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
@@ -31,18 +30,6 @@ public @Data class Telefone implements Serializable{
 	@Enumerated(EnumType.STRING)
 	@Column(name="tipo_telefone", nullable=false, length=20)
 	private TipoTelefoneEnum tipoTelefone;
-	@ManyToOne
-	@JoinColumn(name="id_pessoa")
-	private Pessoa pessoa;
-	
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ddd;
-		result = prime * result + ((numero == null) ? 0 : numero.hashCode());
-		return result;
-	}
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -54,11 +41,32 @@ public @Data class Telefone implements Serializable{
 		Telefone other = (Telefone) obj;
 		if (ddd != other.ddd)
 			return false;
+		if (idTelefone == null) {
+			if (other.idTelefone != null)
+				return false;
+		} else if (!idTelefone.equals(other.idTelefone))
+			return false;
 		if (numero == null) {
 			if (other.numero != null)
 				return false;
 		} else if (!numero.equals(other.numero))
 			return false;
+		if (tipoTelefone != other.tipoTelefone)
+			return false;
 		return true;
 	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ddd;
+		result = prime * result
+				+ ((idTelefone == null) ? 0 : idTelefone.hashCode());
+		result = prime * result + ((numero == null) ? 0 : numero.hashCode());
+		result = prime * result
+				+ ((tipoTelefone == null) ? 0 : tipoTelefone.hashCode());
+		return result;
+	}
+	
+	
 }

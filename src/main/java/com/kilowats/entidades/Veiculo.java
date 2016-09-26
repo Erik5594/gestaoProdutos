@@ -2,6 +2,7 @@ package com.kilowats.entidades;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -29,7 +30,7 @@ public @Data class Veiculo implements Serializable{
 	@Enumerated(EnumType.ORDINAL)
 	@Column(name="tipo_veiculo")
 	private TipoVeiculo tipoVeiculo;
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	private Cliente cliente;
 	
 	@Override

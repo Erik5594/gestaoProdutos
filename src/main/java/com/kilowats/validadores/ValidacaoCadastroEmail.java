@@ -1,7 +1,7 @@
 package com.kilowats.validadores;
 
 import com.kilowats.annotations.ValidarEmail;
-import com.kilowats.entidades.Email;
+import com.kilowats.entidades.EmailCliente;
 import com.kilowats.interfaces.IValidacaoCadastro;
 import com.kilowats.util.Utils;
 import com.kilowats.util.jsf.FacesUtils;
@@ -11,7 +11,7 @@ public class ValidacaoCadastroEmail implements IValidacaoCadastro {
 
 	@Override
 	public boolean validarCadastroComMensagem(Object obj, String titulo, boolean mostrarMensagem) {
-		Email email = (Email) obj;
+		EmailCliente email = (EmailCliente) obj;
 		boolean retorno = true;
 		if (email != null) {
 			if (!Utils.isEmailValido(email.getEmailDestinatario())) {
