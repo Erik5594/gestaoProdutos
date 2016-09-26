@@ -19,7 +19,11 @@
 			<p:toolbar style="margin-bottom: 20px"/>
 			<!-- Fim Barra de opcoes -->
 			<p:fileUpload fileUploadListener="#{importadorCepControlador.uploadDeArquivo}" mode="advanced"
-                     auto="true" sizeLimit="5000000" allowTypes="/(\.|\/)(csv)$/" />
+                     auto="true" sizeLimit="5000000" allowTypes="/(\.|\/)(csv)$/" onstart="PF('statusDialog').show()" onerror="PF('statusDialog').show()" oncomplete="PF('statusDialog').show()"/>
+                     
+	        <p:dialog modal="true" widgetVar="statusDialog" draggable="false" closable="false" resizable="false" showHeader="false">  
+			    <h:graphicImage library="imagens" name="carregando.gif"/>
+			</p:dialog> 
 		</h:form>
 	</ui:define>
 </ui:composition>

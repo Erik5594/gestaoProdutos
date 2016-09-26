@@ -68,3 +68,11 @@ footer {
 	margin-top: 8px;
 	padding: 10px;
 }
+
+.ajax-status {
+	position: fixed;
+	top: 55px;
+	right: 10px;
+	width: 35px;
+	height: 35px
+}

@@ -41,6 +41,15 @@
 		</script>
 </h:head>
 <h:body>
+
+		<p:ajaxStatus styleClass="ajax-status">
+			<f:facet name="start">
+				<h:graphicImage library="imagens" name="carregando.gif"/>
+			</f:facet>
+			<f:facet name="complete">
+				<h:outputText value=""/>
+			</f:facet>
+		</p:ajaxStatus>
 	<header>
 	<div style="float: left">
 		<h:link outcome="/Conteudo.xhtml">
