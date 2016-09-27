@@ -50,7 +50,9 @@
 				<p:inputText id="quantidadeProduto" disabled="#{cadastroProdutoControlador.editar()}" size="5" value="#{cadastroProdutoControlador.produto.quantidade}" converter="converterNumber"/>
 				
 				<p:outputLabel value="Valor(R$) " for="valor" />
-				<p:inputText id="valor" disabled="#{cadastroProdutoControlador.editar()}" size="5" value="#{cadastroProdutoControlador.produto.valor}" converter="converterNumber"/>
+				<p:inputText id="valor" disabled="#{cadastroProdutoControlador.editar()}" 
+				size="5" value="#{cadastroProdutoControlador.produto.valor}" converter="converterToDouble"
+				styleClass="moeda"/>
 				
 				<p:outputLabel value="Tipo " for="tipoProduto" />
 				<p:selectOneMenu id="tipoProduto" converter="converterTipoUnidadeProduto" value="#{cadastroProdutoControlador.produto.tipoUnidade}">

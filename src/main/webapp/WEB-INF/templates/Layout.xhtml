@@ -9,6 +9,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title><ui:insert name="titulo">Gestão de Produtos</ui:insert></title>
 	<h:outputStylesheet library="css" name="sistema.css"/>
+	<h:outputScript library="js" name="jquery.maskMoney.js"/>
 	<script type="text/javascript" >
 		var	distance = 0;
 		PrimeFaces.locales['pt_BR'] = {
@@ -42,7 +43,7 @@
 </h:head>
 <h:body>
 
-		<p:ajaxStatus styleClass="ajax-status">
+		<p:ajaxStatus styleClass="ajax-status" onsuccess="configurarMoeda()">
 			<f:facet name="start">
 				<h:graphicImage library="imagens" name="carregando.gif"/>
 			</f:facet>
@@ -116,4 +117,13 @@
 	<footer>
 	<center>Sistema de Gestão de Produtos - Tarefa de Curso AlgaWorks 2016</center>
 	</footer>
+	<script>
+			function configurarMoeda() {
+				$(".moeda").maskMoney({ decimal: ",", thousands: ".", allowZero: true });
+			}
+			
+			$(document).ready(function() {
+				configurarMoeda();
+			});
+		</script>
 </html>

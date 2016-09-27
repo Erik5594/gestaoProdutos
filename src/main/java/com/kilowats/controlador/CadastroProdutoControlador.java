@@ -10,16 +10,19 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import lombok.Data;
+
 import com.kilowats.entidades.Ean;
 import com.kilowats.entidades.Produto;
 import com.kilowats.enuns.TipoProdutoUnidadeEnum;
 import com.kilowats.servicos.ServicosEan;
 import com.kilowats.servicos.ServicosProduto;
+import com.kilowats.util.Utils;
 import com.kilowats.util.jsf.FacesUtils;
 
 @Named
 @ViewScoped
-public class CadastroProdutoControlador implements Serializable{
+public @Data class CadastroProdutoControlador implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Inject
@@ -38,9 +41,22 @@ public class CadastroProdutoControlador implements Serializable{
 	
 	public void adicionarEan(){
 		if(servicosEan.eanIsValido(ean, TITULO, true)){
-			eans.add(ean);
+			ean.setProduto(produto);
+			adicionaEanList(ean);
 		}
 		ean = new Ean();
+	}
+
+	private void adicionaEanList(Ean ean) {
+		if(Utils.isNullOrEmpty(eans)){
+			eans = new ArrayList<>();
+		}else{
+			if(eans.contains(ean)){
+				FacesUtils.sendMensagemError(TITULO, "Validação Ean: Ean já adicionado!");
+				return;
+			}
+		}
+		eans.add(ean);
 	}
 	
 	public void salvar() {
@@ -65,24 +81,6 @@ public class CadastroProdutoControlador implements Serializable{
 		}
 	}
 
-	public Produto getProduto() {
-		return produto;
-	}
-	public void setProduto(Produto produto) {
-		this.produto = produto;
-	}
-	public Ean getEan() {
-		return ean;
-	}
-	public void setEan(Ean ean) {
-		this.ean = ean;
-	}
-	public List<Ean> getEans() {
-		return eans;
-	}
-	public void setEans(List<Ean> eans) {
-		this.eans = eans;
-	}
 	public TipoProdutoUnidadeEnum[] getTipoUnidadeProduto() {
 		return TipoProdutoUnidadeEnum.values();
 	}
