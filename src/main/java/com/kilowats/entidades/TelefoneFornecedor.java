@@ -9,6 +9,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+@EqualsAndHashCode(callSuper=true)
 @Entity
 @Table(name="telefone_fornecedor")
 public @Data class TelefoneFornecedor extends Telefone implements Serializable{

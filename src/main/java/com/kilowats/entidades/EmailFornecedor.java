@@ -7,7 +7,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode(callSuper=true)
 @Entity(name="email_fornecedor")
 public @Data class EmailFornecedor extends Email implements Serializable{
 
