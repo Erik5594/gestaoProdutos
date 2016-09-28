@@ -37,22 +37,17 @@ import com.kilowats.util.jsf.FacesUtils;
 public @Data class CadastroClienteControlador implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
-	@Inject
 	private Cliente cliente;
-	@Inject
 	private EnderecoCliente endereco;
 	private EnderecoCliente enderecoSelecionado;
-	@Inject
 	private TelefoneCliente telefone;
-	@Inject
 	private Cidade cidade;
 	private TelefoneCliente telefoneSelecionado;
-	@Inject
 	private EmailCliente email;
 	private EmailCliente emailSelecionado;
-	@Inject
 	private Veiculo veiculo;
 	private Veiculo veiculoSelecionado;
+	private Cep cep;
 	@Inject
 	private ServicosTelefone servicosTelefone;
 	@Inject
@@ -67,8 +62,6 @@ public @Data class CadastroClienteControlador implements Serializable{
 	private ServicosEndereco servicosEndereco;
 	@Inject
 	private ServicosCep servicosCep;
-	@Inject
-	private Cep cep;
 
 	private List<TelefoneCliente> telefones = new ArrayList<>();
 	private List<EmailCliente> emails = new ArrayList<>();
@@ -179,6 +172,13 @@ public @Data class CadastroClienteControlador implements Serializable{
 		endereco.setCepGeral(true);
 		endereco.setCepByFaixa(false);
 		habilitaEdicaoCepGeralOrFaixa();
+	}
+	
+	public boolean editar(){
+		if(Utils.isNotNull(cliente)){
+			return Utils.isNotNullOrEmpty(cliente.getId());
+		}
+		return false;
 	}
 
 	private void acaoCepEncontrado() {
@@ -403,6 +403,16 @@ public @Data class CadastroClienteControlador implements Serializable{
 			}
 			veiculos = new ArrayList<>();
 			veiculos = novaListaVeiculos;
+		}
+	}
+	
+	public void setCliente(Cliente cliente){
+		this.cliente = cliente;
+		if(Utils.isNotNullOrEmpty(this.cliente)){
+			this.enderecos = this.cliente.getEndereco();
+			this.telefones = this.cliente.getTelefones();
+			this.emails = this.cliente.getEmails();
+			this.veiculos = this.cliente.getVeiculos();
 		}
 	}
 }

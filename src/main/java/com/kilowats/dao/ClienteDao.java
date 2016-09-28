@@ -1,5 +1,7 @@
 package com.kilowats.dao;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -21,6 +23,10 @@ public class ClienteDao {
 
 	public Cliente pesquisarById(Long id) {
 		return (Cliente) manager.find(Cliente.class, id);
+	}
+
+	public List<Cliente> listarTodosClientes() {
+		return manager.createQuery("from Cliente", Cliente.class).getResultList();
 	}
 
 }

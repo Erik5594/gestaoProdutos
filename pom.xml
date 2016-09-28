@@ -44,7 +44,15 @@
 			<version>1.1.10.Final</version>
 			<scope>compile</scope>
 		</dependency>
-
+		
+		<!-- Omnifaces -->
+		<dependency>
+		    <groupId>org.omnifaces</groupId>
+		    <artifactId>omnifaces</artifactId>
+		    <version>1.5</version>
+		    <scope>compile</scope>
+		</dependency>
+		
 		<!-- controle de log por arquivo -->
 		<dependency>
 			<groupId>log4j</groupId>

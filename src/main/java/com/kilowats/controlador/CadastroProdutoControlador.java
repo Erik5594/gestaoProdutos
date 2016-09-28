@@ -86,7 +86,10 @@ public @Data class CadastroProdutoControlador implements Serializable{
 	}
 	
 	public boolean editar(){
-		return isNotNullOrEmpty(produto.getId());
+		if(Utils.isNotNull(produto)){
+			return isNotNullOrEmpty(produto.getId());
+		}
+		return false;
 	}
 	
 	private void completarDadosProduto() {

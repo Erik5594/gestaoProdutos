@@ -1,6 +1,7 @@
 package com.kilowats.servicos;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -24,5 +25,9 @@ public class ServicosCliente implements Serializable{
 	
 	public boolean validarCliente(Cliente cliente, String titulo, boolean mostrarMensagem){
 		return validar.validarCadastroComMensagem(cliente, titulo, mostrarMensagem);
+	}
+
+	public List<Cliente> listarTodosClientes() {
+		return clienteDao.listarTodosClientes();
 	}
 }

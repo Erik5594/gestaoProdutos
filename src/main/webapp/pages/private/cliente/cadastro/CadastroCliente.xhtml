@@ -5,19 +5,24 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:o="http://omnifaces.org/ui">
 
-	<ui:define name="titulo">Cadastro de Cliente</ui:define>
+	<ui:define name="titulo">#{cadastroClienteControlador.editar() ? 'Edição':'Cadastro'} de Cliente</ui:define>
 
 	<ui:define name="conteudo">
+		<f:metadata>
+    		<o:viewParam name="cliente" value="#{cadastroClienteControlador.cliente}" />
+    	</f:metadata>
+    	
 		<h:form id="frmCadastroCliente">
 			<p:messages id="mensagens" autoUpdate="true" closable="true"/>
-			<h1>Cadastro de Cliente</h1>
+			<h1>#{cadastroClienteControlador.editar() ? 'Edição':'Cadastro'} de Cliente</h1>
 			<!-- Inicio Barra de opoces -->
 			<p:toolbar style="margin-bottom: 20px">
 				<!-- Inicio de grupo de Barra de opces a esquerda -->
 				<p:toolbarGroup>
-					<p:commandButton value="Salvar" style="margin-right: 5px"
+					<p:commandButton value="#{cadastroClienteControlador.editar() ? 'Editar':'Salvar'}" style="margin-right: 5px"
 					actionListener="#{cadastroClienteControlador.salvar()}" update="@form"/>
 					<p:button value="Novo"
 						outcome="/pages/private/cliente/cadastro/CadastroCliente.xhtml" />
@@ -26,7 +31,7 @@
 				
 				<!-- Inicio de grupo de Barra de opces a Direita -->
 				<p:toolbarGroup align="right">
-					<p:commandButton value="Pesquisar" actionListener="#{cadastroClienteControlador.pesquisar()}"/>
+					<p:button value="Pesquisar" outcome="/pages/private/cliente/pesquisa/PesquisaCliente"/>
 				</p:toolbarGroup>
 				<!-- Fim de grupo de Barra de opces a Direita -->
 			</p:toolbar>
@@ -203,19 +208,19 @@
 					</h:panelGrid>
 					
 					<p:dataTable id="tabelaTelefones" value="#{cadastroClienteControlador.telefones}" var="telefone"
-					emptyMessage="Sem telefone(s)" selection="#{cadastroClienteControlador.telefoneSelecionado}" style="width: 30%; margin-top: 15px">
+					emptyMessage="Sem telefone(s)" selection="#{cadastroClienteControlador.telefoneSelecionado}" style="width: 33%; margin-top: 15px">
 					<f:facet name="header">
 					Telefones
 					</f:facet>
-					<p:column headerText="DDD" style="width: 12%">
+					<p:column headerText="DDD" style="width: 10%">
 					<p:outputLabel value="#{telefone.ddd}"/>
 					</p:column>
 					
-					<p:column headerText="Numero" style="width: 38%">
+					<p:column headerText="Numero" style="width: 35%">
 					<p:outputLabel value="#{telefone.numero}"/>
 					</p:column>
 					
-					<p:column headerText="Tipo" style="width: 50%">
+					<p:column headerText="Tipo" style="width: 40%">
 					<p:outputLabel value="#{telefone.tipoTelefone}"/>
 					</p:column>
 					
@@ -254,11 +259,11 @@
 					<f:facet name="header">
 					E-mails
 					</f:facet>
-					<p:column headerText="E-mail">
+					<p:column headerText="E-mail" width="40%">
 					<p:outputLabel value="#{email.emailDestinatario}"/>
 					</p:column>
 					
-					<p:column headerText="Nome Destinatário">
+					<p:column headerText="Nome Destinatário" width="45%">
 					<p:outputLabel value="#{email.nomePessoaDestinatario}"/>
 					</p:column>
 					
@@ -305,22 +310,22 @@
 					</h:panelGrid>
 
 					<p:dataTable id="tabelaVeiculos" value="#{cadastroClienteControlador.veiculos}" var="veiculo"
-					emptyMessage="Sem veiculo(s)" selection="#{cadastroClienteControlador.veiculoSelecionado}" style="width: 40%; margin-top: 15px">
+					emptyMessage="Sem veiculo(s)" selection="#{cadastroClienteControlador.veiculoSelecionado}" style="width: 50%; margin-top: 15px">
 					<f:facet name="header">
 					Veículos
 					</f:facet>
-					<p:column headerText="Placa">
+					<p:column headerText="Placa" width="15%">
 					<p:outputLabel value="#{veiculo.placa}"/>
 					</p:column>
 					
-					<p:column headerText="Chassi">
+					<p:column headerText="Chassi" width="50%">
 					<p:outputLabel value="#{veiculo.chassi}"/>
 					</p:column>
 					
-					<p:column headerText="Tipo Veiculo">
+					<p:column headerText="Tipo Veiculo" width="25%">
 					<p:outputLabel value="#{veiculo.tipoVeiculo.tipoVeiculo}"/>
 					</p:column>
-					<p:column width="15%">
+					<p:column width="10%">
 					<p:commandButton icon="ui-icon-trash" process="@this"
 					oncomplete="PF('confirmacaoRemocaoVeiculo').show(); return false;">
 					<f:setPropertyActionListener target="#{cadastroClienteControlador.veiculoSelecionado}" value="#{veiculo}"/>
