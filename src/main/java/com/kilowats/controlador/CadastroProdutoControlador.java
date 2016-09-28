@@ -29,7 +29,6 @@ public @Data class CadastroProdutoControlador implements Serializable{
 	private Produto produto;
 	@Inject
 	private Ean ean;
-	@Inject
 	private Ean eanSelecionado;
 	@Inject
 	private ServicosEan servicosEan;
@@ -74,7 +73,7 @@ public @Data class CadastroProdutoControlador implements Serializable{
 	}
 	
 	public void removerEanDaLista(){
-		if(Utils.isNotNull(eanSelecionado) && Utils.isNotNullOrEmpty(eans)){
+		if(Utils.isNotNull(eanSelecionado) && Utils.isNotNullOrEmpty(eanSelecionado.getCodBarras()) && Utils.isNotNullOrEmpty(eans)){
 			List<Ean> novaListaEan = new ArrayList<Ean>();
 			for(Ean eanValidacao : eans){
 				if(!eanValidacao.getCodBarras().equals(eanSelecionado.getCodBarras())){

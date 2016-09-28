@@ -41,21 +41,17 @@ public @Data class CadastroClienteControlador implements Serializable{
 	private Cliente cliente;
 	@Inject
 	private EnderecoCliente endereco;
-	@Inject
 	private EnderecoCliente enderecoSelecionado;
 	@Inject
 	private TelefoneCliente telefone;
 	@Inject
 	private Cidade cidade;
-	@Inject
 	private TelefoneCliente telefoneSelecionado;
 	@Inject
 	private EmailCliente email;
-	@Inject
 	private EmailCliente emailSelecionado;
 	@Inject
 	private Veiculo veiculo;
-	@Inject
 	private Veiculo veiculoSelecionado;
 	@Inject
 	private ServicosTelefone servicosTelefone;
@@ -356,5 +352,57 @@ public @Data class CadastroClienteControlador implements Serializable{
 			}
 		}
 		return enderecosAjustados;
+	}
+	
+	public void removerEnderecoDaLista(){
+		if(Utils.isNotNull(enderecoSelecionado) && Utils.isNotNullOrEmpty(enderecoSelecionado.getCep()) && Utils.isNotNullOrEmpty(enderecos)){
+			List<EnderecoCliente> novaListaEndereco = new ArrayList<>();
+			for(EnderecoCliente enderecoValidacao : enderecos){
+				if(!enderecoValidacao.getCep().getCep().equals(enderecoSelecionado.getCep().getCep())){
+					novaListaEndereco.add(enderecoValidacao);
+				}
+			}
+			enderecos = new ArrayList<>();
+			enderecos = novaListaEndereco;
+		}
+	}
+	
+	public void removerTelefoneDaLista(){
+		if(Utils.isNotNull(telefoneSelecionado) && Utils.isNotNullOrEmpty(telefoneSelecionado.getNumero()) && Utils.isNotNullOrEmpty(telefones)){
+			List<TelefoneCliente> novaListaTelefones = new ArrayList<>();
+			for(TelefoneCliente telefoneValidacao : telefones){
+				if(!telefoneValidacao.getNumero().equals(telefoneSelecionado.getNumero())){
+					novaListaTelefones.add(telefoneValidacao);
+				}
+			}
+			telefones = new ArrayList<>();
+			telefones = novaListaTelefones;
+		}
+	}
+	
+	public void removerEmailDaLista(){
+		if(Utils.isNotNull(emailSelecionado) && Utils.isNotNullOrEmpty(emailSelecionado.getEmailDestinatario()) && Utils.isNotNullOrEmpty(emails)){
+			List<EmailCliente> novaListaEmail = new ArrayList<>();
+			for(EmailCliente emailValidacao : emails){
+				if(!emailValidacao.getEmailDestinatario().equals(emailSelecionado.getEmailDestinatario())){
+					novaListaEmail.add(emailValidacao);
+				}
+			}
+			emails = new ArrayList<>();
+			emails = novaListaEmail;
+		}
+	}
+	
+	public void removerVeiculoDaLista(){
+		if(Utils.isNotNull(veiculoSelecionado) && Utils.isNotNullOrEmpty(veiculoSelecionado.getPlaca()) && Utils.isNotNullOrEmpty(veiculos)){
+			List<Veiculo> novaListaVeiculos = new ArrayList<>();
+			for(Veiculo veiculoValidacao : veiculos){
+				if(!veiculoValidacao.getPlaca().equals(veiculoSelecionado.getPlaca())){
+					novaListaVeiculos.add(veiculoValidacao);
+				}
+			}
+			veiculos = new ArrayList<>();
+			veiculos = novaListaVeiculos;
+		}
 	}
 }

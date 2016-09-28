@@ -162,7 +162,21 @@
 					<p:column headerText="Entrega" style="width: 50%">
 					<p:selectBooleanCheckbox value="#{endereco.enderecoEntrega}" disabled="true"/>
 					</p:column>
+					
+					<p:column width="10%">
+					<p:commandButton icon="ui-icon-trash" process="@this"
+					oncomplete="PF('confirmacaoRemocaoEndereco').show(); return false;">
+					<f:setPropertyActionListener target="#{cadastroClienteControlador.enderecoSelecionado}" value="#{endereco}"/>
+					</p:commandButton>
+					</p:column>
 					</p:dataTable>
+					
+					<p:confirmDialog header="Remover Endereço" message="Tem certeza que deseja remover o endereço?"
+					widgetVar="confirmacaoRemocaoEndereco" id="confirmacaoRemocaoEnderecoDialog">
+					<p:button icon="ui-icon-cancel" value="Não" onclick="PF('confirmacaoRemocaoEndereco').hide(); return false;"/>
+					<p:commandButton icon="ui-icon-check" value="Sim" oncomplete="PF('confirmacaoRemocaoEndereco').hide(); return false;"
+					action="#{cadastroClienteControlador.removerEnderecoDaLista()}" update="tabelaEnderecos" process="@this"/>
+					</p:confirmDialog>
 				</p:tab>
 				<!--Fim Tab endereco -->
 				
@@ -204,7 +218,21 @@
 					<p:column headerText="Tipo" style="width: 50%">
 					<p:outputLabel value="#{telefone.tipoTelefone}"/>
 					</p:column>
+					
+					<p:column width="15%">
+					<p:commandButton icon="ui-icon-trash" process="@this"
+					oncomplete="PF('confirmacaoRemocaoTelefone').show(); return false;">
+					<f:setPropertyActionListener target="#{cadastroClienteControlador.telefoneSelecionado}" value="#{telefone}"/>
+					</p:commandButton>
+					</p:column>
 					</p:dataTable>
+					
+					<p:confirmDialog header="Remover Telefone" message="Tem certeza que deseja remover o telefone?"
+					widgetVar="confirmacaoRemocaoTelefone" id="confirmacaoRemocaoTelefoneDialog">
+					<p:button icon="ui-icon-cancel" value="Não" onclick="PF('confirmacaoRemocaoTelefone').hide(); return false;"/>
+					<p:commandButton icon="ui-icon-check" value="Sim" oncomplete="PF('confirmacaoRemocaoTelefone').hide(); return false;"
+					action="#{cadastroClienteControlador.removerTelefoneDaLista()}" update="tabelaTelefones" process="@this"/>
+					</p:confirmDialog>
 				</p:tab>
 				<!--Fim Tab telefones -->
 				
@@ -233,11 +261,25 @@
 					<p:column headerText="Nome Destinatário">
 					<p:outputLabel value="#{email.nomePessoaDestinatario}"/>
 					</p:column>
+					
+					<p:column width="15%">
+					<p:commandButton icon="ui-icon-trash" process="@this"
+					oncomplete="PF('confirmacaoRemocaoEmail').show(); return false;">
+					<f:setPropertyActionListener target="#{cadastroClienteControlador.emailSelecionado}" value="#{email}"/>
+					</p:commandButton>
+					</p:column>
 					</p:dataTable>
+					
+					<p:confirmDialog header="Remover Email" message="Tem certeza que deseja remover o e-mail?"
+					widgetVar="confirmacaoRemocaoEmail" id="confirmacaoRemocaoEmailDialog">
+					<p:button icon="ui-icon-cancel" value="Não" onclick="PF('confirmacaoRemocaoEmail').hide(); return false;"/>
+					<p:commandButton icon="ui-icon-check" value="Sim" oncomplete="PF('confirmacaoRemocaoEmail').hide(); return false;"
+					action="#{cadastroClienteControlador.removerEmailDaLista()}" update="tabelaEmails" process="@this"/>
+					</p:confirmDialog>
 				</p:tab>
 				<!--Fim Tab emails -->
 				
-				<!--Inicio Tab emails -->
+				<!--Inicio Tab veiculos -->
 				<p:tab title="Veículos" id="veiculoTab">
 					<h:panelGrid columns="7" id="gridVeiculo">
 						<p:outputLabel value="Placa: " for="placa" />
@@ -278,12 +320,26 @@
 					<p:column headerText="Tipo Veiculo">
 					<p:outputLabel value="#{veiculo.tipoVeiculo.tipoVeiculo}"/>
 					</p:column>
+					<p:column width="15%">
+					<p:commandButton icon="ui-icon-trash" process="@this"
+					oncomplete="PF('confirmacaoRemocaoVeiculo').show(); return false;">
+					<f:setPropertyActionListener target="#{cadastroClienteControlador.veiculoSelecionado}" value="#{veiculo}"/>
+					</p:commandButton>
+					</p:column>
 					</p:dataTable>
+					
+					<p:confirmDialog header="Remover Veículo" message="Tem certeza que deseja remover o veículo?"
+					widgetVar="confirmacaoRemocaoVeiculo" id="confirmacaoRemocaoVeiculoDialog">
+					<p:button icon="ui-icon-cancel" value="Não" onclick="PF('confirmacaoRemocaoVeiculo').hide(); return false;"/>
+					<p:commandButton icon="ui-icon-check" value="Sim" oncomplete="PF('confirmacaoRemocaoVeiculo').hide(); return false;"
+					action="#{cadastroClienteControlador.removerVeiculoDaLista()}" update="tabelaVeiculos" process="@this"/>
+					</p:confirmDialog>
 				</p:tab>
-				<!--Fim Tab emails -->
+				<!--Fim Tab veiculos -->
 				
 			</p:tabView>
 			<!-- Fim TabView -->
+			
 		</h:form>
 	</ui:define>
 </ui:composition>
