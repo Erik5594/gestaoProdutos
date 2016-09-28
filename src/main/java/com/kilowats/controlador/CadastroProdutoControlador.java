@@ -30,6 +30,8 @@ public @Data class CadastroProdutoControlador implements Serializable{
 	@Inject
 	private Ean ean;
 	@Inject
+	private Ean eanSelecionado;
+	@Inject
 	private ServicosEan servicosEan;
 	@Inject
 	private ServicosProduto servicosProduto;
@@ -68,6 +70,19 @@ public @Data class CadastroProdutoControlador implements Serializable{
 			} else {
 				FacesUtils.sendMensagemError(TITULO, ERRO_INTERNO+" ["+produto.getNomeProduto()+"]");
 			}
+		}
+	}
+	
+	public void removerEanDaLista(){
+		if(Utils.isNotNull(eanSelecionado) && Utils.isNotNullOrEmpty(eans)){
+			List<Ean> novaListaEan = new ArrayList<Ean>();
+			for(Ean eanValidacao : eans){
+				if(!eanValidacao.getCodBarras().equals(eanSelecionado.getCodBarras())){
+					novaListaEan.add(eanValidacao);
+				}
+			}
+			eans = new ArrayList<>();
+			eans = novaListaEan;
 		}
 	}
 	

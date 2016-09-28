@@ -3,10 +3,12 @@ package com.kilowats.entidades;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -36,7 +38,7 @@ public @Data class Produto implements Serializable{
 	private int quantidade;
 	@NotNull @Column(nullable=false, length=8, precision=2)
 	private double valor;
-	@OneToMany(mappedBy="produto")
+	@OneToMany(mappedBy="produto", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Ean> eans;
 	
 	@Override
