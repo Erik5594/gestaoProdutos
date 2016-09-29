@@ -88,7 +88,7 @@ public @Data class CadastroClienteControlador implements Serializable{
 		enderecoEntrega = false;
 	}
 	
-	private final String TITULO = tituloTela();
+	private String TITULO = tituloTela();
 	private final String ERRO_INTERNO = "Erro interno: erro interno contate a administração do sistema!";
 	
 	private void inicializarVariaveis(){
@@ -423,10 +423,8 @@ public @Data class CadastroClienteControlador implements Serializable{
 	
 
 	private String tituloTela() {
-		if(Utils.isNotNull(cliente)){
-			if(cliente.getId() > 0l){
-				return "Edição de Cliente: ";
-			}
+		if(editar()){
+			return "Edição de Cliente: ";
 		}
 		return "Cadastro Cliente: ";
 	}

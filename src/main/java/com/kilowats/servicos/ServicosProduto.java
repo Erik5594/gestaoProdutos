@@ -1,6 +1,7 @@
 package com.kilowats.servicos;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -24,5 +25,9 @@ public class ServicosProduto implements Serializable{
 	
 	public boolean produtoIsValido(Produto produto, String titulo, boolean mostrarMensagem) {
 		return validador.validarCadastroComMensagem(produto, titulo, mostrarMensagem);
+	}
+
+	public List<Produto> listarTodosProdutos() {
+		return produtoDao.listarTodosProdutos();
 	}
 }

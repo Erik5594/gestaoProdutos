@@ -5,15 +5,21 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:o="http://omnifaces.org/ui">
 
-	<ui:define name="titulo">Cadastro de Produto</ui:define>
+	<ui:define name="titulo">#{cadastroProdutoControlador.editar() ? 'Edição':'Cadastro'} de Produto</ui:define>
 
 	<ui:define name="conteudo">
+	
+		<f:metadata>
+    		<o:viewParam name="produto" value="#{cadastroProdutoControlador.produto}" />
+    	</f:metadata>
+	
 		<h:form id="frmCadastroFornecedor">
 			<p:messages id="mensagensPadrao" autoUpdate="true" closable="true"/>
 			<p:growl for="growMensage"/>
-			<h1>Cadastro de produto</h1>
+			<h1>#{cadastroProdutoControlador.editar() ? 'Edição':'Cadastro'} de produto</h1>
 			<!-- Inicio Barra de opoces -->
 			<p:toolbar style="margin-bottom: 20px">
 				<!-- Inicio de grupo de Barra de opces a esquerda -->
@@ -27,7 +33,7 @@
 				
 				<!-- Inicio de grupo de Barra de opces a Direita -->
 				<p:toolbarGroup align="right">
-					<p:commandButton value="Pesquisar" />
+					<p:button value="Pesquisar" outcome="/pages/private/produto/pesquisa/PesquisaProduto.xhtml"/>
 				</p:toolbarGroup>
 				<!-- Fim de grupo de Barra de opces a Direita -->
 			</p:toolbar>

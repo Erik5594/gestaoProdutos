@@ -7,47 +7,59 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core">
 
-	<ui:define name="titulo">Pesquisa de Cliente</ui:define>
+	<ui:define name="titulo">Pesquisa de Produto</ui:define>
 
 	<ui:define name="conteudo">
-		<h:form id="frmPesquisaCliente">
+		<h:form id="frmPesquisaProduto">
 			<p:messages id="mensagens" autoUpdate="true" closable="true"/>
-			<h1>Pesquisa de Cliente</h1>
+			<h1>Pesquisa de Produto</h1>
 			<!-- Inicio Barra de opoces -->
 			<p:toolbar style="margin-bottom: 20px">
 				<!-- Inicio de grupo de Barra de opces a Direita -->
 				<p:toolbarGroup align="right">
 					<p:button value="Novo"
-						outcome="/pages/private/cliente/cadastro/CadastroCliente.xhtml" />
+						outcome="/pages/private/produto/cadastro/CadastroProduto.xhtml" />
 				</p:toolbarGroup>
 				<!-- Fim de grupo de Barra de opces a Direita -->
 			</p:toolbar>
 			<!-- Fim Barra de opcoes -->
 			
-			#{pesquisaClienteControlador.init()}
+			#{pesquisaProdutoControlador.init()}
 			
-			<p:dataTable value="#{pesquisaClienteControlador.clientes}" var="cliente" rowKey="#{cliente.id}"
+			<p:dataTable value="#{pesquisaProdutoControlador.produtos}" var="produto" rowKey="#{produto.id}"
 			paginator="true" rows="6"
 			currentPageReportTemplate="Intervalo {startRecord}-{endRecord} do total de {totalRecords} registros"
             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
             rowsPerPageTemplate="6,15,50" 
-			style="margin-top:25px;" emptyMessage="Nenhum cliente encontrado!">
+			style="margin-top:25px;" emptyMessage="Nenhum produto encontrado!">
 			
 			<p:column headerText="Id">
-				<p:outputLabel value="#{cliente.id}"/>
+				<p:outputLabel value="#{produto.id}"/>
+			</p:column>
+			
+			<p:column headerText="Cod Interno">
+				<p:outputLabel value="#{produto.codProduto}"/>
 			</p:column>
 			
 			<p:column headerText="Nome">
-				<p:outputLabel value="#{cliente.nome}"/>
+				<p:outputLabel value="#{produto.nomeProduto}"/>
 			</p:column>
 			
-			<p:column headerText="CNPJ/CPF">
-				<p:outputLabel value="#{cliente.cgcCpf}"/>
+			<p:column headerText="Tipo">
+				<p:outputLabel value="#{produto.tipoUnidade}"/>
+			</p:column>
+			
+			<p:column headerText="Quantidade">
+				<p:outputLabel value="#{produto.quantidade}"/>
+			</p:column>
+			
+			<p:column headerText="Valor(R$)">
+				<p:outputLabel value="R$ #{produto.valor}" styleClass="moeda"/>
 			</p:column>
 			
 			<p:column>
-				<p:button outcome="/pages/private/cliente/cadastro/CadastroCliente" icon="ui-icon-pencil" title="Editar">
-					<f:param name="cliente" value="#{cliente.id}"/>
+				<p:button outcome="/pages/private/produto/cadastro/CadastroProduto" icon="ui-icon-pencil" title="Editar">
+					<f:param name="produto" value="#{produto.id}"/>
 				</p:button>
 			</p:column>
 				

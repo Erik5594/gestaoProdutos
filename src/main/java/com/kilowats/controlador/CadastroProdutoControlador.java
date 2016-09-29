@@ -35,7 +35,7 @@ public @Data class CadastroProdutoControlador implements Serializable{
 	@Inject
 	private ServicosProduto servicosProduto;
 	
-	private final String TITULO = "Cadastro produto: ";
+	private String TITULO = tituloTela();
 	private final String ERRO_INTERNO = "Erro interno: erro interno contate a administração do sistema!";
 	
 	private List<Ean> eans = new ArrayList<>();
@@ -65,7 +65,7 @@ public @Data class CadastroProdutoControlador implements Serializable{
 			completarDadosProduto();
 			produto = servicosProduto.persistirProduto(this.produto);
 			if (isNotNullOrEmpty(produto) && produto.getId() > 0L) {
-				FacesUtils.sendMensagemOk(TITULO, "Produto cadastrado com sucesso!");
+				FacesUtils.sendMensagemOk(TITULO, String.format("Produto %s com sucesso!",editar()?"editado":"cadastrado"));
 			} else {
 				FacesUtils.sendMensagemError(TITULO, ERRO_INTERNO+" ["+produto.getNomeProduto()+"]");
 			}
@@ -100,6 +100,20 @@ public @Data class CadastroProdutoControlador implements Serializable{
 
 	public TipoProdutoUnidadeEnum[] getTipoUnidadeProduto() {
 		return TipoProdutoUnidadeEnum.values();
+	}
+	
+	private String tituloTela() {
+		if(editar()){
+			return "Edição de Produto: ";
+		}
+		return "Cadastro Produto: ";
+	}
+	
+	public void setProduto(Produto produto){
+		this.produto = produto;
+		if(Utils.isNotNullOrEmpty(this.produto)){
+			eans = produto.getEans();
+		}
 	}
 	
 }

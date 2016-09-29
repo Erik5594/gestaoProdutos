@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -22,12 +23,13 @@ import lombok.Data;
 import com.kilowats.enuns.TipoProdutoUnidadeEnum;
 
 @Entity
+@Table(name="produto")
 public @Data class Produto implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
 	@Id @GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+	private Long id;
 	@NotNull @Column(name="cod_produto", length=15, nullable=false, unique=true)
 	private String codProduto;
 	@NotNull @Column(name="nome_produto", length=120, nullable=false)
