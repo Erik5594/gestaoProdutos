@@ -11,12 +11,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import lombok.Data;
 
 import com.kilowats.enuns.TipoVeiculo;
 
 @Entity
+@Table(name="veiculo")
 public @Data class Veiculo implements Serializable{
 
 	private static final long serialVersionUID = 1L;

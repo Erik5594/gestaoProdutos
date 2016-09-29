@@ -37,14 +37,19 @@ import com.kilowats.util.jsf.FacesUtils;
 public @Data class CadastroClienteControlador implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
+	@Inject
 	private Cliente cliente;
+	@Inject
 	private EnderecoCliente endereco;
 	private EnderecoCliente enderecoSelecionado;
+	@Inject
 	private TelefoneCliente telefone;
 	private Cidade cidade;
 	private TelefoneCliente telefoneSelecionado;
+	@Inject
 	private EmailCliente email;
 	private EmailCliente emailSelecionado;
+	@Inject
 	private Veiculo veiculo;
 	private Veiculo veiculoSelecionado;
 	private Cep cep;
@@ -83,7 +88,7 @@ public @Data class CadastroClienteControlador implements Serializable{
 		enderecoEntrega = false;
 	}
 	
-	private final String TITULO = "Cadastro Cliente: ";
+	private final String TITULO = tituloTela();
 	private final String ERRO_INTERNO = "Erro interno: erro interno contate a administração do sistema!";
 	
 	private void inicializarVariaveis(){
@@ -305,7 +310,7 @@ public @Data class CadastroClienteControlador implements Serializable{
 			cliente = servicosCliente.persistirCliente(cliente);
 			if(isNotNullOrEmpty(cliente) && cliente.getId() > 0L){
 				inicializarVariaveis();
-				FacesUtils.sendMensagemOk(TITULO, "Cliente cadastrado com suceso!");
+				FacesUtils.sendMensagemOk(TITULO, String.format("Cliente %s com suceso!", editar() ? "editado":"cadastrado"));
 			}else{
 				FacesUtils.sendMensagemError(TITULO, ERRO_INTERNO);
 			}
@@ -414,5 +419,15 @@ public @Data class CadastroClienteControlador implements Serializable{
 			this.emails = this.cliente.getEmails();
 			this.veiculos = this.cliente.getVeiculos();
 		}
+	}
+	
+
+	private String tituloTela() {
+		if(Utils.isNotNull(cliente)){
+			if(cliente.getId() > 0l){
+				return "Edição de Cliente: ";
+			}
+		}
+		return "Cadastro Cliente: ";
 	}
 }
