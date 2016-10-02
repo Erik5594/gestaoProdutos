@@ -7,17 +7,17 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core">
 
-	<ui:define name="titulo">Cadastro de Fornecedor</ui:define>
+	<ui:define name="titulo">#{cadastroFornecedorControlador.editar() ? 'Edição':'Cadastro'} de Fornecedor</ui:define>
 
 	<ui:define name="conteudo">
 		<h:form id="frmCadastroFornecedor">
 			<p:messages id="mensagens" autoUpdate="true" closable="true"/>
-			<h1>Cadastro de fornecedor</h1>
+			<h1>#{cadastroFornecedorControlador.editar() ? 'Edição':'Cadastro'} de fornecedor</h1>
 			<!-- Inicio Barra de opoces -->
 			<p:toolbar style="margin-bottom: 20px">
 				<!-- Inicio de grupo de Barra de opces a esquerda -->
 				<p:toolbarGroup>
-					<p:commandButton value="Salvar" style="margin-right: 5px"
+					<p:commandButton value="#{cadastroFornecedorControlador.editar() ? 'Editar':'Salvar'}" style="margin-right: 5px"
 					actionListener="#{cadastroFornecedorControlador.salvar()}"/>
 					<p:button value="Novo"
 						outcome="/pages/private/fornecedor/cadastro/CadastroFornecedor.xhtml" />
@@ -64,41 +64,120 @@
 					</h:panelGrid>
 				</p:tab>
 				<!--Fim Tab Principal -->
-				
-				<!--Inicio Tab endereco -->
 				<p:tab title="Endereço" id="enderecoTab">
-					<h:panelGrid columns="2" id="panelGridEndereco">
+				<p:panel style="margin-bottom: 15px" id="panelEndereco">
+					<h:panelGrid columns="3" id="panelGridEnderecoCep">
 						<p:outputLabel value="CEP:" for="cep" />
-						<p:inputMask id="cep" mask="99.999-999" converter="converterNumber"
-						value="#{cadastroFornecedorControlador.endereco.cep}"	style="width: 70px" />
-
+						<p:inputMask id="cep" mask="99.999-999" converter="converterLong" disabled="#{cadastroFornecedorControlador.bloqPesquisaCep}"
+						value="#{cadastroFornecedorControlador.cep.cep}"	style="width: 70px" />
+						
+						<p:commandButton icon="ui-icon-pencil" rendered="#{cadastroFornecedorControlador.bloqPesquisaCep}"
+						actionListener="#{cadastroFornecedorControlador.habilitaPesquisaCep()}"
+						update="panelEndereco" process="@this"/>
+						
+						<p:commandButton icon="ui-icon-search" rendered="#{!cadastroFornecedorControlador.bloqPesquisaCep}" 
+						actionListener="#{cadastroFornecedorControlador.buscarEnderecoByCep()}"
+						update="panelEndereco" process="@this cep"/>
+					</h:panelGrid>
+					<h:panelGrid columns="2" id="panelGridLogradouroBairro">
 						<p:outputLabel value="Logradouro: " for="rua" />
-						<p:inputText id="rua" size="35" value="#{cadastroFornecedorControlador.endereco.cep.rua}"/>
-
-						<p:outputLabel value="Complemento: " for="complemento" />
-						<p:inputText id="complemento" value="#{cadastroFornecedorControlador.endereco.complemento}"/>
-
+						<p:inputText id="rua" size="43" onkeyup="this.value=this.value.toUpperCase();"
+						value="#{cadastroFornecedorControlador.cep.rua}" disabled="#{cadastroFornecedorControlador.bloqueioNivel1}"/>
+						
 						<p:outputLabel value="Bairro: " for="bairro" />
-						<p:inputText id="bairro" value="#{cadastroFornecedorControlador.endereco.cep.bairro}"/>
+						<p:inputText id="bairro" onkeyup="this.value=this.value.toUpperCase();" size="43"
+						value="#{cadastroFornecedorControlador.cep.bairro}" disabled="#{cadastroFornecedorControlador.bloqueioNivel1}"/>
+					</h:panelGrid>
+						
+					<h:panelGrid columns="4" id="panelGridComplementoNumero">
+						<p:outputLabel value="Complemento: " for="complemento" />
+						<p:inputText id="complemento" onkeyup="this.value=this.value.toUpperCase();"
+						disabled="#{cadastroFornecedorControlador.bloqueiaEnderecoGeral}"
+						value="#{cadastroFornecedorControlador.endereco.complemento}"/>
 
 						<p:outputLabel value="Numero: " for="numero" />
-						<p:inputText id="numero" style="width: 45px" value="#{cadastroFornecedorControlador.endereco.numero}"/>
-
+						<p:inputText id="numero" onkeyup="this.value=this.value.toUpperCase();" 
+							disabled="#{cadastroFornecedorControlador.bloqueiaEnderecoGeral}"
+						size="6" value="#{cadastroFornecedorControlador.endereco.numero}"/>
+					</h:panelGrid>
+						
+					<h:panelGrid columns="4" id="panelGridUfCidade">
 						<p:outputLabel value="UF: " for="uf" />
-						<p:selectOneMenu id="uf" value="#{cadastroFornecedorControlador.cidade.uf}">
-							<f:selectItem itemLabel="Selecione..." itemValue=""
-								noSelectionOption="true" />
-							<f:selectItems value="#{cadastroFornecedorControlador.carregarEstados()}"/>
-							<p:ajax process="@this" update="cidade"/>
-						</p:selectOneMenu>
+						<p:inputText value="#{cadastroFornecedorControlador.cep.cidade.uf}"
+						id="uf" disabled="true" size="3"/>
 
 						<p:outputLabel value="Cidade: " for="cidade" />
-						<p:selectOneMenu id="cidade" value="#{cadastroFornecedorControlador.cidade.nomeCidade}">
-							<f:selectItem itemLabel="Selecione..." itemValue=""
-								noSelectionOption="true"/>
-							<f:selectItems value="#{cadastroFornecedorControlador.carregarCidades()}"/>
-						</p:selectOneMenu>
+						<p:inputText value="#{cadastroFornecedorControlador.cep.cidade.nomeCidade}"
+						id="cidade" disabled="true" size="33"/>
 					</h:panelGrid>
+					
+					<h:panelGrid columns="2" id="panelGridIsEntrega">
+						<p:outputLabel value="Entrega: " for="entrega" />
+						<p:selectBooleanCheckbox id="entrega"
+						disabled="#{cadastroFornecedorControlador.bloqueiaEnderecoGeral}"
+						value="#{cadastroFornecedorControlador.endereco.enderecoEntrega}"/>
+					</h:panelGrid>
+					
+					<center>
+					<p:commandButton value="Adicionar" icon="ui-icon-check"
+					actionListener="#{cadastroFornecedorControlador.adcionaEndereco()}"
+					process="@this panelEndereco"
+					update="panelEndereco tabelaEnderecos"/>
+					</center>
+				</p:panel>
+					
+					<p:dataTable id="tabelaEnderecos" value="#{cadastroFornecedorControlador.enderecos}" var="endereco"
+					emptyMessage="Sem endereço(s)" selection="#{cadastroFornecedorControlador.enderecoSelecionado}"
+					style="width: 100%; margin-top: 15px">
+					<f:facet name="header">
+					Endereços
+					</f:facet>
+					<p:column headerText="Cep" style="width: 12%">
+					<p:outputLabel value="#{endereco.cep.cep}"/>
+					</p:column>
+					
+					<p:column headerText="Logradouro" style="width: 38%">
+					<p:outputLabel value="#{endereco.cep.rua}"/>
+					</p:column>
+					
+					<p:column headerText="Complemento" style="width: 50%">
+					<p:outputLabel value="#{endereco.complemento}"/>
+					</p:column>
+					
+					<p:column headerText="Número" style="width: 50%">
+					<p:outputLabel value="#{endereco.numero}"/>
+					</p:column>
+					
+					<p:column headerText="Bairro" style="width: 50%">
+					<p:outputLabel value="#{endereco.cep.bairro}"/>
+					</p:column>
+					
+					<p:column headerText="Cidade" style="width: 50%">
+					<p:outputLabel value="#{endereco.cep.cidade.nomeCidade}"/>
+					</p:column>
+					
+					<p:column headerText="UF" style="width: 50%">
+					<p:outputLabel value="#{endereco.cep.cidade.uf}"/>
+					</p:column>
+					
+					<p:column headerText="Entrega" style="width: 50%">
+					<p:selectBooleanCheckbox value="#{endereco.enderecoEntrega}" disabled="true"/>
+					</p:column>
+					
+					<p:column width="10%">
+					<p:commandButton icon="ui-icon-trash" process="@this"
+					oncomplete="PF('confirmacaoRemocaoEndereco').show(); return false;">
+					<f:setPropertyActionListener target="#{cadastroFornecedorControlador.enderecoSelecionado}" value="#{endereco}"/>
+					</p:commandButton>
+					</p:column>
+					</p:dataTable>
+					
+					<p:confirmDialog header="Remover Endereço" message="Tem certeza que deseja remover o endereço?"
+					widgetVar="confirmacaoRemocaoEndereco" id="confirmacaoRemocaoEnderecoDialog">
+					<p:button icon="ui-icon-cancel" value="Não" onclick="PF('confirmacaoRemocaoEndereco').hide(); return false;"/>
+					<p:commandButton icon="ui-icon-check" value="Sim" oncomplete="PF('confirmacaoRemocaoEndereco').hide(); return false;"
+					action="#{cadastroFornecedorControlador.removerEnderecoDaLista()}" update="tabelaEnderecos" process="@this"/>
+					</p:confirmDialog>
 				</p:tab>
 				<!--Fim Tab endereco -->
 				

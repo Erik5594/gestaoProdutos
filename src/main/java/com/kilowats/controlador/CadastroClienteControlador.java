@@ -115,10 +115,6 @@ public @Data class CadastroClienteControlador implements Serializable{
 		return bloqueiaEnderecoGeral || cepEncontrado;
 	}
 	
-	public void pesquisar(){
-		throw new RuntimeException("Cliente não pode pesquisado, pois ainda não foi implementado.");
-	}
-	
 	public String carregaMascaraCnpjOuCpfPrimefaces(){
 		return mascaraPrimefacesCnpjOuCpf(tpPessoa);
 	}

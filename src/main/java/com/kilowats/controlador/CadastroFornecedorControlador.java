@@ -13,6 +13,9 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import lombok.Data;
+
+import com.kilowats.entidades.Cep;
 import com.kilowats.entidades.Cidade;
 import com.kilowats.entidades.EmailFornecedor;
 import com.kilowats.entidades.EnderecoFornecedor;
@@ -20,15 +23,18 @@ import com.kilowats.entidades.Fornecedor;
 import com.kilowats.entidades.TelefoneFornecedor;
 import com.kilowats.enuns.TipoPessoa;
 import com.kilowats.enuns.TipoTelefoneEnum;
+import com.kilowats.servicos.ServicosCep;
+import com.kilowats.servicos.ServicosCidade;
 import com.kilowats.servicos.ServicosEmail;
 import com.kilowats.servicos.ServicosEndereco;
 import com.kilowats.servicos.ServicosFornecedor;
 import com.kilowats.servicos.ServicosTelefone;
+import com.kilowats.util.Utils;
 import com.kilowats.util.jsf.FacesUtils;
 
 @Named
 @ViewScoped
-public class CadastroFornecedorControlador implements Serializable{
+public @Data class CadastroFornecedorControlador implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -36,16 +42,15 @@ public class CadastroFornecedorControlador implements Serializable{
 	private Fornecedor empresa;
 	@Inject
 	private EnderecoFornecedor endereco;
+	private EnderecoFornecedor enderecoSelecionado;
 	@Inject
 	private TelefoneFornecedor telefone;
+	private TelefoneFornecedor telefoneSelecionado;
 	@Inject
 	private Cidade cidade;
 	@Inject
 	private EmailFornecedor email;
-	@Inject
 	private EmailFornecedor emailSelecionado;
-	@Inject
-	private TelefoneFornecedor telefoneSelecionado;
 	@Inject
 	private ServicosEmail servicosEmail;
 	@Inject
@@ -54,13 +59,46 @@ public class CadastroFornecedorControlador implements Serializable{
 	private ServicosEndereco servicosEndereco;
 	@Inject
 	private ServicosFornecedor servicosFornecedor;
+	@Inject
+	private ServicosCidade servicosCidade;
+	@Inject
+	private ServicosCep servicosCep;
+	@Inject
+	private Cep cep;
 	
 	private List<TelefoneFornecedor> telefones = new ArrayList<>();
 	private List<EmailFornecedor> emails = new ArrayList<>();
+	private List<EnderecoFornecedor> enderecos = new ArrayList<>();
 	private int tpPessoa;
 	
-	private final String TITULO = "Cadastro Fornecedor: ";
+	private final String TITULO = tituloTela();
 	private final String ERRO_INTERNO = "Erro interno: erro interno contate a administração do sistema!";
+	
+	private boolean bloqueiaEnderecoGeral;
+	private boolean bloqPesquisaCep;
+	private boolean cepEncontrado;
+	private boolean enderecoEntrega;
+	
+	{
+		bloqueiaEnderecoGeral = true;
+		bloqPesquisaCep = true;
+		cepEncontrado = true;
+		enderecoEntrega = false;
+	}
+	
+	private void inicializarVariaveis(){
+		empresa = new Fornecedor();
+		cep = new Cep();
+		cidade = new Cidade();
+		enderecos = new ArrayList<>();
+		telefones = new ArrayList<>();
+		emails = new ArrayList<>();
+		enderecoEntrega = false;
+		bloqueiaEnderecoGeral = true;
+		bloqPesquisaCep = true;
+		cepEncontrado = true;
+		enderecoEntrega = false;
+	}
 	
 	public String carregaMascaraCnpjOuCpfPrimefaces(){
 		return mascaraPrimefacesCnpjOuCpf(tpPessoa);
@@ -104,25 +142,65 @@ public class CadastroFornecedorControlador implements Serializable{
 		}
 		emails.add(email);
 	}
+	
+	public void habilitaPesquisaCep(){
+		inicializarEndereco(false);
+	}
+	
+	public boolean isBloqueioNivel1(){
+		return bloqueiaEnderecoGeral || cepEncontrado;
+	}
 
 	public void salvar(){
-		endereco.getCep().setCidade(cidade);
-		if(validacoes()){
-			completarDadosEmpresa();
+		completarDadosEmpresa();
+		if(servicosFornecedor.validarFornecedor(empresa, TITULO, true)){
 			empresa = servicosFornecedor.persistirFornecedor(this.empresa);
 			if(isNotNullOrEmpty(empresa) && empresa.getId() > 0L){
-				FacesUtils.sendMensagemOk(TITULO, "Fornecedor cadastrado com suceso!");
+				inicializarVariaveis();
+				FacesUtils.sendMensagemOk(TITULO, String.format("Fornecedor %s com suceso!", editar() ? "editado":"cadastrado"));
 			}else{
 				FacesUtils.sendMensagemOk(TITULO, ERRO_INTERNO);
 			}
 		}
 	}
+	private List<EnderecoFornecedor> ajustaDadosEndereco() {
+		List<EnderecoFornecedor> enderecosAjustados = new ArrayList<>();
+		for(EnderecoFornecedor ender : enderecos){			
+			if(Utils.isNotNull(ender)){
+				if(ender.isCepGeral()){
+					Cep cep2 = servicosCep.pesquisarCepByCep(ender.getCep().getCep());
+					ender.setBairro(ender.getCep().getBairro());
+					ender.setRua(ender.getCep().getRua());
+					ender.setCep(cep2);
+				}else if(ender.isCepByFaixa()){
+					Cep cep2 = new Cep(ender.getCep().getCep());
+					cep2.setCidade(servicosCidade.pesquisarMunicipioByFaixaCep(cep2.getCep()));
+					ender.setBairro(ender.getCep().getBairro());
+					ender.setRua(ender.getCep().getRua());
+					ender.setCep(cep2);
+				}
+				enderecosAjustados.add(ender);
+			}
+		}
+		return enderecosAjustados;
+	}
+	
+	public void removerEnderecoDaLista(){
+		if(Utils.isNotNull(enderecoSelecionado) && Utils.isNotNullOrEmpty(enderecoSelecionado.getCep()) && Utils.isNotNullOrEmpty(enderecos)){
+			List<EnderecoFornecedor> novaListaEndereco = new ArrayList<>();
+			for(EnderecoFornecedor enderecoValidacao : enderecos){
+				if(!enderecoValidacao.getCep().getCep().equals(enderecoSelecionado.getCep().getCep())){
+					novaListaEndereco.add(enderecoValidacao);
+				}
+			}
+			enderecos = new ArrayList<>();
+			enderecos = novaListaEndereco;
+		}
+	}
 
 	private void completarDadosEmpresa() {
-		this.endereco.getCep().setCidade(this.cidade);
-		List<EnderecoFornecedor> enderecos = new ArrayList<>();
-		enderecos.add(endereco);
-		this.empresa.setEndereco(enderecos);
+		enderecos = ajustaDadosEndereco();
+		empresa.setEndereco(enderecos);
 		if(this.tpPessoa == 0){
 			this.empresa.setFisicaJuridica(TipoPessoa.FISICA);
 		}else{
@@ -134,6 +212,7 @@ public class CadastroFornecedorControlador implements Serializable{
 		if (!this.emails.isEmpty()) {
 			this.empresa.setEmails(this.emails);
 		}
+		empresa.setCgcCpf(empresa.getCgcCpf().replaceAll("\\D", ""));
 	}
 
 	private boolean validarEndereco() {
@@ -151,105 +230,93 @@ public class CadastroFornecedorControlador implements Serializable{
 		return servicosFornecedor.validarFornecedor(empresa, TITULO, true);
 	}
 	
-	public List<String> carregarEstados(){
-		List<String> ufs = new ArrayList<>();
-		ufs.add("GO");
-		ufs.add("SP");
-		ufs.add("MG");
-		ufs.add("RJ");
-		return ufs;
+	public void buscarEnderecoByCep(){
+		if(Utils.isNotNullOrEmpty(cep.getCep())){
+			pesquisarCepBancoDados();
+		}else{
+			FacesUtils.sendMensagemError(TITULO, "Cep não informado!");
+		}
 	}
 	
-	public List<String> carregarCidades() {
-		List<String> cidades = new ArrayList<>();
-		if (cidade != null
-				&& (cidade.getUf() != null && !"".equals(cidade.getUf()))) {
-			String uf = cidade.getUf();
-			if (uf.toUpperCase().equals("GO")) {
-				cidades.add("Goiânia");
-				cidades.add("Aparecida de Goiânia");
-				cidades.add("Trindade");
+	private void pesquisarCepBancoDados() {
+		long numrCep = cep.getCep();
+		cep = servicosCep.pesquisarCepByCep(numrCep);
+		if(Utils.isNullOrEmpty(cep)){
+			cep = new Cep(numrCep);
+			cidade = servicosCidade.pesquisarMunicipioByCepGeral(numrCep);
+			if(Utils.isNullOrEmpty(cidade)){
+				cidade = servicosCidade.pesquisarMunicipioByFaixaCep(numrCep);
+				if(Utils.isNullOrEmpty(cidade)){
+					FacesUtils.sendMensagemError(TITULO, "Cep inválido!");
+					inicializarEndereco(true);
+				}else{
+					cep.setCidade(cidade);
+					acaoCepByFaixaEncontrado();
+				}
+			}else{
+				cep.setCidade(cidade);
+				acaoCepGeralEncontrado();
 			}
-
-			if (uf.toUpperCase().equals("SP")) {
-				cidades.add("São Paulo");
-				cidades.add("Santos");
-				cidades.add("Guarulhos");
-			}
-
-			if (uf.toUpperCase().equals("MG")) {
-				cidades.add("Belo Horizonte");
-				cidades.add("Formiga");
-				cidades.add("Teófilo Otoni");
-			}
-
-			if (uf.toUpperCase().equals("RJ")) {
-				cidades.add("Rio de Janeiro");
-				cidades.add("Macae");
-				cidades.add("Cabo Frio");
-			}
+		}else{
+			acaoCepEncontrado();
 		}
-		return cidades;
+	}
+	
+	private void inicializarEndereco(boolean var) {
+		cep = new Cep();
+		cidade = new Cidade();
+		this.endereco = new EnderecoFornecedor();
+		bloqPesquisaCep = var;
+		cepEncontrado = true;
+		bloqueiaEnderecoGeral = true;
+		enderecoEntrega = false;
+	}
+	
+	private void acaoCepByFaixaEncontrado() {
+		FacesUtils.sendMensagemAviso(TITULO, "Cep por faixa encontrado!");
+		endereco.setCepGeral(false);
+		endereco.setCepByFaixa(true);
+		habilitaEdicaoCepGeralOrFaixa();
 	}
 
-	public Fornecedor getEmpresa() {
-		return empresa;
+	private void acaoCepGeralEncontrado() {
+		FacesUtils.sendMensagemAviso(TITULO, "Cep geral informado!");
+		endereco.setCepGeral(true);
+		endereco.setCepByFaixa(false);
+		habilitaEdicaoCepGeralOrFaixa();
 	}
-	public void setEmpresa(Fornecedor empresa) {
-		this.empresa = empresa;
+	
+	public boolean editar(){
+		if(Utils.isNotNull(empresa)){
+			return Utils.isNotNullOrEmpty(empresa.getId());
+		}
+		return false;
 	}
-	public EnderecoFornecedor getEndereco() {
-		return endereco;
+
+	private void acaoCepEncontrado() {
+		if(Utils.isNotNullOrEmpty(cep.getCidade()) && cep.getCidade().getCepInicial().equals(cep.getCidade().getCepFinal())){
+			acaoCepGeralEncontrado();
+		}else{
+			habilitaEdicaoComplemento();
+		}
 	}
-	public void setEndereco(EnderecoFornecedor endereco) {
-		this.endereco = endereco;
+	
+	private void habilitaEdicaoCepGeralOrFaixa() {
+		bloqueiaEnderecoGeral = false;
+		bloqPesquisaCep = true;
+		cepEncontrado = false;
 	}
-	public TelefoneFornecedor getTelefone() {
-		return telefone;
+
+	private void habilitaEdicaoComplemento() {
+		cepEncontrado = true;
+		bloqPesquisaCep = true;
+		bloqueiaEnderecoGeral = false;
 	}
-	public void setTelefone(TelefoneFornecedor telefone) {
-		this.telefone = telefone;
-	}
-	public Cidade getCidade() {
-		return cidade;
-	}
-	public void setCidade(Cidade cidade) {
-		this.cidade = cidade;
-	}
-	public List<TelefoneFornecedor> getTelefones() {
-		return telefones;
-	}
-	public void setTelefones(List<TelefoneFornecedor> telefones) {
-		this.telefones = telefones;
-	}
-	public TelefoneFornecedor getTelefoneSelecionado() {
-		return telefoneSelecionado;
-	}
-	public void setTelefoneSelecionado(TelefoneFornecedor telefoneSelecionado) {
-		this.telefoneSelecionado = telefoneSelecionado;
-	}
-	public EmailFornecedor getEmail() {
-		return email;
-	}
-	public void setEmail(EmailFornecedor email) {
-		this.email = email;
-	}
-	public EmailFornecedor getEmailSelecionado() {
-		return emailSelecionado;
-	}
-	public void setEmailSelecionado(EmailFornecedor emailSelecionado) {
-		this.emailSelecionado = emailSelecionado;
-	}
-	public List<EmailFornecedor> getEmails() {
-		return emails;
-	}
-	public void setEmails(List<EmailFornecedor> emails) {
-		this.emails = emails;
-	}
-	public int getTpPessoa() {
-		return tpPessoa;
-	}
-	public void setTpPessoa(int tpPessoa) {
-		this.tpPessoa = tpPessoa;
+	
+	private String tituloTela() {
+		if(editar()){
+			return "Edição de Fornecedor: ";
+		}
+		return "Cadastro Fornecedor: ";
 	}
 }
