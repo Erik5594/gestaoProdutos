@@ -5,11 +5,16 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:o="http://omnifaces.org/ui">
 
 	<ui:define name="titulo">#{cadastroFornecedorControlador.editar() ? 'Edição':'Cadastro'} de Fornecedor</ui:define>
 
 	<ui:define name="conteudo">
+	
+		<f:metadata>
+    		<o:viewParam name="fornecedor" value="#{cadastroFornecedorControlador.empresa}" />
+    	</f:metadata>
 		<h:form id="frmCadastroFornecedor">
 			<p:messages id="mensagens" autoUpdate="true" closable="true"/>
 			<h1>#{cadastroFornecedorControlador.editar() ? 'Edição':'Cadastro'} de fornecedor</h1>
@@ -18,7 +23,7 @@
 				<!-- Inicio de grupo de Barra de opces a esquerda -->
 				<p:toolbarGroup>
 					<p:commandButton value="#{cadastroFornecedorControlador.editar() ? 'Editar':'Salvar'}" style="margin-right: 5px"
-					actionListener="#{cadastroFornecedorControlador.salvar()}"/>
+					actionListener="#{cadastroFornecedorControlador.salvar()}" update="@form"/>
 					<p:button value="Novo"
 						outcome="/pages/private/fornecedor/cadastro/CadastroFornecedor.xhtml" />
 				</p:toolbarGroup>
@@ -26,7 +31,7 @@
 				
 				<!-- Inicio de grupo de Barra de opces a Direita -->
 				<p:toolbarGroup align="right">
-					<p:commandButton value="Pesquisar" />
+					<p:button value="Pesquisar" outcome="/pages/private/fornecedor/pesquisa/PesquisaFornecedor"/>
 				</p:toolbarGroup>
 				<!-- Fim de grupo de Barra de opces a Direita -->
 			</p:toolbar>
@@ -45,7 +50,7 @@
 				<p:tab title="Dados Principais" id="principalTab">
 					<h:panelGrid columns="2" id="panelGridDadosFornecedor">
 						<p:outputLabel value="Nome: " for="nome" />
-						<p:inputText id="nome" style="width: 300px"
+						<p:inputText id="nome" style="width: 300px" onkeyup="this.value=this.value.toUpperCase();"
 						value="#{cadastroFornecedorControlador.empresa.nome}"/>
 						
 						<p:outputLabel value="Tipo: " for="tipo"/>
@@ -60,7 +65,8 @@
 						value="#{cadastroFornecedorControlador.empresa.cgcCpf}" style="width: 120px"/>
 
 						<p:outputLabel value="Insc. Etadual: " for="inscricaoEstadual" />
-						<p:inputText id="inscricaoEstadual" value="#{cadastroFornecedorControlador.empresa.inscricaoEstadual}"/>
+						<p:inputText id="inscricaoEstadual" onkeyup="this.value=this.value.toUpperCase();"
+						value="#{cadastroFornecedorControlador.empresa.inscricaoEstadual}"/>
 					</h:panelGrid>
 				</p:tab>
 				<!--Fim Tab Principal -->
@@ -219,7 +225,8 @@
 						<p:outputLabel value="E-mail: " for="email" />
 						<p:inputText id="email" value="#{cadastroFornecedorControlador.email.emailDestinatario}"/>
 						<p:outputLabel value="Nome Destinatário: " for="destinatarioEmail" style="margin-left: 8px"/>
-						<p:inputText id="destinatarioEmail" value="#{cadastroFornecedorControlador.email.nomePessoaDestinatario}"/>
+						<p:inputText id="destinatarioEmail" onkeyup="this.value=this.value.toUpperCase();"
+						value="#{cadastroFornecedorControlador.email.nomePessoaDestinatario}"/>
 						<p:commandButton icon="ui-icon-plus" actionListener="#{cadastroFornecedorControlador.adcionaEmail()}"
 						update="gridEmail tabelaEmails" process="gridEmail"/>
 					</h:panelGrid>

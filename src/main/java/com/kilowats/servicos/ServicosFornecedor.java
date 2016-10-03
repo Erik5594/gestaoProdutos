@@ -1,6 +1,7 @@
 package com.kilowats.servicos;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -24,5 +25,9 @@ public class ServicosFornecedor implements Serializable{
 	
 	public boolean validarFornecedor(Fornecedor empresa, String titulo, boolean mostrarMensagem){
 		return validar.validarCadastroComMensagem(empresa, titulo, mostrarMensagem);
+	}
+	
+	public List<Fornecedor> listarTodosFornecedores() {
+		return fornecedorDao.listarTodosFornecedores();
 	}
 }

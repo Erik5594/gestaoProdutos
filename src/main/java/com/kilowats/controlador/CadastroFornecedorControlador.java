@@ -106,6 +106,7 @@ public @Data class CadastroFornecedorControlador implements Serializable{
 	
 	public void adcionaTelefone(){
 		telefone.setTipoTelefone(TipoTelefoneEnum.COMERCIAL);
+		telefone.setFornecedor(empresa);
 		if(servicosTelefone.telefoneIsValido(telefone, TITULO, true)){
 			adcionaTelefoneList(this.telefone);
 		}
@@ -125,6 +126,7 @@ public @Data class CadastroFornecedorControlador implements Serializable{
 	}
 
 	public void adcionaEmail(){
+		email.setFornecedor(empresa);
 		if(servicosEmail.emailIsValido(email, TITULO, true)){
 			adcionaEmailList(this.email);
 		}
@@ -143,6 +145,27 @@ public @Data class CadastroFornecedorControlador implements Serializable{
 		emails.add(email);
 	}
 	
+	public void adcionaEndereco(){
+		endereco.setCep(cep);
+		endereco.setFornecedor(empresa);
+		if(servicosEndereco.enderecoIsValido(endereco, TITULO, true)){
+			adcionaEnderecoList(this.endereco);
+		}
+		inicializarEndereco(true);
+	}
+
+	public void adcionaEnderecoList(EnderecoFornecedor ender){
+		if(Utils.isNullOrEmpty(enderecos)){
+			enderecos = new ArrayList<>();
+		}else{
+			if(enderecos.contains(ender)){
+				FacesUtils.sendMensagemError(TITULO, "Validação Endereço: Endereço já adicionado!");
+				return;
+			}
+		}
+		enderecos.add(ender);
+	}
+	
 	public void habilitaPesquisaCep(){
 		inicializarEndereco(false);
 	}
@@ -157,7 +180,7 @@ public @Data class CadastroFornecedorControlador implements Serializable{
 			empresa = servicosFornecedor.persistirFornecedor(this.empresa);
 			if(isNotNullOrEmpty(empresa) && empresa.getId() > 0L){
 				inicializarVariaveis();
-				FacesUtils.sendMensagemOk(TITULO, String.format("Fornecedor %s com suceso!", editar() ? "editado":"cadastrado"));
+				FacesUtils.sendMensagemOk(TITULO, String.format("Fornecedor %s com sucesso!", editar() ? "editado":"cadastrado"));
 			}else{
 				FacesUtils.sendMensagemOk(TITULO, ERRO_INTERNO);
 			}
@@ -318,5 +341,14 @@ public @Data class CadastroFornecedorControlador implements Serializable{
 			return "Edição de Fornecedor: ";
 		}
 		return "Cadastro Fornecedor: ";
+	}
+	
+	public void setEmpresa(Fornecedor fornecedor){
+		this.empresa = fornecedor;
+		if(Utils.isNotNullOrEmpty(this.empresa)){
+			this.enderecos = this.empresa.getEndereco();
+			this.telefones = this.empresa.getTelefones();
+			this.emails = this.empresa.getEmails();
+		}
 	}
 }

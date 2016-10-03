@@ -1,7 +1,7 @@
 package com.kilowats.validadores;
 
 import com.kilowats.annotations.ValidarTelefone;
-import com.kilowats.entidades.TelefoneCliente;
+import com.kilowats.entidades.Telefone;
 import com.kilowats.interfaces.IValidacaoCadastro;
 import com.kilowats.util.jsf.FacesUtils;
 
@@ -39,7 +39,7 @@ public class ValidacaoCadastroTelefone implements IValidacaoCadastro {
 
 	@Override
 	public boolean validarCadastroComMensagem(Object obj, String titulo, boolean mostrarMensagem) {
-		TelefoneCliente telefone = (TelefoneCliente) obj;
+		Telefone telefone = (Telefone) obj;
 		boolean retorno = true;
 		if(telefone != null){
 			if(!isDddValido(telefone.getDdd())){
