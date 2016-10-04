@@ -18,7 +18,7 @@ import com.kilowats.util.jsf.FacesUtils;
 
 @Named
 @ViewScoped
-public @Data class EntradaProdutoControlador implements Serializable{
+public @Data class SaidaProdutoControlador implements Serializable{
 
 	/**
 	 * 
@@ -36,7 +36,7 @@ public @Data class EntradaProdutoControlador implements Serializable{
 	
 	private List<Produto> produtos;
 	
-	private String TITULO = "Movimentação Entrada Produto: ";
+	private String TITULO = "Movimentação Saída Produto: ";
 	private final String ERRO_INTERNO = "Erro interno: erro interno contate a administração do sistema!";
 	
 	public void buscarProduto(){
@@ -93,5 +93,4 @@ public @Data class EntradaProdutoControlador implements Serializable{
 		}
 		produtos.add(produto);
 	}
-
 }

@@ -24,6 +24,11 @@ public class ValidacaoCadastroEan implements IValidacaoCadastro {
 					FacesUtils.sendMensagemError(titulo, "Código de Barras está vazio!");
 				}
 				retorno = false;
+			}else if(ean.getCodBarras().length() < 13){
+				if(mostrarMensagem){
+					FacesUtils.sendMensagemError(titulo, "Código de Barras inválido!");
+				}
+				retorno = false;
 			}
 		return retorno;
 	}

@@ -33,7 +33,12 @@ public class ValidacaoCadastroProduto implements IValidacaoCadastro {
 			}
 			retorno = false;
 		}
-		if(isNotNullOrEmpty(produto.getCodProduto()) && produto.getCodProduto().length() > 10){
+		if(isNullOrEmpty(produto.getCodProduto())){
+			if(mostrarMensagem){
+				FacesUtils.sendMensagemError(titulo, "Código do produto inválido.");
+			}
+			retorno = false;
+		}else if(produto.getCodProduto().length() > 10){
 			if(mostrarMensagem){
 				FacesUtils.sendMensagemError(titulo, "Código do produto muito longo. (máximo 10 caracteres)");
 			}

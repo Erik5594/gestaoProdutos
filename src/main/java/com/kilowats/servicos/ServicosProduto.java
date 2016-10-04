@@ -30,4 +30,12 @@ public class ServicosProduto implements Serializable{
 	public List<Produto> listarTodosProdutos() {
 		return produtoDao.listarTodosProdutos();
 	}
+	
+	public Produto pesquisaProdutoByCodProduto(String codProduto){
+		return produtoDao.pesquisarByCodProd(codProduto);
+	}
+	
+	public void persistirListaProduto(List<Produto> produtos){
+		produtoDao.salvarOrUpdateLista(produtos);
+	}
 }

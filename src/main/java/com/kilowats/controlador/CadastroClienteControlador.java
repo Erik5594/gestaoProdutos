@@ -306,7 +306,7 @@ public @Data class CadastroClienteControlador implements Serializable{
 			cliente = servicosCliente.persistirCliente(cliente);
 			if(isNotNullOrEmpty(cliente) && cliente.getId() > 0L){
 				inicializarVariaveis();
-				FacesUtils.sendMensagemOk(TITULO, String.format("Cliente %s com suceso!", editar() ? "editado":"cadastrado"));
+				FacesUtils.sendMensagemOk(TITULO, String.format("Cliente %s com sucesso!", editar() ? "editado":"cadastrado"));
 			}else{
 				FacesUtils.sendMensagemError(TITULO, ERRO_INTERNO);
 			}

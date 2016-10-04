@@ -6,6 +6,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
+import com.kilowats.entidades.Cep;
 import com.kilowats.entidades.Produto;
 import com.kilowats.util.Utils;
 
@@ -38,5 +39,19 @@ public class ProdutoDao {
 	
 	private void deletarEansProduto(Produto produto){
 		manager.createQuery(String.format(SQL_DELETE, "Ean")).setParameter("produto", produto).executeUpdate();
+	}
+	
+	public Produto pesquisarByCodProd(String codProduto){
+		return manager.createQuery("from Produto where codProduto = :codProduto", Produto.class)
+		.setParameter("codProduto", codProduto).getSingleResult();
+	}
+	
+	public void salvarOrUpdateLista(List<Produto> produtos) {
+		EntityTransaction entityTransaction = manager.getTransaction();
+		entityTransaction.begin();
+		for(Produto produto : produtos){
+			produto = manager.merge(produto);
+		}
+		entityTransaction.commit();
 	}
 }
