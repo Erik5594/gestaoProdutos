@@ -19,7 +19,7 @@
 			<p:toolbar style="margin-bottom: 20px">
 				<!-- Inicio de grupo de Barra de opces a esquerda -->
 				<p:toolbarGroup>
-					<p:commandButton value="Salvar" style="margin-right: 5px" 
+					<p:commandButton value="Salvar" style="margin-right: 5px" process="@this tabelaSaidaProdutos"
 					update="@form" actionListener="#{saidaProdutoControlador.alterarProdutos()}"/>
 					<p:button value="Novo"
 						outcome="/pages/private/produto/movimentacao/CadastroSaidaProduto.xhtml" />
@@ -27,7 +27,7 @@
 				<!-- Fim de grupo de Barra de opces a esquerda -->
 				
 				<!-- Inicio de grupo de Barra de opces a Direita -->
-				<p:toolbarGroup align="right">
+				<p:toolbarGroup align="right" rendered="false">
 					<p:commandButton value="Pesquisar" />
 				</p:toolbarGroup>
 				<!-- Fim de grupo de Barra de opces a Direita -->
