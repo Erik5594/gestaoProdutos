@@ -24,7 +24,7 @@ public @Data class Veiculo implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id @GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+	private Long id;
 	@Column(nullable=false, length=7, unique=true)
 	private String placa;
 	@Column(length=21, unique=true, nullable=false)
@@ -34,6 +34,8 @@ public @Data class Veiculo implements Serializable{
 	private TipoVeiculo tipoVeiculo;
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Cliente cliente;
+	@ManyToOne(cascade = CascadeType.ALL)
+	private Contrato contrado; 
 	
 	@Override
 	public int hashCode() {

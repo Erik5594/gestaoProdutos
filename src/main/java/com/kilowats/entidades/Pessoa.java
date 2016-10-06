@@ -1,6 +1,7 @@
 package com.kilowats.entidades;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 import lombok.Data;
@@ -31,4 +34,8 @@ public @Data class Pessoa implements Serializable{
 	private TipoPessoa fisicaJuridica;//0fisica; 1juridica
 	@NotNull @Column(name="status", length=1, nullable=false)
 	private int status;//1ativo;0inativo
+	@Temporal(TemporalType.TIMESTAMP) @Column(name="data_credenciamento", nullable=false)
+	private Date dataCredenciamento;
+	@Temporal(TemporalType.TIMESTAMP) @Column(name="data_credenciamento", nullable=false)
+	private Date ultimaAtualizacao;
 }
