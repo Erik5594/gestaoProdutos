@@ -7,7 +7,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
 import com.kilowats.entidades.Fornecedor;
-import com.kilowats.entidades.Fornecedor;
 import com.kilowats.util.Utils;
 
 

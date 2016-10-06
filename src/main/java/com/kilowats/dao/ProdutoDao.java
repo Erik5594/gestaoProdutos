@@ -6,7 +6,6 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
-import com.kilowats.entidades.Cep;
 import com.kilowats.entidades.Produto;
 import com.kilowats.util.Utils;
 

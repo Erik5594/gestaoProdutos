@@ -6,9 +6,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
@@ -34,7 +36,8 @@ public @Data class Chip implements Serializable{
 	private String imei;
 	@NotNull @Enumerated(EnumType.STRING)
 	private Operadora operadora;
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="id_rastreador", nullable=true)
 	private Rastreador rastreador;
 	
 	@Override

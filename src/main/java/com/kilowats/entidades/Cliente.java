@@ -23,6 +23,4 @@ public @Data class Cliente extends Pessoa {
 	private List<TelefoneCliente> telefones;
 	@OneToMany(mappedBy="cliente", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	private List<EmailCliente> emails;
-	@OneToMany(mappedBy="cliente", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-	private List<Contrato> contratos;
 }

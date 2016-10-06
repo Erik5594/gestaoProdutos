@@ -7,9 +7,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -32,10 +34,9 @@ public @Data class Veiculo implements Serializable{
 	@Enumerated(EnumType.ORDINAL)
 	@Column(name="tipo_veiculo")
 	private TipoVeiculo tipoVeiculo;
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	@JoinColumn(name="id_cliente", nullable=false)
 	private Cliente cliente;
-	@ManyToOne(cascade = CascadeType.ALL)
-	private ContratoRastreamentoVeiculo contrado;
 	
 	@Override
 	public int hashCode() {

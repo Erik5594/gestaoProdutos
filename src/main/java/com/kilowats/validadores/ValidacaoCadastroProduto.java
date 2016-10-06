@@ -1,6 +1,5 @@
 package com.kilowats.validadores;
 
-import static com.kilowats.util.Utils.isNotNullOrEmpty;
 import static com.kilowats.util.Utils.isNullOrEmpty;
 
 import com.kilowats.annotations.ValidarProduto;
