@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import lombok.Data;
@@ -21,6 +22,7 @@ import com.kilowats.enuns.Operadora;
 
 @ProdutoChip
 @Entity
+@Table(name="chip")
 public @Data class Chip implements Serializable{
 	
 	private static final long serialVersionUID = 1L;

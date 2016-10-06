@@ -15,7 +15,7 @@ import javax.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Table(name="ordem_servico")
+@Table(name="itens_ordem_servico")
 public @Data class ItensOrdemServico implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
