@@ -35,7 +35,7 @@ public @Data class Veiculo implements Serializable{
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Cliente cliente;
 	@ManyToOne(cascade = CascadeType.ALL)
-	private Contrato contrado; 
+	private ContratoRastreamentoVeiculo contrado;
 	
 	@Override
 	public int hashCode() {

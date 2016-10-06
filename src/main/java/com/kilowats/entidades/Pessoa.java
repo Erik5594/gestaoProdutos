@@ -34,8 +34,10 @@ public @Data class Pessoa implements Serializable{
 	private TipoPessoa fisicaJuridica;//0fisica; 1juridica
 	@NotNull @Column(name="status", length=1, nullable=false)
 	private int status;//1ativo;0inativo
-	@Temporal(TemporalType.TIMESTAMP) @Column(name="data_credenciamento", nullable=false)
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="data_credenciamento", nullable=false, columnDefinition="TIMESTAMP WITH TIME ZONE")
 	private Date dataCredenciamento;
-	@Temporal(TemporalType.TIMESTAMP) @Column(name="data_credenciamento", nullable=false)
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="data_ultima_atualizacao", nullable=false, columnDefinition="TIMESTAMP WITH TIME ZONE")
 	private Date ultimaAtualizacao;
 }

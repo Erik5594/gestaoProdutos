@@ -2,19 +2,20 @@ package com.kilowats.entidades;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.FetchType;
+import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import lombok.Data;
 
+@Entity @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public @Data class Contrato implements Serializable{
 
 	private static final long serialVersionUID = 1L;
