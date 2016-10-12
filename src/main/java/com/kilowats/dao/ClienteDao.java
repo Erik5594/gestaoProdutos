@@ -10,16 +10,16 @@ import com.kilowats.entidades.Cliente;
 import com.kilowats.util.Utils;
 
 public class ClienteDao {
-	
-	private final static String SQL_DELETE = "delete %s where cliente = :cliente"; 
+
+	private final static String SQL_DELETE = "delete %s where cliente = :cliente";
 
 	@Inject
 	private EntityManager manager;
-	
+
 	public Cliente salvarOrUpdate(Cliente cliente) {
 		EntityTransaction entityTransaction = manager.getTransaction();
 		entityTransaction.begin();
-		if(Utils.isNotNullOrEmpty(cliente.getId())){
+		if (Utils.isNotNullOrEmpty(cliente.getId())) {
 			deletarEnderecosCliente(cliente);
 			deletarTelefonesCliente(cliente);
 			deletarEmailsCliente(cliente);
@@ -35,23 +35,28 @@ public class ClienteDao {
 	}
 
 	public List<Cliente> listarTodosClientes() {
-		return manager.createQuery("from Cliente", Cliente.class).getResultList();
+		return manager.createQuery("from Cliente", Cliente.class)
+				.getResultList();
 	}
-	
-	private void deletarEnderecosCliente(Cliente cliente){
-		manager.createQuery(String.format(SQL_DELETE, "EnderecoCliente")).setParameter("cliente", cliente).executeUpdate();
+
+	private void deletarEnderecosCliente(Cliente cliente) {
+		manager.createQuery(String.format(SQL_DELETE, "EnderecoCliente"))
+				.setParameter("cliente", cliente).executeUpdate();
 	}
-	
-	private void deletarTelefonesCliente(Cliente cliente){
-		manager.createQuery(String.format(SQL_DELETE, "TelefoneCliente")).setParameter("cliente", cliente).executeUpdate();
+
+	private void deletarTelefonesCliente(Cliente cliente) {
+		manager.createQuery(String.format(SQL_DELETE, "TelefoneCliente"))
+				.setParameter("cliente", cliente).executeUpdate();
 	}
-	
-	private void deletarEmailsCliente(Cliente cliente){
-		manager.createQuery(String.format(SQL_DELETE, "EmailCliente")).setParameter("cliente", cliente).executeUpdate();
+
+	private void deletarEmailsCliente(Cliente cliente) {
+		manager.createQuery(String.format(SQL_DELETE, "EmailCliente"))
+				.setParameter("cliente", cliente).executeUpdate();
 	}
-	
-	private void deletarVeiculosCliente(Cliente cliente){
-		manager.createQuery(String.format(SQL_DELETE, "Veiculo")).setParameter("cliente", cliente).executeUpdate();
+
+	private void deletarVeiculosCliente(Cliente cliente) {
+		manager.createQuery(String.format(SQL_DELETE, "Veiculo"))
+				.setParameter("cliente", cliente).executeUpdate();
 	}
 
 }

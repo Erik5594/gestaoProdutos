@@ -11,7 +11,8 @@ public class EanDao {
 	private EntityManager manager;
 
 	public Ean pesquisarCepByCodBarras(String codBarras) {
-		return manager.createQuery("from Ean where codBarras = :codBarras", Ean.class)
+		return manager
+				.createQuery("from Ean where codBarras = :codBarras", Ean.class)
 				.setParameter("codBarras", codBarras).getSingleResult();
 	}
 }

@@ -77,6 +77,7 @@ public class CadastroUsuarioControlador implements Serializable {
 	private void limpar() {
 		usuario = new Usuario();
 		gruposSelecionado = new ArrayList<>();
+		ids = null;
 	}
 	public String[] getIds() {
 		return ids;

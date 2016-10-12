@@ -8,7 +8,7 @@ import javax.persistence.NoResultException;
 import com.kilowats.entidades.Usuario;
 
 public class UsuarioDao {
-	
+
 	@Inject
 	private EntityManager manager;
 
@@ -18,24 +18,25 @@ public class UsuarioDao {
 		usuario = (Usuario) manager.merge(usuario);
 		entityTransaction.commit();
 		return usuario;
-	}	
+	}
 
 	public boolean deletar(Usuario usuario) {
 		boolean retorno = true;
-		try{
+		try {
 			manager.remove(usuario);
-		}catch(Exception e){
+		} catch (Exception e) {
 			retorno = false;
 		}
 		return retorno;
 	}
-	
 
 	public Usuario porEmail(String email) {
 		try {
-			return manager.createQuery("from Usuario where upper(email) = :email", Usuario.class)
-				.setParameter("email", email.toUpperCase())
-				.getSingleResult();
+			return manager
+					.createQuery("from Usuario where upper(email) = :email",
+							Usuario.class)
+					.setParameter("email", email.toUpperCase())
+					.getSingleResult();
 		} catch (NoResultException e) {
 			return null;
 		}
@@ -44,5 +45,5 @@ public class UsuarioDao {
 	public Usuario pesquisarById(Long id) {
 		return (Usuario) manager.find(Usuario.class, id);
 	}
-	
+
 }

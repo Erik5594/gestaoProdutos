@@ -22,9 +22,9 @@ public class GrupoDao {
 
 	public boolean deletar(Grupo grupo) {
 		boolean retorno = true;
-		try{
+		try {
 			manager.remove(grupo);
-		}catch(Exception e){
+		} catch (Exception e) {
 			retorno = false;
 		}
 		return retorno;
@@ -33,8 +33,8 @@ public class GrupoDao {
 	public Grupo pesquisarById(Long id) {
 		return (Grupo) manager.find(Grupo.class, id);
 	}
-	
-	public List<Grupo> todos(){
+
+	public List<Grupo> todos() {
 		return manager.createQuery("from Grupo", Grupo.class).getResultList();
 	}
 }

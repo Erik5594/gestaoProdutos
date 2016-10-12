@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/WEB-INF/templates/Layout.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<ui:define name="titulo">Cadastro de chip</ui:define>
+
+	<ui:define name="conteudo">
+		<h:form id="frmCadastroChip">
+			<p:messages id="mensagens" autoUpdate="true" for="mensageError"/>
+			<p:messages id="mensagensPadrao" autoUpdate="true"/>
+			<p:growl for="growMensage"/>
+			<h1>Cadastro de chip</h1>
+			<!-- Inicio Barra de opoces -->
+			<p:toolbar style="margin-bottom: 20px">
+				<!-- Inicio de grupo de Barra de opces a esquerda -->
+				<p:toolbarGroup>
+					<p:commandButton value="Salvar" style="margin-right: 5px" 
+					actionListener="#{cadastroChipControlador.salvar()}" update="@form"/>
+					<p:button value="Novo"
+						outcome="/pages/private/rastreamento/cadastro/CadastroChip.xhtml" />
+				</p:toolbarGroup>
+				<!-- Fim de grupo de Barra de opces a esquerda -->
+				
+				<!-- Inicio de grupo de Barra de opces a Direita -->
+				<p:toolbarGroup align="right">
+					<p:commandButton value="Pesquisar" />
+				</p:toolbarGroup>
+				<!-- Fim de grupo de Barra de opces a Direita -->
+			</p:toolbar>
+			<!-- Fim Barra de opcoes -->
+			<h1>Em Manutenção</h1>
+			<h:panelGrid columns="5" id="panelChipConsulta" style="margin-bottom: 15px" rendered="true">
+				<p:outputLabel value="Cod. Interno Produto " for="codIntProduto" />
+				<p:inputText id="codIntProduto" style="width: 60px"
+				value="#{cadastroChipControlador.codInternoProduto}"/>
+				
+				<p:outputLabel value="Código " for="codProduto" />
+				<p:inputText id="codProduto" style="width: 60px" maxlength="10"
+				value="#{cadastroChipControlador.codProduto}"/>
+				
+				<p:commandButton value="Buscar" icon="ui-icon-search"
+				actionListener="#{cadastroChipControlador.buscarProduto()}"
+				update="@form" process="panelChipConsulta"/>
+			</h:panelGrid>
+			
+			<h:panelGrid columns="2" id="panelChipIdentificacao" style="margin-bottom: 15px"
+			rendered="#{cadastroChipControlador.mostrarConteudo}">
+				<p:outputLabel value="Nome " for="nomeProduto" />
+				<p:inputText id="nomeProduto" size="60" disabled="true"
+				value="#{cadastroChipControlador.chip.nomeProduto}"/>
+			</h:panelGrid>
+			
+			<p:panel rendered="#{cadastroChipControlador.mostrarConteudo}" style="margin-bottom: 15px">
+			<h:panelGrid columns="2" id="panelChip" style="margin-bottom: 15px">
+				<p:outputLabel value="Imei " for="imeiChip" />
+				<p:inputText id="imeiChip" size="15"
+				value="#{cadastroChipControlador.chip.imei}"/>
+				
+				<p:outputLabel value="DDD " for="dddChip" />
+				<p:inputMask id="dddChip" size="3" maxlength="2" mask="(99)"
+				value="#{cadastroChipControlador.ddd}"/>
+				
+				<p:outputLabel value="Número " for="numeroChip" />
+				<p:inputMask id="numeroChip" size="9" mask="99999-9999"
+				value="#{cadastroChipControlador.numero}"/>
+				
+				<p:outputLabel value="Operadora " for="operadora" />
+				<p:selectOneMenu id="operadora" converter="converterOperadora" 
+				value="#{cadastroChipControlador.chip.operadora}">
+				<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>
+				<f:selectItem itemLabel="Claro" itemValue="CLARO"/>
+				<f:selectItem itemLabel="Oi" itemValue="OI"/>
+				<f:selectItem itemLabel="Tim" itemValue="TIM"/>
+				<f:selectItem itemLabel="Vivo" itemValue="VIVO"/>
+				</p:selectOneMenu>
+			</h:panelGrid>
+			<center>
+			<p:commandButton value="Adicionar" icon="ui-icon-check"
+			actionListener="#{cadastroChipControlador.adicionarChip()}"
+			process="@this panelChip"
+			update="panelChip tabelaChips"/>
+			</center>
+			</p:panel>
+			<!-- Fim Panel Produto -->
+			
+				<p:dataTable id="tabelaChips" var="chip1" style="width: 800px"
+					rendered="#{cadastroChipControlador.mostrarConteudo}"
+					value="#{cadastroChipControlador.chips}"
+					emptyMessage="Nenhum chip adicionado">
+					<p:column headerText="Imei">
+						<p:outputLabel value="#{chip1.imei}" />
+					</p:column>
+					<p:column headerText="DDD">
+						<p:outputLabel value="#{chip1.ddd}" />
+					</p:column>
+					<p:column headerText="Número">
+						<p:outputLabel value="#{chip1.numero}" />
+					</p:column>
+					<p:column headerText="Operadora">
+						<p:outputLabel value="#{chip1.operadora.operadora}" />
+					</p:column>
+					<p:column width="10%">
+						<p:commandButton icon="ui-icon-trash" />
+					</p:column>
+				</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>

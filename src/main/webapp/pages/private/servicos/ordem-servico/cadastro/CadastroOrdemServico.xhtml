@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/WEB-INF/templates/Layout.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<ui:define name="titulo">Nova Ordem Serviço</ui:define>
+
+	<ui:define name="conteudo">
+		<h:form id="frmCadastroNovaOrdemServico">
+			<p:messages id="mensagens" autoUpdate="true" for="mensageError"/>
+			<p:messages id="mensagensPadrao" autoUpdate="true"/>
+			<p:growl for="growMensage"/>
+			<h1>Nova Ordem Serviço</h1>
+			<!-- Inicio Barra de opoces -->
+			<ui:include src="/WEB-INF/templates/ordem-servico/BotoesOrdemServico.xhtml" />
+			<!-- Fim Barra de opcoes -->
+			
+			<h1>Em Manutenção</h1>
+			
+			<ui:include src="/WEB-INF/templates/ordem-servico/CapaOrdemServico.xhtml" />
+			
+			<p:tabView style="margin-top: 20px">
+	    		<p:tab title="Itens">
+	    			<ui:include src="/WEB-INF/templates/ordem-servico/ItensOrdemServico.xhtml" />
+	    		</p:tab>
+	    		<p:tab title="Observação">
+	    			<ui:include src="/WEB-INF/templates/ordem-servico/ObservacaoOrdemServico.xhtml" />
+	    		</p:tab>
+	    	</p:tabView>
+		</h:form>
+	</ui:define>
+</ui:composition>

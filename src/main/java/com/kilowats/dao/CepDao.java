@@ -12,7 +12,7 @@ public class CepDao {
 
 	@Inject
 	private EntityManager manager;
-	
+
 	public Cep salvarOrUpdate(Cep cep) {
 		EntityTransaction entityTransaction = manager.getTransaction();
 		entityTransaction.begin();
@@ -20,28 +20,27 @@ public class CepDao {
 		entityTransaction.commit();
 		return cep;
 	}
-	
+
 	public void salvar(Cep cep) {
 		EntityTransaction entityTransaction = manager.getTransaction();
 		entityTransaction.begin();
 		manager.persist(cep);
 		entityTransaction.commit();
 	}
-	
-	
+
 	public void salvarOrUpdateLista(List<Cep> ceps) {
 		EntityTransaction entityTransaction = manager.getTransaction();
 		entityTransaction.begin();
-		for(Cep cep : ceps){
+		for (Cep cep : ceps) {
 			cep = (Cep) manager.merge(cep);
 		}
 		entityTransaction.commit();
 	}
-	
+
 	public void salvarLista(List<Cep> ceps) {
 		EntityTransaction entityTransaction = manager.getTransaction();
 		entityTransaction.begin();
-		for(Cep cep : ceps){
+		for (Cep cep : ceps) {
 			manager.persist(cep);
 		}
 		entityTransaction.commit();

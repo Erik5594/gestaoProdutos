@@ -8,6 +8,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import com.kilowats.util.Utils;
+
 @ApplicationScoped
 public class EntityManagerProducer {
 
@@ -24,7 +26,9 @@ public class EntityManagerProducer {
 	}
 	
 	public void closeEntityManager(@Disposes EntityManager manager) {
-		manager.close();
+		if(Utils.isNotNull(manager) && manager.isOpen()){
+			manager.close();
+		}
 	}
 	
 }

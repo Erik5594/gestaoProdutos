@@ -39,14 +39,14 @@
 	<http auto-config="false" use-expressions="true">
 		<custom-filter ref="exceptionTranslationFilter" before="FILTER_SECURITY_INTERCEPTOR" />
 		
+		<intercept-url pattern="/erro.xhtml" access="permitAll" />
 		<intercept-url pattern="/Conteudo.xhtml" access="isAuthenticated()" />
 		<intercept-url pattern="/AcessoNegado.xhtml" access="isAuthenticated()" />
-		<intercept-url pattern="/pages/private/**" access="hasAnyRole('ADMINISTRADORES')" />
-		<intercept-url pattern="/**" access="denyAll" />
-		<intercept-url pattern="/erro.xhtml" access="permitAll" />
 		<intercept-url pattern="/desenvolvimento.xhtml" access="isAuthenticated()" />
 		<intercept-url pattern="/manutencao.xhtml" access="isAuthenticated()" />
 		<intercept-url pattern="/breve.xhtml" access="isAuthenticated()" />
+		<intercept-url pattern="/pages/private/**" access="hasAnyRole('ADMINISTRADORES')" />
+		<intercept-url pattern="/**" access="denyAll" />
 
 		<!-- Defino a tela de login -->
 		<form-login login-page="/Login.xhtml" default-target-url="/"

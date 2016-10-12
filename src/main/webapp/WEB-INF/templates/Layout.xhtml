@@ -62,6 +62,20 @@
 			Olá #{seguranca.getNome()}! </span>
 		<h:form style="display: inline-block;">
 			<p:menubar styleClass="menu-sistema" autoDisplay="false">
+				<p:submenu label="Serviços">
+					<p:submenu label="Ordem Serviço">
+						<p:menuitem value="Cadastro"
+							outcome="/pages/private/servicos/ordem-servico/cadastro/CadastroOrdemServico" />
+						<p:menuitem value="Pesquisa"
+							outcome="/pages/private/servicos/ordem-servico/pesquisa/PesquisaOrdemServico" />
+					</p:submenu>
+					<p:submenu label="Contratos">
+						<p:menuitem value="Cadastro"
+							outcome="/pages/private/servicos/contratos/cadastro/CadastroContrato" />
+						<p:menuitem value="Pesquisa"
+							outcome="/pages/private/servicos/contratos/pesquisa/PesquisaContrato" />
+					</p:submenu>
+				</p:submenu>
 				<p:submenu label="Cadastros">
 					<p:menuitem value="Cliente"
 						outcome="/pages/private/cliente/cadastro/CadastroCliente" />

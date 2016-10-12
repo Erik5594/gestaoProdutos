@@ -16,7 +16,7 @@ public class ValidacaoCadastroUsuario implements IValidacaoCadastro {
 		boolean retorno = true;
 		Usuario usuario = (Usuario) obj;
 		if(usuario != null){
-			if(!Utils.isEmailValido(usuario.getEmail())){
+			if(!Utils.isNomeValido(usuario.getEmail())){
 				if(mostrarMensagem){
 					FacesUtils.sendMensagemError(titulo, "E-mail do usuário inválido.");
 				}

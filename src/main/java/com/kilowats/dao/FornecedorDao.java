@@ -9,18 +9,17 @@ import javax.persistence.EntityTransaction;
 import com.kilowats.entidades.Fornecedor;
 import com.kilowats.util.Utils;
 
-
 public class FornecedorDao {
-	
-	private final static String SQL_DELETE = "delete %s where fornecedor = :fornecedor"; 
-	
+
+	private final static String SQL_DELETE = "delete %s where fornecedor = :fornecedor";
+
 	@Inject
 	private EntityManager manager;
-	
+
 	public Fornecedor salvarOrUpdate(Fornecedor empresa) {
 		EntityTransaction entityTransaction = manager.getTransaction();
 		entityTransaction.begin();
-		if(Utils.isNotNullOrEmpty(empresa.getId())){
+		if (Utils.isNotNullOrEmpty(empresa.getId())) {
 			deletarEnderecosFornecedor(empresa);
 			deletarTelefonesFornecedor(empresa);
 			deletarEmailsFornecedor(empresa);
@@ -29,24 +28,28 @@ public class FornecedorDao {
 		entityTransaction.commit();
 		return empresa;
 	}
-	
+
 	public Fornecedor pesquisarById(Long id) {
 		return (Fornecedor) manager.find(Fornecedor.class, id);
 	}
 
 	public List<Fornecedor> listarTodosFornecedores() {
-		return manager.createQuery("from Fornecedor", Fornecedor.class).getResultList();
+		return manager.createQuery("from Fornecedor", Fornecedor.class)
+				.getResultList();
 	}
-	
-	private void deletarEnderecosFornecedor(Fornecedor fornecedor){
-		manager.createQuery(String.format(SQL_DELETE, "EnderecoFornecedor")).setParameter("fornecedor", fornecedor).executeUpdate();
+
+	private void deletarEnderecosFornecedor(Fornecedor fornecedor) {
+		manager.createQuery(String.format(SQL_DELETE, "EnderecoFornecedor"))
+				.setParameter("fornecedor", fornecedor).executeUpdate();
 	}
-	
-	private void deletarTelefonesFornecedor(Fornecedor fornecedor){
-		manager.createQuery(String.format(SQL_DELETE, "TelefoneFornecedor")).setParameter("fornecedor", fornecedor).executeUpdate();
+
+	private void deletarTelefonesFornecedor(Fornecedor fornecedor) {
+		manager.createQuery(String.format(SQL_DELETE, "TelefoneFornecedor"))
+				.setParameter("fornecedor", fornecedor).executeUpdate();
 	}
-	
-	private void deletarEmailsFornecedor(Fornecedor fornecedor){
-		manager.createQuery(String.format(SQL_DELETE, "EmailFornecedor")).setParameter("fornecedor", fornecedor).executeUpdate();
+
+	private void deletarEmailsFornecedor(Fornecedor fornecedor) {
+		manager.createQuery(String.format(SQL_DELETE, "EmailFornecedor"))
+				.setParameter("fornecedor", fornecedor).executeUpdate();
 	}
 }

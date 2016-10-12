@@ -50,6 +50,7 @@ public class CriarGruposAndUser {
 		
 		trc.commit();
 		manager.close();
+		factory.close();
 	}
 	
 	private static void criarAdministrador() {
@@ -71,10 +72,10 @@ public class CriarGruposAndUser {
 		
 		usuario.setGrupos(grupos);
 		
-		
 		manager.merge(usuario);
 		trc.commit();
 		manager.close();
+		factory.close();
 	}
 
 }

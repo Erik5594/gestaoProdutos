@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+
+	<h:panelGrid columns="2" style="margin-bottom: 15px;">
+		<p:outputLabel value="Número:" style="font-size: 18px" />
+		<p:inputText size="12" disabled="true" />
+		<p:outputLabel value="Data de criação:" style="font-size: 18px;" />
+		<p:calendar placeholder="DD/MM/YYYY" disabled="true" size="10"
+			pattern="dd/MM/yyyy" />
+	</h:panelGrid>
+	<h:panelGrid columns="2" width="100%">
+		<p:panel header="Dados do Cliente">
+			<h:panelGrid columns="2">
+				<p:outputLabel value="Código/CPF/CNPJ:" />
+				<p:column>
+					<p:inputText size="14"
+						onkeyup="this.value=this.value.toUpperCase();" />
+					<p:commandButton icon="ui-icon-search" />
+				</p:column>
+				<p:outputLabel value="Nome:" />
+				<p:inputText size="60"
+					onkeyup="this.value=this.value.toUpperCase();" disabled="true" />
+			</h:panelGrid>
+		</p:panel>
+		<p:panel header="Dados do Veículo">
+			<h:panelGrid columns="4">
+				<p:outputLabel value="Placa/Chassi:" />
+				<p:column>
+					<p:inputText size="21"
+						onkeyup="this.value=this.value.toUpperCase();" />
+					<p:commandButton icon="ui-icon-search" />
+				</p:column>
+				<p:outputLabel value="Placa:" />
+				<p:inputText size="7" onkeyup="this.value=this.value.toUpperCase();"
+					disabled="true" />
+				<p:outputLabel value="Marca:" />
+				<p:inputText size="20"
+					onkeyup="this.value=this.value.toUpperCase();" disabled="true" />
+				<p:outputLabel value="Modelo:" />
+				<p:inputText size="20"
+					onkeyup="this.value=this.value.toUpperCase();" disabled="true" />
+			</h:panelGrid>
+		</p:panel>
+		<p:column>
+			<h:panelGrid columns="2">
+				<p:outputLabel value="Status" style="font-size: 14px"/>
+				<p:selectOneMenu>
+					<f:selectItem itemLabel="Aberto" itemValue="" />
+					<f:selectItem itemLabel="Aprovação" itemValue="" />
+					<f:selectItem itemLabel="Finalizado" itemValue="" />
+					<f:selectItem itemLabel="Cancelado" itemValue="" />
+				</p:selectOneMenu>
+
+				<p:outputLabel value="Forma Pagamento" style="font-size: 14px"/>
+				<p:selectOneMenu>
+					<f:selectItem itemLabel="Dinheiro" itemValue="" />
+					<f:selectItem itemLabel="Cartão Debito" itemValue="" />
+					<f:selectItem itemLabel="Cartão Credito" itemValue="" />
+					<f:selectItem itemLabel="Cheque" itemValue="" />
+				</p:selectOneMenu>
+			</h:panelGrid>
+		</p:column>
+		<p:column>
+			<h:panelGrid columns="2">
+				<p:outputLabel value="Descontos (R$): " style="font-size: 14px"/>
+				<p:inputText size="10"
+					onkeyup="this.value=this.value.toUpperCase();" disabled="true" />
+
+				<p:outputLabel value="Subtotal (R$): " style="font-size: 14px"/>
+				<p:inputText size="10"
+					onkeyup="this.value=this.value.toUpperCase();" disabled="true" />
+
+				<p:outputLabel value="Total (R$): " style="font-size: 14px"/>
+				<p:inputText size="10"
+					onkeyup="this.value=this.value.toUpperCase();" disabled="true" />
+			</h:panelGrid>
+		</p:column>
+	</h:panelGrid>
+</ui:composition>

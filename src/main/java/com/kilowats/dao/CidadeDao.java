@@ -48,33 +48,39 @@ public class CidadeDao {
 	}
 	
 	public Cidade pesquisarByNome(String nomeCidade){
+		Cidade cidade = new Cidade();
 		try{
-			return (Cidade) manager.createQuery("from Cidade where upper(nomeCidade) = :nomeCidade", Cidade.class)
+			cidade = (Cidade) manager.createQuery("from Cidade where upper(nomeCidade) = :nomeCidade", Cidade.class)
 				.setParameter("nomeCidade", nomeCidade.toUpperCase()).getSingleResult();
 		}catch (NoResultException e) {
 			return null;
 		}
+		return cidade;
 	}
 	
 	public Cidade pesquisarById(long id){
-		return (Cidade) manager.find(Cidade.class, id);
+			return (Cidade) manager.find(Cidade.class, id);
 	}
 	
 	public Cidade pesquisarMunicipioByCepGeral(long cep){
+		Cidade cidade = new Cidade();
 		try{
-			return (Cidade) manager.createQuery("from Cidade where cepInicial = :cepInicial and cepInicial = cepFinal", Cidade.class)
+			cidade = (Cidade) manager.createQuery("from Cidade where cepInicial = :cepInicial and cepInicial = cepFinal", Cidade.class)
 				.setParameter("cepInicial", cep).getSingleResult();
 		}catch (NoResultException e) {
 			return null;
 		}
+		return cidade;
 	}
 	
 	public Cidade pesquisarMunicipioByFaixaCep(long cep){
+		Cidade cidade = new Cidade();
 		try{
-			return (Cidade) manager.createQuery("from Cidade where :cepInicial BETWEEN cepInicial AND cepFinal", Cidade.class)
+			cidade = (Cidade) manager.createQuery("from Cidade where :cepInicial BETWEEN cepInicial AND cepFinal", Cidade.class)
 				.setParameter("cepInicial", cep).getSingleResult();
 		}catch (NoResultException e) {
 			return null;
 		}
+		return cidade;
 	}
 }
