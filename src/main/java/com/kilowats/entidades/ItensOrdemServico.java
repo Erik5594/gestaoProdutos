@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import lombok.Data;
 
@@ -32,6 +33,8 @@ public @Data class ItensOrdemServico implements Serializable{
 	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	@JoinColumn(name="id_ordem_servico", nullable=false)
 	private OrdemServico ordemServico;
+	@Column(name = "valor_unitario", nullable = false, precision = 10, scale = 2)
+	private BigDecimal valorUnitario = BigDecimal.ZERO;
 	
 	@Override
 	public boolean equals(Object obj) {
@@ -55,5 +58,26 @@ public @Data class ItensOrdemServico implements Serializable{
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
+	}
+	
+	@Transient
+	public BigDecimal getValorTotal() {
+		return this.getValorUnitario().multiply(new BigDecimal(this.getQuantidadeProduto()));
+	}
+	
+	@Transient
+	public boolean isProdutoAssociado() {
+		return this.getProduto() != null && this.getProduto().getId() != null;
+	}
+	
+	@Transient
+	public boolean isEstoqueSuficiente() {
+		return this.getOrdemServico().isFinalizado() || this.getProduto().getId() == null 
+			|| this.getProduto().getQuantidade() >= this.getQuantidadeProduto(); 
+	}
+	
+	@Transient
+	public boolean isEstoqueInsuficiente() {
+		return !this.isEstoqueSuficiente();
 	}
 }

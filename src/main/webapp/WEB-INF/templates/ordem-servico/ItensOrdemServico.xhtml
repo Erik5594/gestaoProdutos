@@ -6,6 +6,71 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core">
 	
-	<h1>ITENS ORDEM SERVIÇO</h1>
+	<p:dataTable value="#{gerarOrdemServicoControlador.ordemServico.itens}" var="item" rowIndexVar="linha" id="tabelaItens">
+		<p:column headerText="Cód. Barras" style="text-align: center; width: 100px">
+			<h:outputText value="#{item.produto.codProduto}" rendered="#{item.produtoAssociado}"/>
+			
+			<p:inputText size="8" value="#{gerarOrdemServicoControlador.codBarras}" label="Código Barras"
+				rendered="#{not item.produtoAssociado}">
+				<p:ajax event="change" process="@this" 
+					update="tabelaItens :frmCadastroNovaOrdemServico:totalPedido :frmCadastroNovaOrdemServico:subtotal" 
+					listener="#{gerarOrdemServicoControlador.carregarProdutoPorSku}" />
+			</p:inputText>
+		</p:column>
+		<p:column headerText="Produto">
+			<h:outputText value="#{item.produto.nomeProduto}" rendered="#{item.produtoAssociado}" />
+		
+			<p:autoComplete styleClass="produto-tabela" value="#{gerarOrdemServicoControlador.produtoLinhaEditavel}"
+				completeMethod="#{gerarOrdemServicoControlador.completarProduto}"
+				var="produto" itemLabel="#{produto.nomeProduto}" itemValue="#{produto}" 
+				forceSelection="true" rendered="#{not item.produtoAssociado}">
+				<p:ajax event="itemSelect" update="tabelaItens :frmCadastroNovaOrdemServico:totalPedido :frmCadastroNovaOrdemServico:subtotal" 
+					listener="#{gerarOrdemServicoControlador.carregarProdutoLinhaEditavel}"/>
+			</p:autoComplete>
+		</p:column>
+		<p:column headerText="Valor unitário" style="text-align: right; width: 120px">
+			<h:outputText value="#{item.valorUnitario}">
+				<f:convertNumber type="currency"/>
+			</h:outputText>
+		</p:column>
+		<p:column headerText="Quantidade" style="text-align: center; width: 100px">
+			<p:inputText size="8" value="#{item.quantidade}" disabled="#{gerarOrdemServicoControlador.ordemServico.naoAlteravel}">
+				<p:ajax event="change" process="@this"
+					update="tabelaItens :frmCadastroNovaOrdemServico:totalPedido :frmCadastroNovaOrdemServico:subtotal"
+					listener="#{gerarOrdemServicoControlador.atualizarQuantidade(item, linha)}" />
+			</p:inputText>
+		</p:column>
+		
+		<p:column headerText="Estoque" style="text-align: center; width: 100px">
+			<h:outputText value="#{item.produto.quantidadeEstoque}" 
+				style="#{item.estoqueInsuficiente ? 'color: red' : ''}"/>
+			
+			<h:graphicImage library="images" name="alerta.png" id="semEstoque"
+				style="vertical-align: bottom; margin-left: 5px" 
+				rendered="#{item.estoqueInsuficiente}" />
+				
+			<p:tooltip for="semEstoque" value="Estoque insuficiente"
+				rendered="#{item.estoqueInsuficiente}" />
+		</p:column>
+		
+		<p:column headerText="Valor total" style="text-align: right; width: 100px">
+			<h:outputText value="#{item.valorTotal}">
+				<f:convertNumber type="currency"/>
+			</h:outputText>
+		</p:column>
+		
+		<p:columnGroup type="footer">
+			<p:row>
+				<p:column colspan="5" footerText="Subtotal" style="text-align: right" />
+				<p:column style="text-align: right">
+					<f:facet name="footer">
+						<h:outputText value="#{gerarOrdemServicoControlador.ordemServico.valorSubtotal}">
+							<f:convertNumber type="currency"/>
+						</h:outputText>
+					</f:facet>
+				</p:column>
+			</p:row>
+		</p:columnGroup>
+	</p:dataTable>
 
 </ui:composition>

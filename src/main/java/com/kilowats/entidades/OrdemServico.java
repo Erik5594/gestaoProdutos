@@ -18,6 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import lombok.Data;
 
@@ -98,6 +99,16 @@ public @Data class OrdemServico implements Serializable{
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
+	}
+	
+	@Transient
+	public boolean isFinalizado() {
+		return StatusOrdemServico.CONCLUIDO.equals(this.getStatusOrdemServico());
+	}
+	
+	@Transient
+	public BigDecimal getValorSubtotal() {
+		return this.getValorTotal().add(this.getValorTotalDesconto());
 	}
 	
 }
