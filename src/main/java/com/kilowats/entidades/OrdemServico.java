@@ -43,7 +43,7 @@ public @Data class OrdemServico implements Serializable{
 	private Veiculo veiculo;
 	
 	@OneToMany(mappedBy="ordemServico",fetch=FetchType.LAZY,cascade=CascadeType.ALL)
-	private List<ItensOrdemServico> itens;
+	private List<ItemOrdemServico> itens;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="data_ordem_servico", nullable=false, columnDefinition="TIMESTAMP WITH TIME ZONE")
@@ -111,4 +111,27 @@ public @Data class OrdemServico implements Serializable{
 		return this.getValorTotal().add(this.getValorTotalDesconto());
 	}
 	
+	public void recalcularValorTotal() {
+		BigDecimal total = BigDecimal.ZERO;
+		
+		total = total.subtract(this.getValorTotalDesconto());
+		
+		for (ItemOrdemServico item : this.getItens()) {
+			if (item.getProduto() != null && item.getProduto().getId() != null) {
+				total = total.add(item.getValorTotal());
+			}
+		}
+		
+		this.setValorTotal(total);
+	}
+	
+	public void adicionarItemVazio() {
+		Produto produto = new Produto();
+		
+		ItemOrdemServico item = new ItemOrdemServico();
+		item.setProduto(produto);
+		item.setOrdemServico(this);
+		
+		this.getItens().add(0, item);
+	}
 }

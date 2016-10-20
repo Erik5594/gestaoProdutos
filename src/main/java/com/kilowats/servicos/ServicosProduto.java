@@ -38,4 +38,8 @@ public class ServicosProduto implements Serializable{
 	public void persistirListaProduto(List<Produto> produtos){
 		produtoDao.salvarOrUpdateLista(produtos);
 	}
+	
+	public List<Produto> pesquisarProdutoByNome(String nomeProduto) {
+		return produtoDao.buscarProdutoByNome(nomeProduto);
+	}
 }

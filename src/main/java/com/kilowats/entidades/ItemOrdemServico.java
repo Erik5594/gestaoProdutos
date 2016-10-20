@@ -17,7 +17,7 @@ import lombok.Data;
 
 @Entity
 @Table(name="itens_ordem_servico")
-public @Data class ItensOrdemServico implements Serializable{
+public @Data class ItemOrdemServico implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -44,7 +44,7 @@ public @Data class ItensOrdemServico implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ItensOrdemServico other = (ItensOrdemServico) obj;
+		ItemOrdemServico other = (ItemOrdemServico) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

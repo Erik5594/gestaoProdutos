@@ -7,14 +7,14 @@
 	xmlns:f="http://java.sun.com/jsf/core">
 	
 	<p:dataTable value="#{gerarOrdemServicoControlador.ordemServico.itens}" var="item" rowIndexVar="linha" id="tabelaItens">
-		<p:column headerText="Cód. Barras" style="text-align: center; width: 100px">
+		<p:column headerText="Cód. Produto" style="text-align: center; width: 100px">
 			<h:outputText value="#{item.produto.codProduto}" rendered="#{item.produtoAssociado}"/>
 			
-			<p:inputText size="8" value="#{gerarOrdemServicoControlador.codBarras}" label="Código Barras"
+			<p:inputText size="13" value="#{gerarOrdemServicoControlador.codBarras}" label="Código Barras"
 				rendered="#{not item.produtoAssociado}">
 				<p:ajax event="change" process="@this" 
-					update="tabelaItens :frmCadastroNovaOrdemServico:totalPedido :frmCadastroNovaOrdemServico:subtotal" 
-					listener="#{gerarOrdemServicoControlador.carregarProdutoPorSku}" />
+					update="tabelaItens :frmCadastroNovaOrdemServico:totalOrdemServico :frmCadastroNovaOrdemServico:subtotal" 
+					listener="#{gerarOrdemServicoControlador.carregarProdutoPorCodBarras}" />
 			</p:inputText>
 		</p:column>
 		<p:column headerText="Produto">
