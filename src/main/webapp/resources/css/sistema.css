@@ -55,6 +55,10 @@ footer {
 	background: url(#{resource['imagens:seta-para-baixo.png']}) no-repeat;
 }
 
+.produto-tabela input {
+	width: 99%;
+}
+
 #login-dialog{
 	width: 290px;
 	margin: auto;

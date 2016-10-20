@@ -58,7 +58,7 @@ public class ProdutoDao {
 	}
 	
 	public List<Produto> buscarProdutoByNome(String nome) {
-		return this.manager.createQuery("from Produto where upper(nome) like :nome", Produto.class)
+		return this.manager.createQuery("from Produto where upper(nomeProduto) like :nome", Produto.class)
 				.setParameter("nome", nome.toUpperCase() + "%").getResultList();
 	}
 }

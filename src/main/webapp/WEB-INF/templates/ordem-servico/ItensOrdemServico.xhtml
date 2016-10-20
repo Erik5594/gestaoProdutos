@@ -6,7 +6,8 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core">
 	
-	<p:dataTable value="#{gerarOrdemServicoControlador.ordemServico.itens}" var="item" rowIndexVar="linha" id="tabelaItens">
+	<p:dataTable value="#{gerarOrdemServicoControlador.ordemServico.itens}" var="item" rowIndexVar="linha" id="tabelaItens"
+	emptyMessage="Nenhum item">
 		<p:column headerText="Cód. Produto" style="text-align: center; width: 100px">
 			<h:outputText value="#{item.produto.codProduto}" rendered="#{item.produtoAssociado}"/>
 			
@@ -14,7 +15,7 @@
 				rendered="#{not item.produtoAssociado}">
 				<p:ajax event="change" process="@this" 
 					update="tabelaItens :frmCadastroNovaOrdemServico:totalOrdemServico :frmCadastroNovaOrdemServico:subtotal" 
-					listener="#{gerarOrdemServicoControlador.carregarProdutoPorCodBarras}" />
+					listener="#{gerarOrdemServicoControlador.carregarProdutoPorCodBarras()}" />
 			</p:inputText>
 		</p:column>
 		<p:column headerText="Produto">
@@ -24,8 +25,8 @@
 				completeMethod="#{gerarOrdemServicoControlador.completarProduto}"
 				var="produto" itemLabel="#{produto.nomeProduto}" itemValue="#{produto}" 
 				forceSelection="true" rendered="#{not item.produtoAssociado}">
-				<p:ajax event="itemSelect" update="tabelaItens :frmCadastroNovaOrdemServico:totalPedido :frmCadastroNovaOrdemServico:subtotal" 
-					listener="#{gerarOrdemServicoControlador.carregarProdutoLinhaEditavel}"/>
+				<p:ajax event="itemSelect" update="tabelaItens :frmCadastroNovaOrdemServico:totalOrdemServico :frmCadastroNovaOrdemServico:subtotal" 
+					listener="#{gerarOrdemServicoControlador.carregarProdutoLinhaEditavel()}"/>
 			</p:autoComplete>
 		</p:column>
 		<p:column headerText="Valor unitário" style="text-align: right; width: 120px">
@@ -34,15 +35,15 @@
 			</h:outputText>
 		</p:column>
 		<p:column headerText="Quantidade" style="text-align: center; width: 100px">
-			<p:inputText size="8" value="#{item.quantidade}" disabled="#{gerarOrdemServicoControlador.ordemServico.naoAlteravel}">
+			<p:inputText size="8" value="#{item.quantidadeProduto}">
 				<p:ajax event="change" process="@this"
-					update="tabelaItens :frmCadastroNovaOrdemServico:totalPedido :frmCadastroNovaOrdemServico:subtotal"
+					update="tabelaItens :frmCadastroNovaOrdemServico:totalOrdemServico :frmCadastroNovaOrdemServico:subtotal"
 					listener="#{gerarOrdemServicoControlador.atualizarQuantidade(item, linha)}" />
 			</p:inputText>
 		</p:column>
 		
 		<p:column headerText="Estoque" style="text-align: center; width: 100px">
-			<h:outputText value="#{item.produto.quantidadeEstoque}" 
+			<h:outputText value="#{item.produto.quantidade}" 
 				style="#{item.estoqueInsuficiente ? 'color: red' : ''}"/>
 			
 			<h:graphicImage library="images" name="alerta.png" id="semEstoque"

@@ -35,7 +35,13 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 	private ServicosEan servicosCodBarras;
 	private static final String TITULO = "Cadastro Ordem Serviço: ";
 	
-	
+	public void inicializar() {
+		if (FacesUtils.isNotPostback()) {
+			this.ordemServico.adicionarItemVazio();
+			
+			this.recalcularOrdemServico();
+		}
+	}
 
 	public void carregarProdutoPorCodBarras(){
 		if(!StringUtils.isBlank(codBarras)){
@@ -94,5 +100,11 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 		}
 		
 		this.ordemServico.recalcularValorTotal();
+	}
+	
+	public void recalcularOrdemServico() {
+		if (this.ordemServico != null) {
+			this.ordemServico.recalcularValorTotal();
+		}
 	}
 }

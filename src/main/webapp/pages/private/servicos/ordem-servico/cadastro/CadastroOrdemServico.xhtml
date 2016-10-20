@@ -5,11 +5,19 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:o="http://omnifaces.org/ui">
 
+
+	
 	<ui:define name="titulo">Nova Ordem Serviço</ui:define>
 
 	<ui:define name="conteudo">
+		<f:metadata>
+			<o:viewParam name="ordemServico" value="#{gerarOrdemServicoControlador.ordemServico}" />
+			<f:event listener="#{gerarOrdemServicoControlador.inicializar()}" type="preRenderView" />
+		</f:metadata>
+	
 		<h:form id="frmCadastroNovaOrdemServico">
 			<p:messages id="mensagens" autoUpdate="true" for="mensageError"/>
 			<p:messages id="mensagensPadrao" autoUpdate="true"/>

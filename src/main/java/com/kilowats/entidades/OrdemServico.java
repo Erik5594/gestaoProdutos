@@ -2,6 +2,7 @@ package com.kilowats.entidades;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -43,7 +44,7 @@ public @Data class OrdemServico implements Serializable{
 	private Veiculo veiculo;
 	
 	@OneToMany(mappedBy="ordemServico",fetch=FetchType.LAZY,cascade=CascadeType.ALL)
-	private List<ItemOrdemServico> itens;
+	private List<ItemOrdemServico> itens = new ArrayList<>();
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="data_ordem_servico", nullable=false, columnDefinition="TIMESTAMP WITH TIME ZONE")
