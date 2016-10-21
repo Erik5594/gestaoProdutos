@@ -8,7 +8,7 @@
 	
 	<p:dataTable value="#{gerarOrdemServicoControlador.ordemServico.itens}" var="item" rowIndexVar="linha" id="tabelaItens"
 	emptyMessage="Nenhum item">
-		<p:column headerText="Cód. Produto" style="text-align: center; width: 100px">
+		<p:column headerText="Cód. Produto" style="text-align: center; width: 130px">
 			<h:outputText value="#{item.produto.codProduto}" rendered="#{item.produtoAssociado}"/>
 			
 			<p:inputText size="13" value="#{gerarOrdemServicoControlador.codBarras}" label="Código Barras"
@@ -35,7 +35,7 @@
 			</h:outputText>
 		</p:column>
 		<p:column headerText="Quantidade" style="text-align: center; width: 100px">
-			<p:inputText size="8" value="#{item.quantidadeProduto}">
+			<p:inputText size="8" value="#{item.quantidadeProduto}" maxlength="3">
 				<p:ajax event="change" process="@this"
 					update="tabelaItens :frmCadastroNovaOrdemServico:totalOrdemServico :frmCadastroNovaOrdemServico:subtotal"
 					listener="#{gerarOrdemServicoControlador.atualizarQuantidade(item, linha)}" />

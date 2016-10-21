@@ -37,7 +37,7 @@ public @Data class Produto implements Serializable{
 	private String nomeProduto;
 	@NotNull @Enumerated(EnumType.ORDINAL) @Column(name="tipo_unidade")
 	private TipoProdutoUnidadeEnum tipoUnidade;
-	@NotNull @Min(0) @Max(100) @Column(nullable=false, length=5, precision=2)
+	@NotNull @Min(0) @Max(999999) @Column(nullable=false, length=10, precision=2, scale = 2)
 	private int quantidade;
 	@NotNull @Column(nullable=false, precision=10, scale=2)
 	private BigDecimal valor = BigDecimal.ZERO;

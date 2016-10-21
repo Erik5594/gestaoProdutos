@@ -17,6 +17,8 @@ import com.kilowats.entidades.ItemOrdemServico;
 import com.kilowats.entidades.OrdemServico;
 import com.kilowats.entidades.Produto;
 import com.kilowats.entidades.Veiculo;
+import com.kilowats.enuns.FormaPagamento;
+import com.kilowats.enuns.TipoProdutoUnidadeEnum;
 import com.kilowats.servicos.ServicosCliente;
 import com.kilowats.servicos.ServicosEan;
 import com.kilowats.servicos.ServicosProduto;
@@ -136,5 +138,9 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 	
 	public void selecionarVeiculo(Veiculo veiculo){
 		setVeiculoSelecionado(veiculo); 
+	}
+	
+	public FormaPagamento[] getFormasPagamentos() {
+		return FormaPagamento.values();
 	}
 }

@@ -53,7 +53,8 @@
 				value="#{cadastroProdutoControlador.produto.nomeProduto}"/>
 				
 				<p:outputLabel value="Quantidade " for="quantidadeProduto" />
-				<p:inputText id="quantidadeProduto" disabled="#{cadastroProdutoControlador.editar()}" size="5" value="#{cadastroProdutoControlador.produto.quantidade}" converter="converterNumber"/>
+				<p:inputText id="quantidadeProduto" disabled="#{cadastroProdutoControlador.editar()}" size="5"
+				value="#{cadastroProdutoControlador.produto.quantidade}" converter="converterNumber" maxlength="6"/>
 				
 				<p:outputLabel value="Valor(R$) " for="valor" />
 				<p:inputText id="valor" disabled="#{cadastroProdutoControlador.editar()}" 

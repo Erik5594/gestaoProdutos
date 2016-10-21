@@ -53,7 +53,7 @@
 				
 				<p:outputLabel value="Quantidade " style="margin-right: 5px" for="qtdeProduto"/>
 				<p:inputText value="#{entradaProdutoControlador.produto.quantidade}" style="margin-right: 5px"
-				size="5" required="true" id="qtdeProduto"/>
+				size="5" required="true" id="qtdeProduto" maxlength="6"/>
 			</h:panelGrid>
 			<center><p:commandButton value="Adicionar" process="@this panelConsultaEntradaProduto panelEntradaProduto"
 			actionListener="#{entradaProdutoControlador.adicionarProduto()}" icon="ui-icon-check"

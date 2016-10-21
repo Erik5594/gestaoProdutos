@@ -7,13 +7,13 @@
 	xmlns:f="http://java.sun.com/jsf/core">
 
 
-	<h:panelGrid columns="2" style="margin-bottom: 15px;">
+	<h:panelGrid columns="2" style="margin-bottom: 7px;" width="40%">
 		<p:column>
-			<p:outputLabel value="Número:" style="font-size: 18px" />
+			<p:outputLabel value="Número:" style="font-size: 15px" />
 			<p:inputText size="12" disabled="true" />
 		</p:column>
 		<p:column>
-			<p:outputLabel value="Data de criação:" style="font-size: 18px;" />
+			<p:outputLabel value="Data de criação:" style="font-size: 15px;" />
 			<p:calendar placeholder="DD/MM/YYYY" disabled="true" size="10"
 				pattern="dd/MM/yyyy" />
 		</p:column>
@@ -33,8 +33,29 @@
 					onkeyup="this.value=this.value.toUpperCase();" disabled="true" />
 			</h:panelGrid>
 		</p:panel>
+		<p:column>
+		<p:fieldset legend="Dados Complementares">
+			<h:panelGrid columns="2">
+				<p:outputLabel value="Status" style="font-size: 14px"/>
+				<p:selectOneMenu>
+					<f:selectItem itemLabel="Aberto" itemValue="" />
+					<f:selectItem itemLabel="Aprovação" itemValue="" />
+					<f:selectItem itemLabel="Finalizado" itemValue="" />
+					<f:selectItem itemLabel="Cancelado" itemValue="" />
+				</p:selectOneMenu>
+
+				<p:outputLabel value="Forma Pagamento" style="font-size: 14px"/>
+				<p:selectOneMenu value="#{gerarOrdemServicoControlador.ordemServico.formaPagamento}"
+				id="selecionarFormaPagamento" converter="converterTipoFormaPagamento">
+					<f:selectItem itemLabel="Selecione..." noSelectionOption="true" />
+					<f:selectItems value="#{gerarOrdemServicoControlador.formasPagamentos}" var="formaPagamento"
+					itemLabel="#{formaPagamento.descricao}" itemValue="#{formaPagamento}"/>
+				</p:selectOneMenu>
+			</h:panelGrid>
+		</p:fieldset>
+		</p:column>
 		<p:panel header="Dados do Veículo" id="dadosVeiculos">
-			<h:panelGrid columns="4">
+			<h:panelGrid columns="6">
 				<p:outputLabel value="Veiculo:" />
 				<p:selectOneMenu value="#{gerarOrdemServicoControlador.veiculoSelecionado}" id="selecionarVeiculo">
 					<f:selectItem itemLabel="Selecione..." noSelectionOption="true"/>
@@ -61,44 +82,27 @@
 			</h:panelGrid>
 		</p:panel>
 		<p:column>
-			<h:panelGrid columns="2">
-				<p:outputLabel value="Status" style="font-size: 14px"/>
-				<p:selectOneMenu>
-					<f:selectItem itemLabel="Aberto" itemValue="" />
-					<f:selectItem itemLabel="Aprovação" itemValue="" />
-					<f:selectItem itemLabel="Finalizado" itemValue="" />
-					<f:selectItem itemLabel="Cancelado" itemValue="" />
-				</p:selectOneMenu>
-
-				<p:outputLabel value="Forma Pagamento" style="font-size: 14px"/>
-				<p:selectOneMenu>
-					<f:selectItem itemLabel="Dinheiro" itemValue="" />
-					<f:selectItem itemLabel="Cartão Debito" itemValue="" />
-					<f:selectItem itemLabel="Cartão Credito" itemValue="" />
-					<f:selectItem itemLabel="Cheque" itemValue="" />
-				</p:selectOneMenu>
-			</h:panelGrid>
-		</p:column>
-		<p:column>
-			<h:panelGrid columns="2">
-				<p:outputLabel value="Descontos (R$): " style="font-size: 14px"/>
+		<p:fieldset legend="Valores (R$)">
+			<h:panelGrid columns="4" title="Valores">
+				<p:outputLabel value="Descontos: " style="font-size: 14px"/>
 				<p:inputText size="10" value="#{gerarOrdemServicoControlador.ordemServico.valorTotalDesconto}"
 					onkeyup="this.value=this.value.toUpperCase();" disabled="true">
 					<f:convertNumber type="currency"/>
 					</p:inputText>
 
-				<p:outputLabel value="Subtotal (R$): " style="font-size: 14px"/>
+				<p:outputLabel value="Subtotal: " style="font-size: 14px"/>
 				<p:inputText size="10" id="subtotal" value="#{gerarOrdemServicoControlador.ordemServico.valorSubtotal}"
 					onkeyup="this.value=this.value.toUpperCase();" disabled="true" >
 					<f:convertNumber type="currency"/>
 					</p:inputText>
 
-				<p:outputLabel value="Total (R$): " style="font-size: 14px" />
+				<p:outputLabel value="Total: " style="font-size: 14px" />
 				<p:inputText size="10" id="totalOrdemServico" value="#{gerarOrdemServicoControlador.ordemServico.valorTotal}"
 					onkeyup="this.value=this.value.toUpperCase();" disabled="true" >
 					<f:convertNumber type="currency"/>
 					</p:inputText>
 			</h:panelGrid>
+		</p:fieldset>
 		</p:column>
 	</h:panelGrid>
 </ui:composition>
