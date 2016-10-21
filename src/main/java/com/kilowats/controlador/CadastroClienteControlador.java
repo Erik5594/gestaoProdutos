@@ -5,6 +5,7 @@ import static com.kilowats.util.Utils.mascaraPrimefacesCnpjOuCpf;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.faces.view.ViewScoped;
@@ -316,6 +317,10 @@ public @Data class CadastroClienteControlador implements Serializable{
 	private void completarDadosPessoa() {
 		enderecos = ajustaDadosEndereco();
 		this.cliente.setEndereco(enderecos);
+		if(Utils.isNullOrEmpty(cliente.getId())){
+			this.cliente.setDataCredenciamento(new Date());
+		}
+		this.cliente.setUltimaAtualizacao(new Date());
 		if(this.tpPessoa == 0){
 			this.cliente.setFisicaJuridica(TipoPessoa.FISICA);
 		}else{

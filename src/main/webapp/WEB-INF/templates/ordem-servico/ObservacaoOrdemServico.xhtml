@@ -7,7 +7,8 @@
 	xmlns:f="http://java.sun.com/jsf/core">
 	
 	<h:panelGroup layout="block" style="padding-right: 10px">
-		<p:inputTextarea rows="5" style="width: 100%" onkeyup="this.value=this.value.toUpperCase();"/>
+		<p:inputTextarea rows="5" style="width: 100%" onkeyup="this.value=this.value.toUpperCase();"
+		value="#{gerarOrdemServicoControlador.ordemServico.observacao}"/>
 	</h:panelGroup>
 
 </ui:composition>

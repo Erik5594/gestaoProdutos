@@ -6,16 +6,21 @@ import java.util.List;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.NoResultException;
 
 import lombok.Data;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.kilowats.entidades.Cliente;
 import com.kilowats.entidades.ItemOrdemServico;
 import com.kilowats.entidades.OrdemServico;
 import com.kilowats.entidades.Produto;
+import com.kilowats.entidades.Veiculo;
+import com.kilowats.servicos.ServicosCliente;
 import com.kilowats.servicos.ServicosEan;
 import com.kilowats.servicos.ServicosProduto;
+import com.kilowats.servicos.ServicosVeiculo;
 import com.kilowats.util.jsf.FacesUtils;
 
 @Named
@@ -25,6 +30,10 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Inject
+	private Cliente cliente;
+	@Inject
+	private Veiculo veiculoSelecionado;
+	@Inject
 	private Produto produtoLinhaEditavel;
 	@Inject
 	private OrdemServico ordemServico;
@@ -33,6 +42,11 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 	private ServicosProduto servicosProdutos;
 	@Inject
 	private ServicosEan servicosCodBarras;
+	@Inject
+	private ServicosCliente servicosCliente;
+	@Inject
+	private ServicosVeiculo servicosVeiculo;
+	
 	private static final String TITULO = "Cadastro Ordem Serviço: ";
 	
 	public void inicializar() {
@@ -45,12 +59,16 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 
 	public void carregarProdutoPorCodBarras(){
 		if(!StringUtils.isBlank(codBarras)){
-			if(codBarras.length() < 13){
-				produtoLinhaEditavel = servicosProdutos.pesquisaProdutoByCodProduto(codBarras);
-			}else{
-				produtoLinhaEditavel = servicosCodBarras.pesquisarEanByCodBarras(codBarras).getProduto();
+			try{
+				if(codBarras.length() < 13){
+					produtoLinhaEditavel = servicosProdutos.pesquisaProdutoByCodProduto(codBarras);
+				}else{
+					produtoLinhaEditavel = servicosCodBarras.pesquisarEanByCodBarras(codBarras).getProduto();
+				}
+				carregarProdutoLinhaEditavel();
+			}catch(NoResultException ex){
+				FacesUtils.sendMensagemAviso(TITULO, "Não foi encontrado produto!");
 			}
-			carregarProdutoLinhaEditavel();
 		}
 	}
 	
@@ -106,5 +124,13 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 		if (this.ordemServico != null) {
 			this.ordemServico.recalcularValorTotal();
 		}
+	}
+	
+	public void buscarCliente() {
+		this.cliente = servicosCliente.buscarClienteByCpfCgc(cliente.getCgcCpf());
+	}
+	
+	public void selecionarVeiculo(Veiculo veiculo){
+		setVeiculoSelecionado(veiculo); 
 	}
 }

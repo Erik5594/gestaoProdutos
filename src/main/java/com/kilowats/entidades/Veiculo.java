@@ -37,6 +37,12 @@ public @Data class Veiculo implements Serializable{
 	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	@JoinColumn(name="id_cliente", nullable=false)
 	private Cliente cliente;
+	@Column(nullable=true, length=30)
+	private String marca;
+	@Column(nullable=true, length=50)
+	private String modelo;
+	@Column(nullable=true, length=15)
+	private String cor;
 	
 	@Override
 	public int hashCode() {

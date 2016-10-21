@@ -15,35 +15,37 @@
 			pattern="dd/MM/yyyy" />
 	</h:panelGrid>
 	<h:panelGrid columns="2" width="100%">
-		<p:panel header="Dados do Cliente">
+		<p:panel header="Dados do Cliente" id="dadosCliente">
 			<h:panelGrid columns="2">
 				<p:outputLabel value="Código/CPF/CNPJ:" />
 				<p:column>
-					<p:inputText size="14"
-						onkeyup="this.value=this.value.toUpperCase();" />
-					<p:commandButton icon="ui-icon-search" />
+					<p:inputText size="14" value="#{gerarOrdemServicoControlador.cliente.cgcCpf}"
+						onkeyup="this.value=this.value.toUpperCase();" id="cgcCpf"/>
+					<p:commandButton icon="ui-icon-search" actionListener="#{gerarOrdemServicoControlador.buscarCliente()}"
+					process="@this cgcCpf" update="frmCadastroNovaOrdemServico:dadosCliente frmCadastroNovaOrdemServico:dadosVeiculos"/>
 				</p:column>
 				<p:outputLabel value="Nome:" />
-				<p:inputText size="60"
+				<p:inputText size="60" value="#{gerarOrdemServicoControlador.cliente.nome}"
 					onkeyup="this.value=this.value.toUpperCase();" disabled="true" />
 			</h:panelGrid>
 		</p:panel>
-		<p:panel header="Dados do Veículo">
+		<p:panel header="Dados do Veículo" id="dadosVeiculos">
 			<h:panelGrid columns="4">
-				<p:outputLabel value="Placa/Chassi:" />
-				<p:column>
-					<p:inputText size="21"
-						onkeyup="this.value=this.value.toUpperCase();" />
-					<p:commandButton icon="ui-icon-search" />
-				</p:column>
+				<p:outputLabel value="Veiculo:" />
+				<p:selectOneMenu value="#{gerarOrdemServicoControlador.veiculoSelecionado}" >
+					<f:selectItem itemLabel="Selecione..." noSelectionOption="true"/>
+					<f:selectItems itemValue="#{veiculo}"
+					var="veiculo" itemLabel="#{veiculo.placa} - #{veiculo.chassi}" value="#{gerarOrdemServicoControlador.cliente.veiculos}"/>
+					<p:ajax event="change" process="@this frmCadastroNovaOrdemServico:dadosVeiculos" update="@this frmCadastroNovaOrdemServico:dadosVeiculos"/>
+				</p:selectOneMenu>
 				<p:outputLabel value="Placa:" />
 				<p:inputText size="7" onkeyup="this.value=this.value.toUpperCase();"
-					disabled="true" />
+					disabled="true" value="#{gerarOrdemServicoControlador.veiculoSelecionado.placa}"/>
 				<p:outputLabel value="Marca:" />
-				<p:inputText size="20"
+				<p:inputText size="20" value="#{gerarOrdemServicoControlador.veiculoSelecionado.marca}"
 					onkeyup="this.value=this.value.toUpperCase();" disabled="true" />
 				<p:outputLabel value="Modelo:" />
-				<p:inputText size="20"
+				<p:inputText size="20" value="#{gerarOrdemServicoControlador.veiculoSelecionado.modelo}"
 					onkeyup="this.value=this.value.toUpperCase();" disabled="true" />
 			</h:panelGrid>
 		</p:panel>
@@ -69,16 +71,22 @@
 		<p:column>
 			<h:panelGrid columns="2">
 				<p:outputLabel value="Descontos (R$): " style="font-size: 14px"/>
-				<p:inputText size="10"
-					onkeyup="this.value=this.value.toUpperCase();" disabled="true" />
+				<p:inputText size="10" value="#{gerarOrdemServicoControlador.ordemServico.valorTotalDesconto}"
+					onkeyup="this.value=this.value.toUpperCase();" disabled="true">
+					<f:convertNumber type="currency"/>
+					</p:inputText>
 
 				<p:outputLabel value="Subtotal (R$): " style="font-size: 14px"/>
-				<p:inputText size="10" id="subtotal"
-					onkeyup="this.value=this.value.toUpperCase();" disabled="true" />
+				<p:inputText size="10" id="subtotal" value="#{gerarOrdemServicoControlador.ordemServico.valorSubtotal}"
+					onkeyup="this.value=this.value.toUpperCase();" disabled="true" >
+					<f:convertNumber type="currency"/>
+					</p:inputText>
 
 				<p:outputLabel value="Total (R$): " style="font-size: 14px" />
-				<p:inputText size="10" id="totalOrdemServico"
-					onkeyup="this.value=this.value.toUpperCase();" disabled="true" />
+				<p:inputText size="10" id="totalOrdemServico" value="#{gerarOrdemServicoControlador.ordemServico.valorTotal}"
+					onkeyup="this.value=this.value.toUpperCase();" disabled="true" >
+					<f:convertNumber type="currency"/>
+					</p:inputText>
 			</h:panelGrid>
 		</p:column>
 	</h:panelGrid>

@@ -30,4 +30,8 @@ public class ServicosCliente implements Serializable{
 	public List<Cliente> listarTodosClientes() {
 		return clienteDao.listarTodosClientes();
 	}
+	
+	public Cliente buscarClienteByCpfCgc(String cpfCgc){
+		return clienteDao.pesquisarByCpfCgc(cpfCgc);
+	}
 }

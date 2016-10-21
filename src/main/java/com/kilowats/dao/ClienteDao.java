@@ -38,6 +38,11 @@ public class ClienteDao {
 		return manager.createQuery("from Cliente", Cliente.class)
 				.getResultList();
 	}
+	
+	public Cliente pesquisarByCpfCgc(String cpfCgc) {
+		return (Cliente) manager.createQuery("from Cliente where cgcCpf = :cpfCgc", Cliente.class)
+				.setParameter("cpfCgc", cpfCgc).getSingleResult();
+	}
 
 	private void deletarEnderecosCliente(Cliente cliente) {
 		manager.createQuery(String.format(SQL_DELETE, "EnderecoCliente"))
