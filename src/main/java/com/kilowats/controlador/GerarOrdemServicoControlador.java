@@ -127,7 +127,11 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 	}
 	
 	public void buscarCliente() {
-		this.cliente = servicosCliente.buscarClienteByCpfCgc(cliente.getCgcCpf());
+		try{
+			this.cliente = servicosCliente.buscarClienteByCpfCgc(cliente.getCgcCpf());
+		}catch(NoResultException ex){
+			FacesUtils.sendMensagemAviso(TITULO, "Não foi encontrado uma pessoa!");
+		}
 	}
 	
 	public void selecionarVeiculo(Veiculo veiculo){

@@ -5,6 +5,7 @@ import static com.kilowats.util.Utils.mascaraPrimefacesCnpjOuCpf;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -224,6 +225,10 @@ public @Data class CadastroFornecedorControlador implements Serializable{
 	private void completarDadosEmpresa() {
 		enderecos = ajustaDadosEndereco();
 		empresa.setEndereco(enderecos);
+		if(Utils.isNullOrEmpty(empresa.getId())){
+			empresa.setDataCredenciamento(new Date());
+		}
+		empresa.setUltimaAtualizacao(new Date());
 		if(this.tpPessoa == 0){
 			this.empresa.setFisicaJuridica(TipoPessoa.FISICA);
 		}else{

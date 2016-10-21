@@ -7,6 +7,7 @@ import java.util.List;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.NoResultException;
 
 import lombok.Data;
 
@@ -53,11 +54,19 @@ public @Data class SaidaProdutoControlador implements Serializable{
 	}
 	
 	private void buscarProdutoByCodProduto(){
-		produto = servicosProduto.pesquisaProdutoByCodProduto(chavePesquisa);
+		try{
+			produto = servicosProduto.pesquisaProdutoByCodProduto(chavePesquisa);
+		}catch(NoResultException ex){
+			FacesUtils.sendMensagemAviso(TITULO, "Não foi encontrado produto!");
+		}
 	}
 	
 	private void buscarProdutoByCodBarras(){
-		produto = servicosEan.pesquisarEanByCodBarras(chavePesquisa).getProduto();
+		try{
+			produto = servicosEan.pesquisarEanByCodBarras(chavePesquisa).getProduto();
+		}catch(NoResultException ex){
+			FacesUtils.sendMensagemAviso(TITULO, "Não foi encontrado produto!");
+		}
 	}
 	
 	public void alterarProdutos(){

@@ -286,7 +286,7 @@
 				
 				<!--Inicio Tab veiculos -->
 				<p:tab title="Veículos" id="veiculoTab">
-					<h:panelGrid columns="7" id="gridVeiculo">
+					<h:panelGrid columns="6" id="gridVeiculo">
 						<p:outputLabel value="Placa: " for="placa" />
 						<p:inputText id="placa" onkeyup="this.value=this.value.toUpperCase();" maxlength="7"
 						value="#{cadastroClienteControlador.veiculo.placa}" placeholder="AAA0000" size="7"/>
@@ -305,12 +305,26 @@
 						<f:selectItem itemLabel="Trator" itemValue="TRATOR"/>
 						<f:selectItem itemLabel="Caminhonete" itemValue="CAMINHONETE"/>
 						</p:selectOneMenu>
-						<p:commandButton icon="ui-icon-plus" actionListener="#{cadastroClienteControlador.adcionaVeiculo()}"
-						update="gridVeiculo tabelaVeiculos" process="gridVeiculo"/>
+						
+						<p:outputLabel value="Marca: " for="marcaVeiculo" />
+						<p:inputText id="marcaVeiculo" onkeyup="this.value=this.value.toUpperCase();" maxlength="30"
+						value="#{cadastroClienteControlador.veiculo.marca}"/>
+						
+						<p:outputLabel value="Modelo: " for="modeloVeiculo" style="margin-left: 8px"/>
+						<p:inputText id="modeloVeiculo" onkeyup="this.value=this.value.toUpperCase();"
+						value="#{cadastroClienteControlador.veiculo.modelo}"/>
+						
+						<p:outputLabel value="Cor: " for="corVeiculo" />
+						<p:inputText id="corVeiculo" onkeyup="this.value=this.value.toUpperCase();"
+						value="#{cadastroClienteControlador.veiculo.cor}"/>
 					</h:panelGrid>
+					<center>
+						<p:commandButton icon="ui-icon-plus" value="Adicionar" actionListener="#{cadastroClienteControlador.adcionaVeiculo()}"
+						update="gridVeiculo tabelaVeiculos" process="@this gridVeiculo"/>
+					</center>
 
 					<p:dataTable id="tabelaVeiculos" value="#{cadastroClienteControlador.veiculos}" var="veiculo"
-					emptyMessage="Sem veiculo(s)" selection="#{cadastroClienteControlador.veiculoSelecionado}" style="width: 50%; margin-top: 15px">
+					emptyMessage="Sem veiculo(s)" selection="#{cadastroClienteControlador.veiculoSelecionado}" style="width: 70%; margin-top: 15px">
 					<f:facet name="header">
 					Veículos
 					</f:facet>
@@ -325,6 +339,19 @@
 					<p:column headerText="Tipo Veiculo" width="25%">
 					<p:outputLabel value="#{veiculo.tipoVeiculo.tipoVeiculo}"/>
 					</p:column>
+					
+					<p:column headerText="Marca" width="25%">
+					<p:outputLabel value="#{veiculo.marca}"/>
+					</p:column>
+					
+					<p:column headerText="Modelo" width="25%">
+					<p:outputLabel value="#{veiculo.modelo}"/>
+					</p:column>
+					
+					<p:column headerText="Cor" width="25%">
+					<p:outputLabel value="#{veiculo.cor}"/>
+					</p:column>
+					
 					<p:column width="10%">
 					<p:commandButton icon="ui-icon-trash" process="@this"
 					oncomplete="PF('confirmacaoRemocaoVeiculo').show(); return false;">
