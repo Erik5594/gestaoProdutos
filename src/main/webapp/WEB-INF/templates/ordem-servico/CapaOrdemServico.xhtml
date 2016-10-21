@@ -8,11 +8,15 @@
 
 
 	<h:panelGrid columns="2" style="margin-bottom: 15px;">
-		<p:outputLabel value="Número:" style="font-size: 18px" />
-		<p:inputText size="12" disabled="true" />
-		<p:outputLabel value="Data de criação:" style="font-size: 18px;" />
-		<p:calendar placeholder="DD/MM/YYYY" disabled="true" size="10"
-			pattern="dd/MM/yyyy" />
+		<p:column>
+			<p:outputLabel value="Número:" style="font-size: 18px" />
+			<p:inputText size="12" disabled="true" />
+		</p:column>
+		<p:column>
+			<p:outputLabel value="Data de criação:" style="font-size: 18px;" />
+			<p:calendar placeholder="DD/MM/YYYY" disabled="true" size="10"
+				pattern="dd/MM/yyyy" />
+		</p:column>
 	</h:panelGrid>
 	<h:panelGrid columns="2" width="100%">
 		<p:panel header="Dados do Cliente" id="dadosCliente">
@@ -32,21 +36,28 @@
 		<p:panel header="Dados do Veículo" id="dadosVeiculos">
 			<h:panelGrid columns="4">
 				<p:outputLabel value="Veiculo:" />
-				<p:selectOneMenu value="#{gerarOrdemServicoControlador.veiculoSelecionado}" >
+				<p:selectOneMenu value="#{gerarOrdemServicoControlador.veiculoSelecionado}" id="selecionarVeiculo">
 					<f:selectItem itemLabel="Selecione..." noSelectionOption="true"/>
-					<f:selectItems itemValue="#{veiculo}"
-					var="veiculo" itemLabel="#{veiculo.placa} - #{veiculo.chassi}" value="#{gerarOrdemServicoControlador.cliente.veiculos}"/>
-					<p:ajax event="change" process="@this frmCadastroNovaOrdemServico:dadosVeiculos" update="@this frmCadastroNovaOrdemServico:dadosVeiculos"/>
+					<f:selectItems value="#{gerarOrdemServicoControlador.cliente.veiculos}" var="veiculo"
+					itemLabel="#{veiculo.placa}" itemValue="#{veiculo}"/>
+					<p:ajax event="change" process="@this frmCadastroNovaOrdemServico:selecionarVeiculo" update="@this frmCadastroNovaOrdemServico:dadosVeiculos"/>
 				</p:selectOneMenu>
 				<p:outputLabel value="Placa:" />
 				<p:inputText size="7" onkeyup="this.value=this.value.toUpperCase();"
 					disabled="true" value="#{gerarOrdemServicoControlador.veiculoSelecionado.placa}"/>
+				<p:outputLabel value="Chassi:" />
+				<p:inputText size="20" value="#{gerarOrdemServicoControlador.veiculoSelecionado.chassi}"
+					onkeyup="this.value=this.value.toUpperCase();" disabled="true" />
+				<p:outputLabel value="Cor:" />
+				<p:inputText size="20" value="#{gerarOrdemServicoControlador.veiculoSelecionado.cor}"
+					onkeyup="this.value=this.value.toUpperCase();" disabled="true" />
 				<p:outputLabel value="Marca:" />
 				<p:inputText size="20" value="#{gerarOrdemServicoControlador.veiculoSelecionado.marca}"
 					onkeyup="this.value=this.value.toUpperCase();" disabled="true" />
 				<p:outputLabel value="Modelo:" />
 				<p:inputText size="20" value="#{gerarOrdemServicoControlador.veiculoSelecionado.modelo}"
 					onkeyup="this.value=this.value.toUpperCase();" disabled="true" />
+					
 			</h:panelGrid>
 		</p:panel>
 		<p:column>
