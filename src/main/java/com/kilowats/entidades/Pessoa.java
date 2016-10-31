@@ -12,6 +12,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import lombok.Data;
@@ -19,6 +20,7 @@ import lombok.Data;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.kilowats.enuns.TipoPessoa;
+import com.kilowats.util.Utils;
 
 @Entity @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public @Data class Pessoa implements Serializable{
@@ -40,4 +42,11 @@ public @Data class Pessoa implements Serializable{
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="data_ultima_atualizacao", nullable=false, columnDefinition="TIMESTAMP WITH TIME ZONE")
 	private Date ultimaAtualizacao;
+	@Transient
+	private String cgcCpfFormatado;
+	
+	@Transient
+	public String getCgcCpfFormatado(){
+		return Utils.formataCPFCGC(cgcCpf);
+	}
 }

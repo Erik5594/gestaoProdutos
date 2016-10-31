@@ -244,4 +244,24 @@ public class Utils {
 		}
 		return true;
 	}
+	
+	public static String formataCPFCGC(String valor){
+		StringBuilder sb = new StringBuilder();
+		if(valor != null){
+			valor = valor.replace(" ", "");
+			if(valor.length() == 11){
+				sb.append(valor.substring(0,3)).append(".");
+				sb.append(valor.substring(3,6)).append(".");
+				sb.append(valor.substring(6,9)).append("-");
+				sb.append(valor.substring(9,11)); 
+			}else if(valor.length() == 14){
+				sb.append(valor.substring(0,2)).append(".");
+				sb.append(valor.substring(2,5)).append(".");
+				sb.append(valor.substring(5,8)).append("/");
+				sb.append(valor.substring(8,12)).append("-");
+				sb.append(valor.substring(12,14));
+			}
+		}
+		return sb.toString();
+	}
 }

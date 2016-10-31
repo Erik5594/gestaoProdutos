@@ -18,7 +18,7 @@ import com.kilowats.entidades.OrdemServico;
 import com.kilowats.entidades.Produto;
 import com.kilowats.entidades.Veiculo;
 import com.kilowats.enuns.FormaPagamento;
-import com.kilowats.enuns.TipoProdutoUnidadeEnum;
+import com.kilowats.enuns.StatusOrdemServico;
 import com.kilowats.servicos.ServicosCliente;
 import com.kilowats.servicos.ServicosEan;
 import com.kilowats.servicos.ServicosProduto;
@@ -130,7 +130,7 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 	
 	public void buscarCliente() {
 		try{
-			this.cliente = servicosCliente.buscarClienteByCpfCgc(cliente.getCgcCpf());
+			this.cliente = servicosCliente.buscarClienteByCpfCgc(cliente.getCgcCpf().replaceAll("\\D", ""));
 		}catch(NoResultException ex){
 			FacesUtils.sendMensagemAviso(TITULO, "Não foi encontrado uma pessoa!");
 		}
@@ -142,5 +142,9 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 	
 	public FormaPagamento[] getFormasPagamentos() {
 		return FormaPagamento.values();
+	}
+	
+	public StatusOrdemServico[] getStatusOrdemServico() {
+		return StatusOrdemServico.values();
 	}
 }

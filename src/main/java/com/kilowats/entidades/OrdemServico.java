@@ -104,7 +104,7 @@ public @Data class OrdemServico implements Serializable{
 	
 	@Transient
 	public boolean isFinalizado() {
-		return StatusOrdemServico.CONCLUIDO.equals(this.getStatusOrdemServico());
+		return StatusOrdemServico.FINALIZADO.equals(this.getStatusOrdemServico());
 	}
 	
 	@Transient
