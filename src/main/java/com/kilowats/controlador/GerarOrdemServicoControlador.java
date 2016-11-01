@@ -23,6 +23,7 @@ import com.kilowats.servicos.ServicosCliente;
 import com.kilowats.servicos.ServicosEan;
 import com.kilowats.servicos.ServicosProduto;
 import com.kilowats.servicos.ServicosVeiculo;
+import com.kilowats.util.Utils;
 import com.kilowats.util.jsf.FacesUtils;
 
 @Named
@@ -48,6 +49,13 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 	private ServicosCliente servicosCliente;
 	@Inject
 	private ServicosVeiculo servicosVeiculo;
+	private static final String STATUS_PARA_ABERTO = "*0*";
+	private static final String STATUS_PARA_APROVADO = "*0**3*";
+	private static final String STATUS_PARA_EM_ANDAMENTO = "*1*";
+	private static final String STATUS_PARA_PENDENTE_CONFIRMACAO = "*2*";
+	private static final String STATUS_PARA_SERVICOS_REALIZADOS = "*2*";
+	private static final String STATUS_PARA_FINALIZADO = "*1**4*";
+	private static final String STATUS_PARA_CANCELADO = "*0**1**2**3**4*";
 	
 	private static final String TITULO = "Cadastro Ordem Serviço: ";
 	
@@ -146,5 +154,68 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 	
 	public StatusOrdemServico[] getStatusOrdemServico() {
 		return StatusOrdemServico.values();
+	}
+	
+	public boolean isRenderizarBotaoAberto(){
+		if(Utils.isNotNull(ordemServico) && Utils.isNotNull(ordemServico.getStatusOrdemServico())){
+			if(!STATUS_PARA_ABERTO.contains("*".concat(String.valueOf(ordemServico.getStatusOrdemServico().getCodStatus())).concat("*"))){
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public boolean isRenderizarBotaoAprovado(){
+		if(Utils.isNotNull(ordemServico) && Utils.isNotNull(ordemServico.getStatusOrdemServico())){
+			if(STATUS_PARA_APROVADO.contains("*".concat(String.valueOf(ordemServico.getStatusOrdemServico().getCodStatus())).concat("*"))){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean isRenderizarBotaoEmAndamento(){
+		if(Utils.isNotNull(ordemServico) && Utils.isNotNull(ordemServico.getStatusOrdemServico())){
+			if(STATUS_PARA_EM_ANDAMENTO.contains("*".concat(String.valueOf(ordemServico.getStatusOrdemServico().getCodStatus())).concat("*"))){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean isRenderizarBotaoPendenteConfirmacao(){
+		if(Utils.isNotNull(ordemServico) && Utils.isNotNull(ordemServico.getStatusOrdemServico())){
+			if(STATUS_PARA_PENDENTE_CONFIRMACAO.contains("*".concat(String.valueOf(ordemServico.getStatusOrdemServico().getCodStatus())).concat("*"))){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean isRenderizarBotaoServicosRealizados(){
+		if(Utils.isNotNull(ordemServico) && Utils.isNotNull(ordemServico.getStatusOrdemServico())){
+			if(STATUS_PARA_SERVICOS_REALIZADOS.contains("*".concat(String.valueOf(ordemServico.getStatusOrdemServico().getCodStatus())).concat("*"))){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean isRenderizarBotaoFinalizado(){
+		if(Utils.isNotNull(ordemServico) && Utils.isNotNull(ordemServico.getStatusOrdemServico())){
+			if(STATUS_PARA_FINALIZADO.contains("*".concat(String.valueOf(ordemServico.getStatusOrdemServico().getCodStatus())).concat("*"))){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean isRenderizarBotaoCancelado(){
+		if(Utils.isNotNull(ordemServico) && Utils.isNotNull(ordemServico.getStatusOrdemServico())){
+			if(STATUS_PARA_CANCELADO.contains("*".concat(String.valueOf(ordemServico.getStatusOrdemServico().getCodStatus())).concat("*"))){
+				return true;
+			}
+		}
+		return false;
 	}
 }

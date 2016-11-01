@@ -2,12 +2,12 @@ package com.kilowats.enuns;
 
 public enum StatusOrdemServico {
 	ABERTO(0,"Aberto"),
-	APROVADO_CLIENTE(1,"Aprovado pelo cliente"),
-	RENEGOCIACAO(2,"Renegociação"),
-	EM_ANDAMENTO(3, "Em andamento"),
-	REPROVADO_CLIENTE(4, "Negado pelo cliente"),
-	CANCELADO(5, "Cancelado"),
-	FINALIZADO(6, "Finalizado");
+	APROVADO(1,"Aprovado"),
+	EM_ANDAMENTO(2, "Em andamento"),
+	PENDENTE_CONFIRMACAO(3,"Pendente de Confirmação"),
+	SERVICOS_REALIZADOS(4, "Serviços Realizados"),
+	FINALIZADO(5, "Finalizado"),
+	CANCELADO(6, "Cancelado");
 	
 	private int codStatus;
 	private String descricaoStatus;
