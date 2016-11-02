@@ -69,7 +69,6 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 	public void inicializar() {
 		if (FacesUtils.isNotPostback()) {
 			this.ordemServico.adicionarItemVazio();
-			
 			this.recalcularOrdemServico();
 		}
 	}
@@ -165,11 +164,11 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 	
 	public boolean isRenderizarBotaoAberto(){
 		if(Utils.isNotNull(ordemServico) && Utils.isNotNull(ordemServico.getStatusOrdemServico())){
-			organizarEdicaoDeCampos();
 			if(!STATUS_PARA_ABERTO.contains("*".concat(String.valueOf(ordemServico.getStatusOrdemServico().getCodStatus())).concat("*"))){
 				return false;
 			}
 		}
+		organizarEdicaoDeCampos();
 		return true;
 	}
 	
@@ -234,31 +233,35 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 	}
 	
 	private void organizarEdicaoDeCampos() {
-		switch (ordemServico.getStatusOrdemServico().getCodStatus()) {
-		case 0:
+		if(ordemServico == null || ordemServico.getStatusOrdemServico() == null){
 			habilitarEdicaoOrcamento();
-			break;
-		case 1:
-			habilitarEdicaoFormaPagamentoOrcamento();
-			break;
-		case 2:
-			habilitarAdicionamentoProdutoOrcamento();
-			break;
-		case 3:
-			habilitarAdicionamentoProdutoAndFormaPagamentoOrcamento();
-			break;
-		case 4:
-			habilitarEdicaoFormaPagamentoOrcamento();
-			break;
-		case 5:
-			desabilitarEdicaoOrcamento();
-			break;
-		case 6:
-			desabilitarEdicaoOrcamento();
-			break;
-
-		default:
-			break;
+		}else{
+			switch (ordemServico.getStatusOrdemServico().getCodStatus()) {
+			case 0:
+				habilitarEdicaoOrcamento();
+				break;
+			case 1:
+				habilitarEdicaoFormaPagamentoOrcamento();
+				break;
+			case 2:
+				habilitarAdicionamentoProdutoOrcamento();
+				break;
+			case 3:
+				habilitarAdicionamentoProdutoAndFormaPagamentoOrcamento();
+				break;
+			case 4:
+				habilitarEdicaoFormaPagamentoOrcamento();
+				break;
+			case 5:
+				desabilitarEdicaoOrcamento();
+				break;
+			case 6:
+				desabilitarEdicaoOrcamento();
+				break;
+	
+			default:
+				break;
+		}
 		}
 	}
 	

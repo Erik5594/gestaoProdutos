@@ -38,7 +38,7 @@
 			<h:panelGrid columns="2">
 				<p:outputLabel value="Status" style="font-size: 14px"/>
 				<p:selectOneMenu value="#{gerarOrdemServicoControlador.ordemServico.statusOrdemServico}"
-				id="selecionarStatus" converter="converterEnumStatus">
+				id="selecionarStatus" converter="converterEnumStatus" disabled="true">
 					<f:selectItem itemLabel="Selecione..." noSelectionOption="true" />
 					<f:selectItems value="#{gerarOrdemServicoControlador.statusOrdemServico}" var="statusOrdemServico"
 					itemLabel="#{statusOrdemServico.descricaoStatus}" itemValue="#{statusOrdemServico}"/>
