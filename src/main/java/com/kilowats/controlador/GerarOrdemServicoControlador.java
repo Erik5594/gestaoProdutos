@@ -1,6 +1,7 @@
 package com.kilowats.controlador;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.faces.view.ViewScoped;
@@ -21,6 +22,7 @@ import com.kilowats.enuns.FormaPagamento;
 import com.kilowats.enuns.StatusOrdemServico;
 import com.kilowats.servicos.ServicosCliente;
 import com.kilowats.servicos.ServicosEan;
+import com.kilowats.servicos.ServicosOrdemServico;
 import com.kilowats.servicos.ServicosProduto;
 import com.kilowats.servicos.ServicosVeiculo;
 import com.kilowats.util.Utils;
@@ -49,6 +51,8 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 	private ServicosCliente servicosCliente;
 	@Inject
 	private ServicosVeiculo servicosVeiculo;
+	@Inject
+	private ServicosOrdemServico servicosOrdemServico;
 	
 	private static final String STATUS_PARA_ABERTO = "*0*";
 	private static final String STATUS_PARA_APROVADO = "*0**3*";
@@ -303,6 +307,67 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 		alterarClienteOrcamento = true;
 		alterarVeiculoOrcamento = true;
 		alterarFormaPagamentOrcamento = false;
+	}
+	
+	private void salvarPedido(){
+		ordemServico.removerItemVazio();
+		try{
+			completarOrdemServico();
+			this.ordemServico = servicosOrdemServico.salvarOrUpdateOrdemServico(ordemServico); 
+			FacesUtils.sendMensagemOk(TITULO, "Ordem de Serviço salva com sucesso!");
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			FacesUtils.sendMensagemError(TITULO, "Ocorreu um erro ao tentar salvar Ordem Serviço!");
+			ordemServico.adicionarItemVazio();
+		}
+	}
+	
+	private void completarOrdemServico() {
+		if(Utils.isNotNull(cliente)){
+			ordemServico.setCliente(cliente);
+		}
+		if(Utils.isNotNull(veiculoSelecionado)){
+			ordemServico.setVeiculo(veiculoSelecionado);
+		}
+		ordemServico.setDataOrdemServico(new Date());
+		ordemServico.setDataAgendado(Utils.retornaDataComDiasHaMais(7));
+		ordemServico.setDataExecutado(Utils.retornaDataComDiasHaMais(7));
+	}
+
+	public void abrirOrdemServico(){
+		this.ordemServico.setStatusOrdemServico(StatusOrdemServico.ABERTO);
+		salvarPedido();
+	}
+	
+	public void aprovarOrdemServico(){
+		this.ordemServico.setStatusOrdemServico(StatusOrdemServico.APROVADO);
+		salvarPedido();
+	}
+	
+	public void darAndamentoOrdemServico(){
+		this.ordemServico.setStatusOrdemServico(StatusOrdemServico.EM_ANDAMENTO);
+		salvarPedido();
+	}
+	
+	public void marcarPendenciaConfirmacaoOrdemServico(){
+		this.ordemServico.setStatusOrdemServico(StatusOrdemServico.PENDENTE_CONFIRMACAO);
+		salvarPedido();
+	}
+	
+	public void marcarServicosRealizadosOrdemServico(){
+		this.ordemServico.setStatusOrdemServico(StatusOrdemServico.SERVICOS_REALIZADOS);
+		salvarPedido();
+	}
+	
+	public void finalizarOrdemServico(){
+		this.ordemServico.setStatusOrdemServico(StatusOrdemServico.FINALIZADO);
+		salvarPedido();
+	}
+	
+	public void cancelarOrdemServico(){
+		this.ordemServico.setStatusOrdemServico(StatusOrdemServico.CANCELADO);
+		salvarPedido();
 	}
 	
 }

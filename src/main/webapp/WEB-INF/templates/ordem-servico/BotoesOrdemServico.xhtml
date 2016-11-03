@@ -8,15 +8,29 @@
 
 	<p:toolbar style="margin-bottom: 20px">
 		<p:toolbarGroup>
-			<p:commandButton value="Salvar" rendered="#{gerarOrdemServicoControlador.renderizarBotaoAberto}"/>
+			<p:commandButton value="Salvar" rendered="#{gerarOrdemServicoControlador.renderizarBotaoAberto}"
+			actionListener="#{gerarOrdemServicoControlador.abrirOrdemServico()}"/>
+			
 			<p:button value="Novo"
 				outcome="/pages/private/servicos/ordem-servico/cadastro/CadastroOrdemServico" />
-			<p:commandButton value="Aprovado" rendered="#{gerarOrdemServicoControlador.renderizarBotaoAprovado}"/>
-			<p:commandButton value="Em Andamento" rendered="#{gerarOrdemServicoControlador.renderizarBotaoEmAndamento}"/>
-			<p:commandButton value="Pendente Confirmação" rendered="#{gerarOrdemServicoControlador.renderizarBotaoPendenteConfirmacao}"/>
-			<p:commandButton value="Serviços Realizados" rendered="#{gerarOrdemServicoControlador.renderizarBotaoServicosRealizados}"/>
-			<p:commandButton value="Finalizado" rendered="#{gerarOrdemServicoControlador.renderizarBotaoFinalizado}"/>
-			<p:commandButton value="Cancelado" rendered="#{gerarOrdemServicoControlador.renderizarBotaoCancelado}"/>
+				
+			<p:commandButton value="Aprovado" rendered="#{gerarOrdemServicoControlador.renderizarBotaoAprovado}"
+			actionListener="#{gerarOrdemServicoControlador.aprovarOrdemServico()}"/>
+			
+			<p:commandButton value="Em Andamento" rendered="#{gerarOrdemServicoControlador.renderizarBotaoEmAndamento}"
+			actionListener="#{gerarOrdemServicoControlador.darAndamentoOrdemServico()}"/>
+			
+			<p:commandButton value="Pendente Confirmação" rendered="#{gerarOrdemServicoControlador.renderizarBotaoPendenteConfirmacao}"
+			actionListener="#{gerarOrdemServicoControlador.marcarPendenciaConfirmacaoOrdemServico()}"/>
+			
+			<p:commandButton value="Serviços Realizados" rendered="#{gerarOrdemServicoControlador.renderizarBotaoServicosRealizados}"
+			actionListener="#{gerarOrdemServicoControlador.marcarServicosRealizadosOrdemServico()}"/>
+			
+			<p:commandButton value="Finalizado" rendered="#{gerarOrdemServicoControlador.renderizarBotaoFinalizado}"
+			actionListener="#{gerarOrdemServicoControlador.finalizarOrdemServico()}"/>
+			
+			<p:commandButton value="Cancelado" rendered="#{gerarOrdemServicoControlador.renderizarBotaoCancelado}"
+			actionListener="#{gerarOrdemServicoControlador.cancelarOrdemServico()}"/>
 		</p:toolbarGroup>
 		<p:toolbarGroup align="right">
 			<p:button value="Pesquisar"

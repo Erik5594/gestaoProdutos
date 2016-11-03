@@ -41,7 +41,7 @@ public @Data class Produto implements Serializable{
 	private int quantidade;
 	@NotNull @Column(nullable=false, precision=10, scale=2)
 	private BigDecimal valor = BigDecimal.ZERO;
-	@OneToMany(mappedBy="produto", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="produto", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	private List<Ean> eans;
 	
 	@Override

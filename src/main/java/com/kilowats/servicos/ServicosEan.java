@@ -23,7 +23,7 @@ public class ServicosEan implements Serializable{
 	}
 	
 	public Ean pesquisarEanByCodBarras(String codBarras){
-		return eanDao.pesquisarCepByCodBarras(codBarras);
+		return eanDao.pesquisarEanByCodBarras(codBarras);
 	}
 
 }

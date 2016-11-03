@@ -2,7 +2,6 @@ package com.kilowats.entidades;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -26,7 +25,7 @@ public @Data class Ean implements Serializable{
 	private long id;
 	@NotNull @Column(name="cod_barra", length=20, nullable=false)
 	private String codBarras;
-	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="id_produto")
 	private Produto produto;
 }

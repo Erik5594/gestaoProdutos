@@ -1,6 +1,7 @@
 package com.kilowats.util;
 
-import java.text.ParseException;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.List;
 
@@ -263,5 +264,19 @@ public class Utils {
 			}
 		}
 		return sb.toString();
+	}
+	
+	public static Date retornaDataComDiasHaMais(int qtdeDiasHaMais){
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(new Date());
+		calendar.add(Calendar.DAY_OF_YEAR, qtdeDiasHaMais);
+		return calendar.getTime();
+	}
+	
+	public static Date retornaDataComDiasHaMenos(int qtdeDiasHaMenos){
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(new Date());
+		calendar.add(Calendar.DAY_OF_YEAR, -qtdeDiasHaMenos);
+		return calendar.getTime();
 	}
 }

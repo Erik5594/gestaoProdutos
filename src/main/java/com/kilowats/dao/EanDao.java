@@ -10,7 +10,7 @@ public class EanDao {
 	@Inject
 	private EntityManager manager;
 
-	public Ean pesquisarCepByCodBarras(String codBarras) {
+	public Ean pesquisarEanByCodBarras(String codBarras) {
 		return manager
 				.createQuery("from Ean where codBarras = :codBarras", Ean.class)
 				.setParameter("codBarras", codBarras).getSingleResult();
