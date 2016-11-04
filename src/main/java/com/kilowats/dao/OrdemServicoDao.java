@@ -5,8 +5,10 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.TransactionRequiredException;
 
 import com.kilowats.entidades.OrdemServico;
+import com.kilowats.util.jsf.FacesUtils;
 
 public class OrdemServicoDao {
 
@@ -16,7 +18,12 @@ public class OrdemServicoDao {
 	public OrdemServico salvarOrUpdate(OrdemServico ordemServico) {
 		EntityTransaction entityTransaction = manager.getTransaction();
 		entityTransaction.begin();
-		ordemServico = (OrdemServico) manager.merge(ordemServico);
+		try{
+			
+			ordemServico = (OrdemServico) manager.merge(ordemServico);
+		}catch(IllegalArgumentException | TransactionRequiredException ex){
+			FacesUtils.sendMensagemOk("Ocorreu um erro: ", "Ocorreu um erro interno");
+		}
 		entityTransaction.commit();
 		return ordemServico;
 	}

@@ -7,6 +7,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -21,7 +23,7 @@ public @Data class ItemOrdemServico implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
-	@Id
+	@Id @GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	@JoinColumn(name="id_produto", nullable=false)
@@ -72,8 +74,8 @@ public @Data class ItemOrdemServico implements Serializable{
 	
 	@Transient
 	public boolean isEstoqueSuficiente() {
-		return this.getOrdemServico().isFinalizado() || this.getProduto().getId() == null 
-			|| this.getProduto().getQuantidade() >= this.getQuantidadeProduto(); 
+		return (this.getOrdemServico() != null && this.getOrdemServico().isFinalizado()) || this.getProduto() == null
+				|| this.getProduto().getId() == null || this.getProduto().getQuantidade() >= this.getQuantidadeProduto(); 
 	}
 	
 	@Transient

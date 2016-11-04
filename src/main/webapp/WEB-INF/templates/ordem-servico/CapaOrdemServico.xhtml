@@ -10,12 +10,12 @@
 	<h:panelGrid columns="2" style="margin-bottom: 7px;" width="40%">
 		<p:column>
 			<p:outputLabel value="Número:" style="font-size: 15px" />
-			<p:inputText size="12" disabled="true" />
+			<p:inputText size="12" disabled="true" value="#{gerarOrdemServicoControlador.ordemServico.id}"/>
 		</p:column>
 		<p:column>
 			<p:outputLabel value="Data de criação:" style="font-size: 15px;" />
 			<p:calendar placeholder="DD/MM/YYYY" disabled="true" size="10"
-				pattern="dd/MM/yyyy" />
+				pattern="dd/MM/yyyy" value="#{gerarOrdemServicoControlador.ordemServico.dataOrdemServico}"/>
 		</p:column>
 	</h:panelGrid>
 	<h:panelGrid columns="2" width="100%">

@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -32,18 +34,18 @@ public @Data class OrdemServico implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
-	@Id
+	@Id @GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="id_cliente", nullable=false)
 	private Cliente cliente;
 	
-	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="id_veiculo", nullable=false)
 	private Veiculo veiculo;
 	
-	@OneToMany(mappedBy="ordemServico",fetch=FetchType.LAZY,cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="ordemServico",fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	private List<ItemOrdemServico> itens = new ArrayList<>();
 	
 	@Temporal(TemporalType.TIMESTAMP)
@@ -73,11 +75,11 @@ public @Data class OrdemServico implements Serializable{
 	@Column(length=10, scale=2, nullable=false, name="valor_total")
 	private BigDecimal valorTotal = BigDecimal.ZERO;
 	
-	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="id_contrato", nullable=true)
 	private Contrato contrato;
 	
-	@Override
+	@Override @Transient
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -94,7 +96,7 @@ public @Data class OrdemServico implements Serializable{
 		return true;
 	}
 
-	@Override
+	@Override @Transient
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
@@ -112,6 +114,7 @@ public @Data class OrdemServico implements Serializable{
 		return this.getValorTotal().add(this.getValorTotalDesconto());
 	}
 	
+	@Transient
 	public void recalcularValorTotal() {
 		BigDecimal total = BigDecimal.ZERO;
 		
@@ -126,6 +129,7 @@ public @Data class OrdemServico implements Serializable{
 		this.setValorTotal(total);
 	}
 	
+	@Transient
 	public void adicionarItemVazio() {
 		Produto produto = new Produto();
 		
@@ -136,6 +140,7 @@ public @Data class OrdemServico implements Serializable{
 		this.getItens().add(0, item);
 	}
 	
+	@Transient
 	public void removerItemVazio() {
 		ItemOrdemServico primeiroItem = this.getItens().get(0);
 		

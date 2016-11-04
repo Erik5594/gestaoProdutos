@@ -12,7 +12,7 @@
 			<h:outputText value="#{item.produto.codProduto}" rendered="#{item.produtoAssociado}"/>
 			
 			<p:inputText size="13" value="#{gerarOrdemServicoControlador.codBarras}" label="Código Barras"
-				rendered="#{not item.produtoAssociado}" disabled="#{gerarOrdemServicoControlador.adicionarItemOrcamento}">
+				rendered="#{!item.produtoAssociado}" disabled="#{gerarOrdemServicoControlador.adicionarItemOrcamento}">
 				<p:ajax event="change" process="@this" 
 					update="tabelaItens :frmCadastroNovaOrdemServico:totalOrdemServico :frmCadastroNovaOrdemServico:subtotal" 
 					listener="#{gerarOrdemServicoControlador.carregarProdutoPorCodBarras()}" />
@@ -24,7 +24,7 @@
 			<p:autoComplete styleClass="produto-tabela" value="#{gerarOrdemServicoControlador.produtoLinhaEditavel}"
 				completeMethod="#{gerarOrdemServicoControlador.completarProduto}" disabled="#{gerarOrdemServicoControlador.adicionarItemOrcamento}"
 				var="produto" itemLabel="#{produto.nomeProduto}" itemValue="#{produto}" 
-				forceSelection="true" rendered="#{not item.produtoAssociado}">
+				forceSelection="true" rendered="#{!item.produtoAssociado}">
 				<p:ajax event="itemSelect" update="tabelaItens :frmCadastroNovaOrdemServico:totalOrdemServico :frmCadastroNovaOrdemServico:subtotal" 
 					listener="#{gerarOrdemServicoControlador.carregarProdutoLinhaEditavel()}"/>
 			</p:autoComplete>

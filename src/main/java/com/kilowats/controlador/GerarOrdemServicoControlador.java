@@ -314,11 +314,11 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 		try{
 			completarOrdemServico();
 			this.ordemServico = servicosOrdemServico.salvarOrUpdateOrdemServico(ordemServico); 
-			FacesUtils.sendMensagemOk(TITULO, "Ordem de Serviço salva com sucesso!");
+			FacesUtils.sendMensagemOk(TITULO, "Ordem de Serviço salva com sucesso!["+ordemServico.getId()+"]");
 		}catch(Exception e){
+			FacesUtils.sendMensagemError(TITULO, "Ocorreu um erro ao tentar salvar Ordem Serviço!");
 			e.printStackTrace();
 		}finally{
-			FacesUtils.sendMensagemError(TITULO, "Ocorreu um erro ao tentar salvar Ordem Serviço!");
 			ordemServico.adicionarItemVazio();
 		}
 	}
