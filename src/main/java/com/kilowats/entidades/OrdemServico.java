@@ -148,4 +148,14 @@ public @Data class OrdemServico implements Serializable{
 			this.getItens().remove(0);
 		}
 	}
+	
+	@Transient
+	public boolean temItemVazio() {
+		ItemOrdemServico primeiroItem = this.getItens().get(0);
+		
+		if (primeiroItem != null && primeiroItem.getProduto().getId() == null) {
+			return true;
+		}
+		return false;
+	}
 }

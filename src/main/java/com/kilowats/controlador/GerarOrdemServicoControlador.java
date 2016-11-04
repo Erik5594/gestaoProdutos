@@ -72,7 +72,9 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 	
 	public void inicializar() {
 		if (FacesUtils.isNotPostback()) {
-			this.ordemServico.adicionarItemVazio();
+			if(!this.ordemServico.temItemVazio()){
+				this.ordemServico.adicionarItemVazio();
+			}
 			this.recalcularOrdemServico();
 		}
 	}
@@ -370,4 +372,15 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 		salvarPedido();
 	}
 	
+	public void setOrdemServico(OrdemServico ordemServico){
+		this.ordemServico = ordemServico;
+		if(this.ordemServico != null){
+			if(this.ordemServico.getCliente() != null){
+				this.cliente = this.ordemServico.getCliente();
+			}
+			if(this.ordemServico.getVeiculo() != null){
+				this.veiculoSelecionado = this.ordemServico.getVeiculo();
+			}
+		}
+	}
 }

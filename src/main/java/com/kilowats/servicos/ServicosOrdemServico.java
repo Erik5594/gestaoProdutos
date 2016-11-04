@@ -1,6 +1,7 @@
 package com.kilowats.servicos;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -16,6 +17,10 @@ public class ServicosOrdemServico implements Serializable{
 	
 	public OrdemServico salvarOrUpdateOrdemServico(OrdemServico ordemServico){
 		return ordemServicoDao.salvarOrUpdate(ordemServico);
+	}
+	
+	public List<OrdemServico> listarTodasOrdemServico(){
+		return ordemServicoDao.listarTodasOrdemServico();
 	}
 
 }
