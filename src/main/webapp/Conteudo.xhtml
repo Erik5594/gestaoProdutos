@@ -10,6 +10,12 @@
 	<ui:define name="titulo">Dashboard</ui:define>
 	
 	<ui:define name="conteudo">
-	<h1>Bem Vindo!</h1>
+	<center>
+		<p:imageSwitch effect="fade" id="imagensTelaInicial">
+		    <ui:repeat value="#{imagensSlide.imagens}" var="imagem" id="imagesTelaInicial">
+		        <h:graphicImage library="imagens" name="#{imagem}"/>
+		    </ui:repeat>
+		</p:imageSwitch>
+	</center>
 	</ui:define>
 </ui:composition>

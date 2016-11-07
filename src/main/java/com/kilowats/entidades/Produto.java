@@ -2,6 +2,7 @@ package com.kilowats.entidades;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -15,6 +16,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -39,8 +42,13 @@ public @Data class Produto implements Serializable{
 	private TipoProdutoUnidadeEnum tipoUnidade;
 	@NotNull @Min(0) @Max(999999) @Column(nullable=false, length=10, precision=2, scale = 2)
 	private int quantidade;
-	@NotNull @Column(nullable=false, precision=10, scale=2)
-	private BigDecimal valor = BigDecimal.ZERO;
+	@NotNull @Column(nullable=false, precision=10, scale=2, name="valor_venda")
+	private BigDecimal valorVenda = BigDecimal.ZERO;
+	@Column(precision=10, scale=2, name="valor_custo")
+	private BigDecimal valorCusto = BigDecimal.ZERO;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="data_ultima_atualizacao", nullable=false, columnDefinition="TIMESTAMP WITH TIME ZONE")
+	private Date dataUltimaAtualizacao;
 	@OneToMany(mappedBy="produto", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	private List<Ean> eans;
 	

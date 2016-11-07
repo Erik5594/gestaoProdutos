@@ -4,23 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
 
 import com.kilowats.entidades.Grupo;
 import com.kilowats.entidades.Usuario;
+import com.kilowats.util.jpa.EntityManagerProducer;
 
 public class CriarGruposAndUser {
+	
+	private EntityManager manager = new EntityManagerProducer().createEntityManager();
 
 	public static void main(String[] args) {
-		criarUsuarios();
-		criarAdministrador();
+		CriarGruposAndUser criador = new CriarGruposAndUser();
+		criador.criarUsuarios();
+		criador.criarAdministrador();
 	}
 
-	private static void criarUsuarios() {
-		EntityManagerFactory factory = Persistence.createEntityManagerFactory("gestaoPU");
-		EntityManager manager = factory.createEntityManager();
+	private void criarUsuarios() {
 		EntityTransaction trc = manager.getTransaction();
 		trc.begin();
 		
@@ -49,13 +49,9 @@ public class CriarGruposAndUser {
 		manager.merge(grupo);
 		
 		trc.commit();
-		manager.close();
-		factory.close();
 	}
 	
-	private static void criarAdministrador() {
-		EntityManagerFactory factory = Persistence.createEntityManagerFactory("gestaoPU");
-		EntityManager manager = factory.createEntityManager();
+	private void criarAdministrador() {
 		EntityTransaction trc = manager.getTransaction();
 		trc.begin();
 		
@@ -74,8 +70,6 @@ public class CriarGruposAndUser {
 		
 		manager.merge(usuario);
 		trc.commit();
-		manager.close();
-		factory.close();
 	}
 
 }

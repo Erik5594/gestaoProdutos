@@ -47,9 +47,13 @@
 				<p:inputText disabled="true" value="#{entradaProdutoControlador.produto.nomeProduto}"
 				style="margin-right: 5px" size="60" id="nomeProduto"/>
 				
-				<p:outputLabel value="Valor " style="margin-right: 5px" for="valorProduto"/>
-				<p:inputText value="#{entradaProdutoControlador.produto.valor}" styleClass="moeda"
-				style="margin-right: 5px" size="5" required="true" id="valorProduto"/>
+				<p:outputLabel value="Valor Venda (R$)" style="margin-right: 5px" for="valorVendaProduto"/>
+				<p:inputText value="#{entradaProdutoControlador.produto.valorVenda}" styleClass="moeda"
+				style="margin-right: 5px" size="5" required="true" id="valorVendaProduto"/>
+				
+				<p:outputLabel value="Valor Custo (R$)" style="margin-right: 5px" for="valorCustoProduto"/>
+				<p:inputText value="#{entradaProdutoControlador.produto.valorCusto}" styleClass="moeda"
+				style="margin-right: 5px" size="5" required="true" id="valorCustoProduto"/>
 				
 				<p:outputLabel value="Quantidade " style="margin-right: 5px" for="qtdeProduto"/>
 				<p:inputText value="#{entradaProdutoControlador.produto.quantidade}" style="margin-right: 5px"
