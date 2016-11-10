@@ -39,13 +39,17 @@
 	<http auto-config="false" use-expressions="true">
 		<custom-filter ref="exceptionTranslationFilter" before="FILTER_SECURITY_INTERCEPTOR" />
 		
-		<intercept-url pattern="/erro.xhtml" access="permitAll" />
 		<intercept-url pattern="/Conteudo.xhtml" access="isAuthenticated()" />
 		<intercept-url pattern="/AcessoNegado.xhtml" access="isAuthenticated()" />
 		<intercept-url pattern="/desenvolvimento.xhtml" access="isAuthenticated()" />
 		<intercept-url pattern="/manutencao.xhtml" access="isAuthenticated()" />
 		<intercept-url pattern="/breve.xhtml" access="isAuthenticated()" />
 		<intercept-url pattern="/pages/private/**" access="hasAnyRole('ADMINISTRADORES')" />
+		<intercept-url pattern="/pages/private/cliente/**" access="hasAnyRole('VENDEDORES')" />
+		<intercept-url pattern="/pages/private/servicos/**" access="hasAnyRole('VENDEDORES')" />
+		<intercept-url pattern="/pages/private/rastreamento/**" access="hasAnyRole('TECNICOS')" />
+		<intercept-url pattern="/pages/private/servicos/**" access="hasAnyRole('TECNICOS')" />
+		<intercept-url pattern="/pages/private/servicos/**" access="hasAnyRole('FINANCEIROS')" />
 		<intercept-url pattern="/**" access="denyAll" />
 
 		<!-- Defino a tela de login -->
