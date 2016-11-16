@@ -1,7 +1,6 @@
 package com.kilowats.entidades;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -15,11 +14,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import lombok.Data;
@@ -40,17 +38,21 @@ public @Data class Produto implements Serializable{
 	private String nomeProduto;
 	@NotNull @Enumerated(EnumType.ORDINAL) @Column(name="tipo_unidade")
 	private TipoProdutoUnidadeEnum tipoUnidade;
-	@NotNull @Min(0) @Max(999999) @Column(nullable=false, length=10, precision=2, scale = 2)
-	private int quantidade;
-	@NotNull @Column(nullable=false, precision=10, scale=2, name="valor_venda")
-	private BigDecimal valorVenda = BigDecimal.ZERO;
-	@Column(precision=10, scale=2, name="valor_custo")
-	private BigDecimal valorCusto = BigDecimal.ZERO;
+	@NotNull @Enumerated(EnumType.ORDINAL) @Column(name="tipo_unidade_tributavel")
+	private TipoProdutoUnidadeEnum tipoUnidadeTributavel;
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="data_ultima_atualizacao", nullable=false, columnDefinition="TIMESTAMP WITH TIME ZONE")
 	private Date dataUltimaAtualizacao;
 	@OneToMany(mappedBy="produto", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	private List<Ean> eans;
+	@OneToOne(mappedBy = "produto", cascade=CascadeType.REMOVE, fetch=FetchType.EAGER)
+	private ValoresProduto valoresProdutos;
+	@OneToOne(mappedBy = "produto", cascade=CascadeType.REMOVE, fetch=FetchType.EAGER)
+	private EstoqueProduto estoqueProduto;
+	@OneToOne(mappedBy = "produto", cascade=CascadeType.REMOVE, fetch=FetchType.EAGER)
+	private Tipi tipi;
+	@OneToMany(mappedBy = "produto", cascade=CascadeType.REMOVE, fetch=FetchType.EAGER)
+	private List<Icms> icms;
 	
 	@Override
 	public int hashCode() {
