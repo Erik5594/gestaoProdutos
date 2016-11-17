@@ -59,16 +59,16 @@
 						
 						<p:outputLabel value="Quantidade " for="quantidadeProduto" />
 						<p:inputText id="quantidadeProduto" disabled="#{cadastroProdutoControlador.editar()}" size="5"
-						value="#{cadastroProdutoControlador.produto.quantidade}" converter="converterNumber" maxlength="6"/>
+						value="#{cadastroProdutoControlador.produto.estoqueProduto.quantidadeEstoque}" converter="converterNumber" maxlength="6"/>
 						
 						<p:outputLabel value="Valor da Venda(R$) " for="valorVenda" />
 						<p:inputText id="valorVenda" disabled="#{cadastroProdutoControlador.editar()}" 
-						size="5" value="#{cadastroProdutoControlador.produto.valorVenda}" converter="converterToDouble"
+						size="5" value="#{cadastroProdutoControlador.produto.valoresProdutos.valorComercial}" converter="converterToDouble"
 						styleClass="moeda"/>
 						
 						<p:outputLabel value="Valor de Custo(R$) " for="valorCusto" />
 						<p:inputText id="valorCusto" disabled="#{cadastroProdutoControlador.editar()}" 
-						size="5" value="#{cadastroProdutoControlador.produto.valorCusto}" converter="converterToDouble"
+						size="5" value="#{cadastroProdutoControlador.produto.valoresProdutos.valorCusto}" converter="converterToDouble"
 						styleClass="moeda"/>
 						
 						<p:outputLabel value="Tipo " for="tipoProduto" />
@@ -78,12 +78,22 @@
 						itemValue="#{tpUnidadeProduto}"/>
 						</p:selectOneMenu>
 						
+						<p:outputLabel value="Tipo Trib." for="tipoProdutoTrib" />
+						<p:selectOneMenu id="tipoProdutoTrib" converter="converterTipoUnidadeProduto" value="#{cadastroProdutoControlador.produto.tipoUnidadeTributavel}">
+						<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>
+						<f:selectItems value="#{cadastroProdutoControlador.tipoUnidadeProduto}" var="tpUnidadeProduto" itemLabel="#{tpUnidadeProduto.descricaoUnidade}"
+						itemValue="#{tpUnidadeProduto}"/>
+						</p:selectOneMenu>
+						
 						<p:outputLabel value="Cod. Barras " for="codBarrasProduto" />
 						<p:column>
 						<p:inputText id="codBarrasProduto" value="#{cadastroProdutoControlador.ean.codBarras}"
 						size="20" style="margin-right: 5px" onkeyup="this.value=this.value.toUpperCase();"/>
-						<p:commandButton icon="ui-icon-check" update=":frmCadastroFornecedor:tabelaProduto codBarrasProduto" process="@this codBarrasProduto"
-						actionListener="#{cadastroProdutoControlador.adicionarEan()}"/>
+						<p:outputLabel value="Tributavel" for="checkTributavel" style="margin-left: 5px"/>
+						<p:selectBooleanCheckbox id="checkTributavel" style="margin-left: 5px"
+						value="#{cadastroProdutoControlador.ean.tributavel}"/>
+						<p:commandButton icon="ui-icon-check" update=":frmCadastroFornecedor:tabelaProduto codBarrasProduto" process="@this codBarrasProduto checkTributavel"
+						actionListener="#{cadastroProdutoControlador.adicionarEan()}" style="margin-left: 5px"/>
 						</p:column>
 					</h:panelGrid>
 				</p:tab>
@@ -94,8 +104,11 @@
 			
 			<!-- Inicio Tabela Eans -->
 			<p:dataTable  id="tabelaProduto" var="ean" value="#{cadastroProdutoControlador.eans}" style="width: 50%; margin-top: 10px">
-			<p:column headerText="Cód. Barras" width="90%">
+			<p:column headerText="Cód. Barras" width="70%">
 			<p:outputLabel value="#{ean.codBarras}"/>
+			</p:column>
+			<p:column headerText="Tributavel" width="20%">
+			<p:selectBooleanCheckbox value="#{ean.tributavel}" disabled="true"/>
 			</p:column>
 			<p:column width="100px">
 			<p:commandButton icon="ui-icon-trash" process="@this" update=":frmCadastroFornecedor:confirmacaoExclusaoEanDialog"
