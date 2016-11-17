@@ -75,7 +75,7 @@ public @Data class ItemOrdemServico implements Serializable{
 	@Transient
 	public boolean isEstoqueSuficiente() {
 		return (this.getOrdemServico() != null && this.getOrdemServico().isFinalizado()) || this.getProduto() == null
-				|| this.getProduto().getId() == null || this.getProduto().getQuantidade() >= this.getQuantidadeProduto(); 
+				|| this.getProduto().getId() == null || this.getProduto().getEstoqueProduto().getQuantidadeEstoque() >= this.getQuantidadeProduto(); 
 	}
 	
 	@Transient

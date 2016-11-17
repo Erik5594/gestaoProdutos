@@ -102,7 +102,7 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 				FacesUtils.sendMensagemError(TITULO, "Já existe um item no pedido com o produto informado.");
 			} else {
 				item.setProduto(this.produtoLinhaEditavel);
-				item.setValorUnitario(this.produtoLinhaEditavel.getValorVenda());
+				item.setValorUnitario(this.produtoLinhaEditavel.getValoresProdutos().getValorComercial());
 				
 				this.ordemServico.adicionarItemVazio();
 				this.produtoLinhaEditavel = null;
