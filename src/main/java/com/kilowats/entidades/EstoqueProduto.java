@@ -1,6 +1,7 @@
 package com.kilowats.entidades;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,16 +28,16 @@ public @Data class EstoqueProduto implements Serializable{
 	private long id;
 	@NotNull @Min(0) @Max(999999)
 	@Column(name="quantidade_estoque",nullable=false, length=10, precision=2, scale = 2)
-	private int quantidadeEstoque;
+	private BigDecimal quantidadeEstoque;
 	@NotNull @Min(0) @Max(999999)
 	@Column(name="quantidade_pendente_entrada", nullable=false, length=10, precision=2, scale = 2)
-	private int quantidadePendenteEntrada;
+	private BigDecimal quantidadePendenteEntrada;
 	@NotNull @Min(0) @Max(999999)
 	@Column(name="quantidade_pendente_saida", nullable=false, length=10, precision=2, scale = 2)
-	private int quantidadePendenteSaida;
+	private BigDecimal quantidadePendenteSaida;
 	@NotNull @Min(0) @Max(999999)
 	@Column(name="quantidade_tributavel", nullable=false, length=10, precision=2, scale = 2)
-	private int quantidadeTributavel;
+	private BigDecimal quantidadeTributavel;
 	@OneToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="id_produto")
 	private Produto produto;

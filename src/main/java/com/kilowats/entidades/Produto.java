@@ -51,8 +51,8 @@ public @Data class Produto implements Serializable{
 	private EstoqueProduto estoqueProduto;
 	@OneToOne(mappedBy = "produto", cascade=CascadeType.REMOVE, fetch=FetchType.EAGER)
 	private Tipi tipi;
-	@OneToMany(mappedBy = "produto", cascade=CascadeType.REMOVE, fetch=FetchType.EAGER)
-	private List<Icms> icms;
+	@OneToOne(mappedBy = "produto", cascade=CascadeType.REMOVE, fetch=FetchType.EAGER)
+	private Icms icms;
 	@OneToOne(mappedBy = "produto", cascade=CascadeType.REMOVE, fetch=FetchType.EAGER)
 	private Ipi ipi;
 	

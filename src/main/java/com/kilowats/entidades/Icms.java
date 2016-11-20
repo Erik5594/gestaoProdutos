@@ -16,13 +16,15 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import lombok.Data;
+
 import com.kilowats.enuns.SituacaoTributariaIcms;
 import com.kilowats.enuns.TipoRegimeFiscal;
 import com.kilowats.enuns.TributacaoOrigemProduto;
 
 @Entity
 @Table(name="icms")
-public class Icms implements Serializable{
+public @Data class Icms implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	@Id @GeneratedValue(strategy = GenerationType.AUTO)
