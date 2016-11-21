@@ -99,6 +99,21 @@ public @Data class CadastroProdutoControlador implements Serializable{
 		if(isNotNullOrEmpty(eans)){
 			this.produto.setEans(this.eans);
 		}
+		if(this.produto.getEstoqueProduto() != null){
+			this.produto.getEstoqueProduto().setProduto(produto);
+		}
+		if(this.produto.getValoresProdutos() != null){
+			this.produto.getValoresProdutos().setProduto(produto);
+		}
+		if(this.produto.getIcms() != null){
+			this.produto.getIcms().setProduto(produto);
+		}
+		if(this.produto.getTipi() != null){
+			this.produto.getTipi().setProduto(produto);
+		}
+		if(this.produto.getIpi() != null){
+			this.produto.getIpi().setProduto(produto);
+		}
 	}
 
 	public TipoProdutoUnidadeEnum[] getTipoUnidadeProduto() {

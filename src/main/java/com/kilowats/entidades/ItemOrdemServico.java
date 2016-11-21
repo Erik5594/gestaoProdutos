@@ -31,7 +31,7 @@ public @Data class ItemOrdemServico implements Serializable{
 	@Column(length=10, precision=2, nullable=false, name="valor_desconto")
 	private BigDecimal valorDesconto = BigDecimal.ZERO;
 	@Column(nullable=false, name="quantidade_produto")
-	private Integer quantidadeProduto = 1;
+	private BigDecimal quantidadeProduto = BigDecimal.ONE;
 	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	@JoinColumn(name="id_ordem_servico", nullable=false)
 	private OrdemServico ordemServico;
@@ -64,7 +64,7 @@ public @Data class ItemOrdemServico implements Serializable{
 	
 	@Transient
 	public BigDecimal getValorTotal() {
-		return this.getValorUnitario().multiply(new BigDecimal(this.getQuantidadeProduto()));
+		return this.getValorUnitario().multiply(this.getQuantidadeProduto());
 	}
 	
 	@Transient
@@ -75,7 +75,7 @@ public @Data class ItemOrdemServico implements Serializable{
 	@Transient
 	public boolean isEstoqueSuficiente() {
 		return (this.getOrdemServico() != null && this.getOrdemServico().isFinalizado()) || this.getProduto() == null
-				|| this.getProduto().getId() == null || this.getProduto().getEstoqueProduto().getQuantidadeEstoque() >= this.getQuantidadeProduto(); 
+				|| this.getProduto().getId() == null || this.getProduto().getEstoqueProduto().getQuantidadeEstoque().equals(this.getQuantidadeProduto()); 
 	}
 	
 	@Transient

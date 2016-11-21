@@ -1,5 +1,6 @@
 package com.kilowats.util;
 
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.InputMismatchException;
@@ -218,6 +219,9 @@ public class Utils {
 		}else if(obj instanceof Float){
 			Float flo = (Float) obj;
 			return isNotNull(flo) && flo > 0F;
+		}else if(obj instanceof BigDecimal){
+			BigDecimal bgDec = (BigDecimal)obj;
+			return isNotNull(bgDec) && bgDec != BigDecimal.ZERO;
 		}
 		return isNotNull(obj);
 	}

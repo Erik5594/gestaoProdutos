@@ -1,10 +1,7 @@
 package com.kilowats.controlador;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.Properties;
 
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;

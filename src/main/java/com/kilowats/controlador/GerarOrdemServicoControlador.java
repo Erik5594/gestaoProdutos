@@ -1,6 +1,7 @@
 package com.kilowats.controlador;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -131,9 +132,9 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 	}
 	
 	public void atualizarQuantidade(ItemOrdemServico item, int linha) {
-		if (item.getQuantidadeProduto() < 1) {
+		if (item.getQuantidadeProduto().equals(BigDecimal.ONE)) {
 			if (linha == 0) {
-				item.setQuantidadeProduto(1);
+				item.setQuantidadeProduto(BigDecimal.ONE);
 			} else {
 				this.getOrdemServico().getItens().remove(linha);
 			}

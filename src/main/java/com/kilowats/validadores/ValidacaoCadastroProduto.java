@@ -32,15 +32,37 @@ public class ValidacaoCadastroProduto implements IValidacaoCadastro {
 			}
 			retorno = false;
 		}
+		if(isNullOrEmpty(produto.getTipoUnidadeTributavel())){
+			if(mostrarMensagem){
+				FacesUtils.sendMensagemError(titulo, "Unidade de medida tributavel do produto inválida");
+			}
+			retorno = false;
+		}
 		if(isNullOrEmpty(produto.getCodProduto())){
 			if(mostrarMensagem){
 				FacesUtils.sendMensagemError(titulo, "Código do produto inválido.");
 			}
 			retorno = false;
-		}else if(produto.getCodProduto().length() > 10){
+		}else if(produto.getCodProduto().length() > 15){
 			if(mostrarMensagem){
-				FacesUtils.sendMensagemError(titulo, "Código do produto muito longo. (máximo 10 caracteres)");
+				FacesUtils.sendMensagemError(titulo, "Código do produto muito longo. (máximo 15 caracteres)");
 			}
+			retorno = false;
+		}
+		IValidacaoCadastro validador = new ValidacaoValoresProduto();
+		if(validador.validarCadastroComMensagem(produto.getValoresProdutos(), titulo, true)){
+			retorno = false;
+		}
+		validador = new ValidacaoIcms();
+		if(validador.validarCadastroComMensagem(produto.getIcms(), titulo, true)){
+			retorno = false;
+		}
+		validador = new ValidacaoTipi();
+		if(validador.validarCadastroComMensagem(produto.getTipi(), titulo, true)){
+			retorno = false;
+		}
+		validador = new ValidacaoIpi();
+		if(validador.validarCadastroComMensagem(produto.getIpi(), titulo, true)){
 			retorno = false;
 		}
 		return retorno;
