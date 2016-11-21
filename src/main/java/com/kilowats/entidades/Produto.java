@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -45,15 +46,15 @@ public @Data class Produto implements Serializable{
 	private Date dataUltimaAtualizacao;
 	@OneToMany(mappedBy="produto", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	private List<Ean> eans;
-	@OneToOne(mappedBy = "produto", cascade=CascadeType.REMOVE, fetch=FetchType.EAGER)
+	@Inject @OneToOne(mappedBy = "produto", cascade=CascadeType.REMOVE, fetch=FetchType.EAGER)
 	private ValoresProduto valoresProdutos;
-	@OneToOne(mappedBy = "produto", cascade=CascadeType.REMOVE, fetch=FetchType.EAGER)
+	@Inject @OneToOne(mappedBy = "produto", cascade=CascadeType.REMOVE, fetch=FetchType.EAGER)
 	private EstoqueProduto estoqueProduto;
-	@OneToOne(mappedBy = "produto", cascade=CascadeType.REMOVE, fetch=FetchType.EAGER)
+	@Inject @OneToOne(mappedBy = "produto", cascade=CascadeType.REMOVE, fetch=FetchType.EAGER)
 	private Tipi tipi;
-	@OneToOne(mappedBy = "produto", cascade=CascadeType.REMOVE, fetch=FetchType.EAGER)
+	@Inject @OneToOne(mappedBy = "produto", cascade=CascadeType.REMOVE, fetch=FetchType.EAGER)
 	private Icms icms;
-	@OneToOne(mappedBy = "produto", cascade=CascadeType.REMOVE, fetch=FetchType.EAGER)
+	@Inject @OneToOne(mappedBy = "produto", cascade=CascadeType.REMOVE, fetch=FetchType.EAGER)
 	private Ipi ipi;
 	
 	@Override

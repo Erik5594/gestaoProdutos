@@ -16,31 +16,31 @@ public class ValidacaoIpi implements IValidacaoCadastro {
 		boolean retorno = true;
 		if(isNullOrEmpty(ipi)){
 			if(mostrarMensagem){
-				FacesUtils.sendMensagemError(titulo, "Ipi não informado!");
+				FacesUtils.sendMensagemError(titulo, "IPI não informado!");
 			}
 			retorno = false;
 		}
 		if(isNullOrEmpty(ipi.getProduto())){
 			if(mostrarMensagem){
-				FacesUtils.sendMensagemError(titulo, "Ipi sem produto!");
+				FacesUtils.sendMensagemError(titulo, "IPI sem produto!");
 			}
 			retorno = false;
 		}
 		if(isNullOrEmpty(ipi.getClasseEnquadramento())){
 			if(mostrarMensagem){
-				FacesUtils.sendMensagemError(titulo, "Classe enquadramento inválida!");
-			}
-			retorno = false;
-		}
-		if(isNullOrEmpty(ipi.getCnpjProduto())){
-			if(mostrarMensagem){
-				FacesUtils.sendMensagemError(titulo, "Cnpj produto inválido!");
+				FacesUtils.sendMensagemError(titulo, "IPI - Classe de enquadramento inválida!");
 			}
 			retorno = false;
 		}
 		if(isNullOrEmpty(ipi.getCodEnquadramentoLegal())){
 			if(mostrarMensagem){
-				FacesUtils.sendMensagemError(titulo, "Código de enquadramento inválido!");
+				FacesUtils.sendMensagemError(titulo, "IPI - Código de enquadramento inválido!");
+			}
+			retorno = false;
+		}
+		if(isNullOrEmpty(ipi.getCnpjProduto())){
+			if(mostrarMensagem){
+				FacesUtils.sendMensagemError(titulo, "IPI - Cnpj do produto inválido!");
 			}
 			retorno = false;
 		}

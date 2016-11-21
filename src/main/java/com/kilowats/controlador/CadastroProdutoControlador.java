@@ -3,6 +3,7 @@ package com.kilowats.controlador;
 import static com.kilowats.util.Utils.isNotNullOrEmpty;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,8 +65,8 @@ public @Data class CadastroProdutoControlador implements Serializable{
 	}
 	
 	public void salvar() {
+		completarDadosProduto();
 		if (servicosProduto.produtoIsValido(this.produto, TITULO, true)) {
-			completarDadosProduto();
 			produto = servicosProduto.persistirProduto(this.produto);
 			if (isNotNullOrEmpty(produto) && produto.getId() > 0L) {
 				FacesUtils.sendMensagemOk(TITULO, String.format("Produto %s com sucesso!",editar()?"editado":"cadastrado"));

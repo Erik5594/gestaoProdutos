@@ -40,13 +40,13 @@ public class ValidacaoIcms implements IValidacaoCadastro {
 		}
 		if(isNullOrEmpty(icms.getTipoRegimeFiscal())){
 			if(mostrarMensagem){
-				FacesUtils.sendMensagemError(titulo, "ICSM - Regime fiscal não preenchido!");
+				FacesUtils.sendMensagemError(titulo, "ICMS - Regime fiscal não preenchido!");
 			}
 			retorno = false;
 		}
 		if(isNullOrEmpty(icms.getAliquotaAplicavelCalculoCredito())){
 			if(mostrarMensagem){
-				FacesUtils.sendMensagemError(titulo, "ICSM - Aliquota inválida!");
+				FacesUtils.sendMensagemError(titulo, "ICMS - Aliquota inválida!");
 			}
 			retorno = false;
 		}

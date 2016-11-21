@@ -34,7 +34,7 @@ public class ValidacaoTipi implements IValidacaoCadastro {
 		}
 		if(isNullOrEmpty(tipi.getNcm())){
 			if(mostrarMensagem){
-				FacesUtils.sendMensagemError(titulo, "TIPI - Código NCM não informado!");
+				FacesUtils.sendMensagemError(titulo, "TIPI - Código do NCM não informado!");
 			}
 			retorno = false;
 		}
