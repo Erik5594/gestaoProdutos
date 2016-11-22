@@ -251,7 +251,7 @@ public class Utils {
 			Ipi ipi = (Ipi) obj;
 			return isNotNullOrEmpty(ipi.getClasseEnquadramento())
 			&& isNotNullOrEmpty(ipi.getCnpjProduto())
-			&& isNotNullOrEmpty(ipi.getCodEnquadramentoLegal()):
+			&& isNotNullOrEmpty(ipi.getCodEnquadramentoLegal());
 		}else if(obj instanceof Tipi){
 			Tipi tipi = (Tipi) obj;
 			return isNotNullOrEmpty(tipi.getCodExecaoTipi())

@@ -3,15 +3,12 @@ package com.kilowats.controlador;
 import static com.kilowats.util.Utils.isNotNullOrEmpty;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-
-import org.hibernate.hql.internal.ast.tree.IsNotNullLogicOperatorNode;
 
 import lombok.Data;
 
