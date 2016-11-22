@@ -8,6 +8,12 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.kilowats.entidades.EstoqueProduto;
+import com.kilowats.entidades.Icms;
+import com.kilowats.entidades.Ipi;
+import com.kilowats.entidades.Tipi;
+import com.kilowats.entidades.ValoresProduto;
+
 public class Utils {
 
 	public static String retornaStringNaoNull(String texto) {
@@ -208,6 +214,7 @@ public class Utils {
 		if(obj instanceof String){
 			return StringUtils.isNotBlank(obj.toString());
 		}else if(obj instanceof List<?>){
+			@SuppressWarnings("unchecked")
 			List<Object> objs = (List<Object>) obj;
 			return isNotNull(objs) && !objs.isEmpty();
 		}else if(obj instanceof Long){
@@ -222,6 +229,35 @@ public class Utils {
 		}else if(obj instanceof BigDecimal){
 			BigDecimal bgDec = (BigDecimal)obj;
 			return isNotNull(bgDec) && bgDec != BigDecimal.ZERO;
+		}else if(obj instanceof ValoresProduto){
+			ValoresProduto valor = (ValoresProduto) obj;
+			return isNotNullOrEmpty(valor.getValorComercial())
+					&& isNotNullOrEmpty(valor.getValorCusto())
+					&& isNotNullOrEmpty(valor.getValorTributavel());
+			
+		}else if(obj instanceof EstoqueProduto){
+			EstoqueProduto estoque = (EstoqueProduto) obj;
+			return isNotNullOrEmpty(estoque.getQuantidadeEstoque())
+					&& isNotNullOrEmpty(estoque.getQuantidadePendenteEntrada())
+					&& isNotNullOrEmpty(estoque.getQuantidadePendenteSaida())
+					&& isNotNullOrEmpty(estoque.getQuantidadeTributavel());
+		}else if(obj instanceof Icms){
+			Icms icms = (Icms) obj;
+			return isNotNullOrEmpty(icms.getAliquotaAplicavelCalculoCredito())
+					&& isNotNullOrEmpty(icms.getOrigemTributavel())
+					&& isNotNullOrEmpty(icms.getSituacaoTributariaIcms())
+					&& isNotNullOrEmpty(icms.getTipoRegimeFiscal());
+		}else if(obj instanceof Ipi){
+			Ipi ipi = (Ipi) obj;
+			return isNotNullOrEmpty(ipi.getClasseEnquadramento())
+			&& isNotNullOrEmpty(ipi.getCnpjProduto())
+			&& isNotNullOrEmpty(ipi.getCodEnquadramentoLegal()):
+		}else if(obj instanceof Tipi){
+			Tipi tipi = (Tipi) obj;
+			return isNotNullOrEmpty(tipi.getCodExecaoTipi())
+			&& isNotNullOrEmpty(tipi.getCodGenero())
+			&& isNotNullOrEmpty(tipi.getNcm());
+			
 		}
 		return isNotNull(obj);
 	}

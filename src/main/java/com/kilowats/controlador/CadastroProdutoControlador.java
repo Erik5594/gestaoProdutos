@@ -11,6 +11,8 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.hibernate.hql.internal.ast.tree.IsNotNullLogicOperatorNode;
+
 import lombok.Data;
 
 import com.kilowats.entidades.Ean;
@@ -100,19 +102,19 @@ public @Data class CadastroProdutoControlador implements Serializable{
 		if(isNotNullOrEmpty(eans)){
 			this.produto.setEans(this.eans);
 		}
-		if(this.produto.getEstoqueProduto() != null){
+		if(isNotNullOrEmpty(produto.getEstoqueProduto())){
 			this.produto.getEstoqueProduto().setProduto(produto);
 		}
-		if(this.produto.getValoresProdutos() != null){
+		if(isNotNullOrEmpty(produto.getValoresProdutos())){
 			this.produto.getValoresProdutos().setProduto(produto);
 		}
-		if(this.produto.getIcms() != null){
+		if(isNotNullOrEmpty(produto.getIcms())){
 			this.produto.getIcms().setProduto(produto);
 		}
-		if(this.produto.getTipi() != null){
+		if(isNotNullOrEmpty(produto.getTipi())){
 			this.produto.getTipi().setProduto(produto);
 		}
-		if(this.produto.getIpi() != null){
+		if(isNotNullOrEmpty(produto.getIpi())){
 			this.produto.getIpi().setProduto(produto);
 		}
 	}
