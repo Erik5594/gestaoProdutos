@@ -40,7 +40,6 @@ public class CadastroUsuarioControlador implements Serializable {
 	
 	
 	public void inicializar(){
-		System.out.println("Inicializando...");
 		if(FacesUtils.isNotPostback()){
 			grupos = new ArrayList<>();
 			grupos = servicosGrupo.todos();
@@ -48,14 +47,12 @@ public class CadastroUsuarioControlador implements Serializable {
 	}
 	public void salvar(){
 		setarGruposUsuario();
-		if(servicosUsuario.usuarioIsValido(usuario, titulo, true)){
-			usuario = servicosUsuario.salvar(usuario);
-			if(Utils.isNotNullOrEmpty(usuario) && usuario.getId() > 0){
-				FacesUtils.sendMensagemOk(titulo, "Usuário cadastrado com sucesso!");
-				limpar();
-			}else{
-				FacesUtils.sendMensagemError(titulo, "Usuário não cadastrado!");
-			}
+		usuario = servicosUsuario.salvar(usuario, titulo, true);
+		if(Utils.isNotNullOrEmpty(usuario) && usuario.getId() > 0){
+			FacesUtils.sendMensagemOk(titulo, "Usuário cadastrado com sucesso!");
+			limpar();
+		}else{
+			FacesUtils.sendMensagemError(titulo, "Usuário não cadastrado!");
 		}
 	}
 

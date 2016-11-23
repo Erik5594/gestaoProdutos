@@ -18,6 +18,8 @@ public class ServicosProduto implements Serializable{
 	private ProdutoDao produtoDao;
 	@Inject @ValidarProduto
 	private IValidacaoCadastro validador;
+	@Inject
+	private ServicosEan servicosCodBarras;
 
 	public Produto persistirProduto(Produto produto) {
 		return produtoDao.salvarOrUpdate(produto);
@@ -41,5 +43,9 @@ public class ServicosProduto implements Serializable{
 	
 	public List<Produto> pesquisarProdutoByNome(String nomeProduto) {
 		return produtoDao.buscarProdutoByNome(nomeProduto);
+	}
+	
+	public Produto buscarProdutoByCodBarras(String codBarras){
+		return servicosCodBarras.pesquisarEanByCodBarras(codBarras).getProduto();
 	}
 }

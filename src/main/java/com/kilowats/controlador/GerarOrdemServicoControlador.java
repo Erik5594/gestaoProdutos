@@ -22,7 +22,6 @@ import com.kilowats.entidades.Veiculo;
 import com.kilowats.enuns.FormaPagamento;
 import com.kilowats.enuns.StatusOrdemServico;
 import com.kilowats.servicos.ServicosCliente;
-import com.kilowats.servicos.ServicosEan;
 import com.kilowats.servicos.ServicosOrdemServico;
 import com.kilowats.servicos.ServicosProduto;
 import com.kilowats.servicos.ServicosVeiculo;
@@ -46,8 +45,6 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 	private String codBarras;
 	@Inject
 	private ServicosProduto servicosProdutos;
-	@Inject
-	private ServicosEan servicosCodBarras;
 	@Inject
 	private ServicosCliente servicosCliente;
 	@Inject
@@ -86,7 +83,7 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 				if(codBarras.length() < 13){
 					produtoLinhaEditavel = servicosProdutos.pesquisaProdutoByCodProduto(codBarras);
 				}else{
-					produtoLinhaEditavel = servicosCodBarras.pesquisarEanByCodBarras(codBarras).getProduto();
+					produtoLinhaEditavel = servicosProdutos.buscarProdutoByCodBarras(codBarras);
 				}
 				carregarProdutoLinhaEditavel();
 			}catch(NoResultException ex){
@@ -333,18 +330,21 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 		if(Utils.isNotNull(veiculoSelecionado)){
 			ordemServico.setVeiculo(veiculoSelecionado);
 		}
-		ordemServico.setDataOrdemServico(new Date());
-		ordemServico.setDataAgendado(Utils.retornaDataComDiasHaMais(7));
-		ordemServico.setDataExecutado(Utils.retornaDataComDiasHaMais(7));
 	}
 
 	public void abrirOrdemServico(){
 		this.ordemServico.setStatusOrdemServico(StatusOrdemServico.ABERTO);
+		ordemServico.setDataOrdemServico(new Date());
+		ordemServico.setDataAgendado(Utils.retornaDataComDiasHaMais(7));
+		ordemServico.setDataExecutado(Utils.retornaDataComDiasHaMais(7));
 		salvarPedido();
 	}
 	
 	public void aprovarOrdemServico(){
 		this.ordemServico.setStatusOrdemServico(StatusOrdemServico.APROVADO);
+		ordemServico.setDataOrdemServico(new Date());
+		ordemServico.setDataAgendado(Utils.retornaDataComDiasHaMais(7));
+		ordemServico.setDataExecutado(Utils.retornaDataComDiasHaMais(7));
 		salvarPedido();
 	}
 	
@@ -355,6 +355,9 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 	
 	public void marcarPendenciaConfirmacaoOrdemServico(){
 		this.ordemServico.setStatusOrdemServico(StatusOrdemServico.PENDENTE_CONFIRMACAO);
+		ordemServico.setDataOrdemServico(new Date());
+		ordemServico.setDataAgendado(Utils.retornaDataComDiasHaMais(7));
+		ordemServico.setDataExecutado(Utils.retornaDataComDiasHaMais(7));
 		salvarPedido();
 	}
 	
@@ -365,6 +368,8 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 	
 	public void finalizarOrdemServico(){
 		this.ordemServico.setStatusOrdemServico(StatusOrdemServico.FINALIZADO);
+		ordemServico.setDataAgendado(Utils.retornaDataComDiasHaMais(7));
+		ordemServico.setDataExecutado(new Date());
 		salvarPedido();
 	}
 	
