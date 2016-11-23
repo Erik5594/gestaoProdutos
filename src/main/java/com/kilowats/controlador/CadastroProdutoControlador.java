@@ -4,6 +4,7 @@ import static com.kilowats.util.Utils.isNotNullOrEmpty;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.faces.view.ViewScoped;
@@ -96,6 +97,7 @@ public @Data class CadastroProdutoControlador implements Serializable{
 	}
 	
 	private void completarDadosProduto() {
+		produto.setDataUltimaAtualizacao(new Date());
 		if(isNotNullOrEmpty(eans)){
 			this.produto.setEans(this.eans);
 		}

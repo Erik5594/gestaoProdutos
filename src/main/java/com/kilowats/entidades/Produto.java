@@ -44,17 +44,17 @@ public @Data class Produto implements Serializable{
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="data_ultima_atualizacao", nullable=false, columnDefinition="TIMESTAMP WITH TIME ZONE")
 	private Date dataUltimaAtualizacao;
-	@OneToMany(mappedBy="produto", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy="produto", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Ean> eans;
-	@Inject @OneToOne(mappedBy = "produto", cascade=CascadeType.REMOVE, fetch=FetchType.EAGER)
+	@Inject @OneToOne(mappedBy = "produto", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	private ValoresProduto valoresProdutos;
-	@Inject @OneToOne(mappedBy = "produto", cascade=CascadeType.REMOVE, fetch=FetchType.EAGER)
+	@Inject @OneToOne(mappedBy = "produto", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	private EstoqueProduto estoqueProduto;
-	@Inject @OneToOne(mappedBy = "produto", cascade=CascadeType.REMOVE, fetch=FetchType.EAGER)
+	@Inject @OneToOne(mappedBy = "produto", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	private Tipi tipi;
-	@Inject @OneToOne(mappedBy = "produto", cascade=CascadeType.REMOVE, fetch=FetchType.EAGER)
+	@Inject @OneToOne(mappedBy = "produto", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	private Icms icms;
-	@Inject @OneToOne(mappedBy = "produto", cascade=CascadeType.REMOVE, fetch=FetchType.EAGER)
+	@Inject @OneToOne(mappedBy = "produto", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	private Ipi ipi;
 	
 	@Override
