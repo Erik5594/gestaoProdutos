@@ -310,7 +310,6 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 	}
 	
 	private void salvarPedido(){
-		ordemServico.removerItemVazio();
 		try{
 			completarOrdemServico();
 			this.ordemServico = servicosOrdemServico.salvarOrUpdateOrdemServico(ordemServico); 
@@ -337,6 +336,7 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 		ordemServico.setDataOrdemServico(new Date());
 		ordemServico.setDataAgendado(Utils.retornaDataComDiasHaMais(7));
 		ordemServico.setDataExecutado(Utils.retornaDataComDiasHaMais(7));
+		ordemServico.removerItemVazio();
 		salvarPedido();
 	}
 	
@@ -345,11 +345,14 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 		ordemServico.setDataOrdemServico(new Date());
 		ordemServico.setDataAgendado(Utils.retornaDataComDiasHaMais(7));
 		ordemServico.setDataExecutado(Utils.retornaDataComDiasHaMais(7));
+		ordemServico.removerItemVazio();
+		servicosProdutos.registrarPendenciaSaidaTodosItens(ordemServico);
 		salvarPedido();
 	}
 	
 	public void darAndamentoOrdemServico(){
 		this.ordemServico.setStatusOrdemServico(StatusOrdemServico.EM_ANDAMENTO);
+		ordemServico.removerItemVazio();
 		salvarPedido();
 	}
 	
@@ -358,11 +361,14 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 		ordemServico.setDataOrdemServico(new Date());
 		ordemServico.setDataAgendado(Utils.retornaDataComDiasHaMais(7));
 		ordemServico.setDataExecutado(Utils.retornaDataComDiasHaMais(7));
+		ordemServico.removerItemVazio();
 		salvarPedido();
 	}
 	
 	public void marcarServicosRealizadosOrdemServico(){
 		this.ordemServico.setStatusOrdemServico(StatusOrdemServico.SERVICOS_REALIZADOS);
+		ordemServico.removerItemVazio();
+		servicosProdutos.registrarSaidaTodosItens(ordemServico);
 		salvarPedido();
 	}
 	
@@ -370,11 +376,13 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 		this.ordemServico.setStatusOrdemServico(StatusOrdemServico.FINALIZADO);
 		ordemServico.setDataAgendado(Utils.retornaDataComDiasHaMais(7));
 		ordemServico.setDataExecutado(new Date());
+		ordemServico.removerItemVazio();
 		salvarPedido();
 	}
 	
 	public void cancelarOrdemServico(){
 		this.ordemServico.setStatusOrdemServico(StatusOrdemServico.CANCELADO);
+		ordemServico.removerItemVazio();
 		salvarPedido();
 	}
 	
