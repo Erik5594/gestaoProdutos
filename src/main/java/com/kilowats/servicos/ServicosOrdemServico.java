@@ -15,6 +15,7 @@ public class ServicosOrdemServico implements Serializable{
 	@Inject
 	private OrdemServicoDao ordemServicoDao;
 	
+	
 	public OrdemServico salvarOrUpdateOrdemServico(OrdemServico ordemServico){
 		return ordemServicoDao.salvarOrUpdate(ordemServico);
 	}
@@ -22,5 +23,5 @@ public class ServicosOrdemServico implements Serializable{
 	public List<OrdemServico> listarTodasOrdemServico(){
 		return ordemServicoDao.listarTodasOrdemServico();
 	}
-
+	
 }

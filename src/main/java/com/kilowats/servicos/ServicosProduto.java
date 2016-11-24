@@ -7,6 +7,7 @@ import javax.inject.Inject;
 
 import com.kilowats.annotations.ValidarProduto;
 import com.kilowats.dao.ProdutoDao;
+import com.kilowats.entidades.OrdemServico;
 import com.kilowats.entidades.Produto;
 import com.kilowats.interfaces.IValidacaoCadastro;
 
@@ -20,6 +21,8 @@ public class ServicosProduto implements Serializable{
 	private IValidacaoCadastro validador;
 	@Inject
 	private ServicosEan servicosCodBarras;
+	@Inject
+	private ServicosEstoque servicosEstoque;
 
 	public Produto persistirProduto(Produto produto) {
 		return produtoDao.salvarOrUpdate(produto);
@@ -47,5 +50,13 @@ public class ServicosProduto implements Serializable{
 	
 	public Produto buscarProdutoByCodBarras(String codBarras){
 		return servicosCodBarras.pesquisarEanByCodBarras(codBarras).getProduto();
+	}
+	
+	public void registrarPendenciaSaidaTodosItens(OrdemServico orcamento){
+		servicosEstoque.marcarPendenciaSaidaTodosItens(orcamento);
+	}
+	
+	public void registrarSaidaTodosItens(OrdemServico orcamento){
+		servicosEstoque.lancarSaidaTodosItens(orcamento);
 	}
 }
