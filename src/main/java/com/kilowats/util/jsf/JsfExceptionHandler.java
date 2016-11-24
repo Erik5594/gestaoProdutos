@@ -15,7 +15,7 @@ import javax.faces.event.ExceptionQueuedEventContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.kilowats.services.NegocioException;
+import com.kilowats.exceptions.NegocioException;
 
 public class JsfExceptionHandler extends ExceptionHandlerWrapper{
 
