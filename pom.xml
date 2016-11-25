@@ -44,15 +44,15 @@
 			<version>1.1.10.Final</version>
 			<scope>compile</scope>
 		</dependency>
-		
+
 		<!-- Omnifaces -->
 		<dependency>
-		    <groupId>org.omnifaces</groupId>
-		    <artifactId>omnifaces</artifactId>
-		    <version>1.5</version>
-		    <scope>compile</scope>
+			<groupId>org.omnifaces</groupId>
+			<artifactId>omnifaces</artifactId>
+			<version>1.5</version>
+			<scope>compile</scope>
 		</dependency>
-		
+
 		<!-- controle de log por arquivo -->
 		<dependency>
 			<groupId>log4j</groupId>
@@ -110,17 +110,22 @@
 			<artifactId>hibernate-entitymanager</artifactId>
 			<version>5.1.0.Final</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
 			<version>5.0.1.Final</version>
-		</dependency> 
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<version>9.3-1103-jdbc3</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.wmixvideo</groupId>
+			<artifactId>nfe</artifactId>
+			<version>2.0.0</version>
 		</dependency>
 	</dependencies>
 

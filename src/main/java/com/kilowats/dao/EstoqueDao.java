@@ -11,11 +11,11 @@ public class EstoqueDao {
 	@Inject
 	private EntityManager manager;
 
-	public EstoqueProduto salvarOrUpdate(EstoqueProduto estoqueProduto) {
+	public EstoqueProduto salvarOrUpdate(EstoqueProduto produtoEstoque) {
 		EntityTransaction entityTransaction = manager.getTransaction();
 		entityTransaction.begin();
-		estoqueProduto = (EstoqueProduto) manager.merge(estoqueProduto);
+		produtoEstoque = (EstoqueProduto) manager.merge(produtoEstoque);
 		entityTransaction.commit();
-		return estoqueProduto;
+		return produtoEstoque;
 	}
 }

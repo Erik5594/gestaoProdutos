@@ -50,11 +50,11 @@
 			</p:column>
 			
 			<p:column headerText="Quantidade">
-				<p:outputLabel value="#{produto.quantidade}"/>
+				<p:outputLabel value="#{produto.estoqueProduto.quantidadeEstoque}"/>
 			</p:column>
 			
 			<p:column headerText="Valor(R$)">
-				<p:outputLabel value="R$ #{produto.valor}" styleClass="moeda"/>
+				<p:outputLabel value="R$ #{produto.valoresProdutos.valorComercial}" styleClass="moeda"/>
 			</p:column>
 			
 			<p:column>

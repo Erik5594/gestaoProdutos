@@ -5,8 +5,8 @@ import java.math.BigDecimal;
 
 import javax.inject.Inject;
 
-import com.kilowats.dao.EstoqueDao;
 import com.kilowats.dao.OrdemServicoDao;
+import com.kilowats.dao.ProdutoDao;
 import com.kilowats.entidades.EstoqueProduto;
 import com.kilowats.entidades.ItemOrdemServico;
 import com.kilowats.entidades.OrdemServico;
@@ -19,14 +19,11 @@ public class ServicosEstoque implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Inject
-	private OrdemServicoDao orcamentoDao;
-	@Inject
-	private EstoqueDao estoqueDao;
+	private ProdutoDao produtoDao;
 	
 	public void marcarPendenciaSaidaTodosItens(OrdemServico orcamento){
-		OrdemServico orcamentoSalvo = orcamentoDao.pesquisarById(orcamento.getId());
 		
-		for(ItemOrdemServico item : orcamentoSalvo.getItens()){
+		for(ItemOrdemServico item : orcamento.getItens()){
 			if(item.getProduto().getTipoUnidade() != TipoProdutoUnidadeEnum.SV){
 				marcarPendenteSaida(item.getProduto(), item.getQuantidadeProduto());
 			}
@@ -34,9 +31,7 @@ public class ServicosEstoque implements Serializable{
 	}
 	
 	public void lancarSaidaTodosItens(OrdemServico orcamento){
-		OrdemServico orcamentoSalvo = orcamentoDao.pesquisarById(orcamento.getId());
-		
-		for(ItemOrdemServico item : orcamentoSalvo.getItens()){
+		for(ItemOrdemServico item : orcamento.getItens()){
 			if(item.getProduto().getTipoUnidade() != TipoProdutoUnidadeEnum.SV){
 				marcarSaida(item.getProduto(), item.getQuantidadeProduto());
 			}
@@ -49,7 +44,7 @@ public class ServicosEstoque implements Serializable{
 		
 		estoque.setQuantidadePendenteSaida(novaQtdePendenteSaida);
 		
-		estoqueDao.salvarOrUpdate(estoque);
+		produtoDao.salvarOrUpdate(produto);
 	}
 	
 	private void marcarSaida(Produto produto, BigDecimal qtde){
@@ -68,7 +63,7 @@ public class ServicosEstoque implements Serializable{
 		estoque.setQuantidadeEstoque(novaQtdeEstoque);
 		estoque.setQuantidadePendenteSaida(novaQtdePendenteSaida);
 		
-		estoqueDao.salvarOrUpdate(estoque);
+		produtoDao.salvarOrUpdate(produto);
 	}
 	
 	private void marcarDevolucaoProduto(Produto produto, BigDecimal qtde){
@@ -76,7 +71,7 @@ public class ServicosEstoque implements Serializable{
 		BigDecimal novaQtdeEstoque = estoque.getQuantidadeEstoque().add(qtde);
 		
 		estoque.setQuantidadeEstoque(novaQtdeEstoque);
-		estoqueDao.salvarOrUpdate(estoque);
+		produtoDao.salvarOrUpdate(produto);
 	}
 	
 	private void cancelarPendenciaSaida(Produto produto, BigDecimal qtde){
@@ -88,6 +83,6 @@ public class ServicosEstoque implements Serializable{
 		}
 		
 		estoque.setQuantidadePendenteSaida(novaQtdePendenteSaida);
-		estoqueDao.salvarOrUpdate(estoque);
+		produtoDao.salvarOrUpdate(produto);
 	}
 }
