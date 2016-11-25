@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/WEB-INF/templates/Layout.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<ui:define name="titulo">Configurar NF-e</ui:define>
+
+	<ui:define name="conteudo">
+		<h:form id="frmConfigurarNfe">
+			<p:messages id="mensagens" autoUpdate="true" for="mensageError"/>
+			<p:messages id="mensagensPadrao" autoUpdate="true"/>
+			<p:growl for="growMensage"/>
+			<h1>Configurar NF-e</h1>
+			<p:toolbar style="margin-bottom: 20px">
+				<p:toolbarGroup>
+					<p:commandButton value="Gravar Dados" style="margin-right: 5px"
+					actionListener="#{configuraNfeControlador.gravarConfiguracao()}" update="@form"/>
+					<p:button value="Novo"
+						outcome="/pages/private/configuracao/configurar/configuraNfe.xhtml" />
+				</p:toolbarGroup>
+			</p:toolbar>
+			
+			<h:panelGrid columns="2">
+				<p:outputLabel value="Nome Certificado: " for="nomeCertificado"/>
+				<p:inputText id="nomeCertificado" value="#{configuraNfeControlador.configNfe.nomeCertificado}"/>
+				
+				<p:outputLabel value="Senha Certificado: " for="senhaCertificado"/>
+				<p:inputText id="senhaCertificado" value="#{configuraNfeControlador.configNfe.senhaCertificado}"/>
+				
+				<p:outputLabel value="Nome Cadeia Certificado: " for="nomeCadeiaCertificado"/>
+				<p:inputText id="nomeCadeiaCertificado" value="#{configuraNfeControlador.configNfe.nomeCadeiaCertificado}"/>
+				
+				<p:outputLabel value="Senha Cadeia Certificado: " for="senhaCadeiaCertificado"/>
+				<p:inputText id="senhaCadeiaCertificado" value="#{configuraNfeControlador.configNfe.senhaCadeiaCertificado}"/>
+				
+				<p:outputLabel value="Tipo Emissão: " for="tipoEmissao"/>
+				<p:selectOneMenu value="#{configuraNfeControlador.configNfe.tipoEmissaoNfe}"
+				converter="converterTipoEmissaoNfe" id="tipoEmissao">
+					<f:selectItem itemLabel="Selecione..." noSelectionOption="true" itemValue=""/>
+					<f:selectItems value="#{configuraNfeControlador.tiposEmissao}" var="tipoEmissao"
+					itemValue="#{tipoEmissao}" itemLabel="#{tipoEmissao.descricao}"/>
+				</p:selectOneMenu>
+				
+				<p:outputLabel value="Ambiente: " for="ambiente"/>
+				<p:selectOneMenu value="#{configuraNfeControlador.ambiente}" id="ambiente">
+					<f:selectItem itemLabel="Selecione..." noSelectionOption="true" itemValue=""/>
+					<f:selectItem itemLabel="PRODUÇÃO" itemValue="1"/>
+					<f:selectItem itemLabel="HOMOLOGAÇÃO" itemValue="2"/>
+				</p:selectOneMenu>
+			</h:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>
