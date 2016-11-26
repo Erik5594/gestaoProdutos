@@ -107,15 +107,6 @@ public @Data class CadastroProdutoControlador implements Serializable{
 		if(isNotNullOrEmpty(produto.getValoresProdutos())){
 			this.produto.getValoresProdutos().setProduto(produto);
 		}
-		if(isNotNullOrEmpty(produto.getIcms())){
-			this.produto.getIcms().setProduto(produto);
-		}
-		if(isNotNullOrEmpty(produto.getTipi())){
-			this.produto.getTipi().setProduto(produto);
-		}
-		if(isNotNullOrEmpty(produto.getIpi())){
-			this.produto.getIpi().setProduto(produto);
-		}
 	}
 
 	public TipoProdutoUnidadeEnum[] getTipoUnidadeProduto() {

@@ -53,18 +53,6 @@ public class ValidacaoCadastroProduto implements IValidacaoCadastro {
 		if(!validador.validarCadastroComMensagem(produto.getValoresProdutos(), titulo, true)){
 			retorno = false;
 		}
-		validador = new ValidacaoIcms();
-		if(!validador.validarCadastroComMensagem(produto.getIcms(), titulo, true)){
-			retorno = false;
-		}
-		validador = new ValidacaoTipi();
-		if(!validador.validarCadastroComMensagem(produto.getTipi(), titulo, true)){
-			retorno = false;
-		}
-		validador = new ValidacaoIpi();
-		if(!validador.validarCadastroComMensagem(produto.getIpi(), titulo, true)){
-			retorno = false;
-		}
 		return retorno;
 	}
 

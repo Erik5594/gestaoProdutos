@@ -12,6 +12,8 @@ import lombok.Data;
 import com.fincatto.nfe310.classes.NFAmbiente;
 import com.fincatto.nfe310.classes.NFTipoEmissao;
 import com.kilowats.entidades.ConfigNfeEntidade;
+import com.kilowats.exceptions.NegocioException;
+import com.kilowats.util.jsf.FacesUtils;
 import com.kilowats.util.nfe.ConfiguraNfe;
 
 @Named
@@ -32,6 +34,16 @@ public @Data class ConfiguraNfeControlador implements Serializable{
 			e.printStackTrace();
 		}
 	}
+	
+	public void lerConfiguracao(){
+		try {
+			ConfiguraNfe config = new ConfiguraNfe();
+			this.configNfe = config.getConfigNfeEntidade();
+			ambiente = configNfe.getAmbiente().getCodigo();
+		} catch (NegocioException e) {
+			FacesUtils.sendMensagemError("Configuração NF-e: ", e.getMessage());
+		}
+	}
 
 	private void completarConfigNfe() {
 		if("1".equals(ambiente)){
@@ -39,8 +51,8 @@ public @Data class ConfiguraNfeControlador implements Serializable{
 		}else{
 			configNfe.setAmbiente(NFAmbiente.HOMOLOGACAO);
 		}
-		configNfe.setCaminhoCadeiaCertificado("");
-		configNfe.setCaminhoCertificado("");
+		configNfe.setCaminhoCadeiaCertificado("configurar_caminho");
+		configNfe.setCaminhoCertificado("configurar_caminho");
 	}
 	
 	public NFAmbiente[] getAmbientes(){

@@ -40,7 +40,7 @@ public class ConfiguraNfe extends NFeConfig{
 		try {
 			lerArquivoConfiguracoes(new File(CAMINHO_PROPERTIES_NFE_ARQUIVO));
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new NegocioException("Nenhum arquivo de configuração encontrado!");
 		}
 	}
 	
@@ -133,11 +133,28 @@ public class ConfiguraNfe extends NFeConfig{
 	private void lerArquivoConfiguracoes(File arq) throws FileNotFoundException, IOException {
 		if(arq.exists()){
 			if(prop == null){
+				prop = new Properties();
 				FileInputStream file = new FileInputStream(arq);
 				this.prop.load(file);
+				file.close();
 			}
 		}else{
 			throw new NegocioException("Arquivo de configuração do NFe não foi encontrado!");
 		}
+	}
+	
+	public ConfigNfeEntidade getConfigNfeEntidade(){
+		ConfigNfeEntidade config = new ConfigNfeEntidade();
+		if(prop != null){
+			config.setAmbiente(NFAmbiente.valueOfCodigo(prop.getProperty(AMBIENTE)));
+			config.setCaminhoCadeiaCertificado(prop.getProperty(CAMINHO_CADEIA_CERTIFICADO));
+			config.setCaminhoCertificado(prop.getProperty(CAMINHO_CERTIFICADO));
+			config.setNomeCadeiaCertificado(prop.getProperty(NOME_CADEIA_CERTIFICADO));
+			config.setNomeCertificado(prop.getProperty(NOME_CERTIFICADO));
+			config.setSenhaCadeiaCertificado(prop.getProperty(SENHA_CADEIA_CERTIFICADO));
+			config.setSenhaCertificado(prop.getProperty(SENHA_CERTIFICADO));
+			config.setTipoEmissaoNfe(NFTipoEmissao.valueOfCodigo(prop.getProperty(TIPO_EMISSAO)));
+		}
+		return config;
 	}
 }

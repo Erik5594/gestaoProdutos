@@ -50,12 +50,6 @@ public @Data class Produto implements Serializable{
 	private ValoresProduto valoresProdutos;
 	@Inject @OneToOne(mappedBy = "produto", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	private EstoqueProduto estoqueProduto;
-	@Inject @OneToOne(mappedBy = "produto", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-	private Tipi tipi;
-	@Inject @OneToOne(mappedBy = "produto", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-	private Icms icms;
-	@Inject @OneToOne(mappedBy = "produto", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-	private Ipi ipi;
 	
 	@Override
 	public int hashCode() {
