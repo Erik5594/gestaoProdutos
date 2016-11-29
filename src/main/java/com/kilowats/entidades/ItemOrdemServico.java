@@ -15,6 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.kilowats.enuns.TipoProdutoUnidadeEnum;
+
 import lombok.Data;
 
 @Entity
@@ -75,7 +77,8 @@ public @Data class ItemOrdemServico implements Serializable{
 	@Transient
 	public boolean isEstoqueSuficiente() {
 		return (this.getOrdemServico() != null && this.getOrdemServico().isFinalizado()) || this.getProduto() == null
-				|| this.getProduto().getId() == null || this.getQuantidadeProduto().compareTo(this.getProduto().getEstoqueProduto().getQuantidadeEstoque()) < 0; 
+				|| this.getProduto().getId() == null || this.getProduto().getTipoUnidade() == TipoProdutoUnidadeEnum.SV
+				|| this.getQuantidadeProduto().compareTo(this.getProduto().getEstoqueProduto().getQuantidadeEstoque()) < 0; 
 	}
 	
 	@Transient
