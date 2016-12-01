@@ -1,11 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.1.1.final using JasperReports Library version 6.1.1  -->
-<!-- 2016-11-26T14:24:54 -->
+<!-- 2016-11-30T23:21:34 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="orcamento_kilowats" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c8fb266b-d420-4935-a908-2f2cf3134949">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
+	<field name="itens" class="java.util.List">
+		<fieldDescription><![CDATA[itens]]></fieldDescription>
+	</field>
+	<field name="veiculo" class="com.kilowats.entidades.Veiculo">
+		<fieldDescription><![CDATA[veiculo]]></fieldDescription>
+	</field>
+	<field name="statusOrdemServico" class="com.kilowats.enuns.StatusOrdemServico">
+		<fieldDescription><![CDATA[statusOrdemServico]]></fieldDescription>
+	</field>
+	<field name="dataExecutado" class="java.util.Date">
+		<fieldDescription><![CDATA[dataExecutado]]></fieldDescription>
+	</field>
+	<field name="id" class="java.lang.Long">
+		<fieldDescription><![CDATA[id]]></fieldDescription>
+	</field>
+	<field name="cliente" class="com.kilowats.entidades.Cliente">
+		<fieldDescription><![CDATA[cliente]]></fieldDescription>
+	</field>
+	<field name="valorTotal" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[valorTotal]]></fieldDescription>
+	</field>
+	<field name="formaPagamento" class="com.kilowats.enuns.FormaPagamento">
+		<fieldDescription><![CDATA[formaPagamento]]></fieldDescription>
+	</field>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -111,7 +135,7 @@
 				<box>
 					<bottomPen lineWidth="1.0"/>
 				</box>
-				<textFieldExpression><![CDATA["Text Field"]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{cliente}.getNome()]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="310" y="10" width="30" height="13" uuid="c8666ed2-5736-4bfd-a469-3b15747d992f"/>

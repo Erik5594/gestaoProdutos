@@ -37,15 +37,15 @@ public @Data class OrdemServico implements Serializable{
 	@Id @GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="id_cliente", nullable=false)
 	private Cliente cliente;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="id_veiculo", nullable=false)
 	private Veiculo veiculo;
 	
-	@OneToMany(mappedBy="ordemServico",fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="ordemServico",fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	private List<ItemOrdemServico> itens = new ArrayList<>();
 	
 	@Temporal(TemporalType.TIMESTAMP)
