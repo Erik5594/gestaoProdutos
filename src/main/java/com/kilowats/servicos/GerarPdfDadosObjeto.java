@@ -1,51 +1,39 @@
 package com.kilowats.servicos;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import net.sf.jasperreports.engine.export.JRExporterContext;
 
-import com.kilowats.interfaces.GerarPDF;
-
-public class GerarPdfImpl implements GerarPDF {
+public class GerarPdfDadosObjeto extends GerarPDFGeneric{
 	
-	private String caminhoJasper;
-	private Map<String, Object> parametros;
 	private List<Object> listaDados;
-	private HttpServletResponse response;
-	private String nomeArquivoSaida;
-	
 	private boolean relatorioGerado;
 	
-	public GerarPdfImpl(String caminhoJasper, Map<String, Object> parametros,
+	public GerarPdfDadosObjeto(String caminhoJasper, Map<String, Object> parametros,
 			List<Object> listaDados, HttpServletResponse response,
 			String nomeArquivoSaida) {
-		super();
-		this.caminhoJasper = caminhoJasper;
-		this.parametros = parametros;
+		super(caminhoJasper, parametros, response, nomeArquivoSaida);
 		this.listaDados = listaDados;
-		this.response = response;
-		this.nomeArquivoSaida = nomeArquivoSaida;
 	}
 	
 	@Override
-	public void gerarPDFDadosObjeto() throws JRException, IOException {
-		InputStream relatorioStream = this.getClass().getResourceAsStream(caminhoJasper);
+	public void gerarPDF() throws JRException, IOException {
+		File arq = new File(caminhoJasper);
+		FileInputStream fin = new FileInputStream(arq);
 		JRBeanCollectionDataSource dados = new JRBeanCollectionDataSource(listaDados);
-		JasperPrint print = JasperFillManager.fillReport(relatorioStream, parametros, dados);
+		JasperPrint print = JasperFillManager.fillReport(fin, parametros, dados);
 		relatorioGerado = print.getPages().size() > 0;
 		
 		if(relatorioGerado){
@@ -60,10 +48,8 @@ public class GerarPdfImpl implements GerarPDF {
 		}
 	}
 
-	@Override
-	public void gerarPDFDadosDataBase(Connection con) throws JRException,
-			IOException {
-		// TODO Auto-generated method stub
-		
+	public boolean isRelatorioGerado() {
+		return relatorioGerado;
 	}
+	
 }

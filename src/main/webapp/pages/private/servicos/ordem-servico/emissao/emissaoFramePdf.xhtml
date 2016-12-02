@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/WEB-INF/templates/Layout.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<ui:define name="titulo">Orçamento PDF</ui:define>
+
+	<ui:define name="conteudo">
+		<h:panelGrid columns="1" id="panelRelatorio" width="100%">
+    	<p:fieldset legend="Orçamento" style="margin-top:20px;">
+    		<iframe width="100%" height="500px" id="imagepgframe" name="imagepgframe" frameborder="0" scrolling="auto" src="emissaoPdf.xhtml" title="arquivo.pdf">
+              <p>Problema na exibição do iFrame.</p>
+            </iframe>
+    	</p:fieldset>
+    	</h:panelGrid>
+	</ui:define>
+</ui:composition>

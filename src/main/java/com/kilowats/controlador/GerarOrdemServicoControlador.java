@@ -1,16 +1,21 @@
 package com.kilowats.controlador;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.NoResultException;
+import javax.servlet.http.HttpServletResponse;
 
 import lombok.Data;
+import net.sf.jasperreports.engine.JRException;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -21,6 +26,8 @@ import com.kilowats.entidades.Produto;
 import com.kilowats.entidades.Veiculo;
 import com.kilowats.enuns.FormaPagamento;
 import com.kilowats.enuns.StatusOrdemServico;
+import com.kilowats.interfaces.GerarPDF;
+import com.kilowats.servicos.GerarPdfDadosObjeto;
 import com.kilowats.servicos.ServicosCliente;
 import com.kilowats.servicos.ServicosOrdemServico;
 import com.kilowats.servicos.ServicosProduto;
@@ -51,6 +58,10 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 	private ServicosVeiculo servicosVeiculo;
 	@Inject
 	private ServicosOrdemServico servicosOrdemServico;
+	@Inject
+	private HttpServletResponse response;
+	@Inject
+	private FacesContext context;
 	
 	private static final String STATUS_PARA_ABERTO = "*0*";
 	private static final String STATUS_PARA_APROVADO = "*0**3*";
@@ -59,6 +70,7 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 	private static final String STATUS_PARA_SERVICOS_REALIZADOS = "*2*";
 	private static final String STATUS_PARA_FINALIZADO = "*1**4*";
 	private static final String STATUS_PARA_CANCELADO = "*0**1**2**3**4*";
+	private static final String STATUS_PARA_EMISSAO = "*0**1**2**3**4*";
 	
 	private boolean alterarQuantidadeProduto = true;
 	private boolean adicionarItemOrcamento = true;
@@ -236,6 +248,16 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 		return false;
 	}
 	
+	public boolean isRenderizarBotaoEmissao(){
+		if(Utils.isNotNull(ordemServico) && Utils.isNotNull(ordemServico.getStatusOrdemServico())){
+			if(STATUS_PARA_EMISSAO.contains("*".concat(String.valueOf(ordemServico.getStatusOrdemServico().getCodStatus())).concat("*"))){
+				organizarEdicaoDeCampos();
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	private void organizarEdicaoDeCampos() {
 		if(ordemServico == null || ordemServico.getStatusOrdemServico() == null){
 			habilitarEdicaoOrcamento();
@@ -396,5 +418,19 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 				this.veiculoSelecionado = this.ordemServico.getVeiculo();
 			}
 		}
+	}
+	
+	public void emitirOrcamento(){
+		List<Object> listaOrdemServico = new ArrayList<>();
+		listaOrdemServico.add(ordemServico);
+		String dirApp = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/") ;
+		String caminhoJasper =  dirApp + "pages\\private\\relatorios\\orcamento_kilowats.jasper";
+		GerarPDF gerarPdf = new GerarPdfDadosObjeto(caminhoJasper, null, listaOrdemServico, response, "orcamento-"+ordemServico.getId());
+		try {
+			gerarPdf.gerarPDF();
+		} catch (JRException | IOException e) {
+			e.printStackTrace();
+		}
+		context.responseComplete();
 	}
 }
