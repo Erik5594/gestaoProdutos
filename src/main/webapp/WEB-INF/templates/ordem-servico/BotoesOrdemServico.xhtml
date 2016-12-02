@@ -34,7 +34,9 @@
 		</p:toolbarGroup>
 		<p:toolbarGroup align="right">
 			<p:button value="Emitir Orçamento" rendered="#{gerarOrdemServicoControlador.renderizarBotaoEmissao}"
-				outcome="/pages/private/servicos/ordem-servico/emissao/emissaoFramePdf" target="blank"/>
+				outcome="/pages/private/servicos/ordem-servico/emissao/emissaoPdf" target="blank">
+				<f:param name="pedido" value="#{gerarOrdemServicoControlador.ordemServico.id}"/>
+			</p:button>
 			<p:button value="Pesquisar"
 				outcome="/pages/private/servicos/ordem-servico/pesquisa/PesquisaOrdemServico" />
 		</p:toolbarGroup>

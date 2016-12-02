@@ -3,7 +3,6 @@ package com.kilowats.servicos;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +35,7 @@ public class GerarPdfDadosObjeto extends GerarPDFGeneric{
 		JasperPrint print = JasperFillManager.fillReport(fin, parametros, dados);
 		relatorioGerado = print.getPages().size() > 0;
 		
-		if(relatorioGerado){
+		if(relatorioGerado && !response.isCommitted()){
 			response.reset();
 			response.setContentType("application/pdf");
 			response.setHeader("Content-disposition", "inline; filename=\""+nomeArquivoSaida+".pdf\"");

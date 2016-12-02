@@ -19,7 +19,7 @@ public @Data class TelefoneCliente extends Telefone implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
 	@JoinColumn(name="id_cliente", nullable=false)
 	private Cliente cliente;
 }

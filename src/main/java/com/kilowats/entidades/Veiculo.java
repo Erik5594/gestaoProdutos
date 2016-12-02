@@ -43,6 +43,8 @@ public @Data class Veiculo implements Serializable{
 	private String modelo;
 	@Column(nullable=true, length=15)
 	private String cor;
+	@Column(nullable=true, length=4)
+	private Integer ano;
 	
 	@Override
 	public boolean equals(Object obj) {

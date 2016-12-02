@@ -5,7 +5,9 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -425,7 +427,9 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 		listaOrdemServico.add(ordemServico);
 		String dirApp = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/") ;
 		String caminhoJasper =  dirApp + "pages\\private\\relatorios\\orcamento_kilowats.jasper";
-		GerarPDF gerarPdf = new GerarPdfDadosObjeto(caminhoJasper, null, listaOrdemServico, response, "orcamento-"+ordemServico.getId());
+		Map<String, Object> parametros = new HashMap<String, Object>();
+		parametros.put("LOGO", dirApp+"resources\\imagens\\logo.png");
+		GerarPDF gerarPdf = new GerarPdfDadosObjeto(caminhoJasper, parametros, listaOrdemServico, response, "orcamento-"+ordemServico.getId());
 		try {
 			gerarPdf.gerarPDF();
 		} catch (JRException | IOException e) {
