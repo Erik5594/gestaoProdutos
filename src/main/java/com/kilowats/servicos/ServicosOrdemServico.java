@@ -7,6 +7,7 @@ import javax.inject.Inject;
 
 import com.kilowats.dao.OrdemServicoDao;
 import com.kilowats.entidades.OrdemServico;
+import com.kilowats.entidades.OrdemServicoImpressao;
 
 public class ServicosOrdemServico implements Serializable{
 	
@@ -22,6 +23,10 @@ public class ServicosOrdemServico implements Serializable{
 	
 	public List<OrdemServico> listarTodasOrdemServico(){
 		return ordemServicoDao.listarTodasOrdemServico();
+	}
+	
+	public OrdemServicoImpressao castToOrdemServicoImpressao(OrdemServico orcamento){
+		return new OrdemServicoImpressao(orcamento);
 	}
 	
 }

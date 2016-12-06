@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.1.1.final using JasperReports Library version 6.1.1  -->
-<!-- 2016-12-06T11:04:29 -->
+<!-- 2016-12-06T16:32:45 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="orcamento_kilowats_itens" pageWidth="555" pageHeight="300" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="15b203b7-cdc0-40b0-a2ba-b59ab793e716">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
@@ -15,6 +15,24 @@
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
+	<field name="ordemServico" class="com.kilowats.entidades.OrdemServico">
+		<fieldDescription><![CDATA[ordemServico]]></fieldDescription>
+	</field>
+	<field name="valorDesconto" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[valorDesconto]]></fieldDescription>
+	</field>
+	<field name="produto" class="com.kilowats.entidades.Produto">
+		<fieldDescription><![CDATA[produto]]></fieldDescription>
+	</field>
+	<field name="valorUnitario" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[valorUnitario]]></fieldDescription>
+	</field>
+	<field name="valorTotal" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[valorTotal]]></fieldDescription>
+	</field>
+	<field name="quantidadeProduto" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[quantidadeProduto]]></fieldDescription>
+	</field>
 	<columnHeader>
 		<band height="20" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
@@ -91,6 +109,7 @@
 	<detail>
 		<band height="16" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<printWhenExpression><![CDATA[$F{produto}.getCodProduto() == null?false:true]]></printWhenExpression>
 			<rectangle>
 				<reportElement x="0" y="0" width="555" height="15" uuid="a64b0dd4-8e87-491f-8f08-f9c9ce8f8a09"/>
 			</rectangle>
@@ -103,7 +122,7 @@
 				<textElement>
 					<paragraph leftIndent="2"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Text Field"]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{quantidadeProduto}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="33" y="1" width="56" height="13" uuid="7fb80dea-8173-4775-b3ad-8917e1e34965">
@@ -114,7 +133,7 @@
 				<textElement>
 					<paragraph leftIndent="2"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Text Field"]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{produto}.getCodProduto()]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="89" y="1" width="313" height="13" uuid="421a08d0-473c-4890-95ec-b95c84e73345">
@@ -125,7 +144,7 @@
 				<textElement>
 					<paragraph leftIndent="2"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Text Field"]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{produto}.getNomeProduto()]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="402" y="1" width="30" height="13" uuid="28dacfce-d512-4423-9206-6c72ea2a602c">
@@ -136,9 +155,9 @@
 				<textElement>
 					<paragraph leftIndent="2"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Text Field"]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{produto}.getTipoUnidade().getDescricaoUnidade()]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern="###,###,###,###.00">
 				<reportElement x="432" y="1" width="53" height="13" uuid="e72ddfde-87ba-4ecc-b780-d72ff7bce375">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
@@ -147,9 +166,9 @@
 				<textElement>
 					<paragraph leftIndent="2"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Text Field"]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{valorUnitario}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern="###,###,###,###.00">
 				<reportElement x="485" y="1" width="64" height="13" uuid="5fe0b90e-9b2b-4b0e-acd5-1cf690e0ded7">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
@@ -158,7 +177,7 @@
 				<textElement>
 					<paragraph leftIndent="2"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Text Field"]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{valorTotal}]]></textFieldExpression>
 			</textField>
 			<line>
 				<reportElement x="33" y="0" width="1" height="15" uuid="1a39e80f-bc51-493f-be8a-4348040f0e32"/>
@@ -198,7 +217,7 @@
 				<reportElement x="125" y="3" width="172" height="13" uuid="238244ec-341a-4e1b-85c2-402961d9a976">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
-				<textFieldExpression><![CDATA["Text Field"]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{ordemServico}.getFormaPagamento().getDescricao()]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="297" y="3" width="134" height="13" uuid="9cfaa0df-a091-46ca-ad9b-56e84dd0fca4">
@@ -209,7 +228,7 @@
 			</staticText>
 			<textField pattern="###,###,###,###.00">
 				<reportElement x="431" y="3" width="118" height="13" uuid="9301de37-56df-47ea-8ff5-a40a1b3673a6"/>
-				<textFieldExpression><![CDATA[$F{valorTotal}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{ordemServico}.getValorTotal()]]></textFieldExpression>
 			</textField>
 		</band>
 	</columnFooter>

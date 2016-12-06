@@ -125,12 +125,7 @@
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
-			<version>6.1.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.github.wmixvideo</groupId>
-			<artifactId>nfe</artifactId>
-			<version>2.0.0</version>
+			<version>6.1.1</version>
 		</dependency>
 	</dependencies>
 
@@ -141,5 +136,9 @@
 			<url>http://repository.primefaces.org</url>
 			<layout>default</layout>
 		</repository>
+		<repository>
+	        <id>jr-ce-releases</id>
+	        <url>http://jaspersoft.artifactoryonline.com/jaspersoft/jr-ce-releases</url>
+    	</repository>
 	</repositories>
 </project>

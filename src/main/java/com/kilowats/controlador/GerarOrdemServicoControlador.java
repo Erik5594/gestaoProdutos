@@ -424,11 +424,12 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 	
 	public void emitirOrcamento(){
 		List<Object> listaOrdemServico = new ArrayList<>();
-		listaOrdemServico.add(ordemServico);
+		listaOrdemServico.add(servicosOrdemServico.castToOrdemServicoImpressao(ordemServico));
 		String dirApp = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/") ;
 		String caminhoJasper =  dirApp + "pages\\private\\relatorios\\orcamento_kilowats.jasper";
 		Map<String, Object> parametros = new HashMap<String, Object>();
 		parametros.put("LOGO", dirApp+"resources\\imagens\\logo.png");
+		parametros.put("DIR_REPORT_ITENS", dirApp+"pages\\private\\relatorios\\");
 		GerarPDF gerarPdf = new GerarPdfDadosObjeto(caminhoJasper, parametros, listaOrdemServico, response, "orcamento-"+ordemServico.getId());
 		try {
 			gerarPdf.gerarPDF();
