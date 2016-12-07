@@ -48,15 +48,15 @@
 				style="margin-right: 5px" size="60" id="nomeProduto"/>
 				
 				<p:outputLabel value="Valor Venda (R$)" style="margin-right: 5px" for="valorVendaProduto"/>
-				<p:inputText value="#{entradaProdutoControlador.produto.valorVenda}" styleClass="moeda"
+				<p:inputText value="#{entradaProdutoControlador.produto.valoresProdutos.valorComercial}" styleClass="moeda"
 				style="margin-right: 5px" size="5" required="true" id="valorVendaProduto"/>
 				
 				<p:outputLabel value="Valor Custo (R$)" style="margin-right: 5px" for="valorCustoProduto"/>
-				<p:inputText value="#{entradaProdutoControlador.produto.valorCusto}" styleClass="moeda"
+				<p:inputText value="#{entradaProdutoControlador.produto.valoresProdutos.valorCusto}" styleClass="moeda"
 				style="margin-right: 5px" size="5" required="true" id="valorCustoProduto"/>
 				
 				<p:outputLabel value="Quantidade " style="margin-right: 5px" for="qtdeProduto"/>
-				<p:inputText value="#{entradaProdutoControlador.produto.quantidade}" style="margin-right: 5px"
+				<p:inputText value="#{entradaProdutoControlador.produto.estoqueProduto.quantidadeEstoque}" style="margin-right: 5px"
 				size="5" required="true" id="qtdeProduto" maxlength="6"/>
 			</h:panelGrid>
 			<center><p:commandButton value="Adicionar" process="@this panelConsultaEntradaProduto panelEntradaProduto"
@@ -80,10 +80,10 @@
 			<p:outputLabel value="#{produto.valor}" styleClass="moeda"/>
 			</p:column>
 			<p:column headerText="Estoque" width="50">
-			<p:outputLabel value="#{produto.quantidade}"/>
+			<p:outputLabel value="#{produto.estoqueProduto.quantidadeEstoque}"/>
 			</p:column>
 			<p:column headerText="Total (R$)" width="50">
-			<p:outputLabel value="#{produto.quantidade * produto.valor}" styleClass="moeda"/>
+			<p:outputLabel value="#{produto.estoqueProduto.quantidadeEstoque * produto.valoresProdutos.valorComercial}" styleClass="moeda"/>
 			</p:column>
 			<p:column width="30">
 			<p:commandButton icon="ui-icon-trash"/>

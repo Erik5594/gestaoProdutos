@@ -96,7 +96,8 @@
 						<p:outputLabel value="Tipo " for="tipoProduto" />
 						<p:selectOneMenu id="tipoProduto"
 							converter="converterTipoUnidadeProduto"
-							value="#{cadastroProdutoControlador.produto.tipoUnidade}">
+							value="#{cadastroProdutoControlador.produto.tipoUnidade}"
+							disabled="#{cadastroProdutoControlador.editar()}">
 							<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
 							<f:selectItems
 								value="#{cadastroProdutoControlador.tipoUnidadeProduto}"
@@ -108,6 +109,7 @@
 						<p:outputLabel value="Tipo Trib." for="tipoProdutoTrib" />
 						<p:selectOneMenu id="tipoProdutoTrib"
 							converter="converterTipoUnidadeProduto"
+							disabled="#{cadastroProdutoControlador.editar()}"
 							value="#{cadastroProdutoControlador.produto.tipoUnidadeTributavel}">
 							<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
 							<f:selectItems
@@ -178,13 +180,13 @@
 
 						<p:outputLabel value="Qtde Estoque:" for="qtdeEstoque" />
 						<p:inputText id="qtdeEstoque"
-							disabled="#{cadastroProdutoControlador.editar()}" size="5"
+							disabled="#{cadastroProdutoControlador.editar() and !seguranca.editarEstoqueProduto}" size="5"
 							value="#{cadastroProdutoControlador.produto.estoqueProduto.quantidadeEstoque}"
 							converter="converterToDouble" styleClass="moeda" />
 
 						<p:outputLabel value="Qtde Tributável:" for="qtdeTributavel" />
 						<p:inputText id="qtdeTributavel"
-							disabled="#{cadastroProdutoControlador.editar()}" size="5"
+							disabled="#{cadastroProdutoControlador.editar() and !seguranca.editarEstoqueProduto}" size="5"
 							value="#{cadastroProdutoControlador.produto.estoqueProduto.quantidadeTributavel}"
 							converter="converterToDouble" styleClass="moeda" />
 

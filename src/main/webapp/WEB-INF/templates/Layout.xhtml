@@ -63,20 +63,10 @@
 			Olá #{seguranca.getNome()}! </span>
 		<h:form style="display: inline-block;">
 			<p:menubar styleClass="menu-sistema" autoDisplay="false">
-				<p:submenu label="Serviços">
-					<p:submenu label="Ordem Serviço">
-						<p:menuitem value="Cadastro"
-							outcome="/pages/private/servicos/ordem-servico/cadastro/CadastroOrdemServico" />
-						<p:menuitem value="Pesquisa"
-							outcome="/pages/private/servicos/ordem-servico/pesquisa/PesquisaOrdemServico" />
-					</p:submenu>
-					<p:submenu label="Contratos">
-						<p:menuitem value="Cadastro"
-							outcome="/pages/private/servicos/contratos/cadastro/CadastroContrato" />
-						<p:menuitem value="Pesquisa"
-							outcome="/pages/private/servicos/contratos/pesquisa/PesquisaContrato" />
-					</p:submenu>
-				</p:submenu>
+				<p:menuitem value="Pedido"
+								outcome="/pages/private/servicos/ordem-servico/cadastro/CadastroOrdemServico" />
+				<p:menuitem value="Contratos"
+								outcome="/pages/private/servicos/contratos/cadastro/CadastroContrato" />
 				<p:submenu label="Cadastros">
 					<p:menuitem value="Cliente"
 						outcome="/pages/private/cliente/cadastro/CadastroCliente" />
@@ -84,15 +74,6 @@
 						outcome="/pages/private/fornecedor/cadastro/CadastroFornecedor" />
 					<p:menuitem value="Produto"
 						outcome="/pages/private/produto/cadastro/CadastroProduto" />
-					<p:menuitem value="Usuário" outcome="/pages/private/usuario/cadastro/CadastroUsuario"/>
-				</p:submenu>
-				<p:submenu label="Movimentação">
-					<p:submenu label="Produtos">
-						<p:menuitem value="Entrada"
-							outcome="/pages/private/produto/movimentacao/CadastroEntradaProduto" />
-						<p:menuitem value="Saída"
-							outcome="/pages/private/produto/movimentacao/CadastroSaidaProduto" />
-					</p:submenu>
 				</p:submenu>
 				<p:submenu label="Restreamento">
 					<p:submenu label="Produtos">
@@ -102,23 +83,21 @@
 							outcome="/breve" />
 					</p:submenu>
 				</p:submenu>
-				<p:submenu label="Financeiro">
-					<p:menuitem value="Atualizar Dados" outcome="/breve"/>
-					<p:submenu label="Gerar Boleto">
-						<p:submenu label="Individual">
-							<p:menuitem value="Boleto" outcome="/breve"/>
-							<p:menuitem value="Carnê" outcome="/breve"/>
-						</p:submenu>
-						<p:menuitem value="Varios" outcome="/breve"/>
-					</p:submenu>
-				</p:submenu>
 				<p:submenu label="Configurações">
+					<p:menuitem value="Usuário" outcome="/pages/private/usuario/cadastro/CadastroUsuario"/>
 					<p:submenu label="Importar Dados">
 						<p:menuitem value="Municípios" outcome="/pages/private/configuracao/importacao/ImportaMunicipios.xhtml"/>
 						<p:menuitem value="CEP" outcome="/pages/private/configuracao/importacao/ImportaCeps.xhtml"/>
 					</p:submenu>
-					<p:submenu label="Configurar Propiedades">
-						<p:menuitem value="NF-e" outcome="/pages/private/configuracao/configurar/configuraNfe.xhtml"/>
+					<p:submenu label="Financeiro">
+						<p:menuitem value="Atualizar Dados" outcome="/breve"/>
+						<p:submenu label="Gerar Boleto">
+							<p:submenu label="Individual">
+								<p:menuitem value="Boleto" outcome="/breve"/>
+								<p:menuitem value="Carnê" outcome="/breve"/>
+							</p:submenu>
+							<p:menuitem value="Varios" outcome="/breve"/>
+						</p:submenu>
 					</p:submenu>
 				</p:submenu>
 				<p:menuitem value="Sair" url="/j_spring_security_logout"/>

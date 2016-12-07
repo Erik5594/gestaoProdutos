@@ -48,7 +48,7 @@
 			style="margin-right: 5px" size="60" id="nomeProduto"/>
 			
 			<p:outputLabel value="Quantidade " style="margin-right: 5px" for="qtdeProduto"/>
-			<p:inputText value="#{saidaProdutoControlador.produto.quantidade}" style="margin-right: 5px"
+			<p:inputText value="#{saidaProdutoControlador.produto.estoqueProduto.quantidadeEstoque}" style="margin-right: 5px"
 			size="5" required="true" id="qtdeProduto" maxlength="6"/>
 			</h:panelGrid>
 			<center>
@@ -69,10 +69,10 @@
 			<p:outputLabel value="#{produto.nomeProduto}"/>
 			</p:column>
 			<p:column headerText="Estoque" width="50">
-			<p:outputLabel value="#{produto.quantidade}"/>
+			<p:outputLabel value="#{produto.estoqueProduto.quantidadeEstoque}"/>
 			</p:column>
 			<p:column headerText="Total (R$)" width="50">
-			<p:outputLabel value="#{produto.quantidade * produto.valor}" styleClass="moeda"/>
+			<p:outputLabel value="#{produto.estoqueProduto.quantidadeEstoque * produto.valoresProdutos.valorComercial}" styleClass="moeda"/>
 			</p:column>
 			<p:column width="30">
 			<p:commandButton icon="ui-icon-trash"/>
