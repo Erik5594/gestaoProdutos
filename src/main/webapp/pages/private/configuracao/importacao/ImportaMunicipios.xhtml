@@ -18,7 +18,7 @@
 			<!-- Inicio Barra de opoces -->
 			<p:toolbar style="margin-bottom: 20px"/>
 			<!-- Fim Barra de opcoes -->
-			<p:fileUpload fileUploadListener="#{importadorMunicipiosControlador.uploadDeArquivo}" mode="advanced"
+			<p:fileUpload fileUploadListener="#{importadorMunicipiosControlador.uploadDeArquivo}" mode="advanced" label="Selecionar Arquivo"
                      auto="true" sizeLimit="5000000" allowTypes="/(\.|\/)(csv)$/" onstart="PF('statusDialog').show()" onerror="PF('statusDialog').hide()" oncomplete="PF('statusDialog').hide()"/>
                      
                      

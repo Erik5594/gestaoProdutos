@@ -7,18 +7,18 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core">
 
-	<ui:define name="titulo">Importar Cep</ui:define>
+	<ui:define name="titulo">Importar Clientes</ui:define>
 
 	<ui:define name="conteudo">
-		<h:form id="frmImportarCep">
+		<h:form id="frmImportarCliente">
 			<p:messages id="mensagens" autoUpdate="true" for="mensageError"/>
 			<p:messages id="mensagensPadrao" autoUpdate="true"/>
 			<p:growl for="growMensage"/>
-			<h1>Importar Cep</h1>
+			<h1>Importar Cliente</h1>
 			<!-- Inicio Barra de opoces -->
 			<p:toolbar style="margin-bottom: 20px"/>
 			<!-- Fim Barra de opcoes -->
-			<p:fileUpload fileUploadListener="#{importadorCepControlador.uploadDeArquivo}" mode="advanced" label="Selecionar Arquivo"
+			<p:fileUpload fileUploadListener="#{importadorClienteControlador.uploadDeArquivo}" mode="advanced" label="Selecionar Arquivo"
                      auto="true" sizeLimit="5000000" allowTypes="/(\.|\/)(csv)$/" onstart="PF('statusDialog').show()" onerror="PF('statusDialog').hide()" oncomplete="PF('statusDialog').hide()"/>
                      
 	        <p:dialog modal="true" widgetVar="statusDialog" draggable="false" closable="false" resizable="false" showHeader="false">  

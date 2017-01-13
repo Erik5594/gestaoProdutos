@@ -15,10 +15,7 @@ import lombok.Data;
 
 import com.kilowats.entidades.Ean;
 import com.kilowats.entidades.Produto;
-import com.kilowats.enuns.SituacaoTributariaIcms;
 import com.kilowats.enuns.TipoProdutoUnidadeEnum;
-import com.kilowats.enuns.TipoRegimeFiscal;
-import com.kilowats.enuns.TributacaoOrigemProduto;
 import com.kilowats.servicos.ServicosEan;
 import com.kilowats.servicos.ServicosProduto;
 import com.kilowats.util.Utils;
@@ -111,18 +108,6 @@ public @Data class CadastroProdutoControlador implements Serializable{
 
 	public TipoProdutoUnidadeEnum[] getTipoUnidadeProduto() {
 		return TipoProdutoUnidadeEnum.values();
-	}
-	
-	public SituacaoTributariaIcms[] getSituacaoTributariaIcms() {
-		return SituacaoTributariaIcms.values();
-	}
-	
-	public TributacaoOrigemProduto[] getTributacaoOrigemProduto() {
-		return TributacaoOrigemProduto.values();
-	}
-	
-	public TipoRegimeFiscal[] getTipoRegimeFiscal() {
-		return TipoRegimeFiscal.values();
 	}
 	
 	private String tituloTela() {

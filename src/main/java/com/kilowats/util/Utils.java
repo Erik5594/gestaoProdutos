@@ -209,7 +209,7 @@ public class Utils {
 	
 	public static boolean isNotNullOrEmpty(Object obj){
 		if(obj instanceof String){
-			return StringUtils.isNotBlank(obj.toString());
+			return StringUtils.isNotBlank(obj.toString()) || !"null".equals(obj.toString());
 		}else if(obj instanceof List<?>){
 			@SuppressWarnings("unchecked")
 			List<Object> objs = (List<Object>) obj;

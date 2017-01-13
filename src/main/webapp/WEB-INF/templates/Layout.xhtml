@@ -55,7 +55,7 @@
 	<header>
 	<div style="float: left">
 		<h:link outcome="/Conteudo.xhtml">
-			<p:graphicImage id="imagem-logo" name="/imagens/java-logo.png" width="29" height="29"/>
+			<p:graphicImage id="imagem-logo" name="/imagens/LOGO_KILOWATS.png" width="145" height="50"/>
 		</h:link>
 	</div>
 	<div style="float: right; margin-right: 110px;">
@@ -66,7 +66,13 @@
 				<p:menuitem value="Pedido"
 								outcome="/pages/private/servicos/ordem-servico/cadastro/CadastroOrdemServico" />
 				<p:menuitem value="Contratos"
-								outcome="/pages/private/servicos/contratos/cadastro/CadastroContrato" />
+								outcome="/breve" />
+				<p:submenu label="Painel">
+					<p:submenu label="Importação">
+						<p:menuitem value="Clientes"
+							outcome="/pages/private/painel/importacao/cliente/PainelImportacaoCliente.xhtml" />
+					</p:submenu>
+				</p:submenu>
 				<p:submenu label="Cadastros">
 					<p:menuitem value="Cliente"
 						outcome="/pages/private/cliente/cadastro/CadastroCliente" />
@@ -78,7 +84,7 @@
 				<p:submenu label="Restreamento">
 					<p:submenu label="Produtos">
 						<p:menuitem value="Chip"
-							outcome="/pages/private/rastreamento/cadastro/CadastroChip" />
+							outcome="/breve" />
 						<p:menuitem value="Modulo Rastreador"
 							outcome="/breve" />
 					</p:submenu>
@@ -88,6 +94,7 @@
 					<p:submenu label="Importar Dados">
 						<p:menuitem value="Municípios" outcome="/pages/private/configuracao/importacao/ImportaMunicipios.xhtml"/>
 						<p:menuitem value="CEP" outcome="/pages/private/configuracao/importacao/ImportaCeps.xhtml"/>
+						<p:menuitem value="Clientes" outcome="/pages/private/configuracao/importacao/ImportaClientes.xhtml"/>
 					</p:submenu>
 					<p:submenu label="Financeiro">
 						<p:menuitem value="Atualizar Dados" outcome="/breve"/>
