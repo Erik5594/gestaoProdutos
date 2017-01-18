@@ -54,10 +54,10 @@
 						value="#{cadastroClienteControlador.cliente.nome}"/>
 						
 						<p:outputLabel value="Tipo: " for="tipo"/>
-						<p:selectOneRadio id="tipo" value="#{cadastroClienteControlador.tpPessoa}" converter="converterNumber">
-						<f:selectItem itemLabel="Fisica" itemValue="0"/>
-						<f:selectItem itemLabel="Jurídica" itemValue="1"/>
-						<p:ajax update="cnpj" process="@this"/>
+						<p:selectOneRadio id="tipo" value="#{cadastroClienteControlador.cliente.fisicaJuridica}" converter="converterTipoPessoa" >
+							<f:selectItems value="#{cadastroClienteControlador.tiposPessoa}" var="tipoPessoa"
+							itemLabel="#{tipoPessoa.descTipoPessoa}" itemValue="#{tipoPessoa}"/>
+							<p:ajax update="cnpj" process="tipo"/>
 						</p:selectOneRadio>
 
 						<p:outputLabel value="CNPJ/CPF: " for="cnpj" />

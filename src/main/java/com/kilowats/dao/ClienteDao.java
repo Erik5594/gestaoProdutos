@@ -91,9 +91,20 @@ public class ClienteDao {
 		EntityTransaction entityTransaction = manager.getTransaction();
 		entityTransaction.begin();
 		if (Utils.isNotNullOrEmpty(cliente.getId())) {
-			deletarEnderecosClienteImportacao(cliente);
-			deletarTelefonesClienteImportacao(cliente);
-			deletarEmailsClienteImportacao(cliente);
+			if(cliente.getEnderecoClienteImportacaoIntertrack() != null
+					&& !cliente.getEnderecoClienteImportacaoIntertrack().isEmpty()){
+				deletarEnderecosClienteImportacao(cliente);
+			}
+			
+			if(cliente.getTelefoneClienteImportacaoIntertrack() != null
+					&& !cliente.getTelefoneClienteImportacaoIntertrack().isEmpty()){
+				deletarTelefonesClienteImportacao(cliente);
+			}
+			
+			if(cliente.getEmailClienteImportacaoIntertrack() != null
+					&& !cliente.getEmailClienteImportacaoIntertrack().isEmpty()){
+				deletarEmailsClienteImportacao(cliente);
+			}
 		}
 		cliente = (ClienteImportacaoIntertrack) manager.merge(cliente);
 		entityTransaction.commit();

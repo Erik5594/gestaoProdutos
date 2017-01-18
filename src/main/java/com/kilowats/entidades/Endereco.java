@@ -34,7 +34,7 @@ public @Data class Endereco implements Serializable{
 	@Column(name="endereco_entrega", nullable=false, columnDefinition = "boolean")
 	private boolean enderecoEntrega;
 	
-	@ManyToOne(cascade= CascadeType.ALL, fetch=FetchType.LAZY)
+	@ManyToOne(cascade= CascadeType.ALL, fetch=FetchType.EAGER)
 	@JoinColumn(name="cep")
 	private Cep cep;
 	

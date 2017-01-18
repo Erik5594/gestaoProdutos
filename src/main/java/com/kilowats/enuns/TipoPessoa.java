@@ -1,7 +1,7 @@
 package com.kilowats.enuns;
 
 public enum TipoPessoa {
-FISICA(0,"Fisica"), JURIDICA(1,"Juridica");
+FISICA(0,"Física"), JURIDICA(1,"Jurídica");
 
 public int codPessoa;
 public String descTipoPessoa;

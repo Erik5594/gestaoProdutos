@@ -74,7 +74,6 @@ public @Data class CadastroClienteControlador implements Serializable{
 	private List<Veiculo> veiculos = new ArrayList<>();
 	private List<EnderecoCliente> enderecos = new ArrayList<>();
 	
-	private int tpPessoa;
 	private int tipoTelefone;
 	
 	private boolean bloqueiaEnderecoGeral;
@@ -117,7 +116,9 @@ public @Data class CadastroClienteControlador implements Serializable{
 	}
 	
 	public String carregaMascaraCnpjOuCpfPrimefaces(){
-		return mascaraPrimefacesCnpjOuCpf(tpPessoa);
+		int codTipoPessoa = cliente != null
+				&& cliente.getFisicaJuridica() != null ? cliente.getFisicaJuridica().getCodPessoa():0;
+		return mascaraPrimefacesCnpjOuCpf(codTipoPessoa);
 	}
 	
 	public void adcionaTelefone(){
@@ -321,11 +322,6 @@ public @Data class CadastroClienteControlador implements Serializable{
 			this.cliente.setDataCredenciamento(new Date());
 		}
 		this.cliente.setUltimaAtualizacao(new Date());
-		if(this.tpPessoa == 0){
-			this.cliente.setFisicaJuridica(TipoPessoa.FISICA);
-		}else{
-			this.cliente.setFisicaJuridica(TipoPessoa.JURIDICA);
-		}
 		if (isNotNullOrEmpty(telefones)) {
 			this.cliente.setTelefones(this.telefones);
 		}
@@ -428,5 +424,9 @@ public @Data class CadastroClienteControlador implements Serializable{
 			return "Edição de Cliente: ";
 		}
 		return "Cadastro Cliente: ";
+	}
+	
+	public TipoPessoa[] getTiposPessoa() {
+		return TipoPessoa.values();
 	}
 }

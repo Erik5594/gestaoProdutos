@@ -29,7 +29,7 @@ public class ConverterToVeiculo implements Converter{
 
 	@Override
 	public String getAsString(FacesContext arg0, UIComponent arg1, Object arg2) {
-		if(arg2 instanceof Operadora){
+		if(arg2 instanceof TipoVeiculo){
 			if(arg2 != null){
 				TipoVeiculo tipoVeiculo = (TipoVeiculo) arg2;
 				return tipoVeiculo.getTipoVeiculo();

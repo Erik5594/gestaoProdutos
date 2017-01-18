@@ -37,11 +37,11 @@
 				<p:outputLabel value="#{cliente.id}"/>
 			</p:column>
 			
-			<p:column headerText="Nome">
+			<p:column headerText="Nome" filterBy="#{cliente.nome}" filterMatchMode="contains">
 				<p:outputLabel value="#{cliente.nome}"/>
 			</p:column>
 			
-			<p:column headerText="CNPJ/CPF">
+			<p:column headerText="CNPJ/CPF" filterBy="#{cliente.cgcCpf}" filterMatchMode="contains">
 				<p:outputLabel value="#{cliente.cgcCpfFormatado}"/>
 			</p:column>
 			

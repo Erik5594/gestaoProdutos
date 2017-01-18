@@ -12,12 +12,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import com.github.erik5594.importacao.enuns.StatusImportacao;
 import com.kilowats.enuns.TipoPessoa;
+import com.kilowats.util.Utils;
 
 @EqualsAndHashCode(callSuper=false)
 @Entity
@@ -41,4 +43,9 @@ public @Data class ClienteImportacaoIntertrack implements Serializable{
 	private List<EmailClienteImportacaoIntertrack> emailClienteImportacaoIntertrack;
 	@OneToMany(mappedBy="clienteImportacaoIntertrack", fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	private List<TelefoneClienteImportacaoIntertrack> telefoneClienteImportacaoIntertrack;
+	
+	@Transient
+	public String getCgcCpfFormatado(){
+		return Utils.formataCPFCGC(cgcCpf);
+	}
 }

@@ -1,5 +1,6 @@
 package com.github.erik5594.importacao.controladores;
 
+import static com.kilowats.util.Utils.isNotNullOrEmpty;
 import static com.kilowats.util.Utils.mascaraPrimefacesCnpjOuCpf;
 
 import java.io.Serializable;
@@ -25,6 +26,7 @@ import com.github.erik5594.importacao.intertrack.entidades.TelefoneClienteImport
 import com.github.erik5594.importacao.intertrack.interfaces.implementacoes.BancoImportacaoClienteIntertrack;
 import com.kilowats.entidades.Cep;
 import com.kilowats.entidades.Cidade;
+import com.kilowats.enuns.TipoPessoa;
 import com.kilowats.enuns.TipoTelefoneEnum;
 import com.kilowats.servicos.ServicosCep;
 import com.kilowats.servicos.ServicosCidade;
@@ -43,7 +45,7 @@ public @Data class PainelImportacaoCliente implements Serializable {
 	private static Log log = LogFactory.getLog(PainelImportacaoCliente.class);
 	
 	@Inject
-	private ServicosCliente servivcosCliente;
+	private ServicosCliente servicosCliente;
 	@Inject
 	private ServicosTelefone servicosTelefone;
 	@Inject
@@ -71,9 +73,9 @@ public @Data class PainelImportacaoCliente implements Serializable {
 	private List<ClienteImportacaoIntertrack> clientesComErro = new ArrayList<>();
 	@Inject
 	private ClienteImportacaoIntertrack clienteComErroSelecionado;
-	private static final String TITULO = "Painel Importação";
+	private static final String TITULO = "Painel Importação: ";
 	private static final String MSG_SUCESSO = "Atualização realizada com sucesso!";
-	private int tpPessoa;
+	private final String ERRO_INTERNO = "Erro interno: erro interno contate a administração do sistema!";
 	private int tipoTelefone;
 	@Inject
 	private EmailClienteImportacaoIntertrack email;
@@ -94,21 +96,24 @@ public @Data class PainelImportacaoCliente implements Serializable {
 	}
 	
 	@PostConstruct
-	private void carregarClientesErrados(){
+	private void init(){
+		carregarClientesErrados();
+	}
+	private void carregarClientesErrados() {
 		clientesComErro = new ArrayList<>();
-		clientesComErro = servivcosCliente.todosClientesImportacaoByStatus(StatusImportacao.ERRO_VALIDACAO);
+		clientesComErro = servicosCliente.todosClientesImportacaoByStatus(StatusImportacao.ERRO_VALIDACAO);
 	}
 	public long getQtdeClientePendenteImportacao() {
-		return servivcosCliente.qtdeClientePendentesIntertrack();
+		return servicosCliente.qtdeClientePendentesIntertrack();
 	}
 	public Long getQtdeClienteErroValidacaoImportacao() {
-		return servivcosCliente.qtdeClienteErroValidacaoIntertrack();
+		return servicosCliente.qtdeClienteErroValidacaoIntertrack();
 	}
 	public Long getQtdeClienteCorrigidoImportacao() {
-		return servivcosCliente.qtdeClienteCorrigidoImportacao();
+		return servicosCliente.qtdeClienteCorrigidoImportacao();
 	}
 	public Long getQtdeClienteCadastrados() {
-		return servivcosCliente.qtdeClientesCadastrados();
+		return servicosCliente.qtdeClientesCadastrados();
 	}
 	
 	public void importarClientesPendentes(){
@@ -215,6 +220,7 @@ public @Data class PainelImportacaoCliente implements Serializable {
 	}
 
 	public void setClienteComErroSelecionado(ClienteImportacaoIntertrack clienteComErroSelecionado) {
+		this.clienteComErroSelecionado = new ClienteImportacaoIntertrack();
 		this.clienteComErroSelecionado = clienteComErroSelecionado;
 		if(Utils.isNotNullOrEmpty(this.clienteComErroSelecionado)){
 			this.enderecos = this.clienteComErroSelecionado.getEnderecoClienteImportacaoIntertrack();
@@ -301,6 +307,118 @@ public @Data class PainelImportacaoCliente implements Serializable {
 		emails.add(email);
 	}
 	public String carregaMascaraCnpjOuCpfPrimefaces(){
-		return mascaraPrimefacesCnpjOuCpf(tpPessoa);
+		int codTipoPessoa = clienteComErroSelecionado != null
+				&& clienteComErroSelecionado.getTipo() != null ? clienteComErroSelecionado.getTipo().getCodPessoa():0;
+		return mascaraPrimefacesCnpjOuCpf(codTipoPessoa);
+	}
+	
+	public void salvar(){
+		if(clienteComErroSelecionado == null){
+			return;
+		}
+		completarDadosPessoa();
+		if(servicosCliente.validarCliente(clienteComErroSelecionado, TITULO, true)){
+			clienteComErroSelecionado.setStatus(StatusImportacao.ATUALIZADO_CADASTRO);
+			clienteComErroSelecionado = servicosCliente.persistirClienteImportacao(clienteComErroSelecionado);
+			if(isNotNullOrEmpty(clienteComErroSelecionado) && clienteComErroSelecionado.getId() > 0L){
+				inicializarVariaveis();
+				carregarClientesErrados();
+				FacesUtils.sendMensagemOk(TITULO, "Cliente ajustado com sucesso!");
+			}else{
+				FacesUtils.sendMensagemError(TITULO, ERRO_INTERNO);
+			}
+		}
+	}
+	
+	private void completarDadosPessoa() {
+		enderecos = ajustaDadosEndereco();
+		this.clienteComErroSelecionado.setEnderecoClienteImportacaoIntertrack(enderecos);
+		
+		if (isNotNullOrEmpty(telefones)) {
+			this.clienteComErroSelecionado.setTelefoneClienteImportacaoIntertrack(this.telefones);
+		}
+		if (isNotNullOrEmpty(emails)) {
+			this.clienteComErroSelecionado.setEmailClienteImportacaoIntertrack(this.emails);
+		}
+		clienteComErroSelecionado.setCgcCpf(clienteComErroSelecionado.getCgcCpf().replaceAll("\\D", ""));
+	}
+	
+	private List<EnderecoClienteImportacaoIntertrack> ajustaDadosEndereco() {
+		List<EnderecoClienteImportacaoIntertrack> enderecosAjustados = new ArrayList<>();
+		for(EnderecoClienteImportacaoIntertrack ender : enderecos){			
+			if(Utils.isNotNull(ender)){
+				if(ender.isCepGeral()){
+					Cep cep2 = servicosCep.pesquisarCepByCep(ender.getCep().getCep());
+					ender.setBairro(ender.getCep().getBairro());
+					ender.setRua(ender.getCep().getRua());
+					ender.setCep(cep2);
+				}else if(ender.isCepByFaixa()){
+					Cep cep2 = new Cep(ender.getCep().getCep());
+					cep2.setCidade(servicosCidade.pesquisarMunicipioByFaixaCep(cep2.getCep()));
+					ender.setBairro(ender.getCep().getBairro());
+					ender.setRua(ender.getCep().getRua());
+					ender.setCep(cep2);
+				}
+				enderecosAjustados.add(ender);
+			}
+		}
+		return enderecosAjustados;
+	}
+	
+	private void inicializarVariaveis(){
+		clienteComErroSelecionado = new ClienteImportacaoIntertrack();
+		cep = new Cep();
+		cidade = new Cidade();
+		enderecos = new ArrayList<>();
+		telefones = new ArrayList<>();
+		emails = new ArrayList<>();
+		enderecoEntrega = false;
+		bloqueiaEnderecoGeral = true;
+		bloqPesquisaCep = true;
+		cepEncontrado = true;
+		enderecoEntrega = false;
+	}
+	
+	public void removerEnderecoDaLista(){
+		if(Utils.isNotNull(enderecoSelecionado) && Utils.isNotNullOrEmpty(enderecoSelecionado.getCep()) && Utils.isNotNullOrEmpty(enderecos)){
+			List<EnderecoClienteImportacaoIntertrack> novaListaEndereco = new ArrayList<>();
+			for(EnderecoClienteImportacaoIntertrack enderecoValidacao : enderecos){
+				if(!enderecoValidacao.getCep().getCep().equals(enderecoSelecionado.getCep().getCep())){
+					novaListaEndereco.add(enderecoValidacao);
+				}
+			}
+			enderecos = new ArrayList<>();
+			enderecos = novaListaEndereco;
+		}
+	}
+	
+	public void removerTelefoneDaLista(){
+		if(Utils.isNotNull(telefoneSelecionado) && Utils.isNotNullOrEmpty(telefoneSelecionado.getNumero()) && Utils.isNotNullOrEmpty(telefones)){
+			List<TelefoneClienteImportacaoIntertrack> novaListaTelefones = new ArrayList<>();
+			for(TelefoneClienteImportacaoIntertrack telefoneValidacao : telefones){
+				if(!telefoneValidacao.getNumero().equals(telefoneSelecionado.getNumero())){
+					novaListaTelefones.add(telefoneValidacao);
+				}
+			}
+			telefones = new ArrayList<>();
+			telefones = novaListaTelefones;
+		}
+	}
+	
+	public void removerEmailDaLista(){
+		if(Utils.isNotNull(emailSelecionado) && Utils.isNotNullOrEmpty(emailSelecionado.getEmailDestinatario()) && Utils.isNotNullOrEmpty(emails)){
+			List<EmailClienteImportacaoIntertrack> novaListaEmail = new ArrayList<>();
+			for(EmailClienteImportacaoIntertrack emailValidacao : emails){
+				if(!emailValidacao.getEmailDestinatario().equals(emailSelecionado.getEmailDestinatario())){
+					novaListaEmail.add(emailValidacao);
+				}
+			}
+			emails = new ArrayList<>();
+			emails = novaListaEmail;
+		}
+	}
+	
+	public TipoPessoa[] getTiposPessoa() {
+		return TipoPessoa.values();
 	}
 }

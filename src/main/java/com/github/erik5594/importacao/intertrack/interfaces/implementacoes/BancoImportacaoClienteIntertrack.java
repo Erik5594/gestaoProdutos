@@ -63,13 +63,7 @@ public class BancoImportacaoClienteIntertrack implements BancoImportacao {
 
 	@Override
 	public List<ClienteImportacaoIntertrack> getClientesImportacao(StatusImportacao status) {
-		List<ClienteImportacaoIntertrack> clientes = new ArrayList<>();
-		for(ClienteImportacaoIntertrack cliente : servicosCliente.todosClientesImportacaoByStatus(status)){
-			ClienteImportacaoIntertrack clienteImportado = new ClienteImportacaoIntertrack();
-			clienteImportado = servicosCliente.pesquisarClienteImportadoById(cliente.getId());
-			clientes.add(clienteImportado);
-		}
-		return clientes;
+		return servicosCliente.todosClientesImportacaoByStatus(status);
 	}
 
 	@Override

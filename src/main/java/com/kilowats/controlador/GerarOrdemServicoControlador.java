@@ -83,6 +83,9 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 	private static final String TITULO = "Cadastro Ordem Serviço: ";
 	
 	public void inicializar() {
+		if(this.ordemServico == null){
+			return;
+		}
 		if (FacesUtils.isNotPostback()) {
 			if(!this.ordemServico.temItemVazio()){
 				this.ordemServico.adicionarItemVazio();

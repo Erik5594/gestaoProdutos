@@ -18,8 +18,8 @@ public class ConverterTipoPessoa implements Converter{
 		}
 		TipoPessoa[] vetor = TipoPessoa.values();
 		for(int x = 0; x < vetor.length; x++){
-			if(vetor[x].descTipoPessoa.toLowerCase().equals(arg2.toLowerCase())){
-				return (TipoPessoa) vetor[x];
+			if(vetor[x].descTipoPessoa.equalsIgnoreCase(arg2)){
+				return vetor[x];
 			}
 		}
 		return null;
@@ -27,6 +27,11 @@ public class ConverterTipoPessoa implements Converter{
 
 	@Override
 	public String getAsString(FacesContext arg0, UIComponent arg1, Object arg2) {
+		if(arg2 != null){
+			if(arg2 instanceof TipoPessoa){
+				return ((TipoPessoa)arg2).getDescTipoPessoa();
+			}
+		}
 		return null;
 	}
 }

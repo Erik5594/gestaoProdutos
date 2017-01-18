@@ -13,8 +13,9 @@
 		<div id="painel-importacao">
 			<h1>Painel Importação de Clientes</h1>
 			<h:form id="formulario" prependId="false">
+			<p:messages id="mensagens" autoUpdate="true" closable="true"/>
 				<center>
-					<h:panelGrid columns="4">
+					<h:panelGrid columns="4" id="painelGridDados">
 						<h:panelGrid styleClass="grid-importacao grid-importacao-pendente" columns="2">
 							<f:facet name="header">
 								<p:outputLabel value="Pendente"/>
@@ -52,44 +53,49 @@
 					</h:panelGrid>
 					<h:panelGrid columns="3">
 						<p:commandButton value="Sincronizar Pendentes" actionListener="#{painelImportacaoCliente.importarClientesPendentes()}"
-						process="@this" update="@form" onstart="PF('statusDialog').show()" onerror="PF('statusDialog').hide()" oncomplete="PF('statusDialog').hide()"/>
+						process="@this" update=":formulario:painelGridDados :formulario:panelTabelaDeErros" onstart="PF('statusDialog').show()" onerror="PF('statusDialog').hide()" oncomplete="PF('statusDialog').hide()"/>
 						
 						<p:commandButton value="Sincronizar Corrigidos" actionListener="#{painelImportacaoCliente.importarClientesCorrigidos()}"
-						process="@this" update="@form" onstart="PF('statusDialog').show()" onerror="PF('statusDialog').hide()" oncomplete="PF('statusDialog').hide()"/>
+						process="@this" update=":formulario:painelGridDados :formulario:panelTabelaDeErros" onstart="PF('statusDialog').show()" onerror="PF('statusDialog').hide()" oncomplete="PF('statusDialog').hide()"/>
 						
 						<p:commandButton value="Sincronizar Todos" actionListener="#{painelImportacaoCliente.importarClientesPendenteAndCorrigidos()}"
-						process="@this" update="@form" onstart="PF('statusDialog').show()" onerror="PF('statusDialog').hide()" oncomplete="PF('statusDialog').hide()"/>
+						process="@this" update=":formulario:painelGridDados :formulario:panelTabelaDeErros" onstart="PF('statusDialog').show()" onerror="PF('statusDialog').hide()" oncomplete="PF('statusDialog').hide()"/>
 					</h:panelGrid>
 				</center>
-				<p:fieldset legend="Pendentes Correção - #{painelImportacaoCliente.qtdeClienteErroValidacaoImportacao}" toggleable="true" toggleSpeed="500">
-					<p:outputLabel value="Fazendo ajustes"/>
+				<p:outputPanel id="panelTabelaDeErros">
+				<p:fieldset legend="Pendentes Correção: #{painelImportacaoCliente.qtdeClienteErroValidacaoImportacao}" toggleable="true" toggleSpeed="500">
 					<p:dataTable value="#{painelImportacaoCliente.clientesComErro}" var="clienteErrado" emptyMessage="Sem cliente com erros de validações!"
-						rowKey="#{clienteErrado.id}" paginator="true" rows="6"
+						rowKey="#{clienteErrado.id}" paginator="true" rows="6" id="tabelaClientesErrado"
 						currentPageReportTemplate="Intervalo {startRecord}-{endRecord} do total de {totalRecords} registros"
 			            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 			            rowsPerPageTemplate="6,15,50" 
 						style="margin-top:25px;">
 						
-						<p:column headerText="Nome" width="70%">
+						<p:column headerText="ID" width="10%">
+							<p:outputLabel value="#{clienteErrado.id}"/>
+						</p:column>
+						<p:column headerText="Nome" width="70%" filterBy="#{clienteErrado.nome}" filterMatchMode="contains">
 							<p:outputLabel value="#{clienteErrado.nome}"/>
 						</p:column>
 						<p:column headerText="Cpf/Cnpj" width="15%">
-							<p:outputLabel value="#{clienteErrado.cgcCpf}"/>
+							<p:outputLabel value="#{clienteErrado.cgcCpfFormatado}"/>
 						</p:column>
 						<p:column width="5%">
-							<p:commandButton icon="ui-icon-pencil" title="Editar" update="detalhaCliente" oncomplete="PF('edicaoDialog').show()">
+							<p:commandButton icon="ui-icon-pencil" title="Editar" update="detalhaCliente" oncomplete="PF('edicaoDialog').show()" process="@this">
 								<f:setPropertyActionListener target="#{painelImportacaoCliente.clienteComErroSelecionado}" value="#{clienteErrado}" />
 							</p:commandButton>
 						</p:column>
 					</p:dataTable>
     			</p:fieldset>
+    			</p:outputPanel>
     			<p:dialog modal="true" widgetVar="statusDialog" draggable="false" closable="false" resizable="false" showHeader="false">  
 			    	<h:graphicImage library="imagens" name="carregando.gif"/>
 				</p:dialog>
-				<p:dialog modal="true" widgetVar="edicaoDialog" draggable="false" header="Corrigir Cadastro Cliente"
+				<p:dialog modal="true" widgetVar="edicaoDialog" id="edicaoDialogId" draggable="false" header="Corrigir Cadastro Cliente"
 				closable="true" resizable="false" showHeader="true" width="70%" height="70%">
 					<p:outputPanel id="detalhaCliente" style="text-align:center;">
-				    	<p:tabView>
+						<p:messages id="mensagensDialog" autoUpdate="true" closable="true"/>
+				    	<p:tabView id="tabViewDados">
 							<!--Inicio Tab Principal -->
 							<p:tab title="Dados Principais" id="principalTab">
 								<h:panelGrid columns="2" id="panelGridDadosCliente">
@@ -98,10 +104,10 @@
 									value="#{painelImportacaoCliente.clienteComErroSelecionado.nome}"/>
 									
 									<p:outputLabel value="Tipo: " for="tipo"/>
-									<p:selectOneRadio id="tipo" value="#{painelImportacaoCliente.clienteComErroSelecionado.tipo}" converter="converterNumber">
-										<f:selectItem itemLabel="Fisica" itemValue="0"/>
-										<f:selectItem itemLabel="Jurídica" itemValue="1"/>
-										<p:ajax update="cnpj" process="@this"/>
+									<p:selectOneRadio id="tipo" value="#{painelImportacaoCliente.clienteComErroSelecionado.tipo}" converter="converterTipoPessoa" >
+										<f:selectItems value="#{painelImportacaoCliente.tiposPessoa}" var="tipoPessoa"
+										itemLabel="#{tipoPessoa.descTipoPessoa}" itemValue="#{tipoPessoa}"/>
+										<p:ajax update="cnpj" process="tipo"/>
 									</p:selectOneRadio>
 			
 									<p:outputLabel value="CNPJ/CPF: " for="cnpj" />
@@ -219,13 +225,6 @@
 								</p:commandButton>
 								</p:column>
 								</p:dataTable>
-								
-								<p:confirmDialog header="Remover Endereço" message="Tem certeza que deseja remover o endereço?"
-								widgetVar="confirmacaoRemocaoEndereco" id="confirmacaoRemocaoEnderecoDialog">
-								<p:button icon="ui-icon-cancel" value="Não" onclick="PF('confirmacaoRemocaoEndereco').hide(); return false;"/>
-								<p:commandButton icon="ui-icon-check" value="Sim" oncomplete="PF('confirmacaoRemocaoEndereco').hide(); return false;"
-								action="#{painelImportacaoCliente.removerEnderecoDaLista()}" update="tabelaEnderecos" process="@this"/>
-								</p:confirmDialog>
 							</p:tab>
 							<!--Fim Tab endereco -->
 							
@@ -275,13 +274,6 @@
 								</p:commandButton>
 								</p:column>
 								</p:dataTable>
-								
-								<p:confirmDialog header="Remover Telefone" message="Tem certeza que deseja remover o telefone?"
-								widgetVar="confirmacaoRemocaoTelefone" id="confirmacaoRemocaoTelefoneDialog">
-								<p:button icon="ui-icon-cancel" value="Não" onclick="PF('confirmacaoRemocaoTelefone').hide(); return false;"/>
-								<p:commandButton icon="ui-icon-check" value="Sim" oncomplete="PF('confirmacaoRemocaoTelefone').hide(); return false;"
-								action="#{painelImportacaoCliente.removerTelefoneDaLista()}" update="tabelaTelefones" process="@this"/>
-								</p:confirmDialog>
 							</p:tab>
 							<!--Fim Tab telefones -->
 							
@@ -318,18 +310,34 @@
 								</p:commandButton>
 								</p:column>
 								</p:dataTable>
-								
-								<p:confirmDialog header="Remover Email" message="Tem certeza que deseja remover o e-mail?"
-								widgetVar="confirmacaoRemocaoEmail" id="confirmacaoRemocaoEmailDialog">
-								<p:button icon="ui-icon-cancel" value="Não" onclick="PF('confirmacaoRemocaoEmail').hide(); return false;"/>
-								<p:commandButton icon="ui-icon-check" value="Sim" oncomplete="PF('confirmacaoRemocaoEmail').hide(); return false;"
-								action="#{painelImportacaoCliente.removerEmailDaLista()}" update="tabelaEmails" process="@this"/>
-								</p:confirmDialog>
 							</p:tab>
 							<!--Fim Tab emails -->
 						</p:tabView>
+						<center style="margin-top: 10px">
+							<p:commandButton value="Salvar" actionListener="#{painelImportacaoCliente.salvar()}" process="@this tabViewDados"
+							update=":formulario:painelGridDados :formulario:panelTabelaDeErros"/>
+						</center>
 					</p:outputPanel>
 				</p:dialog>
+				
+					<p:confirmDialog header="Remover Telefone" message="Tem certeza que deseja remover o telefone?"
+						widgetVar="confirmacaoRemocaoTelefone" id="confirmacaoRemocaoTelefoneDialog">
+						<p:button icon="ui-icon-cancel" value="Não" onclick="PF('confirmacaoRemocaoTelefone').hide(); return false;"/>
+						<p:commandButton icon="ui-icon-check" value="Sim" oncomplete="PF('confirmacaoRemocaoTelefone').hide(); return false;"
+						action="#{painelImportacaoCliente.removerTelefoneDaLista()}" update=":tabViewDados:tabelaTelefones" process="@this"/>
+					</p:confirmDialog>
+					<p:confirmDialog header="Remover Email" message="Tem certeza que deseja remover o e-mail?"
+						widgetVar="confirmacaoRemocaoEmail" id="confirmacaoRemocaoEmailDialog">
+						<p:button icon="ui-icon-cancel" value="Não" onclick="PF('confirmacaoRemocaoEmail').hide(); return false;"/>
+						<p:commandButton icon="ui-icon-check" value="Sim" oncomplete="PF('confirmacaoRemocaoEmail').hide(); return false;"
+						action="#{painelImportacaoCliente.removerEmailDaLista()}" update=":tabViewDados:tabelaEmails" process="@this"/>
+					</p:confirmDialog>
+					<p:confirmDialog header="Remover Endereço" message="Tem certeza que deseja remover o endereço?"
+						widgetVar="confirmacaoRemocaoEndereco" id="confirmacaoRemocaoEnderecoDialog">
+						<p:button icon="ui-icon-cancel" value="Não" onclick="PF('confirmacaoRemocaoEndereco').hide(); return false;"/>
+						<p:commandButton icon="ui-icon-check" value="Sim" oncomplete="PF('confirmacaoRemocaoEndereco').hide(); return false;"
+						action="#{painelImportacaoCliente.removerEnderecoDaLista()}" update=":tabViewDados:tabelaEnderecos" process="@this"/>
+					</p:confirmDialog>
 			</h:form>
 		</div>
 	</ui:define>

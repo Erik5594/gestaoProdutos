@@ -6,6 +6,7 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
 import com.kilowats.enuns.TipoProdutoUnidadeEnum;
+import com.kilowats.enuns.TipoVeiculo;
 import com.kilowats.util.Utils;
 
 @FacesConverter(value = "converterTipoUnidadeProduto")

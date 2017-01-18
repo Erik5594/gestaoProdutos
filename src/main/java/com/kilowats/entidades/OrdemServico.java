@@ -41,8 +41,8 @@ public @Data class OrdemServico implements Serializable{
 	@JoinColumn(name="id_cliente", nullable=false)
 	private Cliente cliente;
 	
-	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="id_veiculo", nullable=false)
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="id_veiculo", nullable=true)
 	private Veiculo veiculo;
 	
 	@OneToMany(mappedBy="ordemServico",fetch=FetchType.EAGER, cascade=CascadeType.ALL)

@@ -22,6 +22,12 @@ public class ServicosCliente implements Serializable{
 	private IValidacaoCadastro validar;
 
 	public Cliente persistirCliente(Cliente cliente){
+		if(cliente != null && (cliente.getId() == null || cliente.getId() == 0l)){
+			Cliente cliente2 = clienteDao.pesquisarByCpfCgc(cliente.getCgcCpf());
+			if(cliente2 != null){
+				return cliente2;
+			}
+		}
 		return clienteDao.salvarOrUpdate(cliente);
 	}
 	
@@ -46,6 +52,12 @@ public class ServicosCliente implements Serializable{
 	}
 	
 	public ClienteImportacaoIntertrack persistirClienteImportacao(ClienteImportacaoIntertrack cliente){
+		if(cliente != null && (cliente.getId() == null || cliente.getId() == 0l)){
+			ClienteImportacaoIntertrack cliente2 = clienteDao.pesquisarClienteImportacaoByCpfCgc(cliente.getCgcCpf(), cliente.getNome());
+			if(cliente2 != null){
+				return cliente2;
+			}
+		}
 		return clienteDao.salvarOrUpdate(cliente);
 	}
 	

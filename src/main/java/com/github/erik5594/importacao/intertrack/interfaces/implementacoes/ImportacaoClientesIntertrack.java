@@ -65,7 +65,9 @@ public class ImportacaoClientesIntertrack extends ArquivoImportacaoAbstrato{
 		while(linha != null){
 			if(contador != 1){
 				ClienteImportacaoIntertrack clienteImportacao = (ClienteImportacaoIntertrack) obterObjeto(linha.split(separador));
-				clientesImportacao.add(clienteImportacao);
+				if(clienteImportacao != null){
+					clientesImportacao.add(clienteImportacao);
+				}
 			}
 			linha = linhasArquivo.readLine();
 			contador ++;

@@ -63,7 +63,7 @@
 			Olá #{seguranca.getNome()}! </span>
 		<h:form style="display: inline-block;">
 			<p:menubar styleClass="menu-sistema" autoDisplay="false">
-				<p:menuitem value="Pedido"
+				<p:menuitem value="Ordem Serviço"
 								outcome="/pages/private/servicos/ordem-servico/cadastro/CadastroOrdemServico" />
 				<p:menuitem value="Contratos"
 								outcome="/breve" />
@@ -119,7 +119,7 @@
 	</div>
 	<p:separator style="marggin-top: 20px"/>
 	<footer>
-	<center>Sistema de Gestão de Produtos - Tarefa de Curso AlgaWorks 2016</center>
+	<center>#{dadosProjetoControlador.empresa} - #{dadosProjetoControlador.nomeProjeto} - #{dadosProjetoControlador.versao}</center>
 	</footer>
 	<script>
 			function configurarMoeda() {

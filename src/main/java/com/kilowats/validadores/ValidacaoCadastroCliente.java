@@ -64,10 +64,10 @@ public class ValidacaoCadastroCliente implements IValidacaoCadastro {
 			return false;
 		} else {
 			if (Utils.isCGC(cpfCnpj)) {
-				// if(Utils.isCNPJValido(cpfCnpj)){
-				return true;
-				// }
-				// return false;
+				 if(Utils.isCNPJValido(cpfCnpj)){
+					 return true;
+				 }
+				 return false;
 			} else {
 				if (Utils.isCPFValido(cpfCnpj)) {
 					return true;
