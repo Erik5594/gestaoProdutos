@@ -5,7 +5,7 @@
            http://www.springframework.org/schema/security
            http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
-	<beans:bean id="appUserDetailsService" class="com.kilowats.security.AppUserDetailsService" />
+	<beans:bean id="appUserDetailsService" class="com.github.erik5594.security.AppUserDetailsService" />
 
 
 	<beans:bean id="exceptionTranslationFilter"
@@ -15,18 +15,18 @@
 	</beans:bean>
 
 	<beans:bean id="jsfAccessDeniedHandler"
-		class="com.kilowats.security.JsfAccessDeniedHandler">
+		class="com.github.erik5594.security.JsfAccessDeniedHandler">
 		<beans:property name="loginPath" value="/AcessoNegado.xhtml" />
 		<beans:property name="contextRelative" value="true" />
 	</beans:bean>
 
 	<beans:bean id="authenticationEntryPoint"
-		class="com.kilowats.security.JsfLoginUrlAuthenticationEntryPoint">
+		class="com.github.erik5594.security.JsfLoginUrlAuthenticationEntryPoint">
 		<beans:property name="loginFormUrl" value="/Login.xhtml" />
 		<beans:property name="redirectStrategy" ref="jsfRedirectStrategy" />
 	</beans:bean>
 
-	<beans:bean id="jsfRedirectStrategy" class="com.kilowats.security.JsfRedirectStrategy" />
+	<beans:bean id="jsfRedirectStrategy" class="com.github.erik5594.security.JsfRedirectStrategy" />
 
 
 
