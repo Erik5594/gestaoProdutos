@@ -17,9 +17,9 @@ import javax.persistence.Transient;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import com.github.erik5594.enuns.TipoPessoa;
 import com.github.erik5594.importacao.enuns.StatusImportacao;
-import com.kilowats.enuns.TipoPessoa;
-import com.kilowats.util.Utils;
+import com.github.erik5594.util.Utils;
 
 @EqualsAndHashCode(callSuper=false)
 @Entity

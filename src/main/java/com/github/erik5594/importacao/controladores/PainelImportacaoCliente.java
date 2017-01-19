@@ -1,7 +1,7 @@
 package com.github.erik5594.importacao.controladores;
 
-import static com.kilowats.util.Utils.isNotNullOrEmpty;
-import static com.kilowats.util.Utils.mascaraPrimefacesCnpjOuCpf;
+import static com.github.erik5594.util.Utils.isNotNullOrEmpty;
+import static com.github.erik5594.util.Utils.mascaraPrimefacesCnpjOuCpf;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -17,6 +17,10 @@ import lombok.Data;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.github.erik5594.entidades.Cep;
+import com.github.erik5594.entidades.Cidade;
+import com.github.erik5594.enuns.TipoPessoa;
+import com.github.erik5594.enuns.TipoTelefoneEnum;
 import com.github.erik5594.importacao.enuns.StatusImportacao;
 import com.github.erik5594.importacao.interfaces.BancoImportacao;
 import com.github.erik5594.importacao.intertrack.entidades.ClienteImportacaoIntertrack;
@@ -24,18 +28,14 @@ import com.github.erik5594.importacao.intertrack.entidades.EmailClienteImportaca
 import com.github.erik5594.importacao.intertrack.entidades.EnderecoClienteImportacaoIntertrack;
 import com.github.erik5594.importacao.intertrack.entidades.TelefoneClienteImportacaoIntertrack;
 import com.github.erik5594.importacao.intertrack.interfaces.implementacoes.BancoImportacaoClienteIntertrack;
-import com.kilowats.entidades.Cep;
-import com.kilowats.entidades.Cidade;
-import com.kilowats.enuns.TipoPessoa;
-import com.kilowats.enuns.TipoTelefoneEnum;
-import com.kilowats.servicos.ServicosCep;
-import com.kilowats.servicos.ServicosCidade;
-import com.kilowats.servicos.ServicosCliente;
-import com.kilowats.servicos.ServicosEmail;
-import com.kilowats.servicos.ServicosEndereco;
-import com.kilowats.servicos.ServicosTelefone;
-import com.kilowats.util.Utils;
-import com.kilowats.util.jsf.FacesUtils;
+import com.github.erik5594.servicos.ServicosCep;
+import com.github.erik5594.servicos.ServicosCidade;
+import com.github.erik5594.servicos.ServicosCliente;
+import com.github.erik5594.servicos.ServicosEmail;
+import com.github.erik5594.servicos.ServicosEndereco;
+import com.github.erik5594.servicos.ServicosTelefone;
+import com.github.erik5594.util.Utils;
+import com.github.erik5594.util.jsf.FacesUtils;
 
 @Named
 @ViewScoped

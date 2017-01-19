@@ -7,25 +7,25 @@ import java.util.List;
 
 import org.primefaces.model.UploadedFile;
 
+import com.github.erik5594.entidades.Cep;
+import com.github.erik5594.entidades.Cidade;
+import com.github.erik5594.entidades.Cliente;
+import com.github.erik5594.enuns.TipoPessoa;
+import com.github.erik5594.enuns.TipoTelefoneEnum;
 import com.github.erik5594.importacao.enuns.StatusImportacao;
 import com.github.erik5594.importacao.interfaces.implementacoes.ArquivoImportacaoAbstrato;
 import com.github.erik5594.importacao.intertrack.entidades.ClienteImportacaoIntertrack;
 import com.github.erik5594.importacao.intertrack.entidades.EmailClienteImportacaoIntertrack;
 import com.github.erik5594.importacao.intertrack.entidades.EnderecoClienteImportacaoIntertrack;
 import com.github.erik5594.importacao.intertrack.entidades.TelefoneClienteImportacaoIntertrack;
-import com.kilowats.entidades.Cep;
-import com.kilowats.entidades.Cidade;
-import com.kilowats.entidades.Cliente;
-import com.kilowats.enuns.TipoPessoa;
-import com.kilowats.enuns.TipoTelefoneEnum;
-import com.kilowats.servicos.ServicosCep;
-import com.kilowats.servicos.ServicosCidade;
-import com.kilowats.servicos.ServicosCliente;
-import com.kilowats.servicos.ServicosEmail;
-import com.kilowats.servicos.ServicosEndereco;
-import com.kilowats.servicos.ServicosTelefone;
-import com.kilowats.util.Utils;
-import com.kilowats.util.cdi.CDIServiceLocator;
+import com.github.erik5594.servicos.ServicosCep;
+import com.github.erik5594.servicos.ServicosCidade;
+import com.github.erik5594.servicos.ServicosCliente;
+import com.github.erik5594.servicos.ServicosEmail;
+import com.github.erik5594.servicos.ServicosEndereco;
+import com.github.erik5594.servicos.ServicosTelefone;
+import com.github.erik5594.util.Utils;
+import com.github.erik5594.util.cdi.CDIServiceLocator;
 
 public class ImportacaoClientesIntertrack extends ArquivoImportacaoAbstrato{
 	

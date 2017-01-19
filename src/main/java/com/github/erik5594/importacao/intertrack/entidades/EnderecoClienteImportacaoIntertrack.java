@@ -11,7 +11,7 @@ import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import com.kilowats.entidades.Endereco;
+import com.github.erik5594.entidades.Endereco;
 
 @EqualsAndHashCode(callSuper=true)
 @Entity

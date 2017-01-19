@@ -12,11 +12,11 @@ import lombok.Data;
 
 import org.primefaces.event.FileUploadEvent;
 
+import com.github.erik5594.entidades.Cep;
 import com.github.erik5594.importacao.interfaces.ArquivoImportacao;
 import com.github.erik5594.importacao.manual.interfaces.implementacoes.ImportacaoCepsArquivoDetran;
-import com.kilowats.entidades.Cep;
-import com.kilowats.servicos.ServicosCep;
-import com.kilowats.util.jsf.FacesUtils;
+import com.github.erik5594.servicos.ServicosCep;
+import com.github.erik5594.util.jsf.FacesUtils;
 
 @Named
 @ViewScoped

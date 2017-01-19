@@ -7,22 +7,22 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.github.erik5594.entidades.Cliente;
+import com.github.erik5594.entidades.EmailCliente;
+import com.github.erik5594.entidades.EnderecoCliente;
+import com.github.erik5594.entidades.TelefoneCliente;
+import com.github.erik5594.enuns.TipoPessoa;
 import com.github.erik5594.importacao.enuns.StatusImportacao;
 import com.github.erik5594.importacao.interfaces.BancoImportacao;
 import com.github.erik5594.importacao.intertrack.entidades.ClienteImportacaoIntertrack;
 import com.github.erik5594.importacao.intertrack.entidades.EmailClienteImportacaoIntertrack;
 import com.github.erik5594.importacao.intertrack.entidades.EnderecoClienteImportacaoIntertrack;
 import com.github.erik5594.importacao.intertrack.entidades.TelefoneClienteImportacaoIntertrack;
-import com.kilowats.entidades.Cliente;
-import com.kilowats.entidades.EmailCliente;
-import com.kilowats.entidades.EnderecoCliente;
-import com.kilowats.entidades.TelefoneCliente;
-import com.kilowats.enuns.TipoPessoa;
-import com.kilowats.servicos.ServicosCliente;
-import com.kilowats.servicos.ServicosEmail;
-import com.kilowats.servicos.ServicosEndereco;
-import com.kilowats.servicos.ServicosTelefone;
-import com.kilowats.util.cdi.CDIServiceLocator;
+import com.github.erik5594.servicos.ServicosCliente;
+import com.github.erik5594.servicos.ServicosEmail;
+import com.github.erik5594.servicos.ServicosEndereco;
+import com.github.erik5594.servicos.ServicosTelefone;
+import com.github.erik5594.util.cdi.CDIServiceLocator;
 
 public class BancoImportacaoClienteIntertrack implements BancoImportacao {
 	

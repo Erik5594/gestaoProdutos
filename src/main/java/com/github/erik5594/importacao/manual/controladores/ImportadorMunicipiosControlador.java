@@ -12,11 +12,11 @@ import lombok.Data;
 
 import org.primefaces.event.FileUploadEvent;
 
+import com.github.erik5594.entidades.Cidade;
 import com.github.erik5594.importacao.interfaces.ArquivoImportacao;
 import com.github.erik5594.importacao.manual.interfaces.implementacoes.ImportacaoMunicipiosArquivoDetran;
-import com.kilowats.entidades.Cidade;
-import com.kilowats.servicos.ServicosCidade;
-import com.kilowats.util.jsf.FacesUtils;
+import com.github.erik5594.servicos.ServicosCidade;
+import com.github.erik5594.util.jsf.FacesUtils;
 
 @Named
 @ViewScoped

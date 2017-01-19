@@ -15,8 +15,8 @@ import org.primefaces.event.FileUploadEvent;
 import com.github.erik5594.importacao.interfaces.ArquivoImportacao;
 import com.github.erik5594.importacao.intertrack.entidades.ClienteImportacaoIntertrack;
 import com.github.erik5594.importacao.intertrack.interfaces.implementacoes.ImportacaoClientesIntertrack;
-import com.kilowats.servicos.ServicosCliente;
-import com.kilowats.util.jsf.FacesUtils;
+import com.github.erik5594.servicos.ServicosCliente;
+import com.github.erik5594.util.jsf.FacesUtils;
 
 @Named
 @ViewScoped

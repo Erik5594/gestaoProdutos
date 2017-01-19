@@ -11,7 +11,7 @@ import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import com.kilowats.entidades.Email;
+import com.github.erik5594.entidades.Email;
 
 @EqualsAndHashCode(callSuper=true)
 @Entity
