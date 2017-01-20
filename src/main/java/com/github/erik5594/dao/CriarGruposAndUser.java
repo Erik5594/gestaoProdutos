@@ -57,9 +57,8 @@ public class CriarGruposAndUser {
 		
 		Usuario usuario = new Usuario();
 		usuario.setEmail("admin");
-		usuario.setNome("Erik");
+		usuario.setNome("Administrador Erik");
 		usuario.setSenha("admin");
-		usuario.setSenhaConfirmacao("admin");
 		
 		Grupo grupo = manager.find(Grupo.class, 1L);
 		

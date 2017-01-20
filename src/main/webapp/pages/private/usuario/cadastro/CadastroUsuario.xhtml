@@ -32,7 +32,7 @@
 				
 				<!-- Inicio de grupo de Barra de opces a Direita -->
 				<p:toolbarGroup align="right">
-					<p:commandButton value="Pesquisar" />
+					<p:commandButton value="Pesquisar" process="@this"/>
 				</p:toolbarGroup>
 				<!-- Fim de grupo de Barra de opces a Direita -->
 			</p:toolbar>
@@ -44,13 +44,17 @@
 			
 			<p:outputLabel value="Login:" for="login"/>
 			<p:inputText size="30" id="login" value="#{cadastroUsuarioControlador.usuario.email}" label="E-mail"/>
+			</h:panelGrid>
 			
+			<h:panelGrid columns="2" id="gridSenhaUsuario" style="margin-top: 10px;">
 	        <p:outputLabel for="pwd1" value="Senha:" />
-	        <p:password id="pwd1" value="#{cadastroUsuarioControlador.usuario.senha}" label="Senha"/>
+	        <p:password id="pwd1" value="#{cadastroUsuarioControlador.usuario.senha}" match="pwd2" label="Senha" feedback="true" validatorMessage="As senhas não conferem!"/>
 	        
 	        <p:outputLabel for="pwd2" value="Confirmar Senha:" />
-	        <p:password id="pwd2" value="#{cadastroUsuarioControlador.usuario.senhaConfirmacao}" label="Senha de Confirmação"/>
+	        <p:password id="pwd2" value="#{cadastroUsuarioControlador.usuario.senha}" label="Senha de Confirmação" required="true"/>
+			</h:panelGrid>
 			
+			<h:panelGrid columns="2" id="gridGruposUsuario" style="margin-top: 10px;">
 			<p:outputLabel value="Grupos:" rendered="#{not empty cadastroUsuarioControlador.grupos}"/>
 			<p:selectManyCheckbox layout="grid" columns="3" label="Grupos" rendered="#{not empty cadastroUsuarioControlador.grupos}"
 			 value="#{cadastroUsuarioControlador.ids}">

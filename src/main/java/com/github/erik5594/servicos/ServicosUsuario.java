@@ -22,7 +22,7 @@ public class ServicosUsuario implements Serializable{
 		if(validar.validarCadastroComMensagem(usuario, titulo, mostrarMensagem)){
 			return usuarioDao.salvarOrUpdate(usuario);
 		}
-		return null;
+		return usuario;
 	}
 	
 	public Usuario pesquisarById(Usuario usuario){

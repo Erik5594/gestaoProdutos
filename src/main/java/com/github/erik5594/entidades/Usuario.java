@@ -41,8 +41,6 @@ public @Data class Usuario implements Serializable{
 	@NotEmpty
 	@Column(length=12, nullable=false)
 	private String senha;
-	@Transient
-	private String senhaConfirmacao;
 	@NotNull
 	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	@JoinTable(name = "usuario_grupo", joinColumns = @JoinColumn(name="usuario_id"),

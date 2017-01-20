@@ -35,13 +35,6 @@ public class ValidacaoCadastroUsuario implements IValidacaoCadastro {
 					FacesUtils.sendMensagemError(titulo, "Senha inválida.");
 				}
 				retorno = false;
-			}else{
-				if(senhaDiferenteSenhaConfirmacao(usuario)){
-					if(mostrarMensagem){
-						FacesUtils.sendMensagemError(titulo, "Senha está diferente da Senha de Confirmação.");
-					}
-					retorno = false;
-				}
 			}
 			
 			if(usuario.getGrupos() == null || usuario.getGrupos().isEmpty()){
@@ -58,13 +51,5 @@ public class ValidacaoCadastroUsuario implements IValidacaoCadastro {
 		}
 		return retorno;
 	}
-
-	private boolean senhaDiferenteSenhaConfirmacao(Usuario usuario){
-		return !senhaIgualSenhaConfirmacao(usuario);
-	}
 	
-	private boolean senhaIgualSenhaConfirmacao(Usuario usuario) {
-		return StringUtils.isNotBlank(usuario.getSenha()) && StringUtils.isNotBlank(usuario.getSenhaConfirmacao()) && usuario.getSenha().equals(usuario.getSenhaConfirmacao());
-	}
-
 }
