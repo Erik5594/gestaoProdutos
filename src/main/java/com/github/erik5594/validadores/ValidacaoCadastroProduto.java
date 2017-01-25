@@ -32,12 +32,12 @@ public class ValidacaoCadastroProduto implements IValidacaoCadastro {
 			}
 			retorno = false;
 		}
-		if(isNullOrEmpty(produto.getTipoUnidadeTributavel())){
+		/*if(isNullOrEmpty(produto.getTipoUnidadeTributavel())){
 			if(mostrarMensagem){
 				FacesUtils.sendMensagemError(titulo, "Unidade de medida tributavel do produto inválida");
 			}
 			retorno = false;
-		}
+		}*/
 		if(isNullOrEmpty(produto.getCodProduto())){
 			if(mostrarMensagem){
 				FacesUtils.sendMensagemError(titulo, "Código do produto inválido.");

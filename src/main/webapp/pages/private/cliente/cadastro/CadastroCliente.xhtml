@@ -124,13 +124,13 @@
 					
 					<center>
 					<p:commandButton value="Adicionar" icon="ui-icon-check"
-					actionListener="#{cadastroClienteControlador.adcionaEndereco()}"
+					actionListener="#{cadastroClienteControlador.adicionaEndereco()}"
 					process="@this panelEndereco"
 					update="panelEndereco tabelaEnderecos"/>
 					</center>
 				</p:panel>
 					
-					<p:dataTable id="tabelaEnderecos" value="#{cadastroClienteControlador.enderecos}" var="endereco"
+					<p:dataTable id="tabelaEnderecos" value="#{cadastroClienteControlador.cliente.endereco}" var="endereco"
 					emptyMessage="Sem endereço(s)" selection="#{cadastroClienteControlador.enderecoSelecionado}"
 					style="width: 100%; margin-top: 15px">
 					<f:facet name="header">
@@ -203,11 +203,11 @@
 								<f:selectItem itemLabel="Residencial" itemValue="2"/>
 								<f:selectItem itemLabel="Outro" itemValue="3"/>
 						</p:selectOneMenu>
-						<p:commandButton icon="ui-icon-plus" actionListener="#{cadastroClienteControlador.adcionaTelefone()}"
+						<p:commandButton icon="ui-icon-plus" actionListener="#{cadastroClienteControlador.adicionaTelefone()}"
 						update="gridTelefone tabelaTelefones" process="gridTelefone"/>
 					</h:panelGrid>
 					
-					<p:dataTable id="tabelaTelefones" value="#{cadastroClienteControlador.telefones}" var="telefone"
+					<p:dataTable id="tabelaTelefones" value="#{cadastroClienteControlador.cliente.telefones}" var="telefone"
 					emptyMessage="Sem telefone(s)" selection="#{cadastroClienteControlador.telefoneSelecionado}" style="width: 33%; margin-top: 15px">
 					<f:facet name="header">
 					Telefones
@@ -250,11 +250,11 @@
 						<p:outputLabel value="Nome Destinatário: " for="destinatarioEmail" style="margin-left: 8px"/>
 						<p:inputText id="destinatarioEmail" onkeyup="this.value=this.value.toUpperCase();"
 						value="#{cadastroClienteControlador.email.nomePessoaDestinatario}"/>
-						<p:commandButton icon="ui-icon-plus" actionListener="#{cadastroClienteControlador.adcionaEmail()}"
+						<p:commandButton icon="ui-icon-plus" actionListener="#{cadastroClienteControlador.adicionaEmail()}"
 						update="gridEmail tabelaEmails" process="gridEmail"/>
 					</h:panelGrid>
 
-					<p:dataTable id="tabelaEmails" value="#{cadastroClienteControlador.emails}" var="email"
+					<p:dataTable id="tabelaEmails" value="#{cadastroClienteControlador.cliente.emails}" var="email"
 					emptyMessage="Sem e-mail(s)" selection="#{cadastroClienteControlador.emailSelecionado}" style="width: 40%; margin-top: 15px">
 					<f:facet name="header">
 					E-mails
@@ -319,11 +319,11 @@
 						value="#{cadastroClienteControlador.veiculo.cor}"/>
 					</h:panelGrid>
 					<center>
-						<p:commandButton icon="ui-icon-plus" value="Adicionar" actionListener="#{cadastroClienteControlador.adcionaVeiculo()}"
+						<p:commandButton icon="ui-icon-plus" value="Adicionar" actionListener="#{cadastroClienteControlador.adicionaVeiculo()}"
 						update="gridVeiculo tabelaVeiculos" process="@this gridVeiculo"/>
 					</center>
 
-					<p:dataTable id="tabelaVeiculos" value="#{cadastroClienteControlador.veiculos}" var="veiculo"
+					<p:dataTable id="tabelaVeiculos" value="#{cadastroClienteControlador.cliente.veiculos}" var="veiculo"
 					emptyMessage="Sem veiculo(s)" selection="#{cadastroClienteControlador.veiculoSelecionado}" style="width: 70%; margin-top: 15px">
 					<f:facet name="header">
 					Veículos

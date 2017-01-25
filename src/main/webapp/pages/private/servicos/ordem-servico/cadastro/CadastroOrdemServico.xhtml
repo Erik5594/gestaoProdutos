@@ -29,7 +29,7 @@
 			
 			<ui:include src="/WEB-INF/templates/ordem-servico/CapaOrdemServico.xhtml" />
 			
-			<p:tabView style="margin-top: 20px">
+			<p:tabView style="margin-top: 20px" id="tabViewItensObs">
 	    		<p:tab title="Itens">
 	    			<ui:include src="/WEB-INF/templates/ordem-servico/ItensOrdemServico.xhtml" />
 	    		</p:tab>
@@ -37,6 +37,17 @@
 	    			<ui:include src="/WEB-INF/templates/ordem-servico/ObservacaoOrdemServico.xhtml" />
 	    		</p:tab>
 	    	</p:tabView>
+	    	<p:confirmDialog header="Exclusão de Item"
+				message="Tem certeza que deseja remover o Item[#{gerarOrdemServicoControlador.itemSelecionado.produto.codProduto}]?"
+				widgetVar="confirmacaoExclusaoItem"
+				id="confirmacaoExclusaoItemDialog">
+				<p:button icon="ui-icon-cancel" value="Não"
+					onclick="PF('confirmacaoExclusaoItem').hide(); return false;" />
+				<p:commandButton icon="ui-icon-check" value="Sim"
+					oncomplete="PF('confirmacaoExclusaoItem').hide(); return false;"
+					actionListener="#{gerarOrdemServicoControlador.removerItem()}"
+					update="tabViewItensObs:tabelaItens" process="@this" />
+			</p:confirmDialog>
 		</h:form>
 	</ui:define>
 </ui:composition>

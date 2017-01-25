@@ -27,6 +27,7 @@ import lombok.Data;
 
 import com.github.erik5594.enuns.FormaPagamento;
 import com.github.erik5594.enuns.StatusOrdemServico;
+import com.github.erik5594.util.Utils;
 
 @Entity
 @Table(name="ordem_servico")
@@ -45,7 +46,7 @@ public @Data class OrdemServico implements Serializable{
 	@JoinColumn(name="id_veiculo", nullable=true)
 	private Veiculo veiculo;
 	
-	@OneToMany(mappedBy="ordemServico",fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="ordemServico",fetch=FetchType.EAGER, cascade=CascadeType.ALL, orphanRemoval = true)
 	private List<ItemOrdemServico> itens = new ArrayList<>();
 	
 	@Temporal(TemporalType.TIMESTAMP)
@@ -160,5 +161,12 @@ public @Data class OrdemServico implements Serializable{
 			return true;
 		}
 		return false;
+	}
+	
+	@Transient
+	public void removerItem(ItemOrdemServico itemASerRemovido) {
+		if(Utils.isNotNullOrEmpty(this.getItens()) && this.itens.contains(itemASerRemovido)){
+			this.itens.remove(itemASerRemovido);
+		}
 	}
 }

@@ -30,4 +30,31 @@ public @Data class Ean implements Serializable{
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="id_produto")
 	private Produto produto;
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((codBarras == null) ? 0 : codBarras.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Ean other = (Ean) obj;
+		if (codBarras == null) {
+			if (other.codBarras != null)
+				return false;
+		} else if (!codBarras.equals(other.codBarras))
+			return false;
+		return true;
+	}
+	
 }

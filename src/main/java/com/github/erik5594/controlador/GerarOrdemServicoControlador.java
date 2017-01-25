@@ -64,6 +64,8 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 	private HttpServletResponse response;
 	@Inject
 	private FacesContext context;
+	@Inject
+	private ItemOrdemServico itemSelecionado;
 	
 	private static final String STATUS_PARA_ABERTO = "*0*";
 	private static final String STATUS_PARA_APROVADO = "*0**3*";
@@ -72,13 +74,14 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 	private static final String STATUS_PARA_SERVICOS_REALIZADOS = "*2*";
 	private static final String STATUS_PARA_FINALIZADO = "*1**4*";
 	private static final String STATUS_PARA_CANCELADO = "*0**1**2**3**4*";
-	private static final String STATUS_PARA_EMISSAO = "*0**1**2**3**4*";
+	private static final String STATUS_PARA_EMISSAO = "*0**1**2**3**4**5**6*";
 	
 	private boolean alterarQuantidadeProduto = true;
 	private boolean adicionarItemOrcamento = true;
 	private boolean alterarClienteOrcamento = true;
 	private boolean alterarVeiculoOrcamento = true;
 	private boolean alterarFormaPagamentOrcamento = true;
+	private boolean podeSomenteSalvar = true;
 	
 	private static final String TITULO = "Cadastro Ordem Serviço: ";
 	
@@ -149,8 +152,6 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 		if (item.getQuantidadeProduto().equals(BigDecimal.ONE)) {
 			if (linha == 0) {
 				item.setQuantidadeProduto(BigDecimal.ONE);
-			} else {
-				this.getOrdemServico().getItens().remove(linha);
 			}
 		}
 		
@@ -302,6 +303,7 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 		alterarClienteOrcamento = true;
 		alterarVeiculoOrcamento = true;
 		alterarFormaPagamentOrcamento = true;
+		podeSomenteSalvar = false;
 	}
 	
 	private void habilitarEdicaoOrcamento(){
@@ -310,6 +312,7 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 		alterarClienteOrcamento = false;
 		alterarVeiculoOrcamento = false;
 		alterarFormaPagamentOrcamento = false;
+		podeSomenteSalvar = true;
 	}
 	
 	private void habilitarEdicaoFormaPagamentoOrcamento(){
@@ -318,6 +321,7 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 		alterarClienteOrcamento = true;
 		alterarVeiculoOrcamento = true;
 		alterarFormaPagamentOrcamento = false;
+		podeSomenteSalvar = true;
 	}
 	
 	private void habilitarAdicionamentoProdutoOrcamento(){
@@ -326,6 +330,7 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 		alterarClienteOrcamento = true;
 		alterarVeiculoOrcamento = true;
 		alterarFormaPagamentOrcamento = true;
+		podeSomenteSalvar = true;
 	}
 	
 	private void habilitarAdicionamentoProdutoAndFormaPagamentoOrcamento(){
@@ -334,6 +339,7 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 		alterarClienteOrcamento = true;
 		alterarVeiculoOrcamento = true;
 		alterarFormaPagamentOrcamento = false;
+		podeSomenteSalvar = true;
 	}
 	
 	private void salvarPedido(){
@@ -350,10 +356,10 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 	}
 	
 	private void completarOrdemServico() {
-		if(Utils.isNotNull(cliente)){
+		if(Utils.isNotNullOrEmpty(cliente)){
 			ordemServico.setCliente(cliente);
 		}
-		if(Utils.isNotNull(veiculoSelecionado)){
+		if(Utils.isNotNullOrEmpty(veiculoSelecionado)){
 			ordemServico.setVeiculo(veiculoSelecionado);
 		}
 	}
@@ -373,7 +379,7 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 		ordemServico.setDataAgendado(Utils.retornaDataComDiasHaMais(7));
 		ordemServico.setDataExecutado(Utils.retornaDataComDiasHaMais(7));
 		ordemServico.removerItemVazio();
-		servicosProdutos.registrarPendenciaSaidaTodosItens(ordemServico);
+		//servicosProdutos.registrarPendenciaSaidaTodosItens(ordemServico);
 		salvarPedido();
 	}
 	
@@ -395,7 +401,6 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 	public void marcarServicosRealizadosOrdemServico(){
 		this.ordemServico.setStatusOrdemServico(StatusOrdemServico.SERVICOS_REALIZADOS);
 		ordemServico.removerItemVazio();
-		servicosProdutos.registrarSaidaTodosItens(ordemServico);
 		salvarPedido();
 	}
 	
@@ -404,11 +409,18 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 		ordemServico.setDataAgendado(Utils.retornaDataComDiasHaMais(7));
 		ordemServico.setDataExecutado(new Date());
 		ordemServico.removerItemVazio();
+		servicosProdutos.registrarSaidaTodosItens(ordemServico);
 		salvarPedido();
 	}
 	
 	public void cancelarOrdemServico(){
 		this.ordemServico.setStatusOrdemServico(StatusOrdemServico.CANCELADO);
+		ordemServico.removerItemVazio();
+		//servicosProdutos.cancelarSaidaTodosItens(ordemServico);
+		salvarPedido();
+	}
+	
+	public void salvarOrdemServico(){
 		ordemServico.removerItemVazio();
 		salvarPedido();
 	}
@@ -440,5 +452,10 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 			e.printStackTrace();
 		}
 		context.responseComplete();
+	}
+	
+	public void removerItem(){
+		ordemServico.removerItem(itemSelecionado);
+		ordemServico.recalcularValorTotal();
 	}
 }

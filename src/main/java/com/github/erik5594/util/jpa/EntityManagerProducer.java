@@ -18,6 +18,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import com.github.erik5594.util.Constantes;
 import com.github.erik5594.util.Utils;
 
 @ApplicationScoped
@@ -60,9 +61,9 @@ public class EntityManagerProducer {
 	private Map<String, String> getPropriedadesBanco() throws IOException{
 		Map<String, String> propriedades = new HashMap<String, String>();
 		Properties prop = new Properties();
-		File diretorio = new File(System.getProperty("user.home")+"/kilowats/gestaoPorduto/propriedades");
+		File diretorio = new File(Constantes.DIR_PROPIEDADES);
 		if(diretorio.exists()){
-			File arq = new File(diretorio.getPath()+"/configBancoDados.properties");
+			File arq = new File(diretorio.getPath() + Constantes.NOME_ARQ_CONFIG_BANCO);
 			if(arq.exists()){
 				lerArquivoConfiguracoes(propriedades, prop, arq);
 			}else{
@@ -92,7 +93,7 @@ public class EntityManagerProducer {
 	}
 
 	private void criarArquivoConfig(File diretorio) throws IOException {
-		FileWriter arq = new FileWriter(diretorio.getPath()+"/configBancoDados.properties", true);
+		FileWriter arq = new FileWriter(diretorio.getPath() + Constantes.NOME_ARQ_CONFIG_BANCO, true);
 		PrintWriter gravarArquivo = new PrintWriter(arq);
 		gravarArquivo.println(ARQ_DRIVE + " = org.postgresql.Driver");
 		gravarArquivo.println(ARQ_URL + " = jdbc:postgresql://localhost:5432/gestao");

@@ -6,7 +6,6 @@ import static com.github.erik5594.util.Utils.mascaraPrimefacesCnpjOuCpf;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -69,11 +68,6 @@ public @Data class CadastroClienteControlador implements Serializable{
 	@Inject
 	private ServicosCep servicosCep;
 
-	private List<TelefoneCliente> telefones = new ArrayList<>();
-	private List<EmailCliente> emails = new ArrayList<>();
-	private List<Veiculo> veiculos = new ArrayList<>();
-	private List<EnderecoCliente> enderecos = new ArrayList<>();
-	
 	private int tipoTelefone;
 	
 	private boolean bloqueiaEnderecoGeral;
@@ -95,10 +89,6 @@ public @Data class CadastroClienteControlador implements Serializable{
 		cliente = new Cliente();
 		cep = new Cep();
 		cidade = new Cidade();
-		enderecos = new ArrayList<>();
-		telefones = new ArrayList<>();
-		emails = new ArrayList<>();
-		veiculos = new ArrayList<>();
 		enderecoEntrega = false;
 		bloqueiaEnderecoGeral = true;
 		bloqPesquisaCep = true;
@@ -121,11 +111,11 @@ public @Data class CadastroClienteControlador implements Serializable{
 		return mascaraPrimefacesCnpjOuCpf(codTipoPessoa);
 	}
 	
-	public void adcionaTelefone(){
+	public void adicionaTelefone(){
 		telefone.setTipoTelefone(returnTipoTelefone());
 		telefone.setCliente(cliente);
 		if(servicosTelefone.telefoneIsValido(telefone, TITULO, true)){
-			adcionaTelefoneList(this.telefone);
+			adicionaTelefoneList(this.telefone);
 		}
 		this.telefone= new TelefoneCliente();
 		tipoTelefone = 9;
@@ -219,63 +209,63 @@ public @Data class CadastroClienteControlador implements Serializable{
 		}
 	}
 	
-	public void adcionaTelefoneList(TelefoneCliente telefone){
-		if(telefones.isEmpty()){
-			telefones = new ArrayList<>();
+	private void adicionaTelefoneList(TelefoneCliente telefone){
+		if(Utils.isNullOrEmpty(cliente.getTelefones())){
+			cliente.setTelefones(new ArrayList<TelefoneCliente>());
 		}else{
-			if(telefones.contains(telefone)){
+			if(cliente.getTelefones().contains(telefone)){
 				FacesUtils.sendMensagemError(TITULO, "Validação Telefone: Numero já adicionado!");
 				return;
 			}
 		}
-		telefones.add(telefone);
+		cliente.getTelefones().add(telefone);
 	}
 
-	public void adcionaEmail(){
+	public void adicionaEmail(){
 		email.setCliente(cliente);
 		if(servicosEmail.emailIsValido(email, TITULO, true)){
-			adcionaEmailList(this.email);
+			adicionaEmailList(this.email);
 		}
 		this.email = new EmailCliente(); 
 	}
 	
-	public void adcionaEmailList(EmailCliente email){
-		if(emails.isEmpty()){
-			emails = new ArrayList<>();
+	private void adicionaEmailList(EmailCliente email){
+		if(Utils.isNullOrEmpty(cliente.getEmails())){
+			cliente.setEmails(new ArrayList<EmailCliente>());
 		}else{
-			if(emails.contains(email)){
+			if(cliente.getEmails().contains(email)){
 				FacesUtils.sendMensagemError(TITULO, "Validação Email: E-mail já adicionado!");
 				return;
 			}
 		}
-		emails.add(email);
+		cliente.getEmails().add(email);
 	}
 	
-	public void adcionaVeiculo(){
+	public void adicionaVeiculo(){
 		veiculo.setCliente(cliente);
 		if(servicosVeiculo.veiculoIsValido(veiculo, TITULO, true)){
-			adcionaVeiculoList(this.veiculo);
+			adicionaVeiculoList(this.veiculo);
 		}
 		this.veiculo = new Veiculo(); 
 	}
 	
-	public void adcionaVeiculoList(Veiculo veiculo){
-		if(veiculos.isEmpty()){
-			veiculos = new ArrayList<>();
+	private void adicionaVeiculoList(Veiculo veiculo){
+		if(Utils.isNullOrEmpty(cliente.getVeiculos())){
+			cliente.setVeiculos(new ArrayList<Veiculo>());
 		}else{
-			if(veiculos.contains(veiculo)){
+			if(cliente.getVeiculos().contains(veiculo)){
 				FacesUtils.sendMensagemError(TITULO, "Validação Veiculo: Veiculo já adicionado!");
 				return;
 			}
 		}
-		veiculos.add(veiculo);
+		cliente.getVeiculos().add(veiculo);
 	}
 	
-	public void adcionaEndereco(){
+	public void adicionaEndereco(){
 		endereco.setCep(cep);
 		endereco.setCliente(cliente);
 		if(servicosEndereco.enderecoIsValido(endereco, TITULO, true)){
-			adcionaEnderecoList(this.endereco);
+			adicionaEnderecoList(this.endereco);
 		}
 		inicializarEndereco(true);
 	}
@@ -290,16 +280,16 @@ public @Data class CadastroClienteControlador implements Serializable{
 		enderecoEntrega = false;
 	}
 	
-	public void adcionaEnderecoList(EnderecoCliente ender){
-		if(Utils.isNullOrEmpty(enderecos)){
-			enderecos = new ArrayList<>();
+	private void adicionaEnderecoList(EnderecoCliente ender){
+		if(Utils.isNullOrEmpty(cliente.getEndereco())){
+			cliente.setEmails(new ArrayList<EmailCliente>());
 		}else{
-			if(enderecos.contains(ender)){
+			if(cliente.getEndereco().contains(ender)){
 				FacesUtils.sendMensagemError(TITULO, "Validação Endereço: Endereço já adicionado!");
 				return;
 			}
 		}
-		enderecos.add(ender);
+		cliente.getEndereco().add(ajustaDadosEndereco(ender));
 	}
 
 	public void salvar(){
@@ -316,108 +306,54 @@ public @Data class CadastroClienteControlador implements Serializable{
 	}
 
 	private void completarDadosPessoa() {
-		enderecos = ajustaDadosEndereco();
-		this.cliente.setEndereco(enderecos);
 		if(Utils.isNullOrEmpty(cliente.getId())){
 			this.cliente.setDataCredenciamento(new Date());
 		}
 		this.cliente.setUltimaAtualizacao(new Date());
-		if (isNotNullOrEmpty(telefones)) {
-			this.cliente.setTelefones(this.telefones);
-		}
-		if (isNotNullOrEmpty(emails)) {
-			this.cliente.setEmails(this.emails);
-		}
-		if (isNotNullOrEmpty(veiculos)) {
-			this.cliente.setVeiculos(veiculos);
-		}
 		cliente.setCgcCpf(cliente.getCgcCpf().replaceAll("\\D", ""));
 	}
 
-	private List<EnderecoCliente> ajustaDadosEndereco() {
-		List<EnderecoCliente> enderecosAjustados = new ArrayList<>();
-		for(EnderecoCliente ender : enderecos){			
-			if(Utils.isNotNull(ender)){
-				if(ender.isCepGeral()){
-					Cep cep2 = servicosCep.pesquisarCepByCep(ender.getCep().getCep());
-					ender.setBairro(ender.getCep().getBairro());
-					ender.setRua(ender.getCep().getRua());
-					ender.setCep(cep2);
-				}else if(ender.isCepByFaixa()){
-					Cep cep2 = new Cep(ender.getCep().getCep());
-					cep2.setCidade(servicosCidade.pesquisarMunicipioByFaixaCep(cep2.getCep()));
-					ender.setBairro(ender.getCep().getBairro());
-					ender.setRua(ender.getCep().getRua());
-					ender.setCep(cep2);
-				}
-				enderecosAjustados.add(ender);
+	private EnderecoCliente ajustaDadosEndereco(EnderecoCliente endereco) {
+		if(Utils.isNotNull(endereco)){
+			if(endereco.isCepGeral()){
+				Cep cep2 = servicosCep.pesquisarCepByCep(endereco.getCep().getCep());
+				endereco.setBairro(endereco.getCep().getBairro());
+				endereco.setRua(endereco.getCep().getRua());
+				endereco.setCep(cep2);
+			}else if(endereco.isCepByFaixa()){
+				Cep cep2 = new Cep(endereco.getCep().getCep());
+				cep2.setCidade(servicosCidade.pesquisarMunicipioByFaixaCep(cep2.getCep()));
+				endereco.setBairro(endereco.getCep().getBairro());
+				endereco.setRua(endereco.getCep().getRua());
+				endereco.setCep(cep2);
 			}
 		}
-		return enderecosAjustados;
+		return endereco;
 	}
 	
 	public void removerEnderecoDaLista(){
-		if(Utils.isNotNull(enderecoSelecionado) && Utils.isNotNullOrEmpty(enderecoSelecionado.getCep()) && Utils.isNotNullOrEmpty(enderecos)){
-			List<EnderecoCliente> novaListaEndereco = new ArrayList<>();
-			for(EnderecoCliente enderecoValidacao : enderecos){
-				if(!enderecoValidacao.getCep().getCep().equals(enderecoSelecionado.getCep().getCep())){
-					novaListaEndereco.add(enderecoValidacao);
-				}
-			}
-			enderecos = new ArrayList<>();
-			enderecos = novaListaEndereco;
+		if(Utils.isNotNull(enderecoSelecionado) && Utils.isNotNullOrEmpty(enderecoSelecionado.getCep().getCep())){
+			cliente.removerEndereco(enderecoSelecionado);
 		}
 	}
 	
 	public void removerTelefoneDaLista(){
-		if(Utils.isNotNull(telefoneSelecionado) && Utils.isNotNullOrEmpty(telefoneSelecionado.getNumero()) && Utils.isNotNullOrEmpty(telefones)){
-			List<TelefoneCliente> novaListaTelefones = new ArrayList<>();
-			for(TelefoneCliente telefoneValidacao : telefones){
-				if(!telefoneValidacao.getNumero().equals(telefoneSelecionado.getNumero())){
-					novaListaTelefones.add(telefoneValidacao);
-				}
-			}
-			telefones = new ArrayList<>();
-			telefones = novaListaTelefones;
+		if(Utils.isNotNull(telefoneSelecionado) && Utils.isNotNullOrEmpty(telefoneSelecionado.getNumero())){
+			cliente.removerTelefone(telefoneSelecionado);
 		}
 	}
 	
 	public void removerEmailDaLista(){
-		if(Utils.isNotNull(emailSelecionado) && Utils.isNotNullOrEmpty(emailSelecionado.getEmailDestinatario()) && Utils.isNotNullOrEmpty(emails)){
-			List<EmailCliente> novaListaEmail = new ArrayList<>();
-			for(EmailCliente emailValidacao : emails){
-				if(!emailValidacao.getEmailDestinatario().equals(emailSelecionado.getEmailDestinatario())){
-					novaListaEmail.add(emailValidacao);
-				}
-			}
-			emails = new ArrayList<>();
-			emails = novaListaEmail;
+		if(Utils.isNotNull(emailSelecionado) && Utils.isNotNullOrEmpty(emailSelecionado.getEmailDestinatario())){
+			cliente.removerEmail(emailSelecionado);
 		}
 	}
 	
 	public void removerVeiculoDaLista(){
-		if(Utils.isNotNull(veiculoSelecionado) && Utils.isNotNullOrEmpty(veiculoSelecionado.getPlaca()) && Utils.isNotNullOrEmpty(veiculos)){
-			List<Veiculo> novaListaVeiculos = new ArrayList<>();
-			for(Veiculo veiculoValidacao : veiculos){
-				if(!veiculoValidacao.getPlaca().equals(veiculoSelecionado.getPlaca())){
-					novaListaVeiculos.add(veiculoValidacao);
-				}
-			}
-			veiculos = new ArrayList<>();
-			veiculos = novaListaVeiculos;
+		if(Utils.isNotNull(veiculoSelecionado) && Utils.isNotNullOrEmpty(veiculoSelecionado.getPlaca())){
+			cliente.removerVeiculo(veiculoSelecionado);
 		}
 	}
-	
-	public void setCliente(Cliente cliente){
-		this.cliente = cliente;
-		if(Utils.isNotNullOrEmpty(this.cliente)){
-			this.enderecos = this.cliente.getEndereco();
-			this.telefones = this.cliente.getTelefones();
-			this.emails = this.cliente.getEmails();
-			this.veiculos = this.cliente.getVeiculos();
-		}
-	}
-	
 
 	private String tituloTela() {
 		if(editar()){

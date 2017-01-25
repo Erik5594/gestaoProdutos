@@ -2,7 +2,6 @@ package com.github.erik5594.entidades;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -34,7 +33,7 @@ public @Data class Veiculo implements Serializable{
 	@Enumerated(EnumType.ORDINAL)
 	@Column(name="tipo_veiculo")
 	private TipoVeiculo tipoVeiculo;
-	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="id_cliente", nullable=false)
 	private Cliente cliente;
 	@Column(nullable=true, length=30)

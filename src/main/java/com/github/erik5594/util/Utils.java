@@ -9,7 +9,9 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 import com.github.erik5594.entidades.EstoqueProduto;
+import com.github.erik5594.entidades.Pessoa;
 import com.github.erik5594.entidades.ValoresProduto;
+import com.github.erik5594.entidades.Veiculo;
 
 public class Utils {
 
@@ -200,6 +202,9 @@ public class Utils {
 	}
 	
 	public static boolean isNotNullOrEmpty(Object obj){
+		if(isNull(obj)){
+			return false;
+		}
 		if(obj instanceof String){
 			return StringUtils.isNotBlank(obj.toString()) || !"null".equals(obj.toString());
 		}else if(obj instanceof List<?>){
@@ -221,15 +226,24 @@ public class Utils {
 		}else if(obj instanceof ValoresProduto){
 			ValoresProduto valor = (ValoresProduto) obj;
 			return isNotNullOrEmpty(valor.getValorComercial())
-					&& isNotNullOrEmpty(valor.getValorCusto())
-					&& isNotNullOrEmpty(valor.getValorTributavel());
+					/*&& isNotNullOrEmpty(valor.getValorCusto())
+					&& isNotNullOrEmpty(valor.getValorTributavel())*/;
 			
 		}else if(obj instanceof EstoqueProduto){
 			EstoqueProduto estoque = (EstoqueProduto) obj;
 			return isNotNullOrEmpty(estoque.getQuantidadeEstoque())
-					&& isNotNullOrEmpty(estoque.getQuantidadePendenteEntrada())
+					/*&& isNotNullOrEmpty(estoque.getQuantidadePendenteEntrada())
 					&& isNotNullOrEmpty(estoque.getQuantidadePendenteSaida())
-					&& isNotNullOrEmpty(estoque.getQuantidadeTributavel());
+					&& isNotNullOrEmpty(estoque.getQuantidadeTributavel())*/;
+		}else if (obj instanceof Veiculo) {
+			Veiculo veiculo = (Veiculo) obj;
+			return isNotNullOrEmpty(veiculo.getPlaca())
+					&& isNotNullOrEmpty(veiculo.getChassi())
+					&& isNotNullOrEmpty(veiculo.getCliente());
+		} else if (obj instanceof Pessoa) {
+			Pessoa cliente = (Pessoa) obj;
+			return isNotNullOrEmpty(cliente.getNome())
+					&& isNotNullOrEmpty(cliente.getCgcCpf());
 		}
 		return isNotNull(obj);
 	}

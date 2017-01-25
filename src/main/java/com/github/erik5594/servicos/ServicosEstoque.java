@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 
 import javax.inject.Inject;
 
-import com.github.erik5594.dao.OrdemServicoDao;
 import com.github.erik5594.dao.ProdutoDao;
 import com.github.erik5594.entidades.EstoqueProduto;
 import com.github.erik5594.entidades.ItemOrdemServico;
@@ -50,20 +49,29 @@ public class ServicosEstoque implements Serializable{
 	private void marcarSaida(Produto produto, BigDecimal qtde){
 		EstoqueProduto estoque = produto.getEstoqueProduto();
 		BigDecimal novaQtdeEstoque = estoque.getQuantidadeEstoque().subtract(qtde);
-		BigDecimal novaQtdePendenteSaida = estoque.getQuantidadePendenteSaida().subtract(qtde);
+		//BigDecimal novaQtdePendenteSaida = estoque.getQuantidadePendenteSaida().subtract(qtde);
 		
 		if(novaQtdeEstoque.compareTo(BigDecimal.ZERO) < 0){
-			throw new NegocioException("Não há disponibilidade no estoque de "+qtde.toString()+" itens do produto ["+produto.getCodProduto()+"]");
+			throw new NegocioException("Não há disponibilidade no estoque de "+qtde.toString()+" item(ns) do produto ["+produto.getCodProduto()+"]");
 		}
 		
-		if(novaQtdePendenteSaida.compareTo(BigDecimal.ZERO) < 0){
+		/*if(novaQtdePendenteSaida.compareTo(BigDecimal.ZERO) < 0){
 			throw new NegocioException("Quantidade pendente de sáida do produto ["+produto.getCodProduto()+"] é menor que ["+qtde+"]");
-		}
+		}*/
 		
 		estoque.setQuantidadeEstoque(novaQtdeEstoque);
-		estoque.setQuantidadePendenteSaida(novaQtdePendenteSaida);
+		//estoque.setQuantidadePendenteSaida(novaQtdePendenteSaida);
 		
 		produtoDao.salvarOrUpdate(produto);
+	}
+	
+	public void cancelarPendenciaSaidaTodosItens(OrdemServico orcamento){
+		
+		for(ItemOrdemServico item : orcamento.getItens()){
+			if(item.getProduto().getTipoUnidade() != TipoProdutoUnidadeEnum.SV){
+				cancelarPendenciaSaida(item.getProduto(), item.getQuantidadeProduto());
+			}
+		}
 	}
 	
 	private void marcarDevolucaoProduto(Produto produto, BigDecimal qtde){

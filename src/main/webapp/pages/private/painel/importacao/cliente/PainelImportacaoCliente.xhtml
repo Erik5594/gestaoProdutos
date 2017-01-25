@@ -180,7 +180,7 @@
 								</center>
 							</p:panel>
 								
-								<p:dataTable id="tabelaEnderecos" value="#{painelImportacaoCliente.enderecos}" var="endereco"
+								<p:dataTable id="tabelaEnderecos" value="#{painelImportacaoCliente.clienteComErroSelecionado.enderecoClienteImportacaoIntertrack}" var="endereco"
 								emptyMessage="Sem endereço(s)" selection="#{painelImportacaoCliente.enderecoSelecionado}"
 								style="width: 100%; margin-top: 15px">
 								<f:facet name="header">
@@ -250,7 +250,7 @@
 									update="gridTelefone tabelaTelefones" process="gridTelefone"/>
 								</h:panelGrid>
 								
-								<p:dataTable id="tabelaTelefones" value="#{painelImportacaoCliente.telefones}" var="telefone"
+								<p:dataTable id="tabelaTelefones" value="#{painelImportacaoCliente.clienteComErroSelecionado.telefoneClienteImportacaoIntertrack}" var="telefone"
 								emptyMessage="Sem telefone(s)" selection="#{painelImportacaoCliente.telefoneSelecionado}" style="width: 33%; margin-top: 15px">
 								<f:facet name="header">
 								Telefones
@@ -290,7 +290,7 @@
 									update="gridEmail tabelaEmails" process="gridEmail"/>
 								</h:panelGrid>
 			
-								<p:dataTable id="tabelaEmails" value="#{painelImportacaoCliente.emails}" var="email"
+								<p:dataTable id="tabelaEmails" value="#{painelImportacaoCliente.clienteComErroSelecionado.emailClienteImportacaoIntertrack}" var="email"
 								emptyMessage="Sem e-mail(s)" selection="#{painelImportacaoCliente.emailSelecionado}" style="width: 40%; margin-top: 15px">
 								<f:facet name="header">
 								E-mails

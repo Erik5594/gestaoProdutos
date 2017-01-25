@@ -3,7 +3,6 @@ package com.github.erik5594.entidades;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,9 +14,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import com.github.erik5594.enuns.TipoProdutoUnidadeEnum;
-
 import lombok.Data;
+
+import com.github.erik5594.enuns.TipoProdutoUnidadeEnum;
 
 @Entity
 @Table(name="itens_ordem_servico")
@@ -27,16 +26,21 @@ public @Data class ItemOrdemServico implements Serializable{
 	
 	@Id @GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="id_produto", nullable=false)
 	private Produto produto;
+	
 	@Column(length=10, precision=2, nullable=false, name="valor_desconto")
 	private BigDecimal valorDesconto = BigDecimal.ZERO;
+	
 	@Column(nullable=false, name="quantidade_produto")
 	private BigDecimal quantidadeProduto = BigDecimal.ONE;
-	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="id_ordem_servico", nullable=false)
 	private OrdemServico ordemServico;
+	
 	@Column(name = "valor_unitario", nullable = false, precision = 10, scale = 2)
 	private BigDecimal valorUnitario = BigDecimal.ZERO;
 	
@@ -52,7 +56,13 @@ public @Data class ItemOrdemServico implements Serializable{
 		if (id == null) {
 			if (other.id != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!id.equals(other.id)){
+			return false;
+		}
+		if (produto == null){
+			if (other.getProduto() != null)
+				return false;
+		} else if (!produto.equals(other.getProduto()))
 			return false;
 		return true;
 	}

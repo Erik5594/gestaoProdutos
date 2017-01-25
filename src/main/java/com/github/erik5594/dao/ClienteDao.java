@@ -10,12 +10,8 @@ import javax.persistence.NoResultException;
 import com.github.erik5594.entidades.Cliente;
 import com.github.erik5594.importacao.enuns.StatusImportacao;
 import com.github.erik5594.importacao.intertrack.entidades.ClienteImportacaoIntertrack;
-import com.github.erik5594.util.Utils;
 
 public class ClienteDao {
-
-	private final static String SQL_DELETE = "delete %s where cliente = :cliente";
-	private final static String SQL_DELETE_IMPORTACAO = "delete %s where clienteImportacaoIntertrack = :clienteImportacaoIntertrack";
 
 	@Inject
 	private EntityManager manager;
@@ -23,12 +19,6 @@ public class ClienteDao {
 	public Cliente salvarOrUpdate(Cliente cliente) {
 		EntityTransaction entityTransaction = manager.getTransaction();
 		entityTransaction.begin();
-		if (Utils.isNotNullOrEmpty(cliente.getId())) {
-			deletarEnderecosCliente(cliente);
-			deletarTelefonesCliente(cliente);
-			deletarEmailsCliente(cliente);
-			deletarVeiculosCliente(cliente);
-		}
 		cliente = (Cliente) manager.merge(cliente);
 		entityTransaction.commit();
 		return cliente;
@@ -67,63 +57,12 @@ public class ClienteDao {
 		}
 	}
 
-	private void deletarEnderecosCliente(Cliente cliente) {
-		manager.createQuery(String.format(SQL_DELETE, "EnderecoCliente"))
-				.setParameter("cliente", cliente).executeUpdate();
-	}
-
-	private void deletarTelefonesCliente(Cliente cliente) {
-		manager.createQuery(String.format(SQL_DELETE, "TelefoneCliente"))
-				.setParameter("cliente", cliente).executeUpdate();
-	}
-
-	private void deletarEmailsCliente(Cliente cliente) {
-		manager.createQuery(String.format(SQL_DELETE, "EmailCliente"))
-				.setParameter("cliente", cliente).executeUpdate();
-	}
-
-	private void deletarVeiculosCliente(Cliente cliente) {
-		manager.createQuery(String.format(SQL_DELETE, "Veiculo"))
-				.setParameter("cliente", cliente).executeUpdate();
-	}
-	
 	public ClienteImportacaoIntertrack salvarOrUpdate(ClienteImportacaoIntertrack cliente) {
 		EntityTransaction entityTransaction = manager.getTransaction();
 		entityTransaction.begin();
-		if (Utils.isNotNullOrEmpty(cliente.getId())) {
-			if(cliente.getEnderecoClienteImportacaoIntertrack() != null
-					&& !cliente.getEnderecoClienteImportacaoIntertrack().isEmpty()){
-				deletarEnderecosClienteImportacao(cliente);
-			}
-			
-			if(cliente.getTelefoneClienteImportacaoIntertrack() != null
-					&& !cliente.getTelefoneClienteImportacaoIntertrack().isEmpty()){
-				deletarTelefonesClienteImportacao(cliente);
-			}
-			
-			if(cliente.getEmailClienteImportacaoIntertrack() != null
-					&& !cliente.getEmailClienteImportacaoIntertrack().isEmpty()){
-				deletarEmailsClienteImportacao(cliente);
-			}
-		}
 		cliente = (ClienteImportacaoIntertrack) manager.merge(cliente);
 		entityTransaction.commit();
 		return cliente;
-	}
-	
-	private void deletarEnderecosClienteImportacao(ClienteImportacaoIntertrack cliente) {
-		manager.createQuery(String.format(SQL_DELETE_IMPORTACAO, "EnderecoClienteImportacaoIntertrack"))
-				.setParameter("clienteImportacaoIntertrack", cliente).executeUpdate();
-	}
-
-	private void deletarTelefonesClienteImportacao(ClienteImportacaoIntertrack cliente) {
-		manager.createQuery(String.format(SQL_DELETE_IMPORTACAO, "TelefoneClienteImportacaoIntertrack"))
-				.setParameter("clienteImportacaoIntertrack", cliente).executeUpdate();
-	}
-
-	private void deletarEmailsClienteImportacao(ClienteImportacaoIntertrack cliente) {
-		manager.createQuery(String.format(SQL_DELETE_IMPORTACAO, "EmailClienteImportacaoIntertrack"))
-				.setParameter("clienteImportacaoIntertrack", cliente).executeUpdate();
 	}
 	
 	public Long qtdeClienteCadastrados(){

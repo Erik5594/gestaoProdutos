@@ -35,7 +35,8 @@
 			</h:outputText>
 		</p:column>
 		<p:column headerText="Quantidade" style="text-align: center; width: 100px">
-			<p:inputText size="8" value="#{item.quantidadeProduto}" maxlength="3" disabled="#{gerarOrdemServicoControlador.alterarQuantidadeProduto}">
+			<p:inputText size="8" value="#{item.quantidadeProduto}" maxlength="5" disabled="#{gerarOrdemServicoControlador.alterarQuantidadeProduto}"
+			converter="converterToBigDecimal">
 				<p:ajax event="change" process="@this"
 					update="tabelaItens :frmCadastroNovaOrdemServico:totalOrdemServico :frmCadastroNovaOrdemServico:subtotal"
 					listener="#{gerarOrdemServicoControlador.atualizarQuantidade(item, linha)}" />
@@ -59,11 +60,20 @@
 				<f:convertNumber type="currency"/>
 			</h:outputText>
 		</p:column>
+		<p:column width="5%">
+			<p:commandButton icon="ui-icon-trash" process="@this" title="Excluir" disabled="#{gerarOrdemServicoControlador.adicionarItemOrcamento}"
+				update="frmCadastroNovaOrdemServico:confirmacaoExclusaoItemDialog" rendered="#{item.produtoAssociado}"
+				oncomplete="PF('confirmacaoExclusaoItem').show(); return false;">
+				<f:setPropertyActionListener
+					target="#{gerarOrdemServicoControlador.itemSelecionado}"
+					value="#{item}" />
+			</p:commandButton>
+		</p:column>
 		
 		<p:columnGroup type="footer">
 			<p:row>
 				<p:column colspan="5" footerText="Subtotal" style="text-align: right" />
-				<p:column style="text-align: right">
+				<p:column style="text-align: right" colspan="2">
 					<f:facet name="footer">
 						<h:outputText value="#{gerarOrdemServicoControlador.ordemServico.valorSubtotal}">
 							<f:convertNumber type="currency"/>

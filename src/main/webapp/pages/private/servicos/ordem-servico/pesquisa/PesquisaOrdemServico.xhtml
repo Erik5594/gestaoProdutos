@@ -33,15 +33,15 @@
             rowsPerPageTemplate="6,15,50" 
 			style="margin-top:25px;" emptyMessage="Nenhum pedido encontrado!">
 			
-			<p:column headerText="Id">
+			<p:column headerText="Id" filterBy="#{pedido.id}" filterMatchMode="contains">
 				<p:outputLabel value="#{pedido.id}"/>
 			</p:column>
 			
-			<p:column headerText="Nome Cliente">
+			<p:column headerText="Nome Cliente" filterBy="#{pedido.cliente.nome}" filterMatchMode="contains">
 				<p:outputLabel value="#{pedido.cliente.nome}"/>
 			</p:column>
 			
-			<p:column headerText="CNPJ/CPF Cliente">
+			<p:column headerText="CNPJ/CPF Cliente" filterBy="#{pedido.cliente.cgcCpf}" filterMatchMode="contains">
 				<p:outputLabel value="#{pedido.cliente.cgcCpfFormatado}"/>
 			</p:column>
 			
@@ -51,7 +51,7 @@
 				</p:outputLabel>
 			</p:column>
 			
-			<p:column headerText="Status">
+			<p:column headerText="Status" filterBy="#{pedido.statusOrdemServico.descricaoStatus}" filterMatchMode="contains">
 				<p:outputLabel value="#{pedido.statusOrdemServico.descricaoStatus}"/>
 			</p:column>
 			

@@ -68,8 +68,6 @@ public @Data class PainelImportacaoCliente implements Serializable {
 	private TelefoneClienteImportacaoIntertrack telefone;
 	@Inject
 	private TelefoneClienteImportacaoIntertrack telefoneSelecionado;
-	private List<TelefoneClienteImportacaoIntertrack> telefones = new ArrayList<>();
-	private List<EnderecoClienteImportacaoIntertrack> enderecos = new ArrayList<>();
 	private List<ClienteImportacaoIntertrack> clientesComErro = new ArrayList<>();
 	@Inject
 	private ClienteImportacaoIntertrack clienteComErroSelecionado;
@@ -81,7 +79,6 @@ public @Data class PainelImportacaoCliente implements Serializable {
 	private EmailClienteImportacaoIntertrack email;
 	@Inject
 	private EmailClienteImportacaoIntertrack emailSelecionado;
-	private List<EmailClienteImportacaoIntertrack> emails = new ArrayList<>();
 	
 	private boolean bloqueiaEnderecoGeral;
 	private boolean bloqPesquisaCep;
@@ -219,16 +216,6 @@ public @Data class PainelImportacaoCliente implements Serializable {
 		bloqueiaEnderecoGeral = false;
 	}
 
-	public void setClienteComErroSelecionado(ClienteImportacaoIntertrack clienteComErroSelecionado) {
-		this.clienteComErroSelecionado = new ClienteImportacaoIntertrack();
-		this.clienteComErroSelecionado = clienteComErroSelecionado;
-		if(Utils.isNotNullOrEmpty(this.clienteComErroSelecionado)){
-			this.enderecos = this.clienteComErroSelecionado.getEnderecoClienteImportacaoIntertrack();
-			this.telefones = this.clienteComErroSelecionado.getTelefoneClienteImportacaoIntertrack();
-			this.emails = this.clienteComErroSelecionado.getEmailClienteImportacaoIntertrack();
-		}
-	}
-	
 	public void adcionaEndereco(){
 		endereco.setCep(cep);
 		endereco.setClienteImportacaoIntertrack(clienteComErroSelecionado);
@@ -239,15 +226,15 @@ public @Data class PainelImportacaoCliente implements Serializable {
 	}
 	
 	public void adcionaEnderecoList(EnderecoClienteImportacaoIntertrack ender){
-		if(Utils.isNullOrEmpty(enderecos)){
-			enderecos = new ArrayList<>();
+		if(Utils.isNullOrEmpty(clienteComErroSelecionado.getEnderecoClienteImportacaoIntertrack())){
+			clienteComErroSelecionado.setEnderecoClienteImportacaoIntertrack(new ArrayList<EnderecoClienteImportacaoIntertrack>());
 		}else{
-			if(enderecos.contains(ender)){
+			if(clienteComErroSelecionado.getEnderecoClienteImportacaoIntertrack().contains(ender)){
 				FacesUtils.sendMensagemError(TITULO, "Validação Endereço: Endereço já adicionado!");
 				return;
 			}
 		}
-		enderecos.add(ender);
+		clienteComErroSelecionado.getEnderecoClienteImportacaoIntertrack().add(ajustaDadosEndereco(ender));
 	}
 	
 	public void adcionaTelefone(){
@@ -276,15 +263,15 @@ public @Data class PainelImportacaoCliente implements Serializable {
 	}
 	
 	public void adcionaTelefoneList(TelefoneClienteImportacaoIntertrack telefone){
-		if(telefones.isEmpty()){
-			telefones = new ArrayList<>();
+		if(Utils.isNullOrEmpty(clienteComErroSelecionado.getTelefoneClienteImportacaoIntertrack())){
+			clienteComErroSelecionado.setTelefoneClienteImportacaoIntertrack(new ArrayList<TelefoneClienteImportacaoIntertrack>());
 		}else{
-			if(telefones.contains(telefone)){
+			if(clienteComErroSelecionado.getTelefoneClienteImportacaoIntertrack().contains(telefone)){
 				FacesUtils.sendMensagemError(TITULO, "Validação Telefone: Numero já adicionado!");
 				return;
 			}
 		}
-		telefones.add(telefone);
+		clienteComErroSelecionado.getTelefoneClienteImportacaoIntertrack().add(telefone);
 	}
 	
 	public void adcionaEmail(){
@@ -296,16 +283,17 @@ public @Data class PainelImportacaoCliente implements Serializable {
 	}
 	
 	public void adcionaEmailList(EmailClienteImportacaoIntertrack email){
-		if(emails.isEmpty()){
-			emails = new ArrayList<>();
+		if(Utils.isNullOrEmpty(clienteComErroSelecionado.getEmailClienteImportacaoIntertrack())){
+			clienteComErroSelecionado.setEmailClienteImportacaoIntertrack(new ArrayList<EmailClienteImportacaoIntertrack>());
 		}else{
-			if(emails.contains(email)){
+			if(clienteComErroSelecionado.getEmailClienteImportacaoIntertrack().contains(email)){
 				FacesUtils.sendMensagemError(TITULO, "Validação Email: E-mail já adicionado!");
 				return;
 			}
 		}
-		emails.add(email);
+		clienteComErroSelecionado.getEmailClienteImportacaoIntertrack().add(email);
 	}
+	
 	public String carregaMascaraCnpjOuCpfPrimefaces(){
 		int codTipoPessoa = clienteComErroSelecionado != null
 				&& clienteComErroSelecionado.getTipo() != null ? clienteComErroSelecionado.getTipo().getCodPessoa():0;
@@ -313,14 +301,13 @@ public @Data class PainelImportacaoCliente implements Serializable {
 	}
 	
 	public void salvar(){
-		if(clienteComErroSelecionado == null){
+		if(Utils.isNull(clienteComErroSelecionado)){
 			return;
 		}
 		completarDadosPessoa();
 		if(servicosCliente.validarCliente(clienteComErroSelecionado, TITULO, true)){
-			clienteComErroSelecionado.setStatus(StatusImportacao.ATUALIZADO_CADASTRO);
 			clienteComErroSelecionado = servicosCliente.persistirClienteImportacao(clienteComErroSelecionado);
-			if(isNotNullOrEmpty(clienteComErroSelecionado) && clienteComErroSelecionado.getId() > 0L){
+			if(Utils.isNotNull(clienteComErroSelecionado) && isNotNullOrEmpty(clienteComErroSelecionado.getId())){
 				inicializarVariaveis();
 				carregarClientesErrados();
 				FacesUtils.sendMensagemOk(TITULO, "Cliente ajustado com sucesso!");
@@ -331,47 +318,32 @@ public @Data class PainelImportacaoCliente implements Serializable {
 	}
 	
 	private void completarDadosPessoa() {
-		enderecos = ajustaDadosEndereco();
-		this.clienteComErroSelecionado.setEnderecoClienteImportacaoIntertrack(enderecos);
-		
-		if (isNotNullOrEmpty(telefones)) {
-			this.clienteComErroSelecionado.setTelefoneClienteImportacaoIntertrack(this.telefones);
-		}
-		if (isNotNullOrEmpty(emails)) {
-			this.clienteComErroSelecionado.setEmailClienteImportacaoIntertrack(this.emails);
-		}
 		clienteComErroSelecionado.setCgcCpf(clienteComErroSelecionado.getCgcCpf().replaceAll("\\D", ""));
+		clienteComErroSelecionado.setStatus(StatusImportacao.ATUALIZADO_CADASTRO);
 	}
 	
-	private List<EnderecoClienteImportacaoIntertrack> ajustaDadosEndereco() {
-		List<EnderecoClienteImportacaoIntertrack> enderecosAjustados = new ArrayList<>();
-		for(EnderecoClienteImportacaoIntertrack ender : enderecos){			
-			if(Utils.isNotNull(ender)){
-				if(ender.isCepGeral()){
-					Cep cep2 = servicosCep.pesquisarCepByCep(ender.getCep().getCep());
-					ender.setBairro(ender.getCep().getBairro());
-					ender.setRua(ender.getCep().getRua());
-					ender.setCep(cep2);
-				}else if(ender.isCepByFaixa()){
-					Cep cep2 = new Cep(ender.getCep().getCep());
-					cep2.setCidade(servicosCidade.pesquisarMunicipioByFaixaCep(cep2.getCep()));
-					ender.setBairro(ender.getCep().getBairro());
-					ender.setRua(ender.getCep().getRua());
-					ender.setCep(cep2);
-				}
-				enderecosAjustados.add(ender);
+	private EnderecoClienteImportacaoIntertrack ajustaDadosEndereco(EnderecoClienteImportacaoIntertrack endereco) {
+		if(Utils.isNotNull(endereco)){
+			if(endereco.isCepGeral()){
+				Cep cep2 = servicosCep.pesquisarCepByCep(endereco.getCep().getCep());
+				endereco.setBairro(endereco.getCep().getBairro());
+				endereco.setRua(endereco.getCep().getRua());
+				endereco.setCep(cep2);
+			}else if(endereco.isCepByFaixa()){
+				Cep cep2 = new Cep(endereco.getCep().getCep());
+				cep2.setCidade(servicosCidade.pesquisarMunicipioByFaixaCep(cep2.getCep()));
+				endereco.setBairro(endereco.getCep().getBairro());
+				endereco.setRua(endereco.getCep().getRua());
+				endereco.setCep(cep2);
 			}
 		}
-		return enderecosAjustados;
+		return endereco;
 	}
 	
 	private void inicializarVariaveis(){
 		clienteComErroSelecionado = new ClienteImportacaoIntertrack();
 		cep = new Cep();
 		cidade = new Cidade();
-		enderecos = new ArrayList<>();
-		telefones = new ArrayList<>();
-		emails = new ArrayList<>();
 		enderecoEntrega = false;
 		bloqueiaEnderecoGeral = true;
 		bloqPesquisaCep = true;
@@ -380,41 +352,20 @@ public @Data class PainelImportacaoCliente implements Serializable {
 	}
 	
 	public void removerEnderecoDaLista(){
-		if(Utils.isNotNull(enderecoSelecionado) && Utils.isNotNullOrEmpty(enderecoSelecionado.getCep()) && Utils.isNotNullOrEmpty(enderecos)){
-			List<EnderecoClienteImportacaoIntertrack> novaListaEndereco = new ArrayList<>();
-			for(EnderecoClienteImportacaoIntertrack enderecoValidacao : enderecos){
-				if(!enderecoValidacao.getCep().getCep().equals(enderecoSelecionado.getCep().getCep())){
-					novaListaEndereco.add(enderecoValidacao);
-				}
-			}
-			enderecos = new ArrayList<>();
-			enderecos = novaListaEndereco;
+		if(Utils.isNotNull(enderecoSelecionado) && Utils.isNotNullOrEmpty(enderecoSelecionado.getCep())){
+			clienteComErroSelecionado.removerEndereco(enderecoSelecionado);
 		}
 	}
 	
 	public void removerTelefoneDaLista(){
-		if(Utils.isNotNull(telefoneSelecionado) && Utils.isNotNullOrEmpty(telefoneSelecionado.getNumero()) && Utils.isNotNullOrEmpty(telefones)){
-			List<TelefoneClienteImportacaoIntertrack> novaListaTelefones = new ArrayList<>();
-			for(TelefoneClienteImportacaoIntertrack telefoneValidacao : telefones){
-				if(!telefoneValidacao.getNumero().equals(telefoneSelecionado.getNumero())){
-					novaListaTelefones.add(telefoneValidacao);
-				}
-			}
-			telefones = new ArrayList<>();
-			telefones = novaListaTelefones;
+		if(Utils.isNotNull(telefoneSelecionado) && Utils.isNotNullOrEmpty(telefoneSelecionado.getNumero())){
+			clienteComErroSelecionado.removerTelefone(telefoneSelecionado);
 		}
 	}
 	
 	public void removerEmailDaLista(){
-		if(Utils.isNotNull(emailSelecionado) && Utils.isNotNullOrEmpty(emailSelecionado.getEmailDestinatario()) && Utils.isNotNullOrEmpty(emails)){
-			List<EmailClienteImportacaoIntertrack> novaListaEmail = new ArrayList<>();
-			for(EmailClienteImportacaoIntertrack emailValidacao : emails){
-				if(!emailValidacao.getEmailDestinatario().equals(emailSelecionado.getEmailDestinatario())){
-					novaListaEmail.add(emailValidacao);
-				}
-			}
-			emails = new ArrayList<>();
-			emails = novaListaEmail;
+		if(Utils.isNotNull(emailSelecionado) && Utils.isNotNullOrEmpty(emailSelecionado.getEmailDestinatario())){
+			clienteComErroSelecionado.removerEmail(emailSelecionado);
 		}
 	}
 	

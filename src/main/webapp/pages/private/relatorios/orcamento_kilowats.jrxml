@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.1.1.final using JasperReports Library version 6.1.1  -->
-<!-- 2016-12-06T17:44:37 -->
+<!-- 2017-01-25T09:39:55 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="orcamento_kilowats" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c8fb266b-d420-4935-a908-2f2cf3134949">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<parameter name="LOGO" class="java.lang.String"/>
@@ -11,7 +11,7 @@
 	<field name="id" class="java.lang.Long">
 		<fieldDescription><![CDATA[id]]></fieldDescription>
 	</field>
-	<field name="cliente" class="com.kilowats.entidades.Cliente">
+	<field name="cliente" class="com.github.erik5594.entidades.Cliente">
 		<fieldDescription><![CDATA[cliente]]></fieldDescription>
 	</field>
 	<field name="telefone" class="java.lang.String">
@@ -23,16 +23,16 @@
 	<field name="itens" class="java.util.List">
 		<fieldDescription><![CDATA[itens]]></fieldDescription>
 	</field>
-	<field name="endereco" class="com.kilowats.entidades.Endereco">
+	<field name="endereco" class="com.github.erik5594.entidades.Endereco">
 		<fieldDescription><![CDATA[endereco]]></fieldDescription>
 	</field>
-	<field name="veiculo" class="com.kilowats.entidades.Veiculo">
+	<field name="veiculo" class="com.github.erik5594.entidades.Veiculo">
 		<fieldDescription><![CDATA[veiculo]]></fieldDescription>
 	</field>
-	<field name="statusOrdemServico" class="com.kilowats.enuns.StatusOrdemServico">
+	<field name="statusOrdemServico" class="com.github.erik5594.enuns.StatusOrdemServico">
 		<fieldDescription><![CDATA[statusOrdemServico]]></fieldDescription>
 	</field>
-	<field name="formaPagamento" class="com.kilowats.enuns.FormaPagamento">
+	<field name="formaPagamento" class="com.github.erik5594.enuns.FormaPagamento">
 		<fieldDescription><![CDATA[formaPagamento]]></fieldDescription>
 	</field>
 	<group name="GrupoDeItens">

@@ -2,7 +2,6 @@ package com.github.erik5594.entidades;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -34,7 +33,7 @@ public @Data class Endereco implements Serializable{
 	@Column(name="endereco_entrega", nullable=false, columnDefinition = "boolean")
 	private boolean enderecoEntrega;
 	
-	@ManyToOne(cascade= CascadeType.ALL, fetch=FetchType.EAGER)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="cep")
 	private Cep cep;
 	

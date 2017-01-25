@@ -2,7 +2,6 @@ package com.github.erik5594.entidades;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -32,7 +31,7 @@ public @Data class Cep implements Serializable{
 	private String rua;
 	@Column(name="bairro", nullable=true, length=150)
 	private String bairro;
-	@ManyToOne(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="id_cidade", nullable=false)
 	private Cidade cidade;
 }

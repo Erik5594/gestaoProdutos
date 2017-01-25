@@ -2,7 +2,6 @@ package com.github.erik5594.entidades;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -19,7 +18,7 @@ public @Data class TelefoneCliente extends Telefone implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="id_cliente", nullable=false)
 	private Cliente cliente;
 }

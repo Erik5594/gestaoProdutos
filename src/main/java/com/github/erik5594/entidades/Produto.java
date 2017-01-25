@@ -1,5 +1,6 @@
 package com.github.erik5594.entidades;
 
+import java.beans.Transient;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -24,6 +25,7 @@ import javax.validation.constraints.NotNull;
 import lombok.Data;
 
 import com.github.erik5594.enuns.TipoProdutoUnidadeEnum;
+import com.github.erik5594.util.Utils;
 
 @Entity
 @Table(name="produto")
@@ -33,23 +35,34 @@ public @Data class Produto implements Serializable{
 	
 	@Id @GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
+	
 	@NotNull @Column(name="cod_produto", length=15, nullable=false, unique=true)
 	private String codProduto;
+	
 	@NotNull @Column(name="nome_produto", length=120, nullable=false)
 	private String nomeProduto;
+	
 	@NotNull @Enumerated(EnumType.ORDINAL) @Column(name="tipo_unidade")
 	private TipoProdutoUnidadeEnum tipoUnidade;
-	@NotNull @Enumerated(EnumType.ORDINAL) @Column(name="tipo_unidade_tributavel")
+	
+	@Enumerated(EnumType.ORDINAL) @Column(name="tipo_unidade_tributavel")
 	private TipoProdutoUnidadeEnum tipoUnidadeTributavel;
+	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="data_ultima_atualizacao", nullable=false, columnDefinition="TIMESTAMP WITH TIME ZONE")
 	private Date dataUltimaAtualizacao;
-	@OneToMany(mappedBy="produto", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	
+	@OneToMany(mappedBy="produto", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Ean> eans;
-	@Inject @OneToOne(mappedBy = "produto", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	
+	@Inject @OneToOne(mappedBy = "produto", cascade=CascadeType.ALL, fetch=FetchType.EAGER, orphanRemoval = true)
 	private ValoresProduto valoresProdutos;
-	@Inject @OneToOne(mappedBy = "produto", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	
+	@Inject @OneToOne(mappedBy = "produto", cascade=CascadeType.ALL, fetch=FetchType.EAGER, orphanRemoval = true)
 	private EstoqueProduto estoqueProduto;
+	
+	@Column(name="ativo", nullable=false, length=1, columnDefinition = "boolean default 't'")
+	private boolean ativo;
 	
 	@Override
 	public int hashCode() {
@@ -70,5 +83,12 @@ public @Data class Produto implements Serializable{
 		if (id != other.id)
 			return false;
 		return true;
+	}
+	
+	@Transient
+	public void removerEan(Ean ean){
+		if(Utils.isNotNullOrEmpty(eans)){
+			eans.remove(ean);
+		}
 	}
 }

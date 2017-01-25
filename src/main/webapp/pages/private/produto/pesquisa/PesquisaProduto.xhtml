@@ -37,11 +37,11 @@
 				<p:outputLabel value="#{produto.id}"/>
 			</p:column>
 			
-			<p:column headerText="Cod Interno">
+			<p:column headerText="Cod Interno" filterBy="#{produto.codProduto}" filterMatchMode="contains">
 				<p:outputLabel value="#{produto.codProduto}"/>
 			</p:column>
 			
-			<p:column headerText="Nome">
+			<p:column headerText="Nome" filterBy="#{produto.nomeProduto}" filterMatchMode="contains">
 				<p:outputLabel value="#{produto.nomeProduto}"/>
 			</p:column>
 			
@@ -57,6 +57,10 @@
 				<p:outputLabel value="R$ #{produto.valoresProdutos.valorComercial}" styleClass="moeda"/>
 			</p:column>
 			
+			<p:column headerText="Ativo">
+				<p:selectBooleanButton onLabel="Ativo" offLabel="Inativo" value="#{produto.ativo}" disabled="true"/>
+			</p:column>
+			
 			<p:column>
 				<p:button outcome="/pages/private/produto/cadastro/CadastroProduto" icon="ui-icon-pencil" title="Editar">
 					<f:param name="produto" value="#{produto.id}"/>
@@ -64,7 +68,6 @@
 			</p:column>
 				
 			</p:dataTable>
-
 		</h:form>
 	</ui:define>
 </ui:composition>

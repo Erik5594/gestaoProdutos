@@ -38,12 +38,12 @@ public class ValidacaoValoresProduto implements IValidacaoCadastro {
 			}
 			retorno = false;
 		}
-		if(isNullOrEmpty(valoresProduto.getValorTributavel())){
+		/*if(isNullOrEmpty(valoresProduto.getValorTributavel())){
 			if(mostrarMensagem){
 				FacesUtils.sendMensagemError(titulo, "Valor tributável inválido.");
 			}
 			retorno = false;
-		}
+		}*/
 		return retorno;
 	}
 

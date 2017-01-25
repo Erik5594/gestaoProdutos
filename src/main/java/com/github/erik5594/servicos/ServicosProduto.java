@@ -59,4 +59,8 @@ public class ServicosProduto implements Serializable{
 	public void registrarSaidaTodosItens(OrdemServico orcamento){
 		servicosEstoque.lancarSaidaTodosItens(orcamento);
 	}
+	
+	public void cancelarSaidaTodosItens(OrdemServico orcamento){
+		servicosEstoque.cancelarPendenciaSaidaTodosItens(orcamento);
+	}
 }

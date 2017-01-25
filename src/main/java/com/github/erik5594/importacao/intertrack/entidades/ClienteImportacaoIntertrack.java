@@ -1,6 +1,7 @@
 package com.github.erik5594.importacao.intertrack.entidades;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -37,15 +38,36 @@ public @Data class ClienteImportacaoIntertrack implements Serializable{
 	private TipoPessoa tipo;
 	@Column(name="status", length=1, nullable=false)
 	private StatusImportacao status;
-	@OneToMany(mappedBy="clienteImportacaoIntertrack", fetch=FetchType.EAGER, cascade=CascadeType.ALL)
-	private List<EnderecoClienteImportacaoIntertrack> enderecoClienteImportacaoIntertrack;
-	@OneToMany(mappedBy="clienteImportacaoIntertrack", fetch=FetchType.EAGER, cascade=CascadeType.ALL)
-	private List<EmailClienteImportacaoIntertrack> emailClienteImportacaoIntertrack;
-	@OneToMany(mappedBy="clienteImportacaoIntertrack", fetch=FetchType.EAGER, cascade=CascadeType.ALL)
-	private List<TelefoneClienteImportacaoIntertrack> telefoneClienteImportacaoIntertrack;
+	@OneToMany(mappedBy="clienteImportacaoIntertrack", fetch=FetchType.EAGER, cascade=CascadeType.ALL, orphanRemoval=true)
+	private List<EnderecoClienteImportacaoIntertrack> enderecoClienteImportacaoIntertrack = new ArrayList<>();
+	@OneToMany(mappedBy="clienteImportacaoIntertrack", fetch=FetchType.EAGER, cascade=CascadeType.ALL, orphanRemoval=true)
+	private List<EmailClienteImportacaoIntertrack> emailClienteImportacaoIntertrack = new ArrayList<>();
+	@OneToMany(mappedBy="clienteImportacaoIntertrack", fetch=FetchType.EAGER, cascade=CascadeType.ALL, orphanRemoval=true)
+	private List<TelefoneClienteImportacaoIntertrack> telefoneClienteImportacaoIntertrack = new ArrayList<>();
 	
 	@Transient
 	public String getCgcCpfFormatado(){
 		return Utils.formataCPFCGC(cgcCpf);
+	}
+	
+	@Transient
+	public void removerEndereco(EnderecoClienteImportacaoIntertrack endereco){
+		if(Utils.isNotNullOrEmpty(enderecoClienteImportacaoIntertrack)){
+			enderecoClienteImportacaoIntertrack.remove(endereco);
+		}
+	}
+	
+	@Transient
+	public void removerTelefone(TelefoneClienteImportacaoIntertrack telefone){
+		if(Utils.isNotNullOrEmpty(telefoneClienteImportacaoIntertrack)){
+			telefoneClienteImportacaoIntertrack.remove(telefone);
+		}
+	}
+	
+	@Transient
+	public void removerEmail(EmailClienteImportacaoIntertrack email){
+		if(Utils.isNotNullOrEmpty(emailClienteImportacaoIntertrack)){
+			emailClienteImportacaoIntertrack.remove(email);
+		}
 	}
 }

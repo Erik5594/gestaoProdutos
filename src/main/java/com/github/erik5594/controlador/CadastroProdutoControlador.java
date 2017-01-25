@@ -5,7 +5,6 @@ import static com.github.erik5594.util.Utils.isNotNullOrEmpty;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -14,6 +13,7 @@ import javax.inject.Named;
 import lombok.Data;
 
 import com.github.erik5594.entidades.Ean;
+import com.github.erik5594.entidades.EstoqueProduto;
 import com.github.erik5594.entidades.Produto;
 import com.github.erik5594.enuns.TipoProdutoUnidadeEnum;
 import com.github.erik5594.servicos.ServicosEan;
@@ -39,8 +39,6 @@ public @Data class CadastroProdutoControlador implements Serializable{
 	private String TITULO = tituloTela();
 	private final String ERRO_INTERNO = "Erro interno: erro interno contate a administração do sistema!";
 	
-	private List<Ean> eans = new ArrayList<>();
-	
 	public void adicionarEan(){
 		if(servicosEan.eanIsValido(ean, TITULO, true)){
 			ean.setProduto(produto);
@@ -50,15 +48,15 @@ public @Data class CadastroProdutoControlador implements Serializable{
 	}
 
 	private void adicionaEanList(Ean ean) {
-		if(Utils.isNullOrEmpty(eans)){
-			eans = new ArrayList<>();
+		if(Utils.isNullOrEmpty(produto.getEans())){
+			produto.setEans(new ArrayList<Ean>());
 		}else{
-			if(eans.contains(ean)){
+			if(produto.getEans().contains(ean)){
 				FacesUtils.sendMensagemError(TITULO, "Validação Ean: Ean já adicionado!");
 				return;
 			}
 		}
-		eans.add(ean);
+		produto.getEans().add(ean);
 	}
 	
 	public void salvar() {
@@ -74,15 +72,8 @@ public @Data class CadastroProdutoControlador implements Serializable{
 	}
 	
 	public void removerEanDaLista(){
-		if(Utils.isNotNull(eanSelecionado) && Utils.isNotNullOrEmpty(eanSelecionado.getCodBarras()) && Utils.isNotNullOrEmpty(eans)){
-			List<Ean> novaListaEan = new ArrayList<Ean>();
-			for(Ean eanValidacao : eans){
-				if(!eanValidacao.getCodBarras().equals(eanSelecionado.getCodBarras())){
-					novaListaEan.add(eanValidacao);
-				}
-			}
-			eans = new ArrayList<>();
-			eans = novaListaEan;
+		if(Utils.isNotNull(eanSelecionado) && Utils.isNotNullOrEmpty(eanSelecionado.getCodBarras())){
+			produto.removerEan(eanSelecionado);
 		}
 	}
 	
@@ -94,10 +85,8 @@ public @Data class CadastroProdutoControlador implements Serializable{
 	}
 	
 	private void completarDadosProduto() {
+		produto.setTipoUnidadeTributavel(produto.getTipoUnidade());
 		produto.setDataUltimaAtualizacao(new Date());
-		if(isNotNullOrEmpty(eans)){
-			this.produto.setEans(this.eans);
-		}
 		if(isNotNullOrEmpty(produto.getEstoqueProduto())){
 			this.produto.getEstoqueProduto().setProduto(produto);
 		}
@@ -119,8 +108,8 @@ public @Data class CadastroProdutoControlador implements Serializable{
 	
 	public void setProduto(Produto produto){
 		this.produto = produto;
-		if(Utils.isNotNullOrEmpty(this.produto)){
-			eans = produto.getEans();
+		if(Utils.isNull(this.produto.getEstoqueProduto())){
+			produto.setEstoqueProduto(new EstoqueProduto());
 		}
 	}
 	

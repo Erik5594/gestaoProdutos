@@ -7,11 +7,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
 import com.github.erik5594.entidades.Produto;
-import com.github.erik5594.util.Utils;
 
 public class ProdutoDao {
-
-	private final static String SQL_DELETE = "delete %s where produto = :produto";
 
 	@Inject
 	private EntityManager manager;
@@ -19,9 +16,6 @@ public class ProdutoDao {
 	public Produto salvarOrUpdate(Produto produto) {
 		EntityTransaction entityTransaction = manager.getTransaction();
 		entityTransaction.begin();
-		if (Utils.isNotNullOrEmpty(produto.getId())) {
-			deletarEansProduto(produto);
-		}
 		produto = (Produto) manager.merge(produto);
 		entityTransaction.commit();
 		return produto;
@@ -36,15 +30,11 @@ public class ProdutoDao {
 				.getResultList();
 	}
 
-	private void deletarEansProduto(Produto produto) {
-		manager.createQuery(String.format(SQL_DELETE, "Ean"))
-				.setParameter("produto", produto).executeUpdate();
-	}
-
 	public Produto pesquisarByCodProd(String codProduto) {
 		return manager
-				.createQuery("from Produto where codProduto = :codProduto",
+				.createQuery("from Produto where codProduto = :codProduto and ativo = :ativo",
 						Produto.class).setParameter("codProduto", codProduto)
+				.setParameter("ativo", true)
 				.getSingleResult();
 	}
 
@@ -58,7 +48,8 @@ public class ProdutoDao {
 	}
 	
 	public List<Produto> buscarProdutoByNome(String nome) {
-		return this.manager.createQuery("from Produto where upper(nomeProduto) like :nome", Produto.class)
+		return this.manager.createQuery("from Produto where upper(nomeProduto) like :nome and ativo = :ativo", Produto.class)
+				.setParameter("ativo", true)
 				.setParameter("nome", nome.toUpperCase() + "%").getResultList();
 	}
 }

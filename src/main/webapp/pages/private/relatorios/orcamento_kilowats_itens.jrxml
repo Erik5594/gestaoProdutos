@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.1.1.final using JasperReports Library version 6.1.1  -->
-<!-- 2016-12-06T16:32:45 -->
+<!-- 2017-01-25T09:40:27 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="orcamento_kilowats_itens" pageWidth="555" pageHeight="300" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="15b203b7-cdc0-40b0-a2ba-b59ab793e716">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
@@ -15,13 +15,13 @@
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
-	<field name="ordemServico" class="com.kilowats.entidades.OrdemServico">
+	<field name="ordemServico" class="com.github.erik5594.entidades.OrdemServico">
 		<fieldDescription><![CDATA[ordemServico]]></fieldDescription>
 	</field>
 	<field name="valorDesconto" class="java.math.BigDecimal">
 		<fieldDescription><![CDATA[valorDesconto]]></fieldDescription>
 	</field>
-	<field name="produto" class="com.kilowats.entidades.Produto">
+	<field name="produto" class="com.github.erik5594.entidades.Produto">
 		<fieldDescription><![CDATA[produto]]></fieldDescription>
 	</field>
 	<field name="valorUnitario" class="java.math.BigDecimal">

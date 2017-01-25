@@ -19,7 +19,6 @@ public class OrdemServicoDao {
 		EntityTransaction entityTransaction = manager.getTransaction();
 		entityTransaction.begin();
 		try{
-			
 			ordemServico = (OrdemServico) manager.merge(ordemServico);
 		}catch(IllegalArgumentException | TransactionRequiredException ex){
 			FacesUtils.sendMensagemOk("Ocorreu um erro: ", "Ocorreu um erro interno");
@@ -27,7 +26,7 @@ public class OrdemServicoDao {
 		entityTransaction.commit();
 		return ordemServico;
 	}
-
+	
 	public OrdemServico pesquisarById(Long id) {
 		return (OrdemServico) manager.find(OrdemServico.class, id);
 	}

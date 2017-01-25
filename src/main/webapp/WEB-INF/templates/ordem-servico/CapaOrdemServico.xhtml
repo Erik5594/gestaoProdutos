@@ -26,6 +26,7 @@
 					<p:inputText size="14" value="#{gerarOrdemServicoControlador.cliente.cgcCpf}" disabled="#{gerarOrdemServicoControlador.alterarClienteOrcamento}"
 						onkeyup="this.value=this.value.toUpperCase();" id="cgcCpf" onkeypress="FormataCPFCNPJ(this, event);"/>
 					<p:commandButton icon="ui-icon-search" actionListener="#{gerarOrdemServicoControlador.buscarCliente()}"
+					rendered="#{!gerarOrdemServicoControlador.alterarClienteOrcamento}"
 					process="@this cgcCpf" update="frmCadastroNovaOrdemServico:dadosCliente frmCadastroNovaOrdemServico:dadosVeiculos"/>
 				</p:column>
 				<p:outputLabel value="Nome:" />

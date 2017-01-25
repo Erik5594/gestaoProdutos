@@ -51,44 +51,50 @@
 					value="#{cadastroProdutoControlador.produto.id}"
 					converter="converterNumber" rendered="false" />
 
-				<p:outputLabel value="Data Ultima Atualização" for="codProduto" />
+				<p:outputLabel value="" />
 				<p:calendar placeholder="DD/MM/YYYY" disabled="true" size="10"
-					pattern="dd/MM/yyyy"
+					pattern="dd/MM/yyyy" title="Data Última Atualização"
 					value="#{cadastroProdutoControlador.produto.dataUltimaAtualizacao}" />
 
 				<p:outputLabel value="Código " for="codProduto" />
 				<p:inputText id="codProduto" style="width: 60px"
 					value="#{cadastroProdutoControlador.produto.codProduto}"
-					maxlength="10" disabled="#{cadastroProdutoControlador.editar()}" />
+					maxlength="10" disabled="#{cadastroProdutoControlador.editar() and !seguranca.editarEstoqueProduto}" />
 
 				<p:outputLabel value="Nome " for="nomeProduto" />
 				<p:inputText id="nomeProduto" size="60"
 					onkeyup="this.value=this.value.toUpperCase();"
 					value="#{cadastroProdutoControlador.produto.nomeProduto}" />
+					
+				<p:outputLabel value="Status " for="statusProduto"/>
+				<p:selectBooleanButton onLabel="Ativo" offLabel="Inativo" value="#{cadastroProdutoControlador.produto.ativo}"
+					disabled="#{cadastroProdutoControlador.editar() and !seguranca.editarEstoqueProduto}" id="statusProduto"/>
 			</h:panelGrid>
 
 			<p:tabView id="janelasCadastroProduto">
 				<p:tab title="Valores" id="valoresTab">
 					<h:panelGrid columns="2" id="panelValores"
 						style="margin-bottom: 15px">
-						<p:outputLabel value="Valor de Custo(R$) " for="valorCusto" />
+						<p:outputLabel value="Valor de Custo " for="valorCusto" />
 						<p:inputText id="valorCusto"
-							disabled="#{cadastroProdutoControlador.editar()}" size="5"
-							value="#{cadastroProdutoControlador.produto.valoresProdutos.valorCusto}"
-							converter="converterToDouble" styleClass="moeda" />
+							disabled="#{cadastroProdutoControlador.editar() and !seguranca.editarEstoqueProduto}" size="5"
+							value="#{cadastroProdutoControlador.produto.valoresProdutos.valorCusto}">
+								<f:convertNumber type="currency"/>
+							</p:inputText>
 
-						<p:outputLabel value="Valor da Venda(R$) " for="valorVenda" />
+						<p:outputLabel value="Valor da Venda " for="valorVenda" />
 						<p:inputText id="valorVenda"
-							disabled="#{cadastroProdutoControlador.editar()}" size="5"
-							value="#{cadastroProdutoControlador.produto.valoresProdutos.valorComercial}"
-							converter="converterToDouble" styleClass="moeda" />
+							disabled="#{cadastroProdutoControlador.editar() and !seguranca.editarEstoqueProduto}" size="5"
+							value="#{cadastroProdutoControlador.produto.valoresProdutos.valorComercial}" >
+							<f:convertNumber type="currency"/>
+						</p:inputText>
 
-						<p:outputLabel value="Valor da Tributavel(R$) "
-							for="valorTributavel" />
-						<p:inputText id="valorTributavel"
-							disabled="#{cadastroProdutoControlador.editar()}" size="5"
-							value="#{cadastroProdutoControlador.produto.valoresProdutos.valorTributavel}"
-							converter="converterToDouble" styleClass="moeda" />
+						<p:outputLabel value="Valor da Tributavel " for="valorTributavel" rendered="false"/>
+						<p:inputText id="valorTributavel" rendered="false"
+							disabled="#{cadastroProdutoControlador.editar() and !seguranca.editarEstoqueProduto}" size="5"
+							value="#{cadastroProdutoControlador.produto.valoresProdutos.valorTributavel}" >
+							<f:convertNumber type="currency"/>
+						</p:inputText>
 					</h:panelGrid>
 				</p:tab>
 				<p:tab title="Unidade Medida" id="unidadeMedidaTab">
@@ -106,8 +112,8 @@
 								itemValue="#{tpUnidadeProduto}" />
 						</p:selectOneMenu>
 
-						<p:outputLabel value="Tipo Trib." for="tipoProdutoTrib" />
-						<p:selectOneMenu id="tipoProdutoTrib"
+						<p:outputLabel value="Tipo Trib." for="tipoProdutoTrib" rendered="false"/>
+						<p:selectOneMenu id="tipoProdutoTrib" rendered="false"
 							converter="converterTipoUnidadeProduto"
 							disabled="#{cadastroProdutoControlador.editar()}"
 							value="#{cadastroProdutoControlador.produto.tipoUnidadeTributavel}">
@@ -127,10 +133,10 @@
 							value="#{cadastroProdutoControlador.ean.codBarras}" size="20"
 							style="margin-right: 5px"
 							onkeyup="this.value=this.value.toUpperCase();" />
-						<p:outputLabel value="Tributavel" for="checkTributavel"
+						<p:outputLabel value="Tributavel" for="checkTributavel" rendered="false"
 							style="margin-left: 5px" />
 						<p:selectBooleanCheckbox id="checkTributavel"
-							style="margin-left: 5px"
+							style="margin-left: 5px" rendered="false"
 							value="#{cadastroProdutoControlador.ean.tributavel}" />
 					</p:column>
 					<center style="color: #E6E6FA;">
@@ -142,12 +148,12 @@
 					</center>
 					<!-- Inicio Tabela Eans -->
 					<p:dataTable id="tabelaProduto" var="ean"
-						value="#{cadastroProdutoControlador.eans}"
+						value="#{cadastroProdutoControlador.produto.eans}"
 						style="width: 50%; margin-top: 10px">
 						<p:column headerText="Cód. Barras" width="70%">
 							<p:outputLabel value="#{ean.codBarras}" />
 						</p:column>
-						<p:column headerText="Tributavel" width="20%">
+						<p:column headerText="Tributavel" width="20%" rendered="false">
 							<p:selectBooleanCheckbox value="#{ean.tributavel}"
 								disabled="true" />
 						</p:column>
@@ -179,28 +185,24 @@
 					<h:panelGrid columns="4">
 
 						<p:outputLabel value="Qtde Estoque:" for="qtdeEstoque" />
-						<p:inputText id="qtdeEstoque"
+						<p:inputText id="qtdeEstoque" styleClass="moeda"
 							disabled="#{cadastroProdutoControlador.editar() and !seguranca.editarEstoqueProduto}" size="5"
-							value="#{cadastroProdutoControlador.produto.estoqueProduto.quantidadeEstoque}"
-							converter="converterToDouble" styleClass="moeda" />
+							value="#{cadastroProdutoControlador.produto.estoqueProduto.quantidadeEstoque}" converter="converterToBigDecimal"/>
 
-						<p:outputLabel value="Qtde Tributável:" for="qtdeTributavel" />
-						<p:inputText id="qtdeTributavel"
+						<p:outputLabel value="Qtde Tributável:" for="qtdeTributavel" rendered="false"/>
+						<p:inputText id="qtdeTributavel" styleClass="moeda" rendered="false"
 							disabled="#{cadastroProdutoControlador.editar() and !seguranca.editarEstoqueProduto}" size="5"
-							value="#{cadastroProdutoControlador.produto.estoqueProduto.quantidadeTributavel}"
-							converter="converterToDouble" styleClass="moeda" />
+							value="#{cadastroProdutoControlador.produto.estoqueProduto.quantidadeTributavel}" converter="converterToBigDecimal"/>
 
-						<p:outputLabel value="Pendente Saída:" for="pendenteSaida" />
-						<p:inputText id="pendenteSaida"
+						<p:outputLabel value="Pendente Saída:" for="pendenteSaida" rendered="false"/>
+						<p:inputText id="pendenteSaida" styleClass="moeda" rendered="false"
 							disabled="#{cadastroProdutoControlador.editar()}" size="5"
-							value="#{cadastroProdutoControlador.produto.estoqueProduto.quantidadePendenteSaida}"
-							converter="converterToDouble" styleClass="moeda" />
+							value="#{cadastroProdutoControlador.produto.estoqueProduto.quantidadePendenteSaida}" converter="converterToBigDecimal"/>
 
-						<p:outputLabel value="Pendente Entrada:" for="pendenteEntrada" />
-						<p:inputText id="pendenteEntrada"
+						<p:outputLabel value="Pendente Entrada:" for="pendenteEntrada" rendered="false"/>
+						<p:inputText id="pendenteEntrada" styleClass="moeda" rendered="false"
 							disabled="#{cadastroProdutoControlador.editar()}" size="5"
-							value="#{cadastroProdutoControlador.produto.estoqueProduto.quantidadePendenteEntrada}"
-							converter="converterToDouble" styleClass="moeda" />
+							value="#{cadastroProdutoControlador.produto.estoqueProduto.quantidadePendenteEntrada}" converter="converterToBigDecimal"/>
 					</h:panelGrid>
 				</p:tab>
 			</p:tabView>
