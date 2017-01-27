@@ -113,6 +113,10 @@
 									<p:outputLabel value="CNPJ/CPF: " for="cnpj" />
 									<p:inputMask id="cnpj" mask="#{painelImportacaoCliente.carregaMascaraCnpjOuCpfPrimefaces()}"
 									value="#{painelImportacaoCliente.clienteComErroSelecionado.cgcCpf}" style="width: 120px"/>
+									
+									<p:outputLabel value="Situação: " for="situacao" />
+									<p:selectBooleanButton onLabel="Ativo" offLabel="Inativo" id="situacao"
+										value="#{painelImportacaoCliente.clienteComErroSelecionado.ativo}"/>
 								</h:panelGrid>
 							</p:tab>
 							<!--Fim Tab Principal -->

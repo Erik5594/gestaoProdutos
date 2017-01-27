@@ -305,7 +305,7 @@ public @Data class PainelImportacaoCliente implements Serializable {
 			return;
 		}
 		completarDadosPessoa();
-		if(servicosCliente.validarCliente(clienteComErroSelecionado, TITULO, true)){
+		if(servicosCliente.validarCliente(clienteComErroSelecionado, TITULO, true) || !clienteComErroSelecionado.isAtivo()){
 			clienteComErroSelecionado = servicosCliente.persistirClienteImportacao(clienteComErroSelecionado);
 			if(Utils.isNotNull(clienteComErroSelecionado) && isNotNullOrEmpty(clienteComErroSelecionado.getId())){
 				inicializarVariaveis();
@@ -319,7 +319,11 @@ public @Data class PainelImportacaoCliente implements Serializable {
 	
 	private void completarDadosPessoa() {
 		clienteComErroSelecionado.setCgcCpf(clienteComErroSelecionado.getCgcCpf().replaceAll("\\D", ""));
-		clienteComErroSelecionado.setStatus(StatusImportacao.ATUALIZADO_CADASTRO);
+		if(clienteComErroSelecionado.isAtivo()){
+			clienteComErroSelecionado.setStatus(StatusImportacao.ATUALIZADO_CADASTRO);
+		}else{
+			clienteComErroSelecionado.setStatus(StatusImportacao.INATIVO);
+		}
 	}
 	
 	private EnderecoClienteImportacaoIntertrack ajustaDadosEndereco(EnderecoClienteImportacaoIntertrack endereco) {

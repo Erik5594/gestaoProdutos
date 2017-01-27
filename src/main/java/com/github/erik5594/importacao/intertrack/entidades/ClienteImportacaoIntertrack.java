@@ -45,6 +45,9 @@ public @Data class ClienteImportacaoIntertrack implements Serializable{
 	@OneToMany(mappedBy="clienteImportacaoIntertrack", fetch=FetchType.EAGER, cascade=CascadeType.ALL, orphanRemoval=true)
 	private List<TelefoneClienteImportacaoIntertrack> telefoneClienteImportacaoIntertrack = new ArrayList<>();
 	
+	@Column(name="ativo", nullable=false, length=1, columnDefinition = "boolean default 't'")
+	private boolean ativo;
+	
 	@Transient
 	public String getCgcCpfFormatado(){
 		return Utils.formataCPFCGC(cgcCpf);
