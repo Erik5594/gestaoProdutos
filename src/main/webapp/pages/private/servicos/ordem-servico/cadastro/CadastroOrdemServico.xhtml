@@ -48,6 +48,7 @@
 					actionListener="#{gerarOrdemServicoControlador.removerItem()}"
 					update="tabViewItensObs:tabelaItens" process="@this" />
 			</p:confirmDialog>
+			<ui:include src="/WEB-INF/templates/ordem-servico/ConsultaClienteDialog.xhtml" />
 		</h:form>
 	</ui:define>
 </ui:composition>

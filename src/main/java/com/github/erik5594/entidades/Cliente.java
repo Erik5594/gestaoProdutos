@@ -19,7 +19,7 @@ import lombok.EqualsAndHashCode;
 public @Data class Cliente extends Pessoa {
 
 	private static final long serialVersionUID = 1L;
-	@OneToMany(mappedBy="cliente", fetch=FetchType.LAZY, cascade=CascadeType.ALL, orphanRemoval=true)
+	@OneToMany(mappedBy="cliente", fetch=FetchType.EAGER, cascade=CascadeType.ALL, orphanRemoval=true)
 	private List<Veiculo> veiculos = new ArrayList<>();
 	@OneToMany(mappedBy="cliente", fetch=FetchType.LAZY, cascade=CascadeType.ALL, orphanRemoval=true)
 	private List<EnderecoCliente> endereco = new ArrayList<>();

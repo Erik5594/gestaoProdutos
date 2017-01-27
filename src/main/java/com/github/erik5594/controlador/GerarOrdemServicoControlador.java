@@ -45,6 +45,7 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 	
 	@Inject
 	private Cliente cliente;
+	private List<Cliente> todosCliente = new ArrayList<>();
 	@Inject
 	private Veiculo veiculoSelecionado;
 	@Inject
@@ -166,7 +167,7 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 	
 	public void buscarCliente() {
 		try{
-			this.cliente = servicosCliente.buscarClienteByCpfCgc(cliente.getCgcCpf().replaceAll("\\D", ""));
+			this.todosCliente = servicosCliente.listarTodosClientes();
 		}catch(NoResultException ex){
 			FacesUtils.sendMensagemAviso(TITULO, "Não foi encontrado uma pessoa!");
 		}

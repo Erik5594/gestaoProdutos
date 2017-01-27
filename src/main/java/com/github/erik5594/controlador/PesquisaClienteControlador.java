@@ -26,7 +26,6 @@ public @Data class PesquisaClienteControlador implements Serializable{
 	private ServicosCliente servicosCliente;
 	
 	public void init(){
-		System.out.println("Iniciando pesquisa...");
 		clientes = new ArrayList<>();
 		clientes = servicosCliente.listarTodosClientes();
 	}
