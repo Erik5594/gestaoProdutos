@@ -27,7 +27,7 @@
 						disabled="true" id="cgcCpf" style="margin-right: 10px"/>
 					<p:commandButton icon="ui-icon-search" actionListener="#{gerarOrdemServicoControlador.buscarCliente()}"
 					rendered="#{!gerarOrdemServicoControlador.alterarClienteOrcamento}" oncomplete="PF('consultaClienteDialog').show()"
-					process="@this" update="consultaClienteDialog"/>
+					process="@this" update="consultaClienteDialogId"/>
 				</p:column>
 				<p:outputLabel value="Nome:" />
 				<p:inputText size="60" value="#{gerarOrdemServicoControlador.cliente.nome}"
