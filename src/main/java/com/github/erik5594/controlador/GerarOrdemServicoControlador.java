@@ -83,6 +83,7 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 	private boolean alterarVeiculoOrcamento = true;
 	private boolean alterarFormaPagamentOrcamento = true;
 	private boolean podeSomenteSalvar = true;
+	private BigDecimal percentualDesconto = BigDecimal.ZERO;
 	
 	private static final String TITULO = "Cadastro Ordem Serviço: ";
 	
@@ -156,6 +157,22 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 			}
 		}
 		
+		this.ordemServico.recalcularValorTotal();
+	}
+	
+	public void atualizarDesconto(ItemOrdemServico item, int linha) {
+		if(percentualDesconto.compareTo(item.getProduto().getMaiorMaiorDescontoPossivel()) < 1){
+			calcularDescontos(item);
+		}else{
+			percentualDesconto = item.getProduto().getMaiorMenorDescontoPossivel();
+			calcularDescontos(item);
+		}
+	}
+
+	private void calcularDescontos(ItemOrdemServico item) {
+		BigDecimal valorDescontoUnitario = percentualDesconto.divide(new BigDecimal(100d)).multiply(item.getValorUnitario());
+		item.setValorDesconto(valorDescontoUnitario);
+		this.ordemServico.recalcularValorTotalDesconto();
 		this.ordemServico.recalcularValorTotal();
 	}
 	

@@ -80,6 +80,11 @@ public @Data class ItemOrdemServico implements Serializable{
 	}
 	
 	@Transient
+	public BigDecimal getValorTotalDesconto() {
+		return this.getValorDesconto().multiply(this.getQuantidadeProduto());
+	}
+	
+	@Transient
 	public boolean isProdutoAssociado() {
 		return this.getProduto() != null && this.getProduto().getId() != null;
 	}

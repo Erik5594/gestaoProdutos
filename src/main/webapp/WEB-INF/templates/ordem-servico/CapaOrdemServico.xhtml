@@ -87,7 +87,7 @@
 		<p:fieldset legend="Valores (R$)">
 			<h:panelGrid columns="4" title="Valores">
 				<p:outputLabel value="Descontos: " style="font-size: 14px"/>
-				<p:inputText size="10" value="#{gerarOrdemServicoControlador.ordemServico.valorTotalDesconto}"
+				<p:inputText size="10" id="descontos" value="#{gerarOrdemServicoControlador.ordemServico.valorTotalDesconto}"
 					onkeyup="this.value=this.value.toUpperCase();" disabled="true">
 					<f:convertNumber type="currency"/>
 					</p:inputText>
