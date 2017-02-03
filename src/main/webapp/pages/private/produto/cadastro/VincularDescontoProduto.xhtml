@@ -43,7 +43,8 @@
 				</p:selectOneMenu>
 			</h:panelGrid>
 			<p:dataTable id="tabelaSelecaoProduto" value="#{vinculoDescontoProdutoControlador.produtos}" var="produto"
-				selection="#{vinculoDescontoProdutoControlador.desconto.produtos}" rowKey="#{produto.id}" rendered="#{vinculoDescontoProdutoControlador.desconto != null}">
+				selection="#{vinculoDescontoProdutoControlador.desconto.produtos}" rowKey="#{produto.id}"
+				rendered="#{vinculoDescontoProdutoControlador.desconto != null and vinculoDescontoProdutoControlador.desconto.nome != null}">
 				<f:facet name="header">Produtos</f:facet>
 				<p:column selectionMode="multiple" style="width:16px;text-align:center"/>
 				<p:column headerText="Nome">
