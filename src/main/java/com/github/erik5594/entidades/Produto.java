@@ -2,6 +2,8 @@ package com.github.erik5594.entidades;
 
 import java.beans.Transient;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -15,6 +17,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -64,6 +67,9 @@ public @Data class Produto implements Serializable{
 	@Column(name="ativo", nullable=false, length=1, columnDefinition = "boolean default 't'")
 	private boolean ativo;
 	
+	@ManyToMany(mappedBy="produtos")
+	private List<Desconto> descontos;
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -90,5 +96,60 @@ public @Data class Produto implements Serializable{
 		if(Utils.isNotNullOrEmpty(eans)){
 			eans.remove(ean);
 		}
+	}
+	
+	@Transient
+	public boolean isTemDesconto(){
+		boolean retorno = false;
+		if(this.descontos != null && !this.descontos.isEmpty()){
+			for(Desconto desconto : this.descontos){
+				if(descontoValido(desconto)){
+					retorno = true;
+					break;
+				}
+			}
+		}
+		return retorno;
+	}
+	
+	@Transient
+	public BigDecimal getMaiorMenorDescontoPossivel(){
+		BigDecimal descontoMin = BigDecimal.ZERO;
+		if(isTemDesconto()){
+			for(Desconto desconto : this.descontos){
+				if(descontoValido(desconto)){
+					if(desconto.getPercentualMinimoDesconto().compareTo(descontoMin) > 0){
+						descontoMin = desconto.getPercentualMinimoDesconto();
+					}
+				}
+			}
+		}
+		return descontoMin;
+	}
+	
+	@Transient
+	private boolean descontoValido(Desconto desconto) {
+		Calendar dataHoraFimDesconto = Calendar.getInstance();
+		dataHoraFimDesconto.setTime(desconto.getDataFim());
+		dataHoraFimDesconto.set(Calendar.HOUR, 23);
+		dataHoraFimDesconto.set(Calendar.MINUTE, 59);
+		dataHoraFimDesconto.set(Calendar.SECOND, 59);
+		
+		return !dataHoraFimDesconto.before(new Date());
+	}
+	
+	@Transient
+	public BigDecimal getMaiorMaiorDescontoPossivel(){
+		BigDecimal descontoMax = BigDecimal.ZERO;
+		if(isTemDesconto()){
+			for(Desconto desconto : this.descontos){
+				if(descontoValido(desconto)){
+					if(desconto.getPercentualMaximoDesconto().compareTo(descontoMax) > 0){
+						descontoMax = desconto.getPercentualMaximoDesconto();
+					}
+				}
+			}
+		}
+		return descontoMax;
 	}
 }

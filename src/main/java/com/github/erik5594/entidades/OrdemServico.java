@@ -131,6 +131,21 @@ public @Data class OrdemServico implements Serializable{
 	}
 	
 	@Transient
+	public void recalcularValorTotalDesconto() {
+		BigDecimal total = BigDecimal.ZERO;
+		
+		//total = total.subtract(this.getValorTotalDesconto());
+		
+		for (ItemOrdemServico item : this.getItens()) {
+			if (item.getProduto() != null && item.getProduto().getId() != null) {
+				total = total.add(item.getValorTotalDesconto());
+			}
+		}
+		
+		this.setValorTotalDesconto(total);
+	}
+	
+	@Transient
 	public void adicionarItemVazio() {
 		Produto produto = new Produto();
 		

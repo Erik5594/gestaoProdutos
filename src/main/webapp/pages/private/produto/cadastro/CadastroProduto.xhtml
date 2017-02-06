@@ -205,6 +205,40 @@
 							value="#{cadastroProdutoControlador.produto.estoqueProduto.quantidadePendenteEntrada}" converter="converterToBigDecimal"/>
 					</h:panelGrid>
 				</p:tab>
+				<p:tab title="Tabelas de Desconto" id="descontosCadastro">
+					<p:dataTable id="tabelaDesconto" value="#{cadastroProdutoControlador.produto.descontos}"
+						var="desconto" emptyMessage="Este produto não tem desconto!">
+						<f:facet name="header">Descontos</f:facet>
+						
+						<p:column headerText="ID" width="5%">
+							<p:outputLabel value="#{desconto.id}"/>
+						</p:column>
+						
+						<p:column headerText="Nome" width="65%">
+							<p:outputLabel value="#{desconto.nome}"/>
+						</p:column>
+						
+						<p:column headerText="(%) Min" width="5%">
+							<p:outputLabel value="#{desconto.percentualMinimoDesconto}">
+								<f:convertNumber type="number"/>
+							</p:outputLabel>
+						</p:column>
+						
+						<p:column headerText="(%) Max" width="5%">
+							<p:outputLabel value="#{desconto.percentualMaximoDesconto}">
+								<f:convertNumber type="number"/>
+							</p:outputLabel>
+						</p:column>
+						
+						<p:column headerText="Data Fim" width="10%">
+							<p:calendar value="#{desconto.dataFim}" disabled="true" pattern="dd/MM/yyyy" locale="pt_BR" size="10"/>
+						</p:column>
+						
+						<p:column headerText="Situação" width="10%">
+							<p:selectBooleanButton onLabel="Ativo" offLabel="Inativo" value="#{desconto.ativo}" disabled="true"/>
+						</p:column>
+					</p:dataTable>
+				</p:tab>
 			</p:tabView>
 		</h:form>
 	</ui:define>

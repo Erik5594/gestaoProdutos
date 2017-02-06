@@ -234,7 +234,8 @@ public @Data class PainelImportacaoCliente implements Serializable {
 				return;
 			}
 		}
-		clienteComErroSelecionado.getEnderecoClienteImportacaoIntertrack().add(ajustaDadosEndereco(ender));
+		ender.ajustarEndereco();
+		clienteComErroSelecionado.getEnderecoClienteImportacaoIntertrack().add(ender);
 	}
 	
 	public void adcionaTelefone(){
@@ -324,24 +325,6 @@ public @Data class PainelImportacaoCliente implements Serializable {
 		}else{
 			clienteComErroSelecionado.setStatus(StatusImportacao.INATIVO);
 		}
-	}
-	
-	private EnderecoClienteImportacaoIntertrack ajustaDadosEndereco(EnderecoClienteImportacaoIntertrack endereco) {
-		if(Utils.isNotNull(endereco)){
-			if(endereco.isCepGeral()){
-				Cep cep2 = servicosCep.pesquisarCepByCep(endereco.getCep().getCep());
-				endereco.setBairro(endereco.getCep().getBairro());
-				endereco.setRua(endereco.getCep().getRua());
-				endereco.setCep(cep2);
-			}else if(endereco.isCepByFaixa()){
-				Cep cep2 = new Cep(endereco.getCep().getCep());
-				cep2.setCidade(servicosCidade.pesquisarMunicipioByFaixaCep(cep2.getCep()));
-				endereco.setBairro(endereco.getCep().getBairro());
-				endereco.setRua(endereco.getCep().getRua());
-				endereco.setCep(cep2);
-			}
-		}
-		return endereco;
 	}
 	
 	private void inicializarVariaveis(){

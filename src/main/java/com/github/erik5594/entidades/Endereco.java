@@ -14,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
+import com.github.erik5594.util.Utils;
+
 import lombok.Data;
 
 @Entity @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
@@ -84,6 +86,11 @@ public @Data class Endereco implements Serializable{
 		return result;
 	}
 	
-	
-	
+	@Transient
+	public void ajustarEndereco(){
+		if(Utils.isNotNullOrEmpty(this) && Utils.isNotNullOrEmpty(this.cep)){
+			this.rua = this.cep.getRua();
+			this.bairro = this.cep.getBairro();
+		}
+	}
 }

@@ -41,6 +41,8 @@
 				allDayText : 'Todo o Dia'
 				};
 		</script>
+		<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
+		<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
 </h:head>
 <h:body>
 
@@ -78,8 +80,14 @@
 						outcome="/pages/private/cliente/cadastro/CadastroCliente" />
 					<p:menuitem value="Fornecedor"
 						outcome="/pages/private/fornecedor/cadastro/CadastroFornecedor" />
-					<p:menuitem value="Produto"
-						outcome="/pages/private/produto/cadastro/CadastroProduto" />
+					<p:submenu label="Produto">
+						<p:menuitem value="Produto"
+							outcome="/pages/private/produto/cadastro/CadastroProduto" />
+						<p:menuitem value="Desconto"
+							outcome="/pages/private/produto/cadastro/CadastroDescontos" />
+						<p:menuitem value="Vincular desconto ao produto"
+							outcome="/pages/private/produto/cadastro/VincularDescontoProduto" />
+					</p:submenu>
 				</p:submenu>
 				<p:submenu label="Restreamento">
 					<p:submenu label="Produtos">

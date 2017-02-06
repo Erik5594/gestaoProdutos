@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.1.1.final using JasperReports Library version 6.1.1  -->
-<!-- 2017-01-25T09:39:55 -->
+<!-- 2017-02-06T16:58:36 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="orcamento_kilowats" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c8fb266b-d420-4935-a908-2f2cf3134949">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<parameter name="LOGO" class="java.lang.String"/>
@@ -177,7 +177,7 @@
 				<box>
 					<bottomPen lineWidth="1.0"/>
 				</box>
-				<textFieldExpression><![CDATA[$F{endereco}.getCep().getRua()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{endereco}.getRua()]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="230" y="30" width="72" height="13" uuid="2377f285-d480-46f4-a3cb-62e84a968780">
@@ -214,13 +214,13 @@
 				<textFieldExpression><![CDATA[$F{endereco}.getNumero()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="10" y="50" width="40" height="13" uuid="9fd33e50-cc7d-41da-9c73-a20e3ce86a72">
+				<reportElement x="10" y="50" width="33" height="13" uuid="9fd33e50-cc7d-41da-9c73-a20e3ce86a72">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
-				<text><![CDATA[Cidade:]]></text>
+				<text><![CDATA[Bairro:]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="50" y="50" width="346" height="13" uuid="57ed6e85-c617-4384-a095-e95f775c5350"/>
+				<reportElement x="230" y="50" width="166" height="13" uuid="57ed6e85-c617-4384-a095-e95f775c5350"/>
 				<box>
 					<topPen lineWidth="0.0"/>
 					<leftPen lineWidth="0.0"/>
@@ -364,6 +364,22 @@
 					<bottomPen lineWidth="1.0"/>
 				</box>
 				<textFieldExpression><![CDATA[$F{veiculo}.getCor()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="190" y="50" width="40" height="13" uuid="c4ab54f6-aff6-474f-8ed5-07519d9b37b4">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<text><![CDATA[Cidade:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="43" y="50" width="146" height="13" uuid="5ec7c090-3d0e-45ce-b911-f0f1a4dc1cb8"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{endereco}.getBairro()]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>

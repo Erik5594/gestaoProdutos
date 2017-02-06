@@ -3,6 +3,7 @@ package com.github.erik5594.controlador;
 import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -127,6 +128,7 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 				this.produtoLinhaEditavel = null;
 				this.codBarras = null;
 				
+				atualizarDesconto(item, 0);
 				this.ordemServico.recalcularValorTotal();
 			}
 		}
@@ -155,7 +157,24 @@ public @Data class GerarOrdemServicoControlador implements Serializable {
 				item.setQuantidadeProduto(BigDecimal.ONE);
 			}
 		}
-		
+		this.ordemServico.recalcularValorTotalDesconto();
+		this.ordemServico.recalcularValorTotal();
+	}
+	
+	public void atualizarDesconto(ItemOrdemServico item, int linha) {
+		if(item.getPorcentualDesconto().compareTo(item.getProduto().getMaiorMaiorDescontoPossivel()) < 1
+				&& item.getPorcentualDesconto().compareTo(item.getProduto().getMaiorMenorDescontoPossivel()) > -1){
+			calcularDescontos(item);
+		}else{
+			item.setPorcentualDesconto(item.getProduto().getMaiorMenorDescontoPossivel().setScale(3, RoundingMode.HALF_UP));
+			calcularDescontos(item);
+		}
+	}
+
+	private void calcularDescontos(ItemOrdemServico item) {
+		BigDecimal valorDescontoUnitario = item.getPorcentualDesconto().divide(new BigDecimal(100d)).multiply(item.getValorUnitario()).setScale(2, RoundingMode.HALF_UP);
+		item.setValorDesconto(valorDescontoUnitario);
+		this.ordemServico.recalcularValorTotalDesconto();
 		this.ordemServico.recalcularValorTotal();
 	}
 	
