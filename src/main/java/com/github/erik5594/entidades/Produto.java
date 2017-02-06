@@ -3,6 +3,7 @@ package com.github.erik5594.entidades;
 import java.beans.Transient;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -99,7 +100,16 @@ public @Data class Produto implements Serializable{
 	
 	@Transient
 	public boolean isTemDesconto(){
-		return this.descontos != null && !this.descontos.isEmpty();
+		boolean retorno = false;
+		if(this.descontos != null && !this.descontos.isEmpty()){
+			for(Desconto desconto : this.descontos){
+				if(descontoValido(desconto)){
+					retorno = true;
+					break;
+				}
+			}
+		}
+		return retorno;
 	}
 	
 	@Transient
@@ -107,8 +117,10 @@ public @Data class Produto implements Serializable{
 		BigDecimal descontoMin = BigDecimal.ZERO;
 		if(isTemDesconto()){
 			for(Desconto desconto : this.descontos){
-				if(desconto.getPercentualMinimoDesconto().compareTo(descontoMin) > 0){
-					descontoMin = desconto.getPercentualMinimoDesconto();
+				if(descontoValido(desconto)){
+					if(desconto.getPercentualMinimoDesconto().compareTo(descontoMin) > 0){
+						descontoMin = desconto.getPercentualMinimoDesconto();
+					}
 				}
 			}
 		}
@@ -116,12 +128,25 @@ public @Data class Produto implements Serializable{
 	}
 	
 	@Transient
+	private boolean descontoValido(Desconto desconto) {
+		Calendar dataHoraFimDesconto = Calendar.getInstance();
+		dataHoraFimDesconto.setTime(desconto.getDataFim());
+		dataHoraFimDesconto.set(Calendar.HOUR, 23);
+		dataHoraFimDesconto.set(Calendar.MINUTE, 59);
+		dataHoraFimDesconto.set(Calendar.SECOND, 59);
+		
+		return !dataHoraFimDesconto.before(new Date());
+	}
+	
+	@Transient
 	public BigDecimal getMaiorMaiorDescontoPossivel(){
 		BigDecimal descontoMax = BigDecimal.ZERO;
 		if(isTemDesconto()){
 			for(Desconto desconto : this.descontos){
-				if(desconto.getPercentualMaximoDesconto().compareTo(descontoMax) > 0){
-					descontoMax = desconto.getPercentualMaximoDesconto();
+				if(descontoValido(desconto)){
+					if(desconto.getPercentualMaximoDesconto().compareTo(descontoMax) > 0){
+						descontoMax = desconto.getPercentualMaximoDesconto();
+					}
 				}
 			}
 		}

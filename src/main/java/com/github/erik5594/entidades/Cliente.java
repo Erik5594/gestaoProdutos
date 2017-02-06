@@ -55,4 +55,15 @@ public @Data class Cliente extends Pessoa {
 			emails.remove(email);
 		}
 	}
+	
+	@Transient
+	public void ajustarEnderecos(){
+		if(Utils.isNotNullOrEmpty(this.endereco)){
+			for(EnderecoCliente endere : this.endereco){
+				if(!(endere.isCepGeral() || endere.isCepByFaixa())){
+					
+				}
+			}
+		}
+	}
 }

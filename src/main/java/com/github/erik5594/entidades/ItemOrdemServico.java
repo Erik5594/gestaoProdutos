@@ -34,6 +34,9 @@ public @Data class ItemOrdemServico implements Serializable{
 	@Column(length=10, precision=2, nullable=false, name="valor_desconto")
 	private BigDecimal valorDesconto = BigDecimal.ZERO;
 	
+	@Column(length=5, precision=3, nullable=false, name="porcentual_desconto", columnDefinition="numeric(5,3) default 0")
+	private BigDecimal porcentualDesconto = BigDecimal.ZERO;
+	
 	@Column(nullable=false, name="quantidade_produto")
 	private BigDecimal quantidadeProduto = BigDecimal.ONE;
 	

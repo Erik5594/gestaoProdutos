@@ -21,5 +21,4 @@ public @Data class EnderecoCliente extends Endereco implements Serializable{
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="id_cliente",nullable=false)
 	private Cliente cliente;
-	
 }

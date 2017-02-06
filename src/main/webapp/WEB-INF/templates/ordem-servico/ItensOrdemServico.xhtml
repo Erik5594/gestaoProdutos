@@ -57,7 +57,7 @@
 		
 		<p:column headerText="Desconto(%)" width="7%">
 			<p:inputText disabled="#{gerarOrdemServicoControlador.alterarQuantidadeProduto}" rendered="#{item.produto.temDesconto}"
-				value="#{gerarOrdemServicoControlador.percentualDesconto}" size="3" maxlength="5">
+				value="#{item.porcentualDesconto}" size="3" maxlength="5">
 				<p:ajax event="change" process="@this"
 					update="tabelaItens :frmCadastroNovaOrdemServico:totalOrdemServico :frmCadastroNovaOrdemServico:subtotal :frmCadastroNovaOrdemServico:descontos"
 					listener="#{gerarOrdemServicoControlador.atualizarDesconto(item, linha)}" />
@@ -70,6 +70,7 @@
 			<p:outputLabel value="#{item.valorTotalDesconto}" rendered="#{item.produto.temDesconto}">
 				<f:convertNumber type="currency"/>
 			</p:outputLabel>
+			<p:outputLabel value="R$ 0,00" rendered="#{!item.produto.temDesconto}"/>
 		</p:column>
 		
 		<p:column headerText="Valor total" style="text-align: right;" width="7%">

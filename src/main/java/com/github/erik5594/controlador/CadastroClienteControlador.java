@@ -22,6 +22,7 @@ import com.github.erik5594.entidades.TelefoneCliente;
 import com.github.erik5594.entidades.Veiculo;
 import com.github.erik5594.enuns.TipoPessoa;
 import com.github.erik5594.enuns.TipoTelefoneEnum;
+import com.github.erik5594.enuns.TipoVeiculo;
 import com.github.erik5594.servicos.ServicosCep;
 import com.github.erik5594.servicos.ServicosCidade;
 import com.github.erik5594.servicos.ServicosCliente;
@@ -282,14 +283,15 @@ public @Data class CadastroClienteControlador implements Serializable{
 	
 	private void adicionaEnderecoList(EnderecoCliente ender){
 		if(Utils.isNullOrEmpty(cliente.getEndereco())){
-			cliente.setEmails(new ArrayList<EmailCliente>());
+			cliente.setEndereco(new ArrayList<EnderecoCliente>());
 		}else{
 			if(cliente.getEndereco().contains(ender)){
 				FacesUtils.sendMensagemError(TITULO, "Validação Endereço: Endereço já adicionado!");
 				return;
 			}
 		}
-		cliente.getEndereco().add(ajustaDadosEndereco(ender));
+		ender.ajustarEndereco();
+		cliente.getEndereco().add(ender);
 	}
 
 	public void salvar(){
@@ -313,24 +315,6 @@ public @Data class CadastroClienteControlador implements Serializable{
 		cliente.setCgcCpf(cliente.getCgcCpf().replaceAll("\\D", ""));
 	}
 
-	private EnderecoCliente ajustaDadosEndereco(EnderecoCliente endereco) {
-		if(Utils.isNotNull(endereco)){
-			if(endereco.isCepGeral()){
-				Cep cep2 = servicosCep.pesquisarCepByCep(endereco.getCep().getCep());
-				endereco.setBairro(endereco.getCep().getBairro());
-				endereco.setRua(endereco.getCep().getRua());
-				endereco.setCep(cep2);
-			}else if(endereco.isCepByFaixa()){
-				Cep cep2 = new Cep(endereco.getCep().getCep());
-				cep2.setCidade(servicosCidade.pesquisarMunicipioByFaixaCep(cep2.getCep()));
-				endereco.setBairro(endereco.getCep().getBairro());
-				endereco.setRua(endereco.getCep().getRua());
-				endereco.setCep(cep2);
-			}
-		}
-		return endereco;
-	}
-	
 	public void removerEnderecoDaLista(){
 		if(Utils.isNotNull(enderecoSelecionado) && Utils.isNotNullOrEmpty(enderecoSelecionado.getCep().getCep())){
 			cliente.removerEndereco(enderecoSelecionado);
@@ -364,5 +348,9 @@ public @Data class CadastroClienteControlador implements Serializable{
 	
 	public TipoPessoa[] getTiposPessoa() {
 		return TipoPessoa.values();
+	}
+	
+	public TipoVeiculo[] getTipoVeiculo() {
+		return TipoVeiculo.values();
 	}
 }
