@@ -28,7 +28,7 @@ public @Data class Veiculo implements Serializable{
 	private Long id;
 	@Column(nullable=false, length=7, unique=true)
 	private String placa;
-	@Column(length=21, unique=false, nullable=false)
+	@Column(length=21, unique=false, nullable=true)
 	private String chassi;
 	@Enumerated(EnumType.ORDINAL)
 	@Column(name="tipo_veiculo")
