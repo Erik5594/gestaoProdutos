@@ -28,7 +28,7 @@ public @Data class Veiculo implements Serializable{
 	private Long id;
 	@Column(nullable=false, length=7, unique=true)
 	private String placa;
-	@Column(length=21, unique=true, nullable=false)
+	@Column(length=21, unique=false, nullable=false)
 	private String chassi;
 	@Enumerated(EnumType.ORDINAL)
 	@Column(name="tipo_veiculo")
@@ -59,13 +59,21 @@ public @Data class Veiculo implements Serializable{
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
+		if (placa == null) {
+			if (other.placa != null)
+				return false;
+		} else if (!placa.equals(other.placa))
+			return false;
 		return true;
 	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((placa == null) ? 0 : placa.hashCode());
 		return result;
 	}
+	
 }
